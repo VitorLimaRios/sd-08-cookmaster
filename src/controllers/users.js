@@ -5,7 +5,7 @@ const STATUS_422 = 422;
 
 // CREATE USER
 const create = async (req, res) => {
-  const { name, email, password} = req.body;
+  const {name, email, password} = req.body;
   const newUser = await usersService.create(name, email, password);
   if (newUser !== null) {
     return res.status(STATUS_201).json(newUser);

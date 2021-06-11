@@ -4,8 +4,8 @@ const express = require('express');
 
 const app = express();
 
-const usersControllers = ('./controllers/users');
-//const recipesControllers = ('./controllers/recipes');
+const usersControllers = require('../controllers/users');
+//const recipesControllers = ('../controllers/recipes');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
