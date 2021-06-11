@@ -1,5 +1,11 @@
 const Joi = require('joi');
 const model = require('../models/usersModel');
+const jwt = require('jsonwebtoken');
+const secret = 'cookmaster-sd08';
+const jwtConfig = {
+  expiresIn: '15m',
+  algorithm: 'HS256',
+};
 
 const userValidation = (data) => {
   return Joi.object({
@@ -7,6 +13,18 @@ const userValidation = (data) => {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }).validate(data);
+};
+
+const loginValidation = (data) => {
+  return Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }).validate(data);
+};
+
+const createToken = (user) => {
+  const { password, ...otherInfo } = user;
+  return jwt.sign({ data: otherInfo }, secret, jwtConfig);
 };
 
 const singleEmailValidation = async (email) => {
@@ -46,6 +64,35 @@ const addUserService = async ({ name, email, password }) => {
   };
 };
 
+const loginServices = async ({ email, password }) => {
+  const { error } = loginValidation({ email, password });
+
+  if (error) return {
+    statusCode: 401,
+    json: {
+      message: 'All fields must be filled',
+    },
+  };
+
+  const userExist = await model.findSingleEmail(email);
+
+  if (!userExist || userExist.password !== password) return {
+    statusCode: 401,
+    json: {
+      message: 'Incorrect username or password',
+    },
+  };
+
+  const token = createToken(userExist);
+  return {
+    statusCode: 200,
+    json: {
+      token
+    },
+  };
+};
+
 module.exports = {
   addUserService,
+  loginServices,
 };
