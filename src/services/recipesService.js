@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const model = require('../models/recipesModel');
+const ZERO = 0;
 
 const recipesValidation = (data) => {
   return Joi.object({
@@ -35,6 +36,23 @@ const addRecipesServices = async ({ name, ingredients, preparation }, { _id: id 
   };
 };
 
+const getAllRecipesService = async () => {
+  const response = await model.getAllRecipes();
+
+  if (response.length === ZERO) return {
+    statusCode: 404,
+    json: {
+      message: 'Nenhuma receita cadastrada ainda!',
+    },
+  };
+
+  return {
+    statusCode: 200,
+    json: response
+  };
+};
+
 module.exports = {
   addRecipesServices,
+  getAllRecipesService,
 };

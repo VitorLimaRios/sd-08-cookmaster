@@ -21,5 +21,7 @@ app.route('/login')
   .post(controllerUser.loginUser);
 
 app.route('/recipes')
-  .post(middlewares.validateJWT ,controllerRecipe.createRecipe);
+  .post(middlewares.validateJWT ,controllerRecipe.createRecipe)
+  .get(controllerRecipe.getAllRecipes);
+
 module.exports = app;
