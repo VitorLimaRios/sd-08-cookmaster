@@ -8,5 +8,6 @@ router.get('/recipes', RecipesController.index);
 router.get('/recipes/:id', RecipesController.show);
 router.post('/recipes', TokenMiddleware, RecipesController.create);
 router.put('/recipes/:id', TokenMiddleware, RecipesController.update);
+router.delete('/recipes/:id', TokenMiddleware, RecipesController.delete);
 
 module.exports = router;

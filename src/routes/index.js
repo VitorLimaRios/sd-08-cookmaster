@@ -14,5 +14,6 @@ router.get('/recipes', Recipes);
 router.get('/recipes/:id', Recipes);
 router.post('/recipes', Recipes);
 router.put('/recipes/:id', Recipes);
+router.delete('/recipes/:id', Recipes);
 
 module.exports = router;

@@ -1,7 +1,8 @@
-const { index, show, create, update } = require('../services/Recipes.services');
+const { index, show, create, update, remove } = require('../services/Recipes.services');
 
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
+const HTTP_NO_CONTENT_STATUS = 204;
 const HTTP_BAD_REQUEST_STATUS = 400;
 
 module.exports = {
@@ -41,6 +42,16 @@ module.exports = {
       const recipe = await update(request);
 
       return response.status(HTTP_OK_STATUS).send(recipe);
+    } catch (err) {
+      return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
+    }
+  },
+
+  delete: async (request, response) => {
+    try {
+      await remove(request);
+
+      return response.sendStatus(HTTP_NO_CONTENT_STATUS);
     } catch (err) {
       return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
     }

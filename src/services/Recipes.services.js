@@ -1,8 +1,6 @@
 const Recipe = require('../models/Recipes.model');
 
-const HTTP_OK_STATUS = 200;
 const HTTP_BAD_REQUEST_STATUS = 400;
-const HTTP_UNAUTHORIZED_STATUS = 401;
 const HTTP_NOT_FOUND_STATUS = 404;
 
 const ID_LENGTH = 24;
@@ -54,21 +52,22 @@ module.exports = {
   },
 
   update: async (request) => {
-    // const { authorization } = request.headers;
     const { id } = request.params;
     const { name, ingredients, preparation } = request.body;
-
-    // if (!authorization) {
-    //   return response
-    //     .status(HTTP_UNAUTHORIZED_STATUS)
-    //     .send({ message: 'missing auth token' });
-    // }
 
     const recipe = await Recipe.findByIdAndUpdate(id, {
       name,
       ingredients,
       preparation
     }, { new: true });
+
+    return recipe;
+  },
+  
+  remove: async (request) => {
+    const { id } = request.params;
+
+    const recipe = await Recipe.findByIdAndRemove(id);
 
     return recipe;
   }
