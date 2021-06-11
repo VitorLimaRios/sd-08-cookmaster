@@ -94,7 +94,7 @@ describe.only('1 - Crie um endpoint para o cadastro de usuários', () => {
       .post(`${url}/users/`,
         {
           name: 'Erick Jacquin',
-          email: 'erickjaquin1@gmail.com',
+          email: 'erickjaquin@gmail.com',
           password: '12345678',
         })
       .expect('status', 201);
@@ -103,7 +103,7 @@ describe.only('1 - Crie um endpoint para o cadastro de usuários', () => {
       .post(`${url}/users/`,
         {
           name: 'Erick Jacquin',
-          email: 'erickjaquin1@gmail.com',
+          email: 'erickjaquin@gmail.com',
           password: '12345678',
         })
       .expect('status', 409)
