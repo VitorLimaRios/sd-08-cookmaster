@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
 const url = 'http://localhost:3000';
 
-describe('1 - Crie um endpoint para o cadastro de usuários', () => {
+describe.only('1 - Crie um endpoint para o cadastro de usuários', () => {
   let connection;
   let db;
 
@@ -94,7 +94,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .post(`${url}/users/`,
         {
           name: 'Erick Jacquin',
-          email: 'erickjaquin@gmail.com',
+          email: 'erickjaquin1@gmail.com',
           password: '12345678',
         })
       .expect('status', 201);
@@ -103,7 +103,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .post(`${url}/users/`,
         {
           name: 'Erick Jacquin',
-          email: 'erickjaquin@gmail.com',
+          email: 'erickjaquin1@gmail.com',
           password: '12345678',
         })
       .expect('status', 409)
