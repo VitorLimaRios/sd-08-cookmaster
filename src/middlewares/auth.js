@@ -17,9 +17,9 @@ const getToken = async (req, res) => {
   if (!email || !password)
     return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
 
-  const validUser = await userModel.findUser(email, jwtConfig);
+  const validUser = await userModel.findUser(email);
 
-  if (!validEmail.test(email) || !validUser.password == password)
+  if (!validUser || !validEmail.test(email) || validUser.password !== password)
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
 
   const user = {
