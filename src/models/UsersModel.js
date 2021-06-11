@@ -1,4 +1,4 @@
-const connection = require('connection');
+const connection = require('./connection');
 
 const create = async (name, email, password) => {
   const db = await connection();
