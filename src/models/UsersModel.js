@@ -19,6 +19,13 @@ const create = async (name, email, password) => {
   };
 };
 
+const getAll = async () => {
+  const db = await connection();
+  const usersCollection = db.collection('users');
+  const users = await usersCollection.find().toArray();
+  return users;
+};
+
 module.exports = {
   create,
 };
