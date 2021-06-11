@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const DB_NAME = 'Cookmaster';
-const MONGO_DB_URL = `mongodb://mongodb:27017/${DB_NAME}`;
+const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
 
 mongoose.connect(MONGO_DB_URL, {
   useNewUrlParser: true,

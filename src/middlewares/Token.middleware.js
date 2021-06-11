@@ -11,7 +11,7 @@ module.exports = (request, response, next) => {
       .send({ message: 'missing auth token' });
   }
 
-  jwt.verify(authorization, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(authorization, 'teste', (err, user) => {
     if (err) {
       return response
         .status(HTTP_UNAUTHORIZED_STATUS)
