@@ -24,7 +24,8 @@ module.exports = async (req, res, _next) => {
     return res.status(UNAUTHORIZED_CODE).json({ message: JWT_MALFORMED });
   }
 
-  const response = await RecipeModel.createRecipe({ name, ingredients, preparation });
+  const response = await RecipeModel
+    .createRecipe({ name, ingredients, preparation, userId: decoded.data._id });
 
-  res.status(CREATED_CODE).json({ recipe: {...response, userId: decoded.data._id } });
+  res.status(CREATED_CODE).json({ recipe: response });
 };
