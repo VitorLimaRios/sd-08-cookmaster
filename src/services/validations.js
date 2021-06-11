@@ -59,10 +59,9 @@ const loginIsValid = (user, dbUser) => {
 };
 
 const recipeBodyRequest = (recipe) => {
-  console.log(recipe, 'recipebodyrequest');
   if(
-    !recipe || !recipe.name || !recipe.ingredients || !recipe.preparation
-  ) {
+    !recipe || !recipe.name || !recipe.ingredients || !recipe.preparation 
+  ){
     throw new Error(
       JSON.stringify(
         {

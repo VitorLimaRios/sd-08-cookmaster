@@ -3,7 +3,7 @@ const recipesService = require('../services/recipes');
 const { code } = require('../helper/status');
 
 const anError = (err, res) => {
-  console.log(err, 'caiu no catch/n/n/n');
+  console.log('caiu no catch/n/n/n', err);
   const { status, message } = JSON.parse(err.message);
   res.status(status).json({ message });
 };
@@ -15,10 +15,9 @@ const readRecipes = (_req, res) => {
 };
 
 const createRecipe = (req, res) => {
-  const token = req.headers.authorization;
   const recipe = req.body;
 
-  recipesService.createRecipe(token, recipe)
+  recipesService.createRecipe(recipe)
     .then(response => res.status(code.OK).json(response))
     .catch(err => anError(err, res));
 };
