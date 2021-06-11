@@ -13,5 +13,6 @@ router.post('/users', Users);
 router.get('/recipes', Recipes);
 router.get('/recipes/:id', Recipes);
 router.post('/recipes', Recipes);
+router.put('/recipes/:id', Recipes);
 
 module.exports = router;

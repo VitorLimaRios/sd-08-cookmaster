@@ -6,12 +6,16 @@ module.exports = (request, response, next) => {
   const { authorization } = request.headers;
 
   if (!authorization) {
-    return response.status(HTTP_UNAUTHORIZED_STATUS).send({ message: 'jwt malformed' });
+    return response
+      .status(HTTP_UNAUTHORIZED_STATUS)
+      .send({ message: 'missing auth token' });
   }
 
   jwt.verify(authorization, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return response.status(HTTP_UNAUTHORIZED_STATUS).send({ message: 'jwt malformed' });
+      return response
+        .status(HTTP_UNAUTHORIZED_STATUS)
+        .send({ message: 'jwt malformed' });
     }
 
     request.user = user;

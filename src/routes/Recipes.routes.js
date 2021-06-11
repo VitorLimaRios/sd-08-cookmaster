@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/recipes', RecipesController.index);
 router.get('/recipes/:id', RecipesController.show);
 router.post('/recipes', TokenMiddleware, RecipesController.create);
+router.put('/recipes/:id', TokenMiddleware, RecipesController.update);
 
 module.exports = router;
