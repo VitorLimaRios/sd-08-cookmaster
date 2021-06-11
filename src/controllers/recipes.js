@@ -16,9 +16,10 @@ const readRecipes = (_req, res) => {
 
 const createRecipe = (req, res) => {
   const recipe = req.body;
+  const token = req.headers.authorization;
 
-  recipesService.createRecipe(recipe)
-    .then(response => res.status(code.OK).json(response))
+  recipesService.createRecipe(recipe, token)
+    .then(response => res.status(code.OK).json({ recipe: response}))
     .catch(err => anError(err, res));
 };
 
