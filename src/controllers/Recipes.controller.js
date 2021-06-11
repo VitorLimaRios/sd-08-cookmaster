@@ -1,4 +1,4 @@
-const { index, create } = require('../services/Recipes.services');
+const { index, show, create } = require('../services/Recipes.services');
 
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
@@ -11,6 +11,17 @@ module.exports = {
 
       return response.status(HTTP_OK_STATUS).send(recipes);
     } catch (err) {
+      return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
+    }
+  },
+
+  show: async (request, response) => {
+    try {
+      const recipe = await show(request, response);
+
+      return response.status(HTTP_OK_STATUS).send(recipe);
+    } catch (err) {
+      console.log(err);
       return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
     }
   },

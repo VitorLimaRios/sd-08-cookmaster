@@ -11,6 +11,7 @@ router.post('/login', Login);
 router.post('/users', Users);
 
 router.get('/recipes', Recipes);
+router.get('/recipes/:id', Recipes);
 router.post('/recipes', Recipes);
 
 module.exports = router;
