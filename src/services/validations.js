@@ -1,11 +1,8 @@
 const {code, message} = require('../helper/status');
 
-// /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
 const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
 
-
 const userBodyRequest = (user) => {
-
   if(
     !user || !user.name || !user.email || !user.password || !emailRegex.test(user.email)
   ){
@@ -61,9 +58,26 @@ const loginIsValid = (user, dbUser) => {
   }
 };
 
+const recipeBodyRequest = (recipe) => {
+  console.log(recipe, 'recipebodyrequest');
+  if(
+    !recipe || !recipe.name || !recipe.ingredients || !recipe.preparation
+  ) {
+    throw new Error(
+      JSON.stringify(
+        {
+          status: code.UNPROCESSABLE,
+          message: message.invalid_entries
+        }
+      )
+    );
+  }
+};
+
 module.exports = {
   userBodyRequest,
   userAlreadyExists,
   loginBodyRequest,
   loginIsValid,
+  recipeBodyRequest,
 };
