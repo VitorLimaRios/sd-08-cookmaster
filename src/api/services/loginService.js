@@ -1,8 +1,9 @@
 const UserModel = require('../models/userModel');
 const LoginValidations = require('./loginValidations');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const secret = 'minhapalavrasecretadotoken';
+const secret = process.env.SECRET;
 
 const jwtConfig = {
   expiresIn: '1d',

@@ -18,6 +18,18 @@ const create = async (newRecipe) => {
   }
 };
 
+const getAll = async () => {
+  const recipesCollection = await mongoConnection()
+    .then((db) => db.collection('recipes'));
+
+  const allRecipes = await recipesCollection
+    .find()
+    .toArray();
+
+  return allRecipes;
+};
+
 module.exports = {
   create,
+  getAll,
 };
