@@ -10,13 +10,15 @@ const readUsers = async(_req, res) => {
 };
 
 const createUsers = async(req, res) => {
-  userServices.createUser()
-    .then(response => req.status(code.CREATED).json({ user: response }))
+  const newUser = req.body;
+
+  userServices.createUser(newUser)
+    .then(response => res.status(code.CREATED).json({ user: response }))
     .catch(err => {
       console.log(err);
       const { status, message } = JSON.parse(err.message);
       
-      req.status(status).json({ message });
+      res.status(status).json({ message });
     });
 };
 

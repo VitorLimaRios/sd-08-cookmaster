@@ -4,8 +4,11 @@ const {code, message} = require('../helper/status');
 const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
 
 
-const validateUser = ({name, email, password}, userExists) => {
-  if(!(name || email || password || emailRegex.test(email))){
+const userBodyRequest = (user) => {
+
+  if(
+    !user || !user.name || !user.email || !user.password || !emailRegex.test(user.email)
+  ){
     throw new Error(
       JSON.stringify(
         {
@@ -15,7 +18,9 @@ const validateUser = ({name, email, password}, userExists) => {
       )
     );
   }
+};
 
+const userAlreadyExists = (userExists) => {
   if(userExists) {
     throw new Error(
       JSON.stringify(
@@ -29,5 +34,6 @@ const validateUser = ({name, email, password}, userExists) => {
 };
 
 module.exports = {
-  validateUser
+  userBodyRequest,
+  userAlreadyExists,
 };

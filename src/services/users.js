@@ -3,15 +3,27 @@ const validations = require('./validations');
 
 const readUsers = () => userModel.readUsers();
 
+// const readByKey = (key, value) => userModel.readByKey(key, value);
+
 const createUser = async(newUser) => {
-  const userAlreadyExists = await userModel.readUsers();
+  validations.userBodyRequest(newUser);
+  
+  const user = await userModel.readByKey('email', newUser.email);
 
-  validations.validateUser(newUser, userAlreadyExists);
+  console.log('user no service', user);
 
-  return userModel.createUser();
+  validations.userAlreadyExists(user);
+
+  const created = await userModel.createUser(newUser);
+
+  return {
+    ...newUser,
+    role: 'user'
+  };
 };
 
 module.exports = {
-  createUser,
   readUsers,
+  createUser,
+  // readByKey,
 };
