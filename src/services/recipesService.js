@@ -20,7 +20,7 @@ const addRecipesServices = async ({ name, ingredients, preparation }, { _id: id 
     },
   };
 
-  const response = await model.addRecipe({ name, ingredients, preparation });
+  const response = await model.addRecipe({ name, ingredients, preparation, id });
 
   return {
     statusCode: 201,
@@ -29,7 +29,7 @@ const addRecipesServices = async ({ name, ingredients, preparation }, { _id: id 
         name: response.name,
         ingredients: response.ingredients,
         preparation: response.preparation,
-        userId: id,
+        userId: response.userId,
         _id: response._id
       },
     },
@@ -52,7 +52,24 @@ const getAllRecipesService = async () => {
   };
 };
 
+const getRecipeIdServices = async (id) => {
+  const response = await model.getRecipeId(id);
+
+  if (!response) return {
+    statusCode: 404,
+    json: {
+      message: 'recipe not found'
+    },
+  };
+
+  return {
+    statusCode: 200,
+    json: response[0]
+  };
+};
+
 module.exports = {
   addRecipesServices,
   getAllRecipesService,
+  getRecipeIdServices
 };
