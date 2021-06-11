@@ -16,8 +16,10 @@ const createUser = async(newUser) => {
 
   const created = await userModel.createUser(newUser);
 
+  const { password, ...createdUser } = newUser;
+
   return {
-    ...newUser,
+    ...createdUser,
     role: 'user'
   };
 };

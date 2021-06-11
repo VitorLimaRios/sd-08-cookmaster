@@ -6,8 +6,8 @@ const code = {
 };
 
 const message = {
-  invalid_entries: 'Invalid entries. Try again',
-  email_registred: 'Email already registred'
+  invalid_entries: 'Invalid entries. Try again.',
+  email_registred: 'Email already registered'
 };
 
 module.exports = {
