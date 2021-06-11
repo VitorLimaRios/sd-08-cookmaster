@@ -9,7 +9,8 @@ const create = async (user) => {
       message: 'Invalid entries. Try again.'
     }
   };
-  if(emailAlreadyExists(email)) return {
+  const emailExists = await emailAlreadyExists(email);
+  if(emailExists) return {
     error: {
       code: 409,
       message: 'Email already registered'

@@ -15,7 +15,9 @@ const create = async (name, email, password) => {
 
   return {
     _id: insertedId,
-    ...newUser
+    name,
+    email,
+    role: 'user'
   };
 };
 
@@ -28,4 +30,5 @@ const getAll = async () => {
 
 module.exports = {
   create,
+  getAll,
 };
