@@ -28,7 +28,15 @@ const getAll = async () => {
   return users;
 };
 
+const findByEmail = async (email) => {
+  const db = await connection();
+  const usersCollection = db.collection('users');
+  const user = await usersCollection.findOne({ email });
+  return user;
+};
+
 module.exports = {
   create,
   getAll,
+  findByEmail,
 };
