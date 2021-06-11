@@ -1,14 +1,14 @@
 const UserModel = require('../models/userModel');
-const Validations = require('./validations');
+const UserValidations = require('./userValidations');
 
 const create = async (user) => {
   const { name, email, password } = user;
   
-  Validations.validateNameIsRequire(name);
-  Validations.validatePasswordIsRequire(password);
-  Validations.validateEmailIsRequire(email);
-  Validations.validateEmailIsValid(email);
-  await Validations.validateEmailAlreadyExists(email);
+  UserValidations.validateNameIsRequire(name);
+  UserValidations.validatePasswordIsRequire(password);
+  UserValidations.validateEmailIsRequire(email);
+  UserValidations.validateEmailIsValid(email);
+  await UserValidations.validateEmailAlreadyExists(email);
 
   user.role = 'user';
 
