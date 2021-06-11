@@ -13,7 +13,8 @@ const get = async (_req, res) => {
 
 const post = async (req, res) => {
   const { name, email, password } = req.body;
-  const role = 'user';
+  let { role } = req.body;
+  if (!role || role != 'admin') role = 'user';
   const userObject = await user.create(name, email, password, role);
   delete userObject.ops[0]['password'];
   res.status(CREATED).json(
