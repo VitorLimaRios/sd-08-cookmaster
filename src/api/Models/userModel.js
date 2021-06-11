@@ -4,7 +4,8 @@ const create = async (name, email, password) =>{
   const db = await connection();
   const newUser = await db.collection('users')
     .insertOne({ name, email, password, role: 'user' });
-  // console.log(newUser);
+  console.log(newUser);
+  // return desestruturando <3
   return { name, email, password, role: 'user' };
 };
 

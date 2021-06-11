@@ -9,9 +9,11 @@ const notValidEmail = 400;
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(name);
+    console.log(req.body);
     const newUser = await service.create(name, email, password);
-    return res.status(OK).json(newUser);
+    return res.status(OK).json(
+      {user: { name: newUser.name, email: newUser.email, role: newUser.role} }
+    );
   } catch (e) {
     if (e.message === 'Email already registered') {
       return res.status(notUnique).json({
