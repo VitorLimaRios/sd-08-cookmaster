@@ -2,11 +2,23 @@ const recipesModel = require('../models/recipes');
 const usersModel = require('../models/users');
 const validations = require('./validations');
 
+const { ObjectId } = require('mongodb');
+
 const jwt = require('jsonwebtoken');
 
 const secret = 'mysecrettoken';
 
 const readRecipes = () => recipesModel.readRecipes();
+
+const readRecipeById = async(id) => {
+  validations.isFalse(ObjectId.isValid(id));
+
+  const recipe = await recipesModel.readRecipesById(id);
+
+  validations.isFalse(recipe);
+
+  return recipe;
+};
 
 const createRecipe = async(recipe, token) => {
   validations.recipeBodyRequest(recipe);
@@ -31,5 +43,6 @@ const createRecipe = async(recipe, token) => {
 
 module.exports = {
   readRecipes,
+  readRecipeById,
   createRecipe,
 };

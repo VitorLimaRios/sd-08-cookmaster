@@ -6,6 +6,7 @@ const middlewares = require('../middlewares');
 const recipes = express.Router();
 
 recipes.get('/', recipesController.readRecipes);
+recipes.get('/:id', recipesController.readRecipeById);
 recipes.post('/', middlewares.verifyToken ,  recipesController.createRecipe);
 
 module.exports = recipes;

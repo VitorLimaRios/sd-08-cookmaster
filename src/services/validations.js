@@ -73,10 +73,24 @@ const recipeBodyRequest = (recipe) => {
   }
 };
 
+const isFalse = (boolean) => {
+  if (!boolean) {
+    throw new Error(
+      JSON.stringify(
+        {
+          status: code.NOT_FOUND,
+          message: message.recipe_not_found,
+        }
+      )
+    );
+  }
+};
+
 module.exports = {
   userBodyRequest,
   userAlreadyExists,
   loginBodyRequest,
   loginIsValid,
   recipeBodyRequest,
+  isFalse,
 };
