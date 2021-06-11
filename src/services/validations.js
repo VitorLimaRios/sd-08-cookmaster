@@ -15,6 +15,17 @@ const validateUser = ({name, email, password}, userExists) => {
       )
     );
   }
+
+  if(userExists) {
+    throw new Error(
+      JSON.stringify(
+        {
+          status: code.CONFLICT,
+          message: message.email_registred,
+        }
+      )
+    );
+  }
 };
 
 module.exports = {
