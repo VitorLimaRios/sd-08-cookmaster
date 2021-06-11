@@ -33,7 +33,37 @@ const userAlreadyExists = (userExists) => {
   }
 };
 
+const loginBodyRequest = (user) => {
+  if(
+    !user || !user.email || !user.password
+  ){
+    throw new Error(
+      JSON.stringify(
+        {
+          status: code.UNAUTHORIZED,
+          message: message.fields_must_be_filled,
+        }
+      )
+    );
+  };
+};
+
+const loginIsValid = (user, dbUser) => {
+  if(!dbUser || user.password !== dbUser.password) {
+    throw new Error(
+      JSON.stringify(
+        {
+          status: code.UNAUTHORIZED,
+          message: message.inc_user_or_pass,
+        }
+      )
+    );
+  }
+};
+
 module.exports = {
   userBodyRequest,
   userAlreadyExists,
+  loginBodyRequest,
+  loginIsValid,
 };

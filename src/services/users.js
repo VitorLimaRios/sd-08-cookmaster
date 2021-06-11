@@ -1,5 +1,8 @@
 const userModel = require('../models/users');
 const validations = require('./validations');
+const jwt = require('jsonwebtoken');
+
+const secret = 'mysecrettoken';
 
 const readUsers = () => userModel.readUsers();
 
@@ -24,8 +27,25 @@ const createUser = async(newUser) => {
   };
 };
 
+const login = async(user) => {
+  validations.loginBodyRequest(user);
+
+  const dbUser = await userModel.readByKey('email', user.email);
+
+  validations.loginIsValid(user, dbUser);
+
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256'
+  };
+
+  const token = jwt.sign({data: user}, secret, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
   readUsers,
   createUser,
-  // readByKey,
+  login,
 };
