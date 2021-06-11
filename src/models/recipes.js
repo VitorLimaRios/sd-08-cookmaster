@@ -12,6 +12,13 @@ const readRecipesById = (id) => connection()
 const createRecipe = (recipe) => connection()
   .then((db) => db.collection(COLLECTION_NAME).insertOne(recipe));
 
+const updateRecipe = (recipe, id) => connection()
+  .then((db) => db.collection(COLLECTION_NAME)
+    .updateOne(
+      {_id: ObjectId(id) },
+      recipe
+    ));
+
 module.exports = {
   readRecipes,
   readRecipesById,
