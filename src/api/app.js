@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-const controller = require('../controllers/usersController');
+const controllerUser = require('../controllers/usersController');
+const controllerRecipe = require('../controllers/recipesController');
+const middlewares = require('../middlewares/validateJWT');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -13,9 +15,11 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.route('/users')
-  .post(controller.createUser);
+  .post(controllerUser.createUser);
 
 app.route('/login')
-  .post(controller.loginUser);
+  .post(controllerUser.loginUser);
 
+app.route('/recipes')
+  .post(middlewares.validateJWT ,controllerRecipe.createRecipe);
 module.exports = app;

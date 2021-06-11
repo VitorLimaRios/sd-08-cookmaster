@@ -1,0 +1,21 @@
+const FIVE_HUNDRED = 500;
+
+const recipesServices = require('../services/recipesService');
+
+const createRecipe = async (req, res) => {
+  try {
+    const user = req.user;
+    const { name, ingredients, preparation } = req.body;
+    const result = await recipesServices
+      .addRecipesServices({ name, ingredients, preparation }, user);
+    res.status(result.statusCode).json(result.json);
+  } catch (error) {
+    res.status(FIVE_HUNDRED).json({
+      message: 'Erro',
+    });
+  }
+};
+
+module.exports = {
+  createRecipe,
+};

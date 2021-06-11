@@ -1,4 +1,3 @@
-const express = require('express');
 const FIVE_HUNDRED = 500;
 
 const usersService = require('../services/usersService');
