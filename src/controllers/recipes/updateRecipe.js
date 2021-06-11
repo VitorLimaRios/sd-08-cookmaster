@@ -4,18 +4,15 @@ const RecipeModel = require('../../models/index');
 
 const secret = process.env.SECRET;
 
-const CREATED_CODE = 201;
-const BAD_REQUEST_CODE = 400;
+const SUCCESS_CODE = 200;
 const UNAUTHORIZED_CODE = 401;
-const INVALID_ENTRIES_MESSAGE = 'Invalid entries. Try again.';
 const JWT_MALFORMED = 'jwt malformed';
+const MISSING_TOKEN_MESSAGE = 'missing auth token';
 
 module.exports = async (req, res, _next) => {
   const token = req.headers.authorization;
-  const { name, ingredients, preparation } = req.body;
-
-  if (!name || !ingredients || !preparation) {
-    return res.status(BAD_REQUEST_CODE).json({ message: INVALID_ENTRIES_MESSAGE });
+  if (!token) {
+    return res.status(UNAUTHORIZED_CODE).json({ message: MISSING_TOKEN_MESSAGE });
   }
 
   const decoded = jwt.decode(token, secret);
@@ -23,8 +20,13 @@ module.exports = async (req, res, _next) => {
     return res.status(UNAUTHORIZED_CODE).json({ message: JWT_MALFORMED });
   }
 
-  const response = await RecipeModel
-    .createRecipe({ name, ingredients, preparation, userId: decoded.data._id });
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
 
-  res.status(CREATED_CODE).json({ recipe: response });
+  const { _id, userId } = await RecipeModel.getRecipeById(id);
+
+  const response = await RecipeModel
+    .updateRecipe({ _id, name, ingredients, preparation, userId });
+
+  res.status(SUCCESS_CODE).json(response);
 };

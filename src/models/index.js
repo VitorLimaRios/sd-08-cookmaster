@@ -3,6 +3,7 @@ const getUserByEmail = require('./users/getUserByEmail');
 const createRecipe = require('./recipes/createRecipe');
 const getAllRecipes = require('./recipes/getAllRecipes');
 const getRecipeById = require('./recipes/getRecipeById');
+const updateRecipe = require('./recipes/updateRecipe');
 
 module.exports = {
   createUser,
@@ -10,4 +11,5 @@ module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
