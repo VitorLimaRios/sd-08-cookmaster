@@ -6,7 +6,7 @@ const create = async (user) => {
   if(!name || !email || !password || !isEmailvalid(email)) return {
     error: {
       code: 400,
-      message: 'Invalid entries. Try again'
+      message: 'Invalid entries. Try again.'
     }
   };
   if(emailAlreadyExists(email)) return {
