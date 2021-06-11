@@ -1,9 +1,14 @@
 const Recipe = require('../models/Recipes.model');
 
-const HTTP_CREATED_STATUS = 201;
 const HTTP_BAD_REQUEST_STATUS = 400;
 
 module.exports = {
+  index: async () => {
+    const recipes = await Recipe.find();
+
+    return recipes;
+  },
+
   create: async (request, response) => {
     const { name, ingredients, preparation } = request.body;
 

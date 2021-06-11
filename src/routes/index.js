@@ -10,6 +10,7 @@ router.post('/login', Login);
 
 router.post('/users', Users);
 
+router.get('/recipes', Recipes);
 router.post('/recipes', Recipes);
 
 module.exports = router;
