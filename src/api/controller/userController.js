@@ -6,21 +6,21 @@ const notUnique = 409;
 const notValidEmail = 400;
 
 
-const createUser = async(req, res) => {
-  const { name, email, password} = req.body;
+const createUser = async (req, res) => {
   try {
+    const { name, email, password } = req.body;
+    console.log(name);
     const newUser = await service.create(name, email, password);
-
-    res.status(OK).json(newUser);
+    return res.status(OK).json(newUser);
   } catch (e) {
-    if(e === 'Email already registered') {
-      res.status(notUnique).json({e: {
-        message: e.message
-      }});
+    if (e.message === 'Email already registered') {
+      return res.status(notUnique).json({
+        message: e.message,
+      });
     }
-    res.status(notValidEmail).json({e: {
-      message: e.message
-    }});
+    return res.status(notValidEmail).json({
+      message: e.message,
+    });
   }
 };
 

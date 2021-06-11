@@ -5,7 +5,7 @@ const create = async (name, email, password) =>{
   const newUser = await db.collection('users')
     .insertOne({ name, email, password, role: 'user' });
   // console.log(newUser);
-  return newUser;
+  return { name, email, password, role: 'user' };
 };
 
 const findEmail= async (email) => {

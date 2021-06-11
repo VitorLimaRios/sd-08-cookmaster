@@ -1,5 +1,6 @@
 const user = require('../Models/userModel');
 
+
 const isValidThings = (name, email, password, role) => {
   if(!name) { 
     return 'Invalid entries. Try again.'; 
@@ -22,15 +23,15 @@ const isValidThings = (name, email, password, role) => {
 };
 
 const create = async (name, email, password) => {
-  const isUserValid = await isValidThings(name);
-  if (isUserValid) {
+  const findUser = await user.findEmail(email);
+  if (findUser) {
     throw new Error('Email already registered');
   }
-  const notValid = await isValidThings(name, email, password);
+  const notValid = isValidThings(name, email, password);
   if (notValid) {
     throw new Error(notValid);
   }
-  return user.create(name, email, password);
+  return await user.create(name, email, password);
 };
 
 module.exports = {
