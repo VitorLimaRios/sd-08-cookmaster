@@ -1,25 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/Users.model');
 
-const HTTP_UNATHOURIZED_STATUS = 401;
-
 module.exports = {
-  create: async (request, response) => {
-    const { email, password } = request.body;
-
-    if (!email || !password) {
-      return response
-        .status(HTTP_UNATHOURIZED_STATUS)
-        .send({ message: 'All fields must be filled' });
-    }
-
+  create: async (email, password) => {
     const user = await User.findOne({ email, password });
 
-    if (!user) {
-      return response
-        .status(HTTP_UNATHOURIZED_STATUS)
-        .send({ message: 'Incorrect username or password' });
-    }
+    if (!user) return;
 
     const { password: user_password, ...user_auth } = user._doc;
 

@@ -1,9 +1,6 @@
 const Recipe = require('../models/Recipes.model');
 
 const HTTP_BAD_REQUEST_STATUS = 400;
-const HTTP_NOT_FOUND_STATUS = 404;
-
-const ID_LENGTH = 24;
 
 module.exports = {
   index: async () => {
@@ -12,34 +9,16 @@ module.exports = {
     return recipes;
   },
 
-  show: async (request, response) => {
-    const { id } = request.params;
-
-    if (id.length < ID_LENGTH || id.length > ID_LENGTH) {
-      return response
-        .status(HTTP_NOT_FOUND_STATUS)
-        .send({ message: 'recipe not found' });
-    }
-
+  show: async (id) => {
     const recipe = await Recipe.findById(id);
 
-    if (!recipe) {
-      return response
-        .status(HTTP_NOT_FOUND_STATUS)
-        .send({ message: 'recipe not found' });
-    }
+    if (!recipe) return;
 
     return recipe;
   },
 
-  create: async (request, response) => {
-    const { name, ingredients, preparation } = request.body;
-
-    if (!name || !ingredients || !preparation) {
-      return response
-        .status(HTTP_BAD_REQUEST_STATUS)
-        .send({ message: 'Invalid entries. Try again.' });
-    }
+  create: async (request, name, ingredients, preparation) => {
+    if (!name || !ingredients || !preparation) return;
 
     const recipe = await Recipe.create({
       name,
@@ -51,10 +30,7 @@ module.exports = {
     return recipe;
   },
 
-  update: async (request) => {
-    const { id } = request.params;
-    const { name, ingredients, preparation } = request.body;
-
+  update: async (id, name, ingredients, preparation) => {
     const recipe = await Recipe.findByIdAndUpdate(id, {
       name,
       ingredients,
@@ -64,9 +40,7 @@ module.exports = {
     return recipe;
   },
   
-  remove: async (request) => {
-    const { id } = request.params;
-
+  remove: async (id) => {
     const recipe = await Recipe.findByIdAndRemove(id);
 
     return recipe;
