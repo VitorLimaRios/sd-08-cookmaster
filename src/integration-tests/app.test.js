@@ -114,11 +114,10 @@ describe('Test Init', () => {
       it(`the "user" property has the user's registration data as its value`, async () => {
         expect(response.body.user).to.be
           .deep.equals({
-            _id:`${response.body.user._id}`,
             name: 'Remy',
             email: 'remy@ratatouille.com',
-            password: '123456',
             role: 'user',
+            _id:`${response.body.user._id}`,
           });
       });
     });

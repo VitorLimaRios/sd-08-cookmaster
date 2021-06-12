@@ -6,7 +6,10 @@ const create = async (name, email, password) => {
   return connectionDB()
     .then((db) => db.collection(COLLECTION_USERS)
       .insertOne({ name, email, password, role: 'user' }))
-    .then((result => result.ops[0]));
+    .then((result => result.ops[0]))
+    .then(data => (
+      { name: data.name, email: data.email, role: data.role, _id: data._id }
+    ));
 };
 
 const getByEmail = async (email) => {
