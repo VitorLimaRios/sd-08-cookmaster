@@ -1,4 +1,4 @@
-// require('dotenv').config() // isso aqui ainda n é pro meu bico n
+require('dotenv').config()
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
