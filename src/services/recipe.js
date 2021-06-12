@@ -1,8 +1,10 @@
+const usersController = require('../controllers/user');
 const recipe = require('../models/recipe');
 
 const OK = 200;
 const CREATED = 201;
 const NOT_FOUND = 404;
+const UNAUTHORIZED = 401;
 
 const post = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -25,8 +27,25 @@ const getOne = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { id } = req.params;
+  const { role, userId } = req;
+
+  try {
+    const currentRecipe = await recipe.getOne(id);
+    if (role === 'admin' || userId === currentRecipe.userId) {
+      const updatedRecipe = await recipe.update(id, name, ingredients, preparation);
+      res.status(OK).json(updatedRecipe);
+    }
+  } catch (err) {
+    res.status(UNAUTHORIZED).send(err);
+  }
+};
+
 module.exports = {
   post,
+  update,
   getAll,
   getOne,
 };
