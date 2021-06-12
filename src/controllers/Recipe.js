@@ -11,7 +11,7 @@ const create = rescue(async (req, res, _next) => {
   const { name, ingredients, preparation } = req.body;
   const token = req.headers['authorization'];
   const decoded = jwt.verify(token, secret);
-  const createdRecipe = await recipeService.create(decoded.data._id,
+  const createdRecipe = await recipeService.create(decoded.data.id,
     { name, ingredients, preparation });
   res.status(CREATED).json(createdRecipe);
 });
@@ -38,7 +38,15 @@ const edit = rescue(async (req, res, _next) => {
 const remove = rescue(async (req, res, _next) => {
   const { id } = req.params;
   await recipeService.remove(id);
-  res.status(NO_CONTENT).send();
+  res.sendStatus(NO_CONTENT);
+});
+
+const uploadImage = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const getRecipe = await recipeService.getById(id);
+  const update = { ...getRecipe, image: `localhost:3000/src/uploads/${id}.jpeg` };
+  const updatedRecipe = await recipeService.edit(id, update);
+  res.json(updatedRecipe);
 });
 
 module.exports = {
@@ -47,4 +55,5 @@ module.exports = {
   getById,
   edit,
   remove,
+  uploadImage,
 };
