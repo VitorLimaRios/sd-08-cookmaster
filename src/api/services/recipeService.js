@@ -1,5 +1,5 @@
 const RecipeModel = require('../models/recipeModel');
-const RecipeValidations = require('./recipeValidations');
+const RecipeValidations = require('../validations/recipeValidations');
 
 const create = async (newRecipe, userId) => {
   const { name, ingredients, preparation } = newRecipe;
@@ -21,7 +21,18 @@ const getAll = async () => {
   return allRecipes;
 };
 
+const findById = async (id) => {
+  RecipeValidations.validateRecipeId(id);
+  
+  const recipe = await RecipeModel.findById(id);
+
+  RecipeValidations.validateRecipeNotFound(recipe);
+  
+  return recipe;
+};
+
 module.exports = {
   create,
   getAll,
+  findById,
 };

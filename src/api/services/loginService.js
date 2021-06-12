@@ -1,5 +1,5 @@
 const UserModel = require('../models/userModel');
-const LoginValidations = require('./loginValidations');
+const LoginValidations = require('../validations/loginValidations');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 

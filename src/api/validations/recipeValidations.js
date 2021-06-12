@@ -1,7 +1,9 @@
 const ErrorMessages = require('../../error/errorMessages');
 const CustomError = require('../../error/customError');
+const { ObjectId } = require('mongodb');
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 
 const validateNameIsRequire = (userName) => {
   if (!userName || typeof userName !== 'string') {
@@ -31,8 +33,28 @@ const validatePreparationIsRequire = (preparation) => {
   }
 };
 
+const validateRecipeId = (id) => {
+  if (!ObjectId.isValid((id))) {    
+    throw new CustomError(
+      ErrorMessages.recipeNotFound,
+      NOT_FOUND
+    );
+  }
+};
+
+const validateRecipeNotFound = (recipe) => {
+  if (!recipe) {    
+    throw new CustomError(
+      ErrorMessages.recipeNotFound,
+      NOT_FOUND
+    );
+  }
+};
+
 module.exports = {
   validateNameIsRequire,
   validateIngredientsIsRequire,
   validatePreparationIsRequire,
+  validateRecipeId,
+  validateRecipeNotFound,
 };

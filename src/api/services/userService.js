@@ -1,5 +1,5 @@
 const UserModel = require('../models/userModel');
-const UserValidations = require('./userValidations');
+const UserValidations = require('../validations/userValidations');
 
 const create = async (user) => {
   const { name, email, password } = user;
