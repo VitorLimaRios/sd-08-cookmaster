@@ -6,6 +6,9 @@ const create = async (newUser) => {
   return createdUser;
 };
 
+const getUser = async (email) => userModel.getUser(email);
+
 module.exports = {
   create,
+  getUser,
 };

@@ -3,8 +3,9 @@ const ERROR_SERVIDOR = 500;
 
 module.exports = (err, _req, res, _next) => {
   if (err.isJoi) {
+    const { statusCode } = err;
     const errorMessages = err.details.map(detail => detail.message).join('; ');
-    return res.status(BAD_REQUEST).json({ message: errorMessages });
+    return res.status(statusCode).json({ message: errorMessages });
   }
 
   if (err.isBoom) {
