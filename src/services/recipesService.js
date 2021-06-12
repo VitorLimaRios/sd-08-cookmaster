@@ -10,7 +10,7 @@ const recipesValidation = (data) => {
   }).validate(data);
 };
 
-const addRecipesServices = async ({ name, ingredients, preparation }, { _id: id }) => {
+const addRecipesServices = async ({ name, ingredients, preparation },{ _id: userId }) => {
   const { error } = recipesValidation({ name, ingredients, preparation });
 
   if (error) return {
@@ -20,7 +20,7 @@ const addRecipesServices = async ({ name, ingredients, preparation }, { _id: id 
     },
   };
 
-  const response = await model.addRecipe({ name, ingredients, preparation, id });
+  const response = await model.addRecipe({ name, ingredients, preparation, userId });
 
   return {
     statusCode: 201,
@@ -68,8 +68,17 @@ const getRecipeIdServices = async (id) => {
   };
 };
 
+const updateRecipeServices = async ({ name, ingredients, preparation, id }) => {
+  const response = await model.updateRecipe({ name, ingredients, preparation, id });
+  return {
+    statusCode: 200,
+    json: response
+  };
+};
+
 module.exports = {
   addRecipesServices,
   getAllRecipesService,
-  getRecipeIdServices
+  getRecipeIdServices,
+  updateRecipeServices
 };

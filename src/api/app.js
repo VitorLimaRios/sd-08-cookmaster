@@ -6,7 +6,7 @@ app.use(bodyParser.json());
 
 const controllerUser = require('../controllers/usersController');
 const controllerRecipe = require('../controllers/recipesController');
-const middlewares = require('../middlewares/validateJWT');
+const middlewares = require('../middlewares');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -25,6 +25,7 @@ app.route('/recipes')
   .get(controllerRecipe.getAllRecipes);
 
 app.route('/recipes/:id')
-  .get(controllerRecipe.getRecipeId);
+  .get(controllerRecipe.getRecipeId)
+  .put(middlewares.validateJWT, middlewares.validateUser, controllerRecipe.updateRecipe);
 
 module.exports = app;

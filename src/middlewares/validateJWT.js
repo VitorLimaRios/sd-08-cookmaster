@@ -7,19 +7,22 @@ const secret = 'cookmaster-sd08';
 
 const tokenValidate = (token) => {
   return Joi.string().regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/)
-    .required().validate(token);
+    .validate(token);
 };
 
 const validateJWT = async (req, res, next) => {
-  const token = req.headers.authorization;
-
-  const { error } = tokenValidate(token);
-
-  if (error) return res.status(ERRO_401).json({
-    message: 'jwt malformed',
-  });
-
   try {
+    const token = req.headers.authorization;
+
+    if (!token) return res.status(ERRO_401).json({
+      message: 'missing auth token',
+    });
+
+    const { error } = tokenValidate(token);
+    if (error) return res.status(ERRO_401).json({
+      message: 'jwt malformed',
+    });
+  
     const decode = jwt.verify(token, secret);
     const user = await model.findSingleEmail(decode.data.email);
 
@@ -36,6 +39,4 @@ const validateJWT = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  validateJWT,
-};
+module.exports = validateJWT;
