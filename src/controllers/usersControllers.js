@@ -1,11 +1,6 @@
 const usersServices = require('../services/usersServices');
 const { code, message } = require('../helpers/messages');
 
-const STATUS_OK = 200;
-const STATUS_CREATED = 201;
-const STATUS_CONFLICT = 409;
-const STATUS_BAD_REQUEST = 400;
-
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
