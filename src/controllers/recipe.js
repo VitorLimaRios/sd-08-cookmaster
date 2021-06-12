@@ -7,5 +7,6 @@ const recipes = require('../services/recipe');
 
 recipesController.post('/', validateToken, validateRecipe, recipes.post);
 recipesController.get('/', recipes.getAll);
+recipesController.get('/:id', recipes.getOne);
 
 module.exports = recipesController;
