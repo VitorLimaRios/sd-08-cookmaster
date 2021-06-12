@@ -1,5 +1,4 @@
-const checkFields = (req, res) => {
-  const { name, email, password } = req.body;
+const checkFields = (name, password, email) => {
   if (!name || !email || !password){
     throw new Error ('Invalid entries. Try again.');
   }

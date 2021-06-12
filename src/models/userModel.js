@@ -6,8 +6,8 @@ async function createUser(name, password, email){
   if(checkUserEmail) return null;
   const data = await connection().then((db) => 
     db.collection('users').insertOne({
-      name, email, role: 'user', password}));
-  return data.ops[0];
+      name, email, role: 'user'}));
+  return {user: data.ops[0]};
 }
 
 module.exports = {
