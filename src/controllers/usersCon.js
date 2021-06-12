@@ -1,16 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const middlewares_users = require('../middlewares/usersPost');
+const UsersServices = require('../services/usersSer');
 
-router.post('/', (req, res) => {
+const code = {
+  code201: 201,
+  code400: 400,
+  code409: 409,
+};
+
+router.post('/', async (req, res) => {
   const {name, email, password} = req.body;
-  console.log('req.body post line 6', name, email, password);
+  console.log('req.body post line 11', name, email, password);
 
-  const messageControlValidation = middlewares_users
+  const messageControlValidation = await middlewares_users
     .controlValidation(name, email, password);
-  console.log('const isNameValid line 9', messageControlValidation);
+  console.log('const isNameValid line 14', messageControlValidation);
+  if(messageControlValidation.message) 
+    return res.status(code.code400).json(messageControlValidation);
+  
+  const addUsers = await UsersServices.addUsers(req.body);
+  console.log('addUsers usersCon line 23', addUsers);
+  if(addUsers.message) 
+    return res.status(code.code409).json(addUsers);
 
-  return res.status(400).json(messageControlValidation);
+  return res.status(code.code201).json({user: addUsers});
 
 });
 

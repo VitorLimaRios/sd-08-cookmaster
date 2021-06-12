@@ -12,7 +12,7 @@ const connection = async () => {
   return mongoClient
     .connect(MONGO_DB_URL, {
       useNewUrlParser: true,
-      userUnifiedTopology: true,
+      useUnifiedTopology: true,
     })
     .then((connection) => connection.db(DB_NAME))
     .catch((err) => {

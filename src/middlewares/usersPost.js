@@ -20,7 +20,7 @@ const controlValidation = (name, email, password) => {
 
   const isValid = reqBodyValidation(name, email, password);
   console.log('isNameValid line 20', isValid);
-  if(!isValid) return { message: 'Invalid entries. Try again'};
+  if(!isValid) return { message: 'Invalid entries. Try again.'};
 
   return {
     users: {
