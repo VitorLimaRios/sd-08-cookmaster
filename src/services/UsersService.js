@@ -2,7 +2,7 @@ const UsersModel = require('../models/UsersModel');
 const { isEmailvalid, emailAlreadyExists } = require('./validations');
 
 const create = async (user) => {
-  const { name, email, password } = user;
+  const { name, email, password, role } = user;
   if(!name || !email || !password || !isEmailvalid(email)) return {
     error: {
       code: 400,
@@ -16,7 +16,7 @@ const create = async (user) => {
       message: 'Email already registered'
     }
   };
-  const newUser = await UsersModel.create(name, email, password);
+  const newUser = await UsersModel.create(name, email, password, role);
   return newUser;
 };
 

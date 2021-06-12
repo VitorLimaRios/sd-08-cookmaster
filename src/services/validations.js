@@ -8,7 +8,6 @@ const isEmailvalid = (value) => {
 const emailAlreadyExists = async (email) => {
   const users = await UsersModel.getAll();
   const exists = users.some((user) => user.email === email);
-  console.log('validation exists', exists);
   return exists;
 };
 

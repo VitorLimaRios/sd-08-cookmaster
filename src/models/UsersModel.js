@@ -1,7 +1,7 @@
 const connection = require('./connection');
 const { ObjectId } = require('mongodb');
 
-const create = async (name, email, password) => {
+const create = async (name, email, password, role) => {
   const db = await connection();
   const usersCollection = db.collection('users');
 
@@ -9,7 +9,7 @@ const create = async (name, email, password) => {
     name,
     email,
     password,
-    role: 'user'
+    role: role ? role : 'user'
   };
 
   const { insertedId } = await usersCollection.insertOne(newUser);
