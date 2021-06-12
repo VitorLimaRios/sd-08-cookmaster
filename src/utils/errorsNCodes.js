@@ -1,4 +1,4 @@
-const responses = {
+const responsesNCodes = {
   OK: {
     status: 200
   },
@@ -7,15 +7,19 @@ const responses = {
   },
   BAD_REQUEST: {
     status: 400,
-    message: 'Invalid entries. Try again'
+    send: {
+      message: 'Invalid entries. Try again'
+    }
   },
   CONFLICT: {
     status: 409,
-    message: 'Email already registered'
+    send: {
+      message: 'Email already registered'
+    }
   }
 };
 
-const { BAD_REQUEST, CONFLICT } = responses;
+const { BAD_REQUEST, CONFLICT } = responsesNCodes;
 
 const errors = {
   Users: {
@@ -26,6 +30,4 @@ const errors = {
   }
 };
 
-console.log(errors.Users.mustHaveEmail)
-
-module.exports = { errors, responses };
+module.exports = { errors, responsesNCodes };

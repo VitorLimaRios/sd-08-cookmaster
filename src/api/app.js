@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const users = require('../models/usersModel')
+const users = require('../models/usersModel');
+const { create } = require('../controllers/userController');
+const { validateUserCreation } = require('../services/usersValidations')
 app.use(bodyParser.json());
 // ...
 
@@ -29,16 +31,10 @@ app.get('/user', async (req, res) => {
   return res.status(200).send({ user: foundUser });
 });
 
-app.post('/users', async (req, res) => {
-  const newUser = req.body;
-  await users.createNewUser(newUser);
-  const checkEmailUnique = (await users.getAllTheUsers()).find((database) => database.email === 'xablaus');
-  console.log(checkEmailUnique ? 'true' : 'false')
-  return res.status(201).send({ message: `usuário adicionado: ${JSON.stringify(req.body)}` })
-});
+app.post('/users', validateUserCreation, create);
 
 app.delete('/users', async (req, res) => {
-  await users.deleteUser(req.body.name);
+  await users.deleteUserByName(req.body.name);
   return res.status(200).send({ message: `usuário deletado ${req.body.name}` })
 });
 
