@@ -27,8 +27,17 @@ const getById = rescue(async (req, res, _next) => {
   res.json(recipe);
 });
 
+const edit = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const editedRecipe = await recipeService.edit(id, { name, ingredients, preparation });
+  console.log(editedRecipe);
+  res.json(editedRecipe);
+});
+
 module.exports = {
   create,
   getAll,
   getById,
+  edit,
 };

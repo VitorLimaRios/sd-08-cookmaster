@@ -9,4 +9,6 @@ router.get('/', recipeController.getAll);
 
 router.get('/:id', recipeController.getById);
 
+router.put('/:id', middlewares.recipeValidation, recipeController.edit);
+
 module.exports = router;

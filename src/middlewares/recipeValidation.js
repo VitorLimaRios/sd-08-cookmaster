@@ -13,7 +13,7 @@ module.exports = rescue((req, _res, next) => {
     return next(err);
   }
 
-  if (!token) throw boom.unauthorized('jwt malformed');
+  if (!token) throw boom.unauthorized('missing auth token');
 
   jwt.verify(token, secret, (err, _decoded) => {
     if (err) throw boom.unauthorized('jwt malformed');
