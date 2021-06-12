@@ -1,11 +1,12 @@
 const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
+const boom = require('@hapi/boom');
 const recipeService = require('../services/Recipe');
 const { secret } = require('./User');
 
 const CREATED = 201;
 
-const create = rescue(async (req, res, next) => {
+const create = rescue(async (req, res, _next) => {
   const { name, ingredients, preparation } = req.body;
   const token = req.headers['authorization'];
   const decoded = jwt.verify(token, secret);
@@ -14,12 +15,20 @@ const create = rescue(async (req, res, next) => {
   res.status(CREATED).json(createdRecipe);
 });
 
-const getAll = rescue(async (req, res, next) => {
+const getAll = rescue(async (_req, res, _next) => {
   const recipes = await recipeService.getAll();
   res.json(recipes);
+});
+
+const getById = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const recipe = await recipeService.getById(id);
+  if (!recipe) throw boom.notFound('recipe not found');
+  res.json(recipe);
 });
 
 module.exports = {
   create,
   getAll,
+  getById,
 };

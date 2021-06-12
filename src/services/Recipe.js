@@ -8,7 +8,10 @@ const create = async (id, newRecipe) => {
 
 const getAll = async () => recipeModel.getAll();
 
+const getById = async (id) => recipeModel.getById(id);
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
