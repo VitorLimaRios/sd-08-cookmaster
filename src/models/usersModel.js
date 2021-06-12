@@ -24,8 +24,9 @@ const findUserByName = async (name) => {
 
 const createNewUser = async (user) => {
   const insertWithRole = { ...user, 'role': 'user' }
+  const { name, role, email } = insertWithRole;
   const inserting = await connection().then((db => db.collection('users').insertOne(insertWithRole)));
-  return { _id: inserting.insertedId, ...insertWithRole }
+  return { name, email, role, _id: inserting.insertedId, }
 };
 
 const deleteUserByName = async (userName) => {

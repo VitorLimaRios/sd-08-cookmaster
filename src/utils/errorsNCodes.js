@@ -8,7 +8,7 @@ const responsesNCodes = {
   BAD_REQUEST: {
     status: 400,
     send: {
-      message: 'Invalid entries. Try again'
+      message: 'Invalid entries. Try again.'
     }
   },
   CONFLICT: {
@@ -26,6 +26,7 @@ const errors = {
     mustHaveName: BAD_REQUEST,
     mustHaveEmail: BAD_REQUEST,
     mustHavePassword: BAD_REQUEST,
+    emailMustBeValid: BAD_REQUEST,
     emailMustBeUnique: CONFLICT,
   }
 };
