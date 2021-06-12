@@ -34,8 +34,6 @@ const update = async (req, res) => {
 
   try {
     const currentRecipe = await recipe.getOne(id);
-    //console.log(currentRecipe);
-    //console.log('aqui');
     if (String(userId) != String(currentRecipe.userId) && role != 'admin')
       throw new Error;
     const updatedRecipe = await recipe.update(id, name, ingredients, preparation);
