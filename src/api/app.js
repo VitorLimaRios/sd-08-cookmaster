@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorMiddleware = require('../middlewares/errorMiddleware');
-const productsRouters = require('../routes/usersRoute');
+const usersRouters = require('../routes/usersRoute');
 
 const app = express();
 app.use(express.json());
@@ -13,7 +13,7 @@ app.get('/', (request, response) => {
 });
 // meus end-points
 
-app.use(productsRouters);
+app.use(usersRouters);
 
 app.use(errorMiddleware);
 
