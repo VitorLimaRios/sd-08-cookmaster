@@ -1,4 +1,4 @@
-const INTERNAL_SERVER_ERROR = 500;
+const { code } = require('../helpers/messages');
 
 const errorMiddleware = (err, _req, res, _next) => {
   if (err.status) {
@@ -7,7 +7,7 @@ const errorMiddleware = (err, _req, res, _next) => {
     });
   }
 
-  res.status(INTERNAL_SERVER_ERROR).send({
+  res.status(code.SERVER_ERROR).send({
     error: err.message,
   });
 };
