@@ -12,7 +12,7 @@ const validateUserCreation = async (req, res, next) => {
   if (!email) return res.status(mustHaveEmail.status).send(mustHaveEmail.send);
   if (!password) return res.status(mustHavePassword.status).send(mustHavePassword.send);
   const checkEmailUnique = (await usersModel.getAllTheUsers()).find((database) => database.email === email);
-  if (!checkEmailUnique) return res.status(emailMustBeUnique.status).send(emailMustBeUnique.send);
+  if (checkEmailUnique) return res.status(emailMustBeUnique.status).send(emailMustBeUnique.send);
   return next();
 };
 
