@@ -20,7 +20,20 @@ const getAll = async () => {
 };
 
 const findById = async (id) => {
-  if(!ObjectId.isValid(id)) return null;
+  if(!ObjectId.isValid(id)) return {
+    error: {
+      code: 404,
+      message: 'recipe not found'
+    }
+  };
+  const recipe = await RecipesModel.findById(id);
+  if(!recipe) return {
+    error: {
+      code: 404,
+      message: 'recipe not found'
+    }
+  };
+  return recipe;
 };
 
 
