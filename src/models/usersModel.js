@@ -18,7 +18,7 @@ const getAllTheUsers = async () => {
 const findUserByName = async (name) => {
   const findingUser = await connection()
     .then((db => db.collection('users').findOne({ 'name': name })));
-  // ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.name === name)
+  // ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.name === name)?
   return findingUser
 };
 
