@@ -16,6 +16,7 @@ const STATUS_400 = 400;
 const STATUS_401 = 401;
 const STATUS_404 = 404;
 const STATUS_409 = 409;
+const KEY = 'Trybe';
 const ERRORS = {
   eInput: {
     status: STATUS_400,
@@ -26,6 +27,20 @@ const ERRORS = {
     status: STATUS_409,
     message: 'Email already registered',
   },
+
+  eLoginEmpty: {
+    status: STATUS_401,
+    message: 'All fields must be filled',
+  },
+
+  eLoginInvalid: {
+    status: STATUS_401,
+    message: 'Incorrect username or password'
+  }
+};
+const JWT_CONFIG = {
+  expiresIn: '1d',
+  algorithm: 'HS256'
 };
 
 module.exports = {
@@ -35,6 +50,8 @@ module.exports = {
   DB_NAME,
   EMAIL_REGEX,
   ERRORS,
+  JWT_CONFIG,
+  KEY,
   MONGO_DB_URL,
   MONGO_DB_URL_LOCAL,
   OPTIONS,

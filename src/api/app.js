@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const User = require('./controllers/users/User');
-const validateInputMiddleware = require('./middlewares/users/validateInputMiddleware');
+const validateCreateMiddleware = require('./middlewares/users/validateCreateMiddleware');
+const validateLoginMiddleware = require('./middlewares/users/validateLoginMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +14,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 //Users
-app.post('/users', validateInputMiddleware, User.create);
+app.post('/users', validateCreateMiddleware, User.create);
+app.post('/login', validateLoginMiddleware, User.login);
 
 module.exports = app;
