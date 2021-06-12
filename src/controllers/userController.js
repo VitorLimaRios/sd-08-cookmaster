@@ -2,6 +2,10 @@
 const usersServices = require('../services/usersServices');
 const { responsesNCodes: { OK, CREATED } } = require('../utils/errorsNCodes');
 
+const getAll = async (_req, res) => {
+  return res.status(OK.status).send({ allUsers: await usersServices.getAllUsers() })
+};
+
 const create = async (req, res) => {
   const newUser = req.body;
   const addedUser = await usersServices.addNewUser(newUser);
@@ -9,5 +13,5 @@ const create = async (req, res) => {
 };
 
 
-module.exports = { create }
+module.exports = { create, getAll }
 

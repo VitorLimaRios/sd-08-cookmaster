@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const users = require('../models/usersModel');
-const { create } = require('../controllers/userController');
+const { create, getAll } = require('../controllers/userController');
 const { validateUserCreation } = require('../services/usersValidations')
 app.use(bodyParser.json());
 // ...
@@ -20,9 +20,7 @@ app.get('/', (_request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.get('/users', async (_req, res) => {
-  return res.status(200).send({ users: await users.getAllTheUsers() })
-});
+app.get('/all', getAll);
 
 app.get('/user', async (req, res) => {
   const { name } = req.body;
