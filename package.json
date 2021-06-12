@@ -33,6 +33,7 @@
     "jsonwebtoken": "~8.5.1",
     "mongodb": "~3.5.9",
     "multer": "~1.4.2",
+    "node-ops": "^0.1.0",
     "nodemon": "~2.0.4",
     "shelljs": "~0.8.4"
   },
