@@ -5,6 +5,7 @@ const recipeService = require('../services/Recipe');
 const { secret } = require('./User');
 
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 const create = rescue(async (req, res, _next) => {
   const { name, ingredients, preparation } = req.body;
@@ -31,8 +32,13 @@ const edit = rescue(async (req, res, _next) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
   const editedRecipe = await recipeService.edit(id, { name, ingredients, preparation });
-  console.log(editedRecipe);
   res.json(editedRecipe);
+});
+
+const remove = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  await recipeService.remove(id);
+  res.status(NO_CONTENT).send();
 });
 
 module.exports = {
@@ -40,4 +46,5 @@ module.exports = {
   getAll,
   getById,
   edit,
+  remove,
 };
