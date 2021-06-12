@@ -6,14 +6,19 @@ async function createUser(name, password, email){
   if(checkUserEmail) return null;
   const data = await connection().then((db) => 
     db.collection('users').insertOne({
-      name, email, role: 'user'}));
-  return {user: data.ops[0]};
+      name, email, role: 'user', password}));
+  return {user: {
+    name,
+    email,
+    role: 'user',
+    _id: data._id
+  }};
 }
 
-async function checkLogin(email){
+async function checkLogin(email, password){
   const checkLogin = await connection()
     .then((db) => db.collection('users').findOne({email: email}));
-  if(!checkLogin) return null;
+  if(!checkLogin || checkLogin.password !== password) return null;
   return checkLogin;
 }
 
