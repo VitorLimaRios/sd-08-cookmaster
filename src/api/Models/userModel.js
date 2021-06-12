@@ -16,9 +16,17 @@ const findEmail= async (email) => {
   return isFound;
 };
 
+const findPassword= async (password) => {
+  const db = await connection();
+  const isFound = await db.collection('users').findOne({password});
+  // console.log('aoba', isFound);
+  return isFound;
+};
+
 
 
 module.exports = {
   create,
   findEmail,
+  findPassword,
 };

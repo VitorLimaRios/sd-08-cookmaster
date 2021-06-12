@@ -1,7 +1,15 @@
 const user = require('../Models/userModel');
+const jwt = require('jsonwebtoken');
+
+const secret = 'seusecretdetoken';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 
-const isValidThings = (name, email, password, role) => {
+
+const isValidThings = (name, email, password, _role) => {
   if(!name) { 
     return 'Invalid entries. Try again.'; 
   };
@@ -22,6 +30,21 @@ const isValidThings = (name, email, password, role) => {
   return undefined;
 };
 
+const isValidLogin = async (email, password) => {
+  const userEmail = await user.findEmail(email);
+  const userPassword = await user.findPassword(password);
+
+  if(!email || !password) {
+    return 'All fields must be filled';
+  }
+
+  if(!userEmail || !userPassword) {
+    return 'Incorrect username or password';
+  }
+
+  return undefined;
+};
+
 const create = async (name, email, password) => {
   const findUser = await user.findEmail(email);
   if (findUser) {
@@ -34,6 +57,16 @@ const create = async (name, email, password) => {
   return await user.create(name, email, password);
 };
 
+const login = async (email, password) => {
+  const notValid = await isValidLogin(email, password);
+  if(notValid){
+    throw new Error(notValid);
+  }
+  const token = jwt.sign({ email, password}, secret, jwtConfig);
+  return token;
+};
+
 module.exports = {
   create,
+  login,
 };
