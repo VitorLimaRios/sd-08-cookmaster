@@ -1,6 +1,7 @@
 const express = require('express');
 const loginController = require('../controllers/login');
 const usersController = require('../controllers/user');
+const recipesController = require('../controllers/recipe');
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.get('/', (request, response) => {
 
 app.use('/users', usersController);
 app.use('/login', loginController);
+app.use('/recipes', recipesController);
 
 module.exports = app;
