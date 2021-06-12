@@ -1,9 +1,9 @@
 const validator = require('email-validator');
-const users = require('../models/user');
+const user = require('../models/user');
 
 const BAD_REQUEST = 400;
-const CONFLIT = 409;
-const INVALID_ENTRIES = {
+const CONFLICT = 409;
+const INVALID = {
   'message': 'Invalid entries. Try again.'
 };
 const EMAIL_EXISTS = {
@@ -12,9 +12,9 @@ const EMAIL_EXISTS = {
 
 const validateUsers = async (req, res, next) => {
   const { name, email, password } = req.body;
-  if (!name || !email || !password) return res.status(BAD_REQUEST).json(INVALID_ENTRIES);
-  if (!validator.validate(email)) return res.status(BAD_REQUEST).json(INVALID_ENTRIES);
-  if (await users.findEmail(email)) return res.status(CONFLIT).json(EMAIL_EXISTS);
+  if (!name || !email || !password) return res.status(BAD_REQUEST).json(INVALID);
+  if (!validator.validate(email)) return res.status(BAD_REQUEST).json(INVALID);
+  if (await user.findEmail(email)) return res.status(CONFLICT).json(EMAIL_EXISTS);
   next();
 };
 
