@@ -10,6 +10,13 @@ async function createUser(name, password, email){
   return {user: data.ops[0]};
 }
 
+async function checkLogin(email){
+  const checkLogin = await connection()
+    .then((db) => db.collection('users').findOne({email: email}));
+  if(!checkLogin) return null;
+  return checkLogin;
+}
+
 module.exports = {
-  createUser
+  createUser, checkLogin
 };

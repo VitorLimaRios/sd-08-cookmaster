@@ -4,6 +4,12 @@ const checkFields = (name, password, email) => {
   }
 };
 
+const checkLoginFields = (email, password) => {
+  if (!email || !password){
+    throw new Error ('All fields must be filled');
+  }
+};
+
 module.exports = {
-  checkFields
+  checkFields, checkLoginFields
 };

@@ -6,6 +6,12 @@ async function createUser(name, password, email){
   return data;
 }
 
+async function userLogin(email, password){
+  const data = await users.checkLogin(email, password);
+  if(!data) throw new Error('Incorrect username or password');
+  return data;
+}
+
 module.exports = {
-  createUser
+  createUser, userLogin
 };

@@ -1,7 +1,12 @@
 const users = require('../services/userService');
-const {conflict, badRequest, created} = require('../services/responseType');
-const { checkFields } = require('../middleware/checkFields');
-const { checkEmail } = require('../middleware/checkEmail');
+const {
+  conflict,
+  badRequest,
+  created,
+  unauthorized,
+  success} = require('../services/responseType');
+const { checkFields, checkLoginFields } = require('../middleware/checkFields');
+const { checkEmail, checkLoginEmail } = require('../middleware/checkEmail');
 
 const createUser = async (req, res) => {
   const { name, password, email }  = req.body;
@@ -19,6 +24,18 @@ const createUser = async (req, res) => {
   
 };
 
+const userLogin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    checkLoginFields(email, password);
+    checkLoginEmail(email);
+    const data = await users.userLogin(email, password);
+    res.status(success).json(console.log(data));
+  } catch (error) {
+    res.status(unauthorized).json({message: error.message});
+  }
+};
+
 module.exports = {
-  createUser
+  createUser, userLogin
 };
