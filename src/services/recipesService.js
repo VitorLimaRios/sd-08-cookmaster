@@ -85,10 +85,20 @@ const deleteRecipesServices = async (id) => {
   };
 };
 
+const addImageServices = async (id, image) => {
+  const response = await model.addImage({ id, image });
+
+  return {
+    statusCode: 200,
+    json: response,
+  };
+};
+
 module.exports = {
   addRecipesServices,
   getAllRecipesService,
   getRecipeIdServices,
   updateRecipeServices,
-  deleteRecipesServices
+  deleteRecipesServices,
+  addImageServices
 };
