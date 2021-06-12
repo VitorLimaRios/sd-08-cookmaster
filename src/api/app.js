@@ -26,6 +26,8 @@ app.route('/recipes')
 
 app.route('/recipes/:id')
   .get(controllerRecipe.getRecipeId)
-  .put(middlewares.validateJWT, middlewares.validateUser, controllerRecipe.updateRecipe);
+  .put(middlewares.validateJWT, middlewares.validateUser, controllerRecipe.updateRecipe)
+  .delete(middlewares.validateJWT, middlewares.validateUser,
+    controllerRecipe.deleteRecipe);
 
 module.exports = app;

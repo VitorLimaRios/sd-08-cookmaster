@@ -19,7 +19,7 @@ const validateUser = async (req, res, next) => {
     });
   } catch (error) {
     res.status(ERRO_401).json({
-      message: 'Erro ao procurar usuário',
+      message: 'Receita não encontrada para exclusão',
     });
   }
 };

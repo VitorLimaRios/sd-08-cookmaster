@@ -76,9 +76,19 @@ const updateRecipeServices = async ({ name, ingredients, preparation, id }) => {
   };
 };
 
+const deleteRecipesServices = async (id) => {
+  await model.deleteRecipe(id);
+
+  return {
+    statusCode: 204,
+    json: null,
+  };
+};
+
 module.exports = {
   addRecipesServices,
   getAllRecipesService,
   getRecipeIdServices,
-  updateRecipeServices
+  updateRecipeServices,
+  deleteRecipesServices
 };
