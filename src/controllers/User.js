@@ -23,7 +23,7 @@ const login = rescue(async (req, res, next) => {
 
   const jwtConfig = { expiresIn: '12h', algorithm: 'HS256' };
 
-  const data = { name: user.name, email };
+  const data = { name: user.name, email, id: user._id };
 
   const token = jwt.sign({ data }, secret, jwtConfig);
 
@@ -33,4 +33,5 @@ const login = rescue(async (req, res, next) => {
 module.exports = {
   create,
   login,
+  secret,
 };

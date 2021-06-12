@@ -2,6 +2,7 @@ const express = require('express');
 const middlewares = require('../middlewares');
 const users = require('../routes/users');
 const userController = require('../controllers/User');
+const recipes = require('../routes/recipes');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,8 @@ app.get('/', (request, response) => {
 app.use('/users', users);
 
 app.post('/login', middlewares.loginValidation, userController.login);
+
+app.use('/recipes', recipes);
 
 app.use(middlewares.error);
 
