@@ -10,6 +10,7 @@ Router.post('/login', user.login);
 
 Router.post('/recipes', auth, recipes.create);
 Router.get('/recipes', recipes.getAll);
+Router.get('/recipes/:id', recipes.getRecipeById);
 
 
 

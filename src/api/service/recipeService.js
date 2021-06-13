@@ -1,7 +1,6 @@
 const recipes = require('../Models/recipesModel');
 
 
-
 const isValidRecipe = (name, ingredients, preparation) => {
   if(!name || !ingredients || !preparation) {
     return 'Invalid entries. Try again.';
@@ -22,7 +21,17 @@ const getAll = async () => {
   return existingProducts;
 };
 
+const getById = async (id) => {
+  const recipeId = await recipes.getById(id);
+  if(recipeId === null) {
+    throw new Error('recipe not found');
+  }
+  // console.log(productId);
+  return recipeId;
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  getById
 };

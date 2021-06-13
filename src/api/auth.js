@@ -16,7 +16,6 @@ const recipesAuth = async (req, res, next) => {
     return res.status(INVALID_TOKEN).json({ message: 'Invalid token'});
   }
   
-  // next();
   try {
     const decoded = jwt.verify(token, secret);
     // console.log(decoded);
@@ -32,7 +31,6 @@ const recipesAuth = async (req, res, next) => {
 
     next();
   } catch(e) {
-    // console.log(e);
     return res.status(INVALID).json({message: e.message});
   };
 };
