@@ -32,11 +32,11 @@ const exclude = async (id) => {
   return recipe;
 };
 
-const updateImage = async (id, imagePath) => {
+const updateImage = async (id, image) => {
   connection().then ((db) => db.collection('recipes')
     .updateOne(
       { _id: ObjectId(`${id}`) },
-      { $set: { imagePath } }
+      { $set: { image } }
     )
   );
   const updatedRecipe = await getOne(id);
