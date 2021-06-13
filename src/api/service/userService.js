@@ -63,6 +63,7 @@ const login = async (email, password) => {
     throw new Error(notValid);
   }
   const token = jwt.sign({ email, password}, secret, jwtConfig);
+  // console.log(token);
   return token;
 };
 
