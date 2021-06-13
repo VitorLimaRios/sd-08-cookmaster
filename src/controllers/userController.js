@@ -30,7 +30,7 @@ const userLogin = async (req, res) => {
     checkLoginFields(email, password);
     checkLoginEmail(email);
     const data = await users.userLogin(email, password);
-    res.status(success).json(console.log(data));
+    res.status(success).json({token: data});
   } catch (error) {
     res.status(unauthorized).json({message: error.message});
   }

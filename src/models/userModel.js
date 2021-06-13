@@ -16,10 +16,10 @@ async function createUser(name, password, email){
 }
 
 async function checkLogin(email, password){
-  const checkLogin = await connection()
+  const data = await connection()
     .then((db) => db.collection('users').findOne({email: email}));
-  if(!checkLogin || checkLogin.password !== password) return null;
-  return checkLogin;
+  if(!data || data.password !== password) return null;
+  return data;
 }
 
 module.exports = {

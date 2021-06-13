@@ -1,4 +1,5 @@
 const users = require('../models/userModel');
+const { returnToken }  = require('../api/auth');
 
 async function createUser(name, password, email){
   const data = await users.createUser(name, password, email);
@@ -9,7 +10,7 @@ async function createUser(name, password, email){
 async function userLogin(email, password){
   const data = await users.checkLogin(email, password);
   if(!data) throw new Error('Incorrect username or password');
-  return data;
+  return returnToken(email, password);
 }
 
 module.exports = {
