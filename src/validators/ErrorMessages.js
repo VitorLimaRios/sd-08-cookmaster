@@ -10,4 +10,5 @@ module.exports = {
   entriesNotFound: 'All fields must be filled',
   notUnique: 'Email already registered',
   loginInvalid: 'Incorrect username or password',
+  errorJWT: 'jwt malformed',
 };

@@ -33,6 +33,17 @@ module.exports = {
     const token = JWT.sign({ data: user }, SECRET, JWTConfig);
     return { code: msg.status.ok, token };
   },
+  verifyToken: async (token) => {
+    if (!token) {
+      return { code: msg.status.unauthorized, message: msg.errorJWT };
+    }
+    try {
+      const decoded = JWT.verify(token, SECRET);
+      return decoded.data;
+    } catch (err) {
+      return { code: msg.status.unauthorized, message: msg.errorJWT };
+    }
+  },
   addUser: async (entries) => {
     const { _id, name, email, role } = await User.save(entries);
     return {
