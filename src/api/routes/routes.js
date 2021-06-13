@@ -6,7 +6,11 @@ const Router = express.Router();
 
 Router.post('/users', user.createUser);
 Router.post('/login', user.login);
+
+
 Router.post('/recipes', auth, recipes.create);
+Router.get('/recipes', recipes.getAll);
+
 
 
 module.exports = Router;

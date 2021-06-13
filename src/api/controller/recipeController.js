@@ -1,8 +1,9 @@
 const service = require('../service/recipeService');
-// const auth = require('../auth')
+const rescue = require('express-rescue');
 
 
 const CREATED = 201;
+const OK = 200;
 const NOT_VALID = 400;
 
 const create = async (req, res) => {
@@ -18,6 +19,12 @@ const create = async (req, res) => {
   }
 };
 
+const getAll = rescue(async (_req, res) => {
+  const recipes = await service.getAll();
+  res.status(OK).json(recipes);
+});
+
 module.exports = {
   create,
+  getAll,
 };

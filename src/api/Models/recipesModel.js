@@ -15,10 +15,15 @@ const create = async (name, ingredients, preparation, userId) =>{
   } };
 };
 
-// const findEmail = (email) =>
-//   connection().then((db) => db.collection('recipes').findOne({ email }));
+const getAll = async () => {
+  const db = await connection();
+  const recipes = await db.collection('recipes').find().toArray();
+  // console.log(recipes);
+  if (recipes) return recipes;
+};
+
 
 module.exports ={
   create,
-  // findEmail,
+  getAll,
 };
