@@ -7,7 +7,7 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-mongoose.connect(process.env.DATABASELOCAL, OPTIONS);
+mongoose.connect(process.env.DATABASE, OPTIONS);
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (error) => {
   console.log('Erro: ', error.message);
