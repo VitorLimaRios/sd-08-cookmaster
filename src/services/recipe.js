@@ -1,5 +1,7 @@
 const usersController = require('../controllers/user');
 const recipe = require('../models/recipe');
+//const axios =require('axios');
+//const fs = require('fs');
 
 const OK = 200;
 const CREATED = 201;
@@ -60,10 +62,25 @@ const exclude = async (req, res) => {
   }
 };
 
+const upload = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { filename } = req.file;
+    const imagePath = `localhost:3000/images/${filename}`;
+    const updatedRecipe = await recipe.updateImage(id, imagePath);
+    res.status(OK).json(updatedRecipe);
+  } catch (err) {
+    res.status(UNAUTHORIZED).json({ 'message': 'deu ruim' });
+  }
+  
+};
+
 module.exports = {
   post,
   update,
   exclude,
   getAll,
   getOne,
+  upload,
 };

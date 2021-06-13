@@ -32,10 +32,22 @@ const exclude = async (id) => {
   return recipe;
 };
 
+const updateImage = async (id, imagePath) => {
+  connection().then ((db) => db.collection('recipes')
+    .updateOne(
+      { _id: ObjectId(`${id}`) },
+      { $set: { imagePath } }
+    )
+  );
+  const updatedRecipe = await getOne(id);
+  return updatedRecipe;
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
   update,
+  updateImage,
   exclude,
 };
