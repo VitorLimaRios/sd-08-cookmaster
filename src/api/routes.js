@@ -1,8 +1,12 @@
 const express = require('express');
 const user = require('./controllers/userController');
-const Router = express.Router();
+const recipe = require('./controllers/recipeController');
+const tokenValidator = require('./validateJWT');
+const router = express.Router();
 
-Router.post('/users', user.createUser);
-Router.post('/login', user.doLogin);
+router.post('/users', user.createUser);
+router.post('/login', user.doLogin);
+router.post('/recipes', tokenValidator, recipe.create);
+router.get('/recipes', recipe.getAll);
 
-module.exports = Router;
+module.exports = router;

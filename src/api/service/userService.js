@@ -29,8 +29,6 @@ const isValid = (name, email, password) => {
 const isValidLogin = async (email, password) => {
   const emailLogin = await user.findByEmail(email);
 
-  console.log(emailLogin);
-
   if(!email || !password) {
     return 'All fields must be filled';
   }
