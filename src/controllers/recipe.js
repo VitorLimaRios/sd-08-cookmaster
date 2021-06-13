@@ -9,5 +9,6 @@ recipesController.post('/', validateToken, validateRecipe, recipes.post);
 recipesController.get('/', recipes.getAll);
 recipesController.get('/:id', recipes.getOne);
 recipesController.put('/:id', validateToken, validateRecipe, recipes.update);
+recipesController.delete('/:id', validateToken, recipes.exclude);
 
 module.exports = recipesController;

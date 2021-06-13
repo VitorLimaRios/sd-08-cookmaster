@@ -3,8 +3,9 @@ const recipe = require('../models/recipe');
 
 const OK = 200;
 const CREATED = 201;
-const NOT_FOUND = 404;
+const NO_CONTENT = 204;
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 
 const post = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -43,9 +44,26 @@ const update = async (req, res) => {
   }
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  const { role, userId } = req;
+
+  try {
+    const currentRecipe = await recipe.getOne(id);
+    console.log(currentRecipe);
+    if (String(userId) != String(currentRecipe.userId) && role != 'admin')
+      throw new Error;
+    await recipe.exclude(id);
+    res.status(NO_CONTENT).send(null);
+  } catch (err) {
+    res.status(UNAUTHORIZED).json({ 'message': 'deu ruim' });
+  }
+};
+
 module.exports = {
   post,
   update,
+  exclude,
   getAll,
   getOne,
 };
