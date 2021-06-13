@@ -1,0 +1,37 @@
+const connection = require('./connection');
+const { ObjectId } = require('mongodb');
+
+class modelDefault {
+  constructor() {
+    this._conn = connection;
+
+    this.create = this.create.bind(this);
+    this.dropDataBase = this.dropDataBase.bind(this);
+    this.dropCollection = this.dropCollection.bind(this);
+  }
+
+  async dropDataBase() {
+    const result = await this._conn().then((db) => db.dropDatabase());
+    return result;
+  }
+
+  async dropCollection(nameCollection) {
+    const result = await this._conn()
+      .then((db) => db.dropCollection(nameCollection));
+    return result;
+  }
+
+  async create(nameCollection, newDocument) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(nameCollection));
+      const getResult = await getCollection.insertOne(newDocument);
+      return getResult.ops[0];
+    }catch(err) {
+      console.error(' --> Default create: ', err.message);
+      return err;
+    }
+  }
+}
+
+module.exports = modelDefault;
