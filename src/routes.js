@@ -15,5 +15,6 @@ router.post(
   RecipesValidator.addRecipes,
   RecipesController.addRecipe,
 );
+router.get('/recipes', RecipesController.list);
 
 module.exports = router;

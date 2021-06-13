@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const modelSchema = new mongoose.Schema({
-  name: String,
-  ingredients: String,
-  preparation: String,
-  userId: String,
-},{ versionKey: false });
+const modelSchema = new mongoose.Schema(
+  {
+    name: String,
+    ingredients: String,
+    preparation: String,
+    userId: String,
+  },
+  { versionKey: false },
+);
 
 const modelName = 'Recipe';
 
@@ -21,5 +24,8 @@ module.exports = {
   save: async (recipe) => {
     const newRecipe = new Recipe(recipe);
     return await newRecipe.save();
+  },
+  getRecipes: async () => {
+    return await Recipe.find();
   },
 };

@@ -1,6 +1,7 @@
 const RecipesService = require('../services/RecipesService');
 const UserService = require('../services/UserService');
 const User = require('../models/User');
+const Recipe = require('../models/Recipe');
 const msg = require('../validators/ErrorMessages');
 module.exports = {
   addRecipe: async (req, res) => {
@@ -19,5 +20,9 @@ module.exports = {
       preparation,
     );
     res.status(result.code).json({ recipe: result.recipe });
+  },
+  list: async (req, res) => {
+    const recipes = await Recipe.getRecipes();
+    res.status(msg.status.ok).json(recipes);
   },
 };
