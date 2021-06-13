@@ -11,14 +11,24 @@ class modelDefault {
   }
 
   async dropDataBase() {
-    const result = await this._conn().then((db) => db.dropDatabase());
-    return result;
+    try {
+      const result = await this._conn().then((db) => db.dropDatabase());
+      return result;
+    } catch (err) {
+      console.error(' --> Default dropDataBase: ', err.message);
+      return err;
+    }
   }
 
   async dropCollection(nameCollection) {
-    const result = await this._conn()
-      .then((db) => db.dropCollection(nameCollection));
-    return result;
+    try{
+      const result = await this._conn()
+        .then((db) => db.dropCollection(nameCollection));
+      return result;
+    } catch (err) {
+      console.error(' --> Default dropCollection: ', err.message);
+      return err;
+    }
   }
 
   async create(nameCollection, newDocument) {
