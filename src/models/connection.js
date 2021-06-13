@@ -13,7 +13,7 @@ const connectionMongo = async () => {
     return dbSchema;
   }catch (err) {
     console.error(err.message);
-    return process.exit(1);
+    return err;
   }
 };
 
