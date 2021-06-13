@@ -26,7 +26,6 @@ module.exports = async (req, res, next) => {
   } catch (err) {
     // return res.status(invalid).json({ 'message': 'jwt malformed' });
   }
-  console.log('as');
   next();
 };
 

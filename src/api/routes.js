@@ -8,5 +8,6 @@ router.post('/users', user.createUser);
 router.post('/login', user.doLogin);
 router.post('/recipes', tokenValidator, recipe.create);
 router.get('/recipes', recipe.getAll);
+router.get('/recipes/:id', recipe.getRecipeById);
 
 module.exports = router;
