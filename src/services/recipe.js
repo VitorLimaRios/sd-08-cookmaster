@@ -67,7 +67,7 @@ const upload = async (req, res) => {
 
   try {
     const { filename } = req.file;
-    const imagePath = `localhost:3000/images/${filename}`;
+    const imagePath = `localhost:3000/src/uploads/${filename}`;
     const updatedRecipe = await recipe.updateImage(id, imagePath);
     res.status(OK).json(updatedRecipe);
   } catch (err) {
