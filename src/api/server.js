@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
 const OPTIONS = {
@@ -7,7 +6,7 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-mongoose.connect(process.env.DATABASE, OPTIONS);
+mongoose.connect('mongodb://mongodb:27017/Cookmaster', OPTIONS);
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (error) => {
   console.log('Erro: ', error.message);
@@ -15,6 +14,6 @@ mongoose.connection.on('error', (error) => {
 
 const app = require('./app');
 
-const PORT = process.env.PORT;
+const PORT = 3000;
 
 app.listen(PORT, () => console.log(`conectado na porta ${PORT}`));
