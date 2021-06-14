@@ -38,7 +38,7 @@ const generateToken = async (user) => {
   if (error) return { status: 401, message: error.details[0].message };
   const findEmail = await validEmail(user.email);
   if (findEmail === null) {
-    return { status: 401, message: 'Incorrect username or password' }
+    return { status: 401, message: 'Incorrect username or password' };
   };
   const findPassword = await validPassword(user.password);
   let bool = true;
