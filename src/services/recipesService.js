@@ -32,7 +32,8 @@ const getRecipes = async () => {
 
 const findRecipes = async (recipeID) => {
   const result = await recipesModel.findRecipes(recipeID);
-  if (!result) return { code: NOT_FOUND, message: { message: 'recipe not found' } };
+  if (!result || result.error)
+    return { code: NOT_FOUND, message: { message: 'recipe not found' } };
   return { code: OK, message: result };
 };
 
