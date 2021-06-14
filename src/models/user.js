@@ -18,12 +18,12 @@ const create = saveMe(async ({ name, email, password, role = 'user'}) => {
   return { id: insertedId, name, email, password, role };
 });
 
-const getByEmail = async (email) => {
+const getByEmail = saveMe(async (email) => {
   const db = await connection();
   const result = await db.collection('users').findOne({ email });
   if (!result) return null;
   return serialize(result);
-};
+});
 
 module.exports = {
   create,

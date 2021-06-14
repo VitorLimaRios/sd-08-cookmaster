@@ -3,7 +3,10 @@ const httpStatusCodes = require('../data/httpStatusCodes');
 const ERRORS = {
   invalid_data: httpStatusCodes.BAD_REQUEST,
   conflict: httpStatusCodes.CONFLICT,
-  invalid_login: httpStatusCodes.UNAUTHORIZED
+  invalid_login: httpStatusCodes.UNAUTHORIZED,
+  missing_token: httpStatusCodes.UNAUTHORIZED,
+  invalid_token: httpStatusCodes.UNAUTHORIZED,
+  invalid_recipe: httpStatusCodes.BAD_REQUEST
 };
 
 const INTERNAL_ERROR = 500;
