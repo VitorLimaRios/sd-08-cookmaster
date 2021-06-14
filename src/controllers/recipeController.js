@@ -59,6 +59,12 @@ const deleteRecipe = async(req, res) => {
     return res.status(internalServerError).json({message: error.message});
   }
 };
+
+const upload = async(req, res) => {
+  const { id } = req. params;
+  const { filename } = req.file;
+  console.log(id, filename);
+};
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe
+  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, upload
 };
