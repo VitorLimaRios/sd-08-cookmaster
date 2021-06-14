@@ -1,6 +1,8 @@
 const express = require('express');
 const userController = require('../controllers/userController');
+const recipesController = require('../controllers/recipesController');
 const auth = require('../middlewares/auth');
+const tokenValidation = require('../middlewares/tokenValidation');
 
 const app = express();
 
@@ -9,6 +11,8 @@ app.use(express.json());
 app.post('/users', userController.createUser);
 
 app.post('/login', auth);
+
+app.post('/recipes', tokenValidation, recipesController.createRecipes);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
