@@ -439,4 +439,33 @@ describe('Test Init', () => {
       });
     });
   });
+
+  describe('GET /recipes', () => {
+    describe('4 - When the list of recipes is requested', async () => {
+      before(async () => {
+        response = await chai.request(server)
+          .get('/recipes');
+      });
+
+      it('returns status code "200"', () => {
+        expect(response).to.have.status(200);
+      });
+
+      it('returns an array in the body', () => {
+        expect(response.body).to.be.an('array');
+      });
+
+      it('the response array is a list of recipe objects', () => {
+        expect(response.body).to.be.deep.equals([
+          {
+            _id: `${response.body[0]._id}`,
+            ingredients: "water",
+            name: "ice",
+            preparation: "freeze the water",
+            userId: `${response.body[0].userId}`,
+          }
+        ]);
+      });
+    });
+  });
 });

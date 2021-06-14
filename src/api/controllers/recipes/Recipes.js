@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
 const Recipe = require('../../services/recipes/Recipes');
-const { ERRORS, STATUS_201 } = require('../../utils/consts');
+const { ERRORS, STATUS_201, STATUS_200 } = require('../../utils/consts');
 const JWTValidation = require('../../utils/JWTValidation');
 
 const create = rescue(async (req, res) => {
@@ -15,6 +15,12 @@ const create = rescue(async (req, res) => {
   return res.status(STATUS_201).json({ recipe: newRecipe });
 });
 
+const getAll = rescue(async (_req, res) => {
+  const recipesList = await Recipe.getAll();
+  return res.status(STATUS_200).json(recipesList);
+});
+
 module.exports = {
   create,
+  getAll,
 };

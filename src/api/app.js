@@ -22,5 +22,6 @@ app.post('/login', validateLoginMiddleware, User.login);
 
 //Recipes
 app.post('/recipes', validateCreateRecipeMiddleware, Recipe.create);
+app.get('/recipes', Recipe.getAll);
 
 module.exports = app;
