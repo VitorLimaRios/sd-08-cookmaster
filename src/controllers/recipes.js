@@ -42,9 +42,19 @@ const updateRecipe = (req, res) => {
     .catch(err => anError(err, res));
 };
 
+const deleteRecipe = (req, res) => {
+  const {id} = req.params;
+  const token = req.headers.authorization;
+
+  recipesService.deleteRecipe(token, id)
+    .then((response) => res.status(code.NO_CONTENT).json(response))
+    .catch((err) => anError(err, res));
+};
+
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
   updateRecipe,
+  deleteRecipe,
 };

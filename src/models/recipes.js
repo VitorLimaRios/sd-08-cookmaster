@@ -19,9 +19,13 @@ const updateRecipe = (recipe, id) => connection()
       {$set: recipe}
     ));
 
+const deleteRecipe = (id) => connection()
+  .then((db) => db.collection(COLLECTION_NAME).deleteOne({_id: ObjectId(id)}));
+
 module.exports = {
   readRecipes,
   readRecipesById,
   createRecipe,
   updateRecipe,
+  deleteRecipe,
 };

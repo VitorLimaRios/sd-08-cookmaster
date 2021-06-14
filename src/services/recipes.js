@@ -47,7 +47,7 @@ const updateRecipe = async (token, recipe, id) => {
   const { data } = jwt.verify(token, secret);
   const recipeExists = await recipesModel.readRecipesById(id);
 
-  validations.mayRecipeBeUpdated(recipeExists, data);
+  validations.doYouHavePermission(recipeExists, data);
 
   const updated = await recipesModel.updateRecipe(recipe, id);
 
@@ -57,9 +57,21 @@ const updateRecipe = async (token, recipe, id) => {
   };
 };
 
+const deleteRecipe = async (token, id) => {
+  validations.isFalse(ObjectId.isValid(id));
+
+  const { data } = jwt.verify(token, secret);
+  const recipe = await recipesModel.readRecipesById(id);
+
+  validations.doYouHavePermission(recipe, data);
+
+  const deleted = await recipesModel.deleteRecipe(id);
+};
+
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
   updateRecipe,
+  deleteRecipe,
 };

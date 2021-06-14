@@ -86,7 +86,7 @@ const isFalse = (boolean) => {
   }
 };
 
-const mayRecipeBeUpdated = (recipe, data) => {
+const doYouHavePermission = (recipe, data) => {
   isFalse(recipe);
   if(
     data.role !== 'admin' && data._id != recipe.userId
@@ -96,7 +96,7 @@ const mayRecipeBeUpdated = (recipe, data) => {
         {
           
           status: code.UNAUTHORIZED,
-          message: message.recipe_not_found,
+          message: message.unauthorized,
           
         }
       )
@@ -111,5 +111,5 @@ module.exports = {
   loginIsValid,
   recipeBodyRequest,
   isFalse,
-  mayRecipeBeUpdated,
+  doYouHavePermission,
 };
