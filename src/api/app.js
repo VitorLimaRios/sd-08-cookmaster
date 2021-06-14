@@ -2,6 +2,7 @@ const express = require('express');
 
 const usersController = require('../../controllers/users');
 const usersModel = require('../../models/users');
+const middlewares = require('../../middlewares/login');
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/users', usersController.createUser);
+app.post('/login', middlewares.login);
 
 module.exports = app;
