@@ -13,6 +13,12 @@ const create = async (req, res, next) => {
   res.status(httpStatusCodes.CREATED).json({ recipe: result });
 };
 
+const getAll = async (_req, res) => {
+  const result = await RecipeService.getAll();
+  res.json(result);
+};
+
 module.exports = {
-  create
+  create,
+  getAll
 };

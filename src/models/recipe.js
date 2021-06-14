@@ -20,6 +20,12 @@ const create = saveMe(async ({ name, ingredients, preparation, userId }) => {
   };
 });
 
+const getAll = saveMe(async () => {
+  const db = await connection();
+  return db.collection('recipes').find().toArray();
+});
+
 module.exports = {
-  create
+  create,
+  getAll
 };

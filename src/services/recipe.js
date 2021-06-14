@@ -10,6 +10,9 @@ const create = async (recipe) => {
   return RecipeModel.create(recipe);
 };
 
+const getAll = () => RecipeModel.getAll();
+
 module.exports = {
-  create
+  create,
+  getAll
 };
