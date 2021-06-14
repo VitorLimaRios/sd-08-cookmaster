@@ -10,6 +10,11 @@ async function getAllRecipes(){
   return data;
 }
 
+async function getRecipeById(id){
+  const data = await recipes.getRecipeById(id);
+  return data;
+}
+
 module.exports = {
-  createRecipe, getAllRecipes
+  createRecipe, getAllRecipes, getRecipeById
 };

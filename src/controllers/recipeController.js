@@ -4,7 +4,8 @@ const {
   badRequest, 
   created, 
   success, 
-  internalServerError} = require('../services/responseType');
+  internalServerError,
+  notFound} = require('../services/responseType');
 
 const createRecipe = async(req, res) => {
   const {name, ingredients, preparation } = req.body;
@@ -26,6 +27,16 @@ const getAllRecipes = async(_req, res) => {
     return res.status(internalServerError).json({message: error.message});
   }
 };
+
+const getRecipeById = async(req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await recipes.getRecipeById(id);
+    res.status(success).json(data);
+  } catch (error) {
+    res.status(notFound).json({message: 'recipe not found'});
+  }
+};
 module.exports = {
-  createRecipe, getAllRecipes
+  createRecipe, getAllRecipes, getRecipeById
 };
