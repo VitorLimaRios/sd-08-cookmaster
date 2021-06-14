@@ -1,5 +1,7 @@
 const express = require('express');
 const { validateJWT } = require('../../middlewares/validateJWT');
+const { checkIfUserIsOwnerRecipeOrAdmin } 
+  = require('../../middlewares/checkIfUserIsOwnerRecipeOrAdmin');
 const recipeController = require('../controllers/recipeController');
 
 const router = express.Router();
@@ -7,5 +9,6 @@ const router = express.Router();
 router.post('/', validateJWT, recipeController.create);
 router.get('/', recipeController.getAll);
 router.get('/:id', recipeController.findById);
+router.put('/:id', validateJWT, checkIfUserIsOwnerRecipeOrAdmin, recipeController.update);
 
 module.exports = router;

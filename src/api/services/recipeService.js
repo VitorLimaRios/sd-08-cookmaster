@@ -31,8 +31,15 @@ const findById = async (id) => {
   return recipe;
 };
 
+const update = async (id, newRecipe, userId) => {
+  RecipeValidations.validateRecipeId(id);
+  
+  return await RecipeModel.update(id, newRecipe, userId);
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };
