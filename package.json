@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "start": "node .",
-    "dev": "nodemon .",
-    "dev:testUnit": "mocha  ./test/unit/**/*$NAME*.test.js --exit",
+    "dev": "nodemon ./api/server.js",
+    "test:mocha": "mocha  ./tests/unit/**/*$NAME*.test.js --exit",
     "dev:test": "mocha ./src/integration-tests/**/*$NAME*.{test,spec}.js --exit",
     "dev:test:coverage": "nyc --all npm run dev:test",
     "dev:test:coverage:json": "nyc --all --reporter=json-summary npm run dev:test",
@@ -31,6 +31,7 @@
     "express-rescue": "~1.1.30",
     "frisby": "~2.1.2",
     "jest": "~26.4.1",
+    "joi": "^17.4.0",
     "jsonwebtoken": "~8.5.1",
     "mongodb": "~3.5.9",
     "multer": "~1.4.2",

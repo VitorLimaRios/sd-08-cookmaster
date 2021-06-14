@@ -11,10 +11,9 @@ class User extends ModelDefault{
     this.createUser = this.createUser.bind(this);
   }
 
-  
   async createUser(newUser) {
     try {
-      return this.create(this[nameCollection], newUser);
+      return super.create(this[nameCollection], newUser);
     }catch (err) {
       console.error(' --> User create: ', err.message);
       return err;
@@ -23,9 +22,18 @@ class User extends ModelDefault{
   
   async dropUserCollection() {
     try {
-      return this.dropCollection(this[nameCollection]);
+      return super.dropCollection(this[nameCollection]);
     } catch (err) {
       console.error(' --> User dropUserCollection: ', err.message);
+      return err;
+    }
+  }
+
+  async getUserByKey(getDocument) {
+    try {
+      return super.getByKey(this[nameCollection], getDocument);
+    } catch (err) {
+      console.error(' --> User getUserByKey: ', err.message);
       return err;
     }
   }

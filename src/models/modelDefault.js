@@ -42,6 +42,30 @@ class modelDefault {
       return err;
     }
   }
+
+  async createMany(nameCollection, manyDocument) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(nameCollection));
+      const getResult = await getCollection.insertMany(manyDocument);
+      return getResult.ops;
+    }catch(err) {
+      console.error(' --> Default createMany: ', err.message);
+      return err;
+    }
+  }
+
+  async getByKey(nameCollection, getDocument) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(nameCollection));
+      const getResult = await getCollection.findOne(getDocument);
+      return getResult;
+    } catch(err) {
+      console.error(' --> Default getByKey: ', err.message);
+      return err;
+    }
+  }
 }
 
 module.exports = modelDefault;

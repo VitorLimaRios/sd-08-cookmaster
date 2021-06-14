@@ -1,6 +1,6 @@
-const sinon = require("sinon");
-const { MongoClient } = require("mongodb");
-const { MongoMemoryServer } = require("mongodb-memory-server");
+const sinon = require('sinon');
+const { MongoClient } = require('mongodb');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 class ConnectionMock {
   constructor() {
