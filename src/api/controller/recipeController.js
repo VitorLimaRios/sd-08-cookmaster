@@ -1,6 +1,5 @@
 const service = require('../service/recipeService');
 const rescue = require('express-rescue');
-const model = require('../Models/recipesModel');
 
 
 const CREATED = 201;
@@ -52,7 +51,6 @@ const updatedRecipes = async (req, res) => {
       message: e.message,
     });
   }
-
 };
 
 const excludeRecipe = rescue(async (req, res) => {
@@ -62,6 +60,23 @@ const excludeRecipe = rescue(async (req, res) => {
 });
 
 
+const uploadImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+    const fullPath = `localhost:3000/${path}`;
+  
+    const result = await service.updateImage(id, fullPath);
+  
+    return res.status(OK).json(result);
+  } catch (e) {
+    res.status(Unauthorized).json({
+      message: e.message,
+    });
+  }
+  
+};
+
 
 module.exports = {
   create,
@@ -69,4 +84,5 @@ module.exports = {
   getRecipeById,
   updatedRecipes,
   excludeRecipe,
+  uploadImage,
 };

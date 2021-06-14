@@ -47,10 +47,20 @@ const excludes = async (id) => {
   return recipesId;
 };
 
+const image = async (id, image) => {
+  const db = await connection();
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id)}, {$set: {image}});
+  const recipeImage = await getById(id);
+  return recipeImage;
+};
+  
+
 module.exports ={
   create,
   getAll,
   getById,
   update,
   excludes,
+  image,
 };
