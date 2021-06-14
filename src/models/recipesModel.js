@@ -36,11 +36,23 @@ const findRecipes = async (recipeId) => {
   } catch (error) {
     return { error: error.message };
   }
-  
+};
+
+const updateRecipes = async (recipeId, changes) => {
+  try {
+    const db = await connection();
+    const result = await db.collection(RECIPES)
+      .updateOne({ _id: ObjectId(recipeId)}, { $set: changes });
+    return result;
+
+  } catch (error) {
+    return { error: error.message };
+  }
 };
 
 module.exports = {
   createRecipes,
   getRecipes,
   findRecipes,
+  updateRecipes,
 };
