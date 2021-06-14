@@ -5,6 +5,7 @@ const {
   created,
   unauthorized,
   success} = require('../services/responseType');
+  
 const { checkFields, checkLoginFields } = require('../middleware/checkFields');
 const { checkEmail, checkLoginEmail } = require('../middleware/checkEmail');
 

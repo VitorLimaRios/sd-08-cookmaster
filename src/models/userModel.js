@@ -7,12 +7,13 @@ async function createUser(name, password, email){
   const data = await connection().then((db) => 
     db.collection('users').insertOne({
       name, email, role: 'user', password}));
-  return {user: {
-    name,
-    email,
-    role: 'user',
-    _id: data._id
-  }};
+  return {
+    user: {
+      name,
+      email,
+      role: 'user',
+      _id: data._id
+    }};
 }
 
 async function checkLogin(email, password){
@@ -22,6 +23,12 @@ async function checkLogin(email, password){
   return data;
 }
 
+async function findUser(email){
+  const data = await connection()
+    .then((db) => db.collection('users').findOne({email: email}));
+  return data;
+}
+
 module.exports = {
-  createUser, checkLogin
+  createUser, checkLogin, findUser
 };
