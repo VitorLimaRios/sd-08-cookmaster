@@ -92,7 +92,24 @@ const loginServices = async ({ email, password }) => {
   };
 };
 
+const addAdmin = async ({ name, email, password, role = 'admin' }) => {
+  const response = await model.addUser({ name, email, password, role });
+
+  return {
+    statusCode: 201,
+    json: {
+      user: {
+        name: response.name,
+        email: response.email,
+        role: response.role,
+        _id: response._id
+      },
+    },
+  };
+};
+
 module.exports = {
   addUserService,
   loginServices,
+  addAdmin,
 };

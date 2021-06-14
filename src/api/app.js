@@ -19,6 +19,9 @@ app.get('/', (request, response) => {
 app.route('/users')
   .post(controllerUser.createUser);
 
+app.route('/users/admin')
+  .post(middlewares.validateJWT, middlewares.validateAdmin, controllerUser.createAdmin);
+
 app.route('/login')
   .post(controllerUser.loginUser);
 
