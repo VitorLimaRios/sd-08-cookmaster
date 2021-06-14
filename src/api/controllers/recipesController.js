@@ -1,6 +1,7 @@
 const service = require('../service/recipesService');
 
 const success = 201;
+const success2 = 200;
 const fail = 400;
 
 const createRecipe = async (req, res) => {
@@ -16,6 +17,16 @@ const createRecipe = async (req, res) => {
   }
 };
 
+const getAll = async (_req, res) => {
+  try {
+    const recipes = await service.getAll();
+    res.status(success2).json(recipes);
+  } catch (err) {
+    res.status(fail).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createRecipe,
+  getAll,
 };

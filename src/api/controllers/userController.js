@@ -28,7 +28,6 @@ const createUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log('pqp3');
     const { email, password } = req.body;
 
     const token = await service.login(email, password);

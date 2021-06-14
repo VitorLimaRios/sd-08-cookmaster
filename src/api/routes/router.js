@@ -8,6 +8,8 @@ router.post('/users', userController.createUser);
 
 router.post('/login', userController.login);
 
+router.get('/recipes', recipesController.getAll);
+
 router.post('/recipes', validateJWT, recipesController.createRecipe);
 
 module.exports = router;

@@ -14,7 +14,6 @@ const validate = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
-    console.log('decoded:', decoded);
     const user = await model.findUser(decoded.email);
 
     if (!user) {
