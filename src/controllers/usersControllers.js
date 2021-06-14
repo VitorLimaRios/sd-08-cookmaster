@@ -1,5 +1,5 @@
 const usersServices = require('../services/usersServices');
-const { code, message } = require('../helpers/messages');
+const { code } = require('../helpers/messages');
 
 const createUser = async (req, res) => {
   try {

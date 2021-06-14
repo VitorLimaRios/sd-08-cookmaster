@@ -6,11 +6,17 @@ const secret = 'seusecretdetoken';
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) {
-    return res.status(code.UNAUTHORIZED).json({ message: 'All fields must be filled' });
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user = await usersModel.findUserByEmail(decoded.email);
+    if (!user) return res.status(code.UNAUTHORIZED).json(
+      { message: 'Erro ao procurar usuario do token.' }
+    );
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(code.UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
-  const decoded = jwt.verify(token, secret);
-  next();
 };
 
 module.exports = validateJWT;

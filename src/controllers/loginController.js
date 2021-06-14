@@ -1,5 +1,5 @@
 const loginServices = require('../services/loginServices');
-const { code, message } = require('../helpers/messages');
+const { code } = require('../helpers/messages');
 
 const loginController = async (req, res) => {
   try {
