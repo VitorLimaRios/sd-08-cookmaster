@@ -8,7 +8,8 @@ const {
   getRecipeById, 
   editRecipe, 
   deleteRecipe, 
-  upload} = require('../controllers/recipeController');
+  upload,
+  getImage} = require('../controllers/recipeController');
 const { uploadImage } = require('../middleware/uploadImage');
 
 const app = express();
@@ -32,6 +33,9 @@ app.route('/recipes/:id')
 
 app.route('/recipes/:id/image')
   .put(validateJWT, uploadImage(), upload);
+
+app.route('/images/:filename')
+  .get(getImage);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

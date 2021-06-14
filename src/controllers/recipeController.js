@@ -1,3 +1,4 @@
+const path = require('path');
 const recipes = require('../services/recipeService');
 const { checkRecipesFields } = require('../middleware/checkRecipeFields');
 const { 
@@ -71,6 +72,13 @@ const upload = async(req, res) => {
     res.status(internalServerError).json({message: error.message});
   }
 };
+
+const getImage = async(req, res) => {
+  const { filename } = req.params;
+  const imagePath = path.resolve('src/uploads', filename);
+  return res.status(success).sendFile(imagePath);
+};
+
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, upload
+  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, upload, getImage
 };
