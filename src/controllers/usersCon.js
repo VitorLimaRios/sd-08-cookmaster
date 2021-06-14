@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const middlewares_users = require('../middlewares/usersPost');
+const middlewares_users = require('../middlewares/usersValidation');
 const UsersServices = require('../services/usersSer');
 
 const code = {

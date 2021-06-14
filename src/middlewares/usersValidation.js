@@ -22,13 +22,7 @@ const controlValidation = (name, email, password) => {
   console.log('isNameValid line 20', isValid);
   if(!isValid) return { message: 'Invalid entries. Try again.'};
 
-  return {
-    users: {
-      name,
-      email,
-      password,
-    }
-  };
+  return isValid;
 
 };
 
