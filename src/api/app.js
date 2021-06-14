@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/users', RouterUsers);
+app.use('/', RouterUsers);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
