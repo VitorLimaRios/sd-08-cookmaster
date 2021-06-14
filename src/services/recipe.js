@@ -12,7 +12,10 @@ const create = async (recipe) => {
 
 const getAll = () => RecipeModel.getAll();
 
+const getById = (id) => RecipeModel.getById(id);
+
 module.exports = {
   create,
-  getAll
+  getAll,
+  getById
 };
