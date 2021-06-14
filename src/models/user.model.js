@@ -20,6 +20,13 @@ exports.getById = async (id) => {
   return user;
 };
 
+exports.getByName = (name) => connect().then(db => db.collection('users')
+  .findOne({ name }));
+
+exports.getByEmail = (email) => connect().then(db => db.collection('users')
+  .findOne({ email }));
+
+
 exports.update = async (id, { name, email, password, role }) =>
   connect().then(async (db) => {
     const user = { name, email, password, role };
@@ -32,7 +39,7 @@ exports.update = async (id, { name, email, password, role }) =>
     };
   });
 
-exports.exclude = async (id) =>
-  connect().then(async (db) =>
-    db.collection('users').deleteOne({ _id: ObjectId(id) })
-  );
+exports.exclude = (id) => connect()
+  .then((db) => {
+    db.collection('users').deleteOne({ _id: ObjectId(id) });
+  });
