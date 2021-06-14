@@ -6,7 +6,7 @@ const {
 } = usersModel;
 
 const createUser = async (name, email, password, role) => {
-  const validation = await checkUserData(name, email, password, role);
+  const validation = await checkUserData(name, email, password);
   if (validation.message) return validation;
 
   const roleUser = !role ? 'user' : role;
@@ -23,7 +23,7 @@ const createUser = async (name, email, password, role) => {
   };
 };
 
-const checkUserData = async (name, email, password, role) => {
+const checkUserData = async (name, email, password) => {
   const invalidEntries = { message: 'Invalid entries. Try again.' };
   const emailValidate = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   

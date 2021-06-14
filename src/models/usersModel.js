@@ -9,7 +9,7 @@ const addUser = async (name, email, password, role) => {
 
     return await db
       .collection(NAME_COLLECTION)
-      .insertOne({ user: { name, email, password, role }});
+      .insertOne({ name, email, password, role });
 
   } catch (error) {
     console.log(error.message);
@@ -22,7 +22,7 @@ const findEmail = async (email) => {
     const db = await connection();
     return await db
       .collection(NAME_COLLECTION)
-      .findOne({ 'user.email': email });
+      .findOne({ email });
 
   } catch (error) {
     console.log(error.message);

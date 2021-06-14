@@ -3,9 +3,7 @@ const {
   createUser,
 } = usersServices;
 
-const SUCESS = 200;
 const CREATED = 201;
-const UNPROCESSABLE = 422;
 const BAD = 400;
 const CONFLICT = 409;
 
