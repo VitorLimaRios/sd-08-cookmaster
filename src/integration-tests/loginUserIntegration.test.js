@@ -23,6 +23,12 @@ describe('POST /login', async () => {
   describe('When user is logged in with success', async () => {
     let response;
     before(async () => {
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.insertOne({
+        name: 'exampleName',
+        email: 'example@example.com',
+        password: 'examplePassword'
+      });
 
       response = await chai.request(server)
         .post('/login')
@@ -48,6 +54,12 @@ describe('POST /login', async () => {
   describe('When no password is send in the request', async () => {
     let response;
     before(async () => {
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.insertOne({
+        name: 'exampleName',
+        email: 'example@example.com',
+        password: 'examplePassword'
+      });
 
       response = await chai.request(server)
         .post('/login')
@@ -73,6 +85,12 @@ describe('POST /login', async () => {
   describe('When the password is is not correct', async () => {
     let response;
     before(async () => {
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.insertOne({
+        name: 'exampleName',
+        email: 'example@example.com',
+        password: 'examplePassword'
+      });
 
       response = await chai.request(server)
         .post('/login')

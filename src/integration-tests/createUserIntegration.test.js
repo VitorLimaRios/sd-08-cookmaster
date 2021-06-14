@@ -28,7 +28,7 @@ describe('POST /users', async () => {
         .post('/users')
         .send({
           name: 'exampleName',
-          email: 'example@example.com',
+          email: 'exampleSuccess@example.com',
           password: 'examplePassword'
         });
     });
@@ -77,14 +77,12 @@ describe('POST /users', async () => {
     let response;
 
     before(async () => {
-      // create first user
-      await chai.request(server)
-        .post('/users')
-        .send({
-          name: 'exampleName',
-          email: 'example@example.com',
-          password: 'examplePassword'
-        });
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.insertOne({
+        name: 'exampleName',
+        email: 'example@example.com',
+        password: 'examplePassword'
+      });
 
       response = await chai.request(server)
         .post('/users')

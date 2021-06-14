@@ -2,6 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
 chai.use(chaiHttp);
 
 const server = require('../api/app');
@@ -10,7 +11,7 @@ const { expect } = chai;
 
 let connectionMock;
 
-describe('POST /recipes', async () => {
+describe('PUT /recipes/:id/image', async () => {
   before(async () => {
     connectionMock = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
@@ -20,7 +21,7 @@ describe('POST /recipes', async () => {
     MongoClient.connect.restore();
   });
 
-  describe('When recipe is created with success', () => {
+  describe('When image is uploaded and recipe is updated with success', () => {
     let response;
 
     before(async () => {
@@ -39,30 +40,36 @@ describe('POST /recipes', async () => {
         })
         .then((res) => res.body.token);
 
-      response = await chai.request(server)
+      const recipe = await chai.request(server)
         .post('/recipes')
         .set('authorization', token)
         .send({
           name: 'exampleRecipe',
           ingredients: 'exampleIngredients',
           preparation: 'examplePreparation'
-        });
+        })
+        .then((res) => res.body.recipe);
+
+      response = await chai.request(server)
+        .put(`/recipes/${recipe._id}/image`)
+        .set('authorization', token)
+        .attach('image', fs.readFileSync(`${__dirname}/test.jpeg`), 'test.jpeg');
     });
 
-    it('should return a 201 status code', () => {
-      expect(response).to.have.status(201);
+    it('should return a 200 status code', () => {
+      expect(response).to.have.status(200);
     });
 
     it('should have a body in the response', () => {
       expect(response.body).to.be.an('object');
     });
 
-    it('should have a property "recipe" in the response body', () => {
-      expect(response.body).to.have.property('recipe');
+    it('should have a property "_id" in the response body', () => {
+      expect(response.body).to.have.property('_id');
     });
   });
 
-  describe('When an invalid field is send', () => {
+  describe('When no auth token is send', () => {
     let response;
 
     before(async () => {
@@ -81,26 +88,32 @@ describe('POST /recipes', async () => {
         })
         .then((res) => res.body.token);
 
-      response = await chai.request(server)
+      const recipe = await chai.request(server)
         .post('/recipes')
         .set('authorization', token)
         .send({
           name: 'exampleRecipe',
-          ingredients: '',
+          ingredients: 'exampleIngredients',
           preparation: 'examplePreparation'
-        });
+        })
+        .then((res) => res.body.recipe);
+
+      response = await chai.request(server)
+        .put(`/recipes/${recipe._id}/image`)
+        .set('authorization', '')
+        .attach('image', fs.readFileSync(`${__dirname}/test.jpeg`), 'test.jpeg');
     });
 
-    it('should return a 400 status code', () => {
-      expect(response).to.have.status(400);
+    it('should return a 401 status code', () => {
+      expect(response).to.have.status(401);
     });
 
     it('should have a body with property "message" in the response', () => {
       expect(response.body).to.have.property('message');
     });
 
-    it('should have the message "Invalid entries. Try again."', () => {
-      expect(response.body.message).to.be.equals('Invalid entries. Try again.');
+    it('should have the message "missing auth token"', () => {
+      expect(response.body.message).to.be.equals('missing auth token');
     });
   });
 
@@ -115,14 +128,28 @@ describe('POST /recipes', async () => {
         password: 'examplePassword'
       });
 
-      response = await chai.request(server)
+      const token = await chai.request(server)
+        .post('/login')
+        .send({
+          email: 'example@example.com',
+          password: 'examplePassword'
+        })
+        .then((res) => res.body.token);
+
+      const recipe = await chai.request(server)
         .post('/recipes')
-        .set('authorization', '9999')
+        .set('authorization', token)
         .send({
           name: 'exampleRecipe',
           ingredients: 'exampleIngredients',
           preparation: 'examplePreparation'
-        });
+        })
+        .then((res) => res.body.recipe);
+
+      response = await chai.request(server)
+        .put(`/recipes/${recipe._id}/image`)
+        .set('authorization', '9999')
+        .attach('image', fs.readFileSync(`${__dirname}/test.jpeg`), 'test.jpeg');
     });
 
     it('should return a 401 status code', () => {
@@ -137,6 +164,5 @@ describe('POST /recipes', async () => {
       expect(response.body.message).to.be.equals('jwt malformed');
     });
   });
-
 
 });
