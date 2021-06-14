@@ -41,4 +41,11 @@ module.exports = {
       return { code: msg.status.notFound, message: msg.recipeNotFound };
     }
   },
+  editRecipe: async (id, entries) => {
+    const recipe = await Recipe.findOneAndUpdate(
+      { _id: id },
+      { $set: entries },
+    );
+    return true;
+  },
 };

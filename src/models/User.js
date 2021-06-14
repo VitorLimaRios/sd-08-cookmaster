@@ -32,5 +32,5 @@ module.exports = {
       role: 'user',
     });
     return await newUser.save();
-  },
+  },  
 };

@@ -34,4 +34,32 @@ module.exports = {
       return res.status(recipe.code).json({ message: recipe.message });
     }
   },
+  edit: async (req, res) => {
+    const { id } = req.params;
+    const token = req.headers['authorization'];
+    if (!token) {
+      return res
+        .status(msg.status.unauthorized)
+        .json({ message: msg.tokenMissed });
+    }
+    const data = await UserService.verifyToken(token);
+    if (data.hasOwnProperty('code')) {
+      return res.status(data.code).json({ message: data.message });
+    }
+    const user = await User.findUserByEmail(data.email);
+    if (!user) {
+      return res
+        .status(msg.status.unauthorized)
+        .json({ message: msg.errorJWT });
+    }
+    const recipeEdited = await Recipe.editRecipe(id, req.body);
+    if (recipeEdited) {
+      const result = {
+        _id: id,
+        userId: user._id,
+        ...req.body,
+      };
+      res.status(msg.status.ok).json(result);
+    }
+  },
 };

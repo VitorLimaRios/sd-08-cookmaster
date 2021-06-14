@@ -13,4 +13,5 @@ module.exports = {
   loginInvalid: 'Incorrect username or password',
   errorJWT: 'jwt malformed',
   recipeNotFound: 'recipe not found',
+  tokenMissed: 'missing auth token',
 };
