@@ -64,10 +64,24 @@ const deleteRecipe = async (req, res) => {
   };
 };
 
+const addImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+    console.log('file:', path);
+    const image = `localhost:3000/${path}`;
+    const addThisRecipe = await service.addImage(id, image);
+    res.status(success2).json(addThisRecipe);
+  } catch (err) {
+    res.status(fail).json({ message: 'upload failed' });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAll,
   recipeById,
   updateRecipe,
   deleteRecipe,
+  addImage,
 };
