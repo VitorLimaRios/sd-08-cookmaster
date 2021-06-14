@@ -23,10 +23,8 @@ recipes.get('/:id', recipesController.readRecipeById);
 recipes.post('/', middlewares.verifyToken ,  recipesController.createRecipe);
 recipes.put('/:id', middlewares.verifyToken, recipesController.updateRecipe );
 recipes.delete('/:id', middlewares.verifyToken, recipesController.deleteRecipe);
-
-recipes.put('/:id/image',
-  middlewares.verifyToken,
-  upload.single('image'),
+recipes.put('/:id/image', middlewares.verifyToken, upload.single('image'), 
   recipesController.addImageById);
+
 
 module.exports = recipes;

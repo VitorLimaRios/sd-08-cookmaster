@@ -60,6 +60,7 @@ const addImageById = (req, res) => {
     .then(response => res.status(code.OK).json(response));
 };
 
+
 module.exports = {
   readRecipes,
   readRecipeById,
