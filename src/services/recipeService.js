@@ -12,9 +12,16 @@ async function getAllRecipes(){
 
 async function getRecipeById(id){
   const data = await recipes.getRecipeById(id);
+  if(!data) throw new Error('recipe not found');
+  return data;
+}
+
+async function editRecipe(name, ingredients, preparation, id){
+  const data = await recipes.editRecipe(name, ingredients, preparation, id);
+  console.log('service:' , data);
   return data;
 }
 
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById
+  createRecipe, getAllRecipes, getRecipeById, editRecipe
 };

@@ -25,11 +25,22 @@ async function getAllRecipes(){
 }
 
 async function getRecipeById(id){
+  if(!ObjectId.isValid(id)) return null;
   const data = await connection().then((db) => 
     db.collection('recipes').findOne(new ObjectId(id)));
   return data;
 }
 
+async function editRecipe(name, ingredients, preparation, id){
+  const data = await connection().then((db) => db.collection('recipes').updateOne(
+    {_id: ObjectId(id)},
+    {$set: { name: name, ingredients: ingredients, preparation: preparation}
+    }
+  ));
+  console.log(data);
+  return data;
+}
+
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById
+  createRecipe, getAllRecipes, getRecipeById, editRecipe
 };

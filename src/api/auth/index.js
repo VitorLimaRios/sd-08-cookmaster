@@ -13,12 +13,12 @@ function returnToken(email, password){
 }
 
 async function validateJWT(req, res, next){
+  const token = req.headers['authorization'];
   try {
-    const token = req.headers['authorization'];
-    if(!token) throw new Error('jwt malformed');
-    const { email } = jwt.verify(token, secret);
-    const user = await users.findUser(email);
-    if(!user) throw new Error('Erro ao procurar usuario do token');
+    if(!token) throw new Error('missing auth token');
+    const decoded = jwt.verify(token, secret);
+    const user = await users.findUser(decoded.email);
+    if(!user) throw new Error('jwt malformed');
     req.user = user;
     next();
   } catch (error) {

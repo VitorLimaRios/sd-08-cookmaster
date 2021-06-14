@@ -5,7 +5,8 @@ const { createUser, userLogin } = require('../controllers/userController');
 const { 
   createRecipe,
   getAllRecipes, 
-  getRecipeById } = require('../controllers/recipeController');
+  getRecipeById, 
+  editRecipe } = require('../controllers/recipeController');
 
 const app = express();
 
@@ -22,7 +23,8 @@ app.route('/recipes')
   .get(getAllRecipes);
 
 app.route('/recipes/:id')
-  .get(getRecipeById);
+  .get(getRecipeById)
+  .put(validateJWT, editRecipe);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
