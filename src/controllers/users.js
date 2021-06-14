@@ -1,16 +1,17 @@
 const usersService =  require('../service/users');
 
 const STATUS_201 = 201;
-const STATUS_422 = 422;
+const STATUS_409 = 409;
 
 // CREATE USER
 const create = async (req, res) => {
   const { name, email, password } = req.body;  
   const newUser = await usersService.create(name, email, password);
+  console.log('TESTE NO CONTROLLER', newUser);
   if (newUser) {
     return res.status(STATUS_201).json(newUser);
-  } else { return res.status(STATUS_422).json({      
-    message: 'User already exists',
+  } else { return res.status(STATUS_409).json({      
+    message: 'Email already registered',
   });
   }
 };

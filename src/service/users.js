@@ -4,7 +4,8 @@ const create = async (name, email, password) => {
   const findEmail=  await usersModels.findByEmail(email);
   if (findEmail) return null;
   const newUser = await usersModels.create(name, email, password);
-  return newUser;
+  delete newUser.password;
+  return { user: newUser };
 };
 
 const login = async (email, password) => {
