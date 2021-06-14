@@ -3,7 +3,7 @@ const recipesModels = require('../models/recipesModels');
 const recipesServices = require('../services/recipesServices');
 const validateJWT = require('../auth/validateJWT');
 const validateRecipes = require('../middlewares/recipesValidation');
-const { status } = require('../schema/status');
+const { status, message } = require('../schema/status');
 
 const routes = express.Router();
 
@@ -23,6 +23,18 @@ routes.post('/', validateJWT, validateRecipes, async (req, res) => {
 routes.get('/', async (req, res) => {
   const response = await recipesServices.getAll();
   return res.status(status.OK).json(response);
+});
+
+routes.get('/:id', async (req, res) => {
+  try{
+    const { id } = req.params;
+    const recipeById = await recipesModels.getRecipeById(id);
+    if (!recipeById) return res.status(status.notFound)
+      .json({ message: message.recipeNotFound });
+    res.status(status.OK).json(recipeById);
+  } catch {
+    res.status(status.notFound).json({ message: message.recipeNotFound });
+  }
 });
 
 module.exports = routes;

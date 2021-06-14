@@ -4,6 +4,7 @@ const status = {
   created: 201,
   unauthorized: 401,
   OK: 200,
+  notFound: 404,
 };
 
 const message = {
@@ -12,6 +13,7 @@ const message = {
   allFilled: 'All fields must be filled',
   incorrectFields: 'Incorrect username or password',
   invalidToken: 'jwt malformed',
+  recipeNotFound: 'recipe not found',
 };
 
 module.exports = {
