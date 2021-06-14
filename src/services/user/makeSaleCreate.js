@@ -1,4 +1,4 @@
-const update = require('../models/update');
+const update = require('../../models/update');
 const ZERO = 0;
 const msgError = {err:
     { code: 'stock_problem', 

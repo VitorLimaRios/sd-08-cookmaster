@@ -1,4 +1,4 @@
-const update = require('../models/update');
+const update = require('../../models/update');
 const makeSale = async (id, idList, productObject,quantity) => {
   const index = idList.indexOf(id);
   console.log('################# DELETE SALES  #####################');

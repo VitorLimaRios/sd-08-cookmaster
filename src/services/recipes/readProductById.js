@@ -1,4 +1,4 @@
-const read = require('../models/read');
+const read = require('../../models/read');
 const validateId = require('./validateId');
 const HTTP_OK_STATUS = 200;
 const readProductsById = async (id, res, next) => {

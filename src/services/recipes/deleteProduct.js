@@ -1,4 +1,4 @@
-const deleteDB = require('../models/delete');
+const deleteDB = require('../../models/delete');
 const validateId = require('./validateId');
 const HTTP_OK_STATUS = 200;
 

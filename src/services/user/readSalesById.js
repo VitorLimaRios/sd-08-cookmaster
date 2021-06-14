@@ -1,5 +1,5 @@
-const read = require('../models/read');
-const validateId = require('./validateIdSync');
+const read = require('../../models/read');
+const validateId = require('../../validate/validateId');
 const HTTP_OK_STATUS = 200;
 const ERRO = 404;
 const msgError = {err:

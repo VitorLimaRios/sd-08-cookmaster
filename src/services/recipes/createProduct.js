@@ -1,7 +1,7 @@
-const createDB = require('../models/create');
-const validateName = require('./validatesName');
-const validateQuantity = require('./validateQuantity');
-const readDB = require('../models/read');
+const createDB = require('../../models/create');
+const validateName = require('../../validate/validatesName');
+const validateQuantity = require('../../validate/validateQuantity');
+const readDB = require('../../models/read');
 const HTTP_OK_STATUS = 201;
 
 const createProduct = async (name , quantity, res , next)=>{

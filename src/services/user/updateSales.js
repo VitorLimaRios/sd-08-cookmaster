@@ -1,6 +1,6 @@
-const updateDB = require('../models/update');
-const validateQuantity = require('./validateQuantity');
-const read = require('../models/read');
+const updateDB = require('../../models/update');
+const validateQuantity = require('../../validate/validateQuantity');
+const read = require('../../models/read');
 const HTTP_OK_STATUS = 200;
 const msgError = {err:
   { code: 'invalid_data', 

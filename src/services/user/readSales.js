@@ -1,4 +1,4 @@
-const read = require('../models/read');
+const read = require('../../models/read');
 const HTTP_OK_STATUS = 200;
 const readSales = async (_req, res, next) => {
   let result = {};
