@@ -1,14 +1,24 @@
-const { STATUS_CODES } = require('http');
+const message = require('./msg');
+const CODE = require('./code');
 
 class HTTPError extends Error {
-  constructor(code, message, nameFunction) {
-    super(`${ message } -- ${ STATUS_CODES[code] } -- ${ nameFunction }`);
+  /**
+   * @param {string} [msgCode]
+   * [pr-inv]
+   * [email-exist]
+   */
+
+  constructor(message, nameFunction, msgCode) {
+    super(`${message} -- ${nameFunction}`);
     this.name = this.constructor.name;
-    this.code = code;
+    this.code = CODE.internalError;
+    this.msgCode = msgCode;
   }
 
-  responseError(messageCustom) {
-    return { message: messageCustom, code: this.code };
+  responseError(msgCustom) {
+    return (
+      message[this.msgCode] || { err: { message: msgCustom }, code: this.code }
+    );
   }
 
   responseNull() {
@@ -17,7 +27,6 @@ class HTTPError extends Error {
 }
 
 module.exports = HTTPError;
-
 
 // -------------------------------------------------------------------
 // https://javascript.info/custom-errors

@@ -1,18 +1,18 @@
-const rescue = require('express-rescue');
 const ServicesUsers = require('../services/servicesUsers');
+const CODE = require('../error/code');
 
-class ControllerUsers{
+class ControllerUsers {
   async create(req, res, next) {
     const servicesUsers = new ServicesUsers();
-    try{
+    try {
       const user = req.body;
       const result = await servicesUsers.serviceCreateUser(user, false);
-      if (result.message) return next(result);
-      return result;
-    }catch(err) {
+      if (result.err) return next(result);
+      return res.status(CODE.created).json(result);
+    } catch (err) {
       next(err);
-    }  
-  };
+    }
+  }
 }
 
 module.exports = ControllerUsers;

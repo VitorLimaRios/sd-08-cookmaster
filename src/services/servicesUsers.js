@@ -7,7 +7,8 @@ class ServicesUsers {
     this._modelUser = new ModelUser();
     this.serviceCreateUser = this.serviceCreateUser.bind(this);
     this._checkForDuplicateEmail = this._checkForDuplicateEmail.bind(this);
-    this._checkingNewUserInformation = this._checkingNewUserInformation.bind(this);
+    this._checkingNewUserInformation =
+      this._checkingNewUserInformation.bind(this);
   }
 
   checkForAdmin(role) {
@@ -16,39 +17,67 @@ class ServicesUsers {
 
   async _checkForDuplicateEmail(email) {
     const resultCheck = await this._modelUser.getUserByKey(email);
-    return resultCheck ? false : true;
+    return resultCheck ? true : false;
   }
-
 
   _serviceSchema(checkDocument) {
     const result = schemaUser(checkDocument);
-    return result.error ? result.error : result.value;
+    return result === 'pass' ? 'pass' : result;
   }
 
   async _checkingNewUserInformation(newUserData, authorization) {
     const { email } = newUserData;
-    console.log(this._serviceSchema(newUserData));
     const check = {
-      theEmailDoesNotExist: await this._checkForDuplicateEmail({ email }),
-      role: authorization ? 'admin' : 'users',
-      schema: this._serviceSchema(newUserData),
+      'emailExist': await this._checkForDuplicateEmail({ email }),
+      'role': authorization ? 'admin' : 'user',
+      'schema': this._serviceSchema(newUserData),
     };
+    return check;
+  }
+
+  viewer(object, authorization) {
+    if (!authorization) {
+      delete object.password;
+    }
     return {
-      privileges: check.role,
-      ok: check.theEmailDoesNotExist && !check.schema
+      user: object
     };
   }
 
   async serviceCreateUser(newUserData, authorization = false) {
-    try{
+    try {
       const checkingInfo = await this._checkingNewUserInformation(
-        newUserData, authorization
+        newUserData,
+        authorization
       );
-      if (!checkingInfo.ok || !checkingInfo.privileges) {
-        throw new HTTPError('400', 'ERRO', this.serviceCreateUser.name);
+
+      const { schema, emailExist, role } = checkingInfo;
+
+      if (schema !== 'pass') {
+        throw new HTTPError(
+          'Error schema invalid',
+          this.serviceCreateUser.name,
+          'pr-inv'
+        );
       }
-    }catch (err) {
-      return err.responseError('Invalid entries. Try again');
+
+      if (emailExist) {
+        throw new HTTPError(
+          'Error email already exists',
+          this.serviceCreateUser.name,
+          'email-exist'
+        );
+      }
+
+      const setNewUser = await this._modelUser.createUser({ ...newUserData, role });
+      
+      return this.viewer(setNewUser, authorization);
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return err.responseError();
+      }
+      console.error(err);
+      return { 'message': this.serviceCreateUser.name, 'code': 500 };
     }
   }
 }
