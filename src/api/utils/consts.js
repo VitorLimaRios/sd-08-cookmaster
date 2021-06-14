@@ -42,6 +42,11 @@ const ERRORS = {
     status: STATUS_401,
     message: 'jwt malformed',
   },
+
+  eNotFound: {
+    status: STATUS_404,
+    message: 'recipe not found'
+  },
 };
 const JWT_CONFIG = {
   expiresIn: '1d',

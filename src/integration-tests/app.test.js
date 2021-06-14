@@ -468,4 +468,63 @@ describe('Test Init', () => {
       });
     });
   });
+
+  describe('GET /recipes/:id', () => {
+    describe('4 - When a recipe is requested by id', () => {
+      describe('4.1 - When id is invalid', async () => {
+        before(async () => {
+          response = await chai.request(server)
+            .get('/recipes/invalid_id');
+        });
+  
+        it('returns status code "404"', () => {
+          expect(response).to.have.status(404);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "recipe not found"`, async () => {
+          expect(response.body.message).to.be.equals('recipe not found');
+        });
+      });
+
+      describe('4.2 - When id is valid', async () => {
+        before(async () => {
+          const newRecipe = await chai.request(server)
+          .post('/recipes')
+          .set('authorization', token)
+          .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
+
+          const validId = newRecipe.body.recipe._id;
+        
+          response = await chai.request(server)
+            .get(`/recipes/${validId}`);
+        });
+  
+        it('returns status code "200"', () => {
+          expect(response).to.have.status(200);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it("the response object contains the recipe's data", () => {
+          expect(response.body).to.be.deep.equals({
+              _id: `${response.body._id}`,
+              ingredients: "water",
+              name: "ice",
+              preparation: "freeze the water",
+              userId: `${response.body.userId}`,
+            });
+        });
+      });
+    });
+  });
 });

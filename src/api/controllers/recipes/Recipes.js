@@ -20,7 +20,20 @@ const getAll = rescue(async (_req, res) => {
   return res.status(STATUS_200).json(recipesList);
 });
 
+const getRecipeById = rescue(async (req, res) => {
+  const { eNotFound } = ERRORS;
+  const { id } = req.params;
+  
+  const recipe = await Recipe.getRecipeById(id);
+
+  if (!recipe._id) {
+    return res.status(eNotFound.status).json({ message: eNotFound.message });
+  }
+  return res.status(STATUS_200).json(recipe);
+});
+
 module.exports = {
   create,
   getAll,
+  getRecipeById,
 };
