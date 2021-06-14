@@ -30,6 +30,7 @@ app.get('/recipes/:id', controllers.getRecipeById);
 app.put('/recipes/:id', controllers.updateRecipe);
 app.delete('/recipes/:id', controllers.removeRecipe);
 app.put('/recipes/:id/image', upload.single('image'), controllers.uploadImage);
+app.get('/images/:id.jpeg', controllers.getImage);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

@@ -20,6 +20,5 @@ module.exports = async (id, imagePath) => {
           }
         }));
 
-
   return ({ _id, name, ingredients, preparation, userId, image: imagePath });
 };
