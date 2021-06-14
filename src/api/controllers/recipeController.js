@@ -51,9 +51,25 @@ const update = async (req, res) => {
   }  
 };
 
+const exclude = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedRecipe = await RecipeService.exclude(id);
+    
+    res
+      .status(StatusCode.NO_CONTENT)
+      .json(deletedRecipe);
+  } catch (error) {
+    const { code, message } = error;    
+    res.status(code).json(message);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  exclude,
 };

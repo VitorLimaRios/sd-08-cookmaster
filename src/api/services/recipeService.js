@@ -37,9 +37,18 @@ const update = async (id, newRecipe, userId) => {
   return await RecipeModel.update(id, newRecipe, userId);
 };
 
+const exclude = async (id) => {
+  RecipeValidations.validateRecipeId(id);
+  
+  const deletedRecipe = await RecipeModel.exclude(id);
+
+  return deletedRecipe;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  exclude,
 };

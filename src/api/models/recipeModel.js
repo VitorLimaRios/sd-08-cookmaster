@@ -55,9 +55,17 @@ const update = async (id, newRecipe, userId) => {
   };
 };
 
+const exclude = async (id) => {
+  const recipesCollection = await mongoConnection()
+    .then((db) => db.collection('recipes'));
+  
+  return await recipesCollection.deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  exclude,
 };
