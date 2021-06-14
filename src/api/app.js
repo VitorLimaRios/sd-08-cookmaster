@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.get('/', (_request, response) => response.send());
 
 app.post('/users', userController.createUser);
+app.post('/login', userController.userLogin);
 
 app.use(middleware.error);
 

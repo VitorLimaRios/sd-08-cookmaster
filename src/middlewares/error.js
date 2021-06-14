@@ -1,24 +1,9 @@
-module.exports = (err, req, res, next) => {
-  console.log('oi');
-  if (err) {
-    console.log('err');
-    res.status(422).json({
-      error: { message: 'err.details[0].message' },
-    });
-    console.log('oi');
-  }
-  console.log('oi');
-  // if (err.statusCode) {
-  //   return res.status(err.statusCode).json({
-  //     error: { message: err.message },
-  //   });
-  // }
+const INTERNAL_SERVER_ERROR = 500;
 
-  // console.error(err);
+module.exports = (err, _req, res, _next) => {
+  const { status, message} = err;
 
-  // return res.status(500).json({
-  //   error: {
-  //     message: `Internal server error: ${err.message}`,
-  //   },
-  // });
+  return status
+    ? res.status(status).json({ message })
+    : res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
 };
