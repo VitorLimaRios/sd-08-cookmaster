@@ -6,7 +6,7 @@ const recipesRoutes = require('../routes/recipesRoutes');
 const app = express();
 
 app.use(express.json());
-
+app.use(express.static(__dirname + '/uploads'));
 app.use(usersRoutes);
 app.use(loginRoute);
 app.use(recipesRoutes);

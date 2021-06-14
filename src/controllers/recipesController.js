@@ -65,12 +65,32 @@ const deleteRecipe = rescue(async (req, res) => {
   return res.status(NO_CONTENT).send();
 });
 
+const uploadImage = rescue(async (req, res, next) => {
+  const token = req.headers.authorization;
+  if(!token) return res
+    .status(UNAUTHORIZED).json({ message: 'missing auth token'});
+  const verifiedTokenInfo = await validateJWT(token);
+  if(verifiedTokenInfo.error) return res
+    .status(verifiedTokenInfo.error.code)
+    .json({ message: verifiedTokenInfo.error.message});
+  next();
+});
 
+const addImagePath = rescue(async (req, res) => {
+  const { id } = req.params;
+  const file = req.file;
+  console.log('req file: ', file);
+  const path = `localhost:3000/${file.path}`;
+  const newInfo = await RecipesService.update(id, { image: path });
+  return res.status(OK_STATUS).json(newInfo);
+});
 
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  uploadImage,
+  addImagePath
 };
