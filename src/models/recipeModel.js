@@ -18,6 +18,11 @@ async function createRecipe(name, ingredients, preparation, userId){
   };
 }
 
+async function getAllRecipes(){
+  const data = await connection().then((db) => db.collection('recipes').find().toArray());
+  return data;
+}
+
 module.exports = {
-  createRecipe
+  createRecipe, getAllRecipes
 };

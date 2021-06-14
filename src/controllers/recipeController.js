@@ -1,6 +1,10 @@
 const recipes = require('../services/recipeService');
 const { checkRecipesFields } = require('../middleware/checkRecipeFields');
-const { badRequest, created } = require('../services/responseType');
+const { 
+  badRequest, 
+  created, 
+  success, 
+  internalServerError} = require('../services/responseType');
 
 const createRecipe = async(req, res) => {
   const {name, ingredients, preparation } = req.body;
@@ -14,6 +18,14 @@ const createRecipe = async(req, res) => {
   }
 };
 
+const getAllRecipes = async(_req, res) => {
+  try {
+    const data = await recipes.getAllRecipes();
+    return res.status(success).json(data);
+  } catch (error) {
+    return res.status(internalServerError).json({message: error.message});
+  }
+};
 module.exports = {
-  createRecipe
+  createRecipe, getAllRecipes
 };

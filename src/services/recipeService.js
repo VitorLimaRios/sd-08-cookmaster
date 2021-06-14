@@ -5,6 +5,11 @@ async function createRecipe(name, ingredients, preparation, userId){
   return data;
 }
 
+async function getAllRecipes(){
+  const data = await recipes.getAllRecipes();
+  return data;
+}
+
 module.exports = {
-  createRecipe
+  createRecipe, getAllRecipes
 };
