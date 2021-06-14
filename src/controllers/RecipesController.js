@@ -25,4 +25,13 @@ module.exports = {
     const recipes = await Recipe.getRecipes();
     res.status(msg.status.ok).json(recipes);
   },
+  listOne: async (req, res) => {
+    const { id } = req.params;
+    const recipe = await Recipe.getOneRecipe(id);
+    if (recipe._id) {
+      return res.status(msg.status.ok).json(recipe);
+    } else {
+      return res.status(recipe.code).json({ message: recipe.message });
+    }
+  },
 };

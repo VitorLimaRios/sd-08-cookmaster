@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+const { ObjectId } = require('mongodb');
+const msg = require('../validators/ErrorMessages');
 
 const modelSchema = new mongoose.Schema(
   {
@@ -27,5 +29,16 @@ module.exports = {
   },
   getRecipes: async () => {
     return await Recipe.find();
+  },
+  getOneRecipe: async (id) => {
+    let recipe = null;
+    if (ObjectId.isValid(id)) {
+      recipe = await Recipe.findOne({ _id: id });
+    }
+    if (recipe) {
+      return recipe;
+    } else {
+      return { code: msg.status.notFound, message: msg.recipeNotFound };
+    }
   },
 };
