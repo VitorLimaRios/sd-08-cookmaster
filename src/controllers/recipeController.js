@@ -39,14 +39,13 @@ const getRecipeById = async(req, res) => {
 };
 
 const editRecipe = async(req, res) => {
-  const {authorization} = req.headers;
   const {id} = req.params;
   const {name, ingredients, preparation} = req.body;
   try {
     const data = await recipes.editRecipe(name, ingredients, preparation, id);
-    console.log('controller:', data);
+    return res.status(success).json(data);
   } catch (error) {
-    
+    return res.status(internalServerError).json({message: error.message});
   }
 
 };

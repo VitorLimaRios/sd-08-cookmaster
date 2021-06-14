@@ -18,7 +18,6 @@ async function getRecipeById(id){
 
 async function editRecipe(name, ingredients, preparation, id){
   const data = await recipes.editRecipe(name, ingredients, preparation, id);
-  console.log('service:' , data);
   return data;
 }
 

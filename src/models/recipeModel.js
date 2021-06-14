@@ -32,13 +32,11 @@ async function getRecipeById(id){
 }
 
 async function editRecipe(name, ingredients, preparation, id){
-  const data = await connection().then((db) => db.collection('recipes').updateOne(
+  await connection().then((db) => db.collection('recipes').updateOne(
     {_id: ObjectId(id)},
-    {$set: { name: name, ingredients: ingredients, preparation: preparation}
-    }
+    {$set: {name, ingredients, preparation} }
   ));
-  console.log(data);
-  return data;
+  return getRecipeById(id);
 }
 
 module.exports = {
