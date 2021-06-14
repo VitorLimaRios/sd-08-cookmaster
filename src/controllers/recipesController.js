@@ -20,6 +20,16 @@ const createRecipe = async (req, res) => {
   }
 };
 
+const getAllRecipes = async (_req, res) => {
+  try {
+    const user = await recipesServices.getAllRecipes();
+    res.status(code.OK).json(user);
+  } catch (error) {
+    res.status(code.BAD_REQUEST).json(error.message);
+  }
+};
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
