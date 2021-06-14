@@ -47,9 +47,18 @@ const edit = saveMe(async (id, { name, ingredients, preparation, userId }) => {
   return { _id: id, name, ingredients, preparation, userId };
 });
 
+const remove = saveMe(async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  const { deletedCount } = await db.collection('recipes').deleteOne({ _id: id });
+  if (!deletedCount) return null;
+  return recipe;
+});
+
 module.exports = {
   create,
   getAll,
   getById,
-  edit
+  edit,
+  remove
 };

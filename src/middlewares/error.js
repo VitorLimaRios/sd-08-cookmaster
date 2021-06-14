@@ -7,7 +7,8 @@ const ERRORS = {
   missing_token: httpStatusCodes.UNAUTHORIZED,
   invalid_token: httpStatusCodes.UNAUTHORIZED,
   invalid_recipe: httpStatusCodes.BAD_REQUEST,
-  not_found: httpStatusCodes.NOT_FOUND
+  not_found: httpStatusCodes.NOT_FOUND,
+  access_denied: httpStatusCodes.UNAUTHORIZED
 };
 
 const INTERNAL_ERROR = 500;

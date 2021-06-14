@@ -42,9 +42,17 @@ const edit = async (req, res, next) => {
   res.status(httpStatusCodes.OK).json(result);
 };
 
+const remove = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await RecipeService.remove(id);
+  if (!result) return next(result);
+  res.sendStatus(httpStatusCodes.NO_CONTENT);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-  edit
+  edit,
+  remove
 };

@@ -27,9 +27,16 @@ const edit = async (recipeId, updates, user) => {
   return RecipeModel.edit(recipeId, { ...updates, userId: user.userId });
 };
 
+const remove = async (id) => {
+  const result = await RecipeModel.remove(id);
+  if (!result) return createError('Deletion failed');
+  return result;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-  edit
+  edit,
+  remove
 };
