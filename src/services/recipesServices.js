@@ -1,4 +1,5 @@
 const recipesModel = require('../models/recipesModel');
+const { ObjectId } = require('mongodb');
 const { code, message } = require('../helpers/messages');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
@@ -19,7 +20,15 @@ const getAllRecipes = async () => {
   return recipes;
 };
 
+const getRecipeById = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
+  const recipe = await recipesModel.getRecipeById(id);
+  if (!recipe) throw new Error('recipe not found');
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };

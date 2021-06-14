@@ -11,6 +11,7 @@ router.post('/recipes',
   validateForm,
   rescue(recipesController.createRecipe)
 );
+router.get('/recipes/:id',  rescue(recipesController.getRecipeById));
 router.get('/recipes', rescue(recipesController.getAllRecipes));
 
 module.exports = router;
