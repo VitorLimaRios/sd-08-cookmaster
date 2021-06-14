@@ -4,10 +4,12 @@ const usersModels = require('../models/users');
 const secreat = 'projetocookmaster';
 
 // // LOGIN USER
-// const login = (req, res) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-// };
+const login = async (req, res) => {
+  const { name, password } = req.body;
+  const bdLogin = await usersModels.login;
+  
+  console.log('TESTE', bdLogin);
+};
 
 module.exports = {
   login,

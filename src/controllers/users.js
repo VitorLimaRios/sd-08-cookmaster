@@ -7,7 +7,6 @@ const STATUS_409 = 409;
 const create = async (req, res) => {
   const { name, email, password } = req.body;  
   const newUser = await usersService.create(name, email, password);
-  console.log('TESTE NO CONTROLLER', newUser);
   if (newUser) {
     return res.status(STATUS_201).json(newUser);
   } else { return res.status(STATUS_409).json({      

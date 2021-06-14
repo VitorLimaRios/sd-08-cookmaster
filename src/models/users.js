@@ -30,9 +30,10 @@ const findByEmail = async (email) => {
 };
 
 const login = async (email, password) => {
-  const foundUser = connection()
+  connection()
     .then((db) => db.collection('users').findOne({ email, password }));
-  return foundUser;
+  console.log('TESTE2', login);
+  // return foundUser;
 };
 
 module.exports = {
