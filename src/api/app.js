@@ -25,5 +25,6 @@ app.get('/users', async (req, res) => {
 app.post('/users', usersController.createUser);
 app.post('/login', login.login);
 app.post('/recipes', token.tokenValidation, recipesController.createRecipe);
+app.get('/recipes', recipesController.getAll);
 
 module.exports = app;
