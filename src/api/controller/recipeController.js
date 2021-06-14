@@ -6,6 +6,8 @@ const CREATED = 201;
 const OK = 200;
 const NOT_VALID = 400;
 const NOT_FOUND = 404;
+const Unauthorized = 401;
+const NO_CONTENT = 204;
 
 const create = async (req, res) => {
   try {
@@ -35,10 +37,32 @@ const getRecipeById = async (req, res) => {
     return res.status(NOT_FOUND).json({
       message: e.message,
     });
-  }};
+  }
+};
+
+const updatedRecipes = async (req, res) => {
+  const { id } = req.params;
+
+  const { name, ingredients, preparation } = req.body;
+  
+  const update = await model.update(name, ingredients, preparation, id);
+
+  res.status(OK).json(update);
+
+};
+
+const excludeRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  const notRecipe = await service.exclude(id);
+  return res.status(NO_CONTENT).json(notRecipe);
+});
+
+
 
 module.exports = {
   create,
   getAll,
   getRecipeById,
+  // updatedRecipes,
+  excludeRecipe,
 };

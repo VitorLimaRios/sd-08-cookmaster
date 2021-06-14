@@ -17,8 +17,8 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
 };
 
 const getAll = async () => { 
-  const existingProducts = await recipes.getAll();
-  return existingProducts;
+  const existingRecipe = await recipes.getAll();
+  return existingRecipe;
 };
 
 const getById = async (id) => {
@@ -26,12 +26,18 @@ const getById = async (id) => {
   if(recipeId === null) {
     throw new Error('recipe not found');
   }
-  // console.log(productId);
+  // console.log(recipeId);
   return recipeId;
+};
+
+const exclude = async (id) => {
+  const excludeRecipe = await recipes.excludes(id);
+  return excludeRecipe;
 };
 
 module.exports = {
   createRecipe,
   getAll,
-  getById
+  getById,
+  exclude,
 };

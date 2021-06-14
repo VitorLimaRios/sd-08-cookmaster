@@ -24,13 +24,6 @@ const getAll = async () => {
   if (recipes) return recipes;
 };
 
-// const findRecipes = async (name) => {
-//   const db = await connection();
-//   const isFound = await db.collection('recipes').findOne({name});
-//   // console.log('aoba', isFound);
-//   return isFound;
-// };
-
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
@@ -39,10 +32,23 @@ const getById = async (id) => {
   return recipeId;
 };
 
+const update = async ( id, name, ingredients, preparation ) => {
+  const db = await connection();
+  await  db.collection('recipes')
+    .updateOne({ _id: id}, { $set: { name, ingredients, preparation } });
+  return { _id: id, name, ingredients, preparation};
+};
+
+const excludes = async (id) => {
+  const db = await connection();
+  const recipesId = await db.collection('recipes').deleteOne({ _id: ObjectId(id)});
+  return recipesId;
+};
 
 module.exports ={
   create,
   getAll,
-  // findRecipes,
   getById,
+  update,
+  excludes,
 };

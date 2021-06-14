@@ -12,8 +12,8 @@ const recipesAuth = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if(!token) {
-    console.log(token);
-    return res.status(INVALID_TOKEN).json({ message: 'Invalid token'});
+    // console.log(token);
+    return res.status(INVALID).json({ 'message': 'missing auth token' });
   }
   
   try {
@@ -25,13 +25,13 @@ const recipesAuth = async (req, res, next) => {
     // console.log('aoba', user);
 
     if (!user)
-      return res.status(INVALID).json({ message: 'Invalid token'});
+      return res.status(INVALID).json({ 'message': 'jwt malformed' });
 
     req.user = user;
 
     next();
   } catch(e) {
-    return res.status(INVALID).json({message: e.message});
+    return res.status(INVALID).json({ 'message': 'jwt malformed' });
   };
 };
 module.exports = recipesAuth;
