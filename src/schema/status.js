@@ -11,6 +11,7 @@ const message = {
   emailRegisterd: 'Email already registered',
   allFilled: 'All fields must be filled',
   incorrectFields: 'Incorrect username or password',
+  invalidToken: 'jwt malformed',
 };
 
 module.exports = {
