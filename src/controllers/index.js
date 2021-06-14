@@ -7,6 +7,7 @@ const updateRecipe = require('./recipes/updateRecipe');
 const removeRecipe = require('./recipes/removeRecipe');
 const uploadImage = require('./recipes/uploadImage');
 const getImage = require('./recipes/getImage');
+const createAdmin = require('./users/createAdmin');
 
 module.exports = {
   createUser,
@@ -18,4 +19,5 @@ module.exports = {
   removeRecipe,
   uploadImage,
   getImage,
+  createAdmin,
 };
