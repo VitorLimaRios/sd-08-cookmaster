@@ -2,6 +2,7 @@ const rescue = require('express-rescue');
 const recipeService = require('../services/recipeService');
 const CREATED_STATUS = 201;
 const OK_STATUS = 200;
+const NO_CONTENT_STATUS = 204;
 
 const registerRecipe = rescue(async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -44,9 +45,17 @@ const updateRecipeById = rescue(async (req, res, next) => {
   res.status(OK_STATUS).json(result);
 });
 
+const deleteRecipeById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await recipeService.deleteRecipeById(id);
+  if (result.err) return next(result);
+  res.status(NO_CONTENT_STATUS).send();
+});
+
 module.exports = {
   registerRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
+  deleteRecipeById,
 };
