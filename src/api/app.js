@@ -3,6 +3,7 @@ const userController = require('../controllers/userController');
 const recipesController = require('../controllers/recipesController');
 const auth = require('../middlewares/auth');
 const tokenValidation = require('../middlewares/tokenValidation');
+const validUser = require('../middlewares/validUser');
 
 const app = express();
 
@@ -18,7 +19,9 @@ app.get('/recipes', recipesController.getRecipes);
 
 app.get('/recipes/:id', recipesController.findRecipes);
 
-app.put('/recipes/:id', tokenValidation, recipesController.updateRecipes);
+app.put('/recipes/:id', tokenValidation, validUser, recipesController.updateRecipes);
+
+app.delete('/recipes/:id', tokenValidation, validUser, recipesController.deleteRecipes);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

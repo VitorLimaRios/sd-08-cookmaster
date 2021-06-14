@@ -18,7 +18,13 @@ const findRecipes = async (req, res) => {
 
 const updateRecipes = async (req, res) => {
   const { id } = req.params;
-  const result = await recipesService.updateRecipes(req.user, req.body, id);
+  const result = await recipesService.updateRecipes(req.user._id, req.body, id);
+  res.status(result.code).json(result.message);
+};
+
+const deleteRecipes = async (req, res) => {
+  const { id } = req.params;
+  const result = await recipesService.deleteRecipes(id);
   res.status(result.code).json(result.message);
 };
 
@@ -27,4 +33,5 @@ module.exports = {
   getRecipes,
   findRecipes,
   updateRecipes,
+  deleteRecipes,
 };

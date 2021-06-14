@@ -3,6 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
@@ -39,11 +40,7 @@ const findRecipes = async (recipeId) => {
   return { code: OK, message: result };
 };
 
-const updateRecipes = async (user, changes, recipeId) => {
-  const recipe = await findRecipes(recipeId);
-  const { userId } = recipe.message;
-  if ((userId.toString() !== user._id.toString()) && user.role === 'user')
-    return { code: UNAUTHORIZED, message: { message: 'user not authorized' } };
+const updateRecipes = async (userId, changes, recipeId) => {
   const result = await recipesModel.updateRecipes(recipeId, changes);
   return {
     code: OK,
@@ -52,9 +49,14 @@ const updateRecipes = async (user, changes, recipeId) => {
       name: changes.name,
       ingredients: changes.ingredients,
       preparation: changes.preparation,
-      userId: userId,
+      userId,
     },
   };
+};
+
+const deleteRecipes = async (recipeId) => {
+  const result = await recipesModel.deleteRecipes(recipeId);
+  return { code: NO_CONTENT, message: '' };
 };
 
 module.exports = {
@@ -62,4 +64,5 @@ module.exports = {
   getRecipes,
   findRecipes,
   updateRecipes,
+  deleteRecipes,
 };
