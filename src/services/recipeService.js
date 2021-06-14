@@ -21,6 +21,11 @@ async function editRecipe(name, ingredients, preparation, id){
   return data;
 }
 
+async function deleteRecipe(id){
+  await recipes.deleteRecipe(id);
+  return;
+}
+
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById, editRecipe
+  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe
 };

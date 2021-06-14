@@ -5,7 +5,8 @@ const {
   created, 
   success, 
   internalServerError,
-  notFound} = require('../services/responseType');
+  notFound,
+  noContent} = require('../services/responseType');
 
 const createRecipe = async(req, res) => {
   const {name, ingredients, preparation } = req.body;
@@ -39,16 +40,25 @@ const getRecipeById = async(req, res) => {
 };
 
 const editRecipe = async(req, res) => {
-  const {id} = req.params;
-  const {name, ingredients, preparation} = req.body;
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
   try {
     const data = await recipes.editRecipe(name, ingredients, preparation, id);
     return res.status(success).json(data);
   } catch (error) {
     return res.status(internalServerError).json({message: error.message});
   }
+};
 
+const deleteRecipe = async(req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await recipes.deleteRecipe(id);
+    return res.status(noContent).json(data);
+  } catch (error) {
+    return res.status(internalServerError).json({message: error.message});
+  }
 };
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById, editRecipe
+  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe
 };
