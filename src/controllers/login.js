@@ -3,6 +3,7 @@ const createError = require('../utils/createError');
 const UserService = require('../services/user');
 const jwt = require('jsonwebtoken');
 const httpStatusCodes = require('../data/httpStatusCodes');
+const secret = require('../data/secret');
 
 const invalidFieldErrorMessage= 'Incorrect username or password';
 
@@ -30,7 +31,7 @@ module.exports = async (req, res, next) => {
 
   const userPayload = { id, email, role };
 
-  const token = jwt.sign(userPayload, process.env.SECRET);
+  const token = jwt.sign(userPayload, secret);
 
   res.status(httpStatusCodes.OK).json({ token });
 };
