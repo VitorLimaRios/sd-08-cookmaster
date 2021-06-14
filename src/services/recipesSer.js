@@ -42,6 +42,12 @@ const addRecipes = async (dataRecipes, dataUsers) => {
 
 };
 
+const getAllRecipes = async () => {
+  const getAll = await recipesModel.getAllRecipes();
+  return getAll;
+};
+
 module.exports = {
   addRecipes,
+  getAllRecipes,
 };
