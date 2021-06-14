@@ -8,12 +8,12 @@ const isValidRecipe = (name, ingredients, preparation) => {
   return undefined;
 };
 
-const createRecipe = async (name, ingredients, preparation, userId) => {
+const createRecipe = async (name, ingredients, preparation) => {
   const notValid = isValidRecipe(name, ingredients, preparation);
   if(notValid) {
     throw new Error(notValid);
   }
-  return await recipes.create(name, ingredients, preparation, userId);
+  return await recipes.create(name, ingredients, preparation);
 };
 
 const getAll = async () => { 
@@ -30,6 +30,15 @@ const getById = async (id) => {
   return recipeId;
 };
 
+const update = async (id, name, ingredients, preparation) => {
+  const notValid = isValidRecipe(name, ingredients, preparation);
+  if(notValid) {
+    throw new Error(notValid);
+  }
+  const updateRecipes = await recipes.update(id, name, ingredients, preparation);
+  return updateRecipes;
+};
+
 const exclude = async (id) => {
   const excludeRecipe = await recipes.excludes(id);
   return excludeRecipe;
@@ -39,5 +48,6 @@ module.exports = {
   createRecipe,
   getAll,
   getById,
+  update,
   exclude,
 };

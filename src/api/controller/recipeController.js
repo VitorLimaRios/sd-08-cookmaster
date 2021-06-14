@@ -1,5 +1,6 @@
 const service = require('../service/recipeService');
 const rescue = require('express-rescue');
+const model = require('../Models/recipesModel');
 
 
 const CREATED = 201;
@@ -11,8 +12,8 @@ const NO_CONTENT = 204;
 
 const create = async (req, res) => {
   try {
-    const { name, ingredients, preparation, userId } = req.body;
-    const newRecipe = await service.createRecipe(name, ingredients, preparation, userId);
+    const { name, ingredients, preparation } = req.body;
+    const newRecipe = await service.createRecipe(name, ingredients, preparation);
     
     res.status(CREATED).json(newRecipe);
   } catch (e) {
@@ -41,13 +42,16 @@ const getRecipeById = async (req, res) => {
 };
 
 const updatedRecipes = async (req, res) => {
-  const { id } = req.params;
-
-  const { name, ingredients, preparation } = req.body;
-  
-  const update = await model.update(name, ingredients, preparation, id);
-
-  res.status(OK).json(update);
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+    const update = await service.update(id, name, ingredients, preparation);
+    res.status(OK).json(update);
+  } catch (e) {
+    res.status(Unauthorized).json({
+      message: e.message,
+    });
+  }
 
 };
 
@@ -63,6 +67,6 @@ module.exports = {
   create,
   getAll,
   getRecipeById,
-  // updatedRecipes,
+  updatedRecipes,
   excludeRecipe,
 };

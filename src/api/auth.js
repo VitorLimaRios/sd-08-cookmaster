@@ -6,7 +6,7 @@ const INVALID = 401;
 
 // const userToken = jwt.sign({ data: user }, secret, jwtConfig);
 
-const INVALID_TOKEN = 400;
+// const INVALID_TOKEN = 400;
 
 const recipesAuth = async (req, res, next) => {
   const token = req.headers['authorization'];

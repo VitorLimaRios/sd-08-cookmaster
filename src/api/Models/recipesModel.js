@@ -34,9 +34,11 @@ const getById = async (id) => {
 
 const update = async ( id, name, ingredients, preparation ) => {
   const db = await connection();
+  const recipe = await getById(id);
+  await db.collection('recipes');
   await  db.collection('recipes')
     .updateOne({ _id: id}, { $set: { name, ingredients, preparation } });
-  return { _id: id, name, ingredients, preparation};
+  return { _id: id, name, ingredients, preparation, userId: recipe.userId};
 };
 
 const excludes = async (id) => {
