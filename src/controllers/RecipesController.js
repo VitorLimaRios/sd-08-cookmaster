@@ -62,4 +62,19 @@ module.exports = {
       res.status(msg.status.ok).json(result);
     }
   },
+  delete: async (req, res) => {
+    const { id } = req.params;
+    const token = req.headers['authorization'];
+    if (!token) {
+      return res
+        .status(msg.status.unauthorized)
+        .json({ message: msg.tokenMissed });
+    }
+    const data = await UserService.verifyToken(token);
+    if (data.hasOwnProperty('code')) {
+      return res.status(data.code).json({ message: data.message });
+    }
+    await Recipe.deleteRecipe(id);
+    return res.status(msg.status.noContent).json();
+  }
 };

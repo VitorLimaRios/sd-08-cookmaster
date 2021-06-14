@@ -18,5 +18,6 @@ router.post(
 router.get('/recipes', RecipesController.list);
 router.get('/recipes/:id', RecipesController.listOne);
 router.put('/recipes/:id', RecipesController.edit);
+router.delete('/recipes/:id', RecipesController.delete);
 
 module.exports = router;

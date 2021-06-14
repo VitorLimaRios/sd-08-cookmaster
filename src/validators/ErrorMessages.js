@@ -6,6 +6,7 @@ module.exports = {
     unauthorized: 401,
     ok: 200,
     notFound: 404,
+    noContent: 204,
   },
   invalidEntries: 'Invalid entries. Try again.',
   entriesNotFound: 'All fields must be filled',

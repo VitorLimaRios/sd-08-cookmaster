@@ -48,4 +48,7 @@ module.exports = {
     );
     return true;
   },
+  deleteRecipe: async (id) => {
+    return await Recipe.deleteOne({ _id: id });
+  },
 };
