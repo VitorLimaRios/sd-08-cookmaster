@@ -1,6 +1,9 @@
+const httpStatusCodes = require('../data/httpStatusCodes');
+
 const ERRORS = {
-  invalid_data: 400,
-  conflict: 409
+  invalid_data: httpStatusCodes.BAD_REQUEST,
+  conflict: httpStatusCodes.CONFLICT,
+  invalid_login: httpStatusCodes.UNAUTHORIZED
 };
 
 const INTERNAL_ERROR = 500;
