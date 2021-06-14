@@ -68,10 +68,30 @@ const deleteRecipe = async (token, id) => {
   const deleted = await recipesModel.deleteRecipe(id);
 };
 
+const addImageById = async(token, id, image) => {
+  validations.isFalse(ObjectId.isValid(id));
+
+  const { data } = jwt.verify(token, secret);
+  const recipe = await recipesModel.readRecipesById(id);
+
+  validations.doYouHavePermission(recipe, data);
+
+  const newRecipe = {
+    ...recipe,
+    image,
+  };
+
+  const updated = await recipesModel.updateRecipe(newRecipe, id);
+
+  return newRecipe;
+};
+
+
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  addImageById,
 };

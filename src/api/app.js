@@ -6,6 +6,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+console.log(__dirname.replace('/api', '/uploads'));
+
 app.use('/users', routes.users);
 app.use('/login', routes.login);
 app.use('/recipes', routes.recipes);

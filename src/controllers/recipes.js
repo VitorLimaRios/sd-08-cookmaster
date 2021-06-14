@@ -51,10 +51,20 @@ const deleteRecipe = (req, res) => {
     .catch((err) => anError(err, res));
 };
 
+const addImageById = (req, res) => {
+  const {id} = req.params;
+  const token = req.headers.authorization;
+  const urlImage = `localhost:3000/src/uploads/${id}.jpeg`;
+
+  recipesService.addImageById(token, id, urlImage)
+    .then(response => res.status(code.OK).json(response));
+};
+
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  addImageById,
 };
