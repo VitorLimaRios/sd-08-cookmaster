@@ -1,36 +1,34 @@
 const usersModels = require('../models/users');
 
 const status_400 = 400;
-const status_201 = 201;
+// const status_409 = 409;
+// const status_201 = 201;
+const invalidMessage = {
+  'message': 'Invalid entries. Try again.'
+};
 
-const isValidEmail = (email) => {
+const isValidName = (req, res, next) => {
+  const name = req.body.name;
+  if (!name) return res.status(status_400).json(invalidMessage);
+  next();
+};
+
+const isValidEmail = (req, res, next) => {
+  const email = req.body.email;  
   const regexEmail = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/;
   const validEmail = regexEmail.test(email);
-  if (!email || !validEmail) return false;
-  return true;
+  if (!email || !validEmail) return res.status(status_400).json(invalidMessage); 
+  next();
 };
 
-const isValidName = (name) => {
-  if (!name) return false;
-  return true;
-};
-
-const isValidPassword = (password) => {
-  if (!password) return false;
-  return true;
-};
-
-const isValidReqBody = async (req, res, next) => {
-  const {name, email, password} = await req.body;
-  if (!name || !email || !password) {
-    return res.status(status_400 ).json({
-      'message': 'Invalid entries. Try again.'
-    });
-  };
-  res.status(status_201).send();
-  return next();
+const isValidPassword = (req, res, next) => {
+  const password = req.body.password;
+  if (!password) return res.status(status_400).json(invalidMessage);
+  next();
 };
 
 module.exports = {
-  isValidReqBody,
+  isValidName,
+  isValidEmail,
+  isValidPassword,   
 };
