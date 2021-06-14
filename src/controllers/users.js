@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
   const isValid = await usersService.userIsValid(name, email, password);
   if (isValid.err) {
     const { message } = isValid;
-    return res.status(isValid.err).json({message});
+    return res.status(isValid.err).json({ message });
   }
   const newUser = await usersModel.createUser(
     isValid.name,
@@ -23,7 +23,9 @@ const createUser = async (req, res) => {
     isValid.password
   );
 
-  return res.status(CREATED_STATUS).json({user: {name, email, role: newUser.role, _id: newUser._id}});
+  return res
+    .status(CREATED_STATUS)
+    .json({ user: { name, email, role: newUser.role, _id: newUser._id } });
 };
 
 // const findProduct = async (req, res) => {
@@ -58,7 +60,7 @@ const createUser = async (req, res) => {
 module.exports = {
   getUsers,
   createUser,
-//   findProduct,
-//   updateProduct,
-//   deleteProduct,
+  //   findProduct,
+  //   updateProduct,
+  //   deleteProduct,
 };
