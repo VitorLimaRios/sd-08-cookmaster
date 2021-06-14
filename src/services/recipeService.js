@@ -1,7 +1,7 @@
 const recipeModel = require('../model/recipeModel');
 const { ObjectId } = require('mongodb');
 const validateEntries = require('./recipesValidations/validateEntries');
-const validateName = require('./userValidation/validateName');
+// const validateName = require('./userValidation/validateName');
 const erros_status = 404;
 
 const registerRecipe = async (name, ingredients, preparation, userId) => {
@@ -48,10 +48,24 @@ const deleteRecipeById = async (id) => {
   return {};
 };
 
+const addImageToRecipe = async (id, path) => {
+  try {
+    console.log('aquiiiiiiiiiii');
+    const recipe = await recipeModel.getRecipeById(id);
+    const { _id, name, ingredients, preparation, userId } = recipe;
+    await recipeModel.addImageToRecipe(id, path);
+    return { _id, name, ingredients, preparation, userId, image: path };
+  } catch (error) {
+    console.log(error);
+    return { err: { status: erros_status, message: 'something went wrong' } };
+  }
+};
+
 module.exports = {
   registerRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
   deleteRecipeById,
+  addImageToRecipe,
 };
