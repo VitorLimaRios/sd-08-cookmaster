@@ -9,7 +9,7 @@ const validate = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
-    return res.status(fail2).json({ message: 'Invalid token' });
+    return res.status(fail).json({ message: 'missing auth token' });
   }
 
   try {
@@ -17,7 +17,7 @@ const validate = async (req, res, next) => {
     const user = await model.findUser(decoded.email);
 
     if (!user) {
-      return res.status(fail).json({ message: 'Invalid token' });
+      return res.status(fail).json({ message: 'jwt malformed' });
     }
 
     req.user = user;

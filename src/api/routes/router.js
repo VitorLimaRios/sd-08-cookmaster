@@ -14,4 +14,8 @@ router.get('/recipes', recipesController.getAll);
 
 router.get('/recipes/:id', recipesController.recipeById);
 
+router.put('/recipes/:id', validateJWT, recipesController.updateRecipe);
+
+router.delete('/recipes/:id', validateJWT, recipesController.deleteRecipe);
+
 module.exports = router;
