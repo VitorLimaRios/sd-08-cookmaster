@@ -30,11 +30,9 @@ const getAll = async (_req, res) => {
 const recipeById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const recipe = await service.recipeById(id);
     res.status(success2).json(recipe);
   } catch (err) {
-    console.log(err.message);
     res.status(fail2).json({
       message: err.message,
     });

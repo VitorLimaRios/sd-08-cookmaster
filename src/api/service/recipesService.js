@@ -22,10 +22,8 @@ const getAll = async () => {
 };
 
 const recipeById = async (id) => {
-  console.log('ta entrando no service');
   if (!ObjectId.isValid(id)) throw new Error('recipe not found');
   const recipe = await model.recipeById(id);
-  console.log('recipe no service:', recipe);
 
   if (!recipe) {
     throw new Error('recipe not found');

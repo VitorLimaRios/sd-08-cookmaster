@@ -26,8 +26,6 @@ const getAll = async () => {
 const recipeById = async (id) => {
   const db = await connection();
   const recipe = await db.collection('recipes').findOne(ObjectId(id));
-  console.log('recipe no model:', recipe);
-  console.log('ta entrando no model');
   return recipe;
 };
 
