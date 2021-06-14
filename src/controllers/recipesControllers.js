@@ -1,5 +1,6 @@
 const status = require('./status');
 const JWT = require('jsonwebtoken');
+const { ObjectID } = require('mongodb');
 const { 
   create, 
   getAll,
@@ -19,7 +20,7 @@ const createRecipe = async (req, res, next) => {
     const { name, ingredients, preparation } = req.body;
     const { id } = decoded;
     const insertedID = await create(name, ingredients, preparation, id);
-    res.status(status.OK)
+    res.status(status.CREATED)
       .json({ recipe: { name, ingredients, preparation, userId: id, _id: insertedID}});
   } catch (error) {
     next({
@@ -51,8 +52,13 @@ const getAllRecipes = async (_req, res, next) => {
 };
 
 const getOneRecipe = async (req, res, next) => {
+  const { id } = req.params;
+  if(!ObjectID.isValid(id)) return next({
+    status: status.NOTFOUND,
+    message: 'recipe not found',
+  });
   try {
-    const result = await getOne(req.params.id);
+    const result = await getOne(id);
     if(!result) return next({
       status: status.NOTFOUND,
       message: 'recipe not found',

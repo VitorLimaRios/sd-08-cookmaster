@@ -7,7 +7,7 @@ module.exports = {
   'NOTFOUND' : 404,
   'ERRO' : 500,
   'NOTUNIQUE': 409,
-  'NOTUNIQUE_M': 'Email already registered.',
+  'NOTUNIQUE_M': 'Email already registered',
   'FILLFIELDS': 401,
   'FILLFIELDS_M': 'All fields must be filled',
   'INCORRECT': 401,

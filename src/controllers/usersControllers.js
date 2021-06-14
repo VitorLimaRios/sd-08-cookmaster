@@ -8,7 +8,8 @@ const {
 const createUser = async (req, res, _next) => {
   const data = req.body;
   const result = await create(data);
-  res.status(status.OK).json(result);
+  const { name, email, role, _id } = result;
+  res.status(status.CREATED).json({ user: {name, email, role, _id}});
 };
 
 const checkName = (req, _res, next) => {
@@ -33,7 +34,7 @@ const checkEmail = async (req, _res, next) => {
 
 const checkEmailUnique = async (req, _res, next) => {
   try {
-    const result = await find('email', data.email);
+    const result = await find('email', req.body.email);
     if(result) return next({
       status: status.NOTUNIQUE,
       message: status.NOTUNIQUE_M,
@@ -48,8 +49,7 @@ const checkEmailUnique = async (req, _res, next) => {
 };
 
 const checkPassword = (req, _res, next) => {
-  const data = req.body;
-  if(!data.password) return next({
+  if(!req.body.password) return next({
     status: status.INVALID,
     message: status.INVALID_M,
   });
