@@ -38,11 +38,28 @@ const createRecipe = async(recipe, token) => {
     ...newRecipe,
     _id,
   };
+};
 
+const updateRecipe = async (token, recipe, id) => {
+  validations.isFalse(ObjectId.isValid(id));
+  validations.recipeBodyRequest(recipe);
+
+  const { data } = jwt.verify(token, secret);
+  const recipeExists = await recipesModel.readRecipesById(id);
+
+  validations.mayRecipeBeUpdated(recipeExists, data);
+
+  const updated = await recipesModel.updateRecipe(recipe, id);
+
+  return {
+    ...recipeExists,
+    ...recipe
+  };
 };
 
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
+  updateRecipe,
 };

@@ -16,11 +16,12 @@ const updateRecipe = (recipe, id) => connection()
   .then((db) => db.collection(COLLECTION_NAME)
     .updateOne(
       {_id: ObjectId(id) },
-      recipe
+      {$set: recipe}
     ));
 
 module.exports = {
   readRecipes,
   readRecipesById,
   createRecipe,
+  updateRecipe,
 };

@@ -86,6 +86,24 @@ const isFalse = (boolean) => {
   }
 };
 
+const mayRecipeBeUpdated = (recipe, data) => {
+  isFalse(recipe);
+  if(
+    data.role !== 'admin' && data._id != recipe.userId
+  ) {
+    throw new Error (
+      JSON.stringify(
+        {
+          
+          status: code.UNAUTHORIZED,
+          message: message.recipe_not_found,
+          
+        }
+      )
+    );
+  }
+};
+
 module.exports = {
   userBodyRequest,
   userAlreadyExists,
@@ -93,4 +111,5 @@ module.exports = {
   loginIsValid,
   recipeBodyRequest,
   isFalse,
+  mayRecipeBeUpdated,
 };

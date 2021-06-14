@@ -1,7 +1,6 @@
 const userServices = require('../services/users');
 
-const { code, message } = require('../helper/status');
-const { response } = require('express');
+const { code } = require('../helper/status');
 
 const anError = (err, res) => {
   console.log(err);

@@ -14,6 +14,8 @@ const message = {
   inc_user_or_pass: 'Incorrect username or password',
   jwt_malformed: 'jwt malformed',
   recipe_not_found: 'recipe not found',
+  unauthorized: 'You don\'t have permisson',
+  missing_token: 'missing auth token',
 };
 
 module.exports = {

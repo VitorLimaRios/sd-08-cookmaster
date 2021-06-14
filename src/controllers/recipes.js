@@ -31,8 +31,20 @@ const createRecipe = (req, res) => {
     .catch(err => anError(err, res));
 };
 
+const updateRecipe = (req, res) => {
+
+  const recipe = req.body;
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  recipesService.updateRecipe(token, recipe, id)
+    .then(response => res.status(code.OK).json(response))
+    .catch(err => anError(err, res));
+};
+
 module.exports = {
   readRecipes,
   readRecipeById,
   createRecipe,
+  updateRecipe,
 };
