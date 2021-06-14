@@ -5,6 +5,7 @@ const { validateJWT } = require('../services/validations');
 const OK_STATUS = 200;
 const CREATED = 201;
 const UNAUTHORIZED = 401;
+const NO_CONTENT = 204;
 
 const createRecipe = rescue(async (req, res) => {
   const token = req.headers.authorization;
@@ -51,9 +52,25 @@ const updateRecipe = rescue(async (req, res) => {
   return res.status(OK_STATUS).json(updatedRecipe);
 });
 
+const deleteRecipe = rescue(async (req, res) => {
+  const token = req.headers.authorization;
+  if(!token) return res
+    .status(UNAUTHORIZED).json({ message: 'missing auth token'});
+  const verifiedTokenInfo = await validateJWT(token);
+  if(verifiedTokenInfo.error) return res
+    .status(verifiedTokenInfo.error.code)
+    .json({ message: verifiedTokenInfo.error.message});
+  const { id } = req.params;
+  await RecipesService.deleteRecipe(id);
+  return res.status(NO_CONTENT).send();
+});
+
+
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
-  updateRecipe
+  updateRecipe,
+  deleteRecipe
 };
