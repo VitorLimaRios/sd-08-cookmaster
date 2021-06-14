@@ -5,6 +5,7 @@ const getAllRecipes = require('./recipes/getAllRecipes');
 const getRecipeById = require('./recipes/getRecipeById');
 const updateRecipe = require('./recipes/updateRecipe');
 const removeRecipe = require('./recipes/removeRecipe');
+const uploadImage = require('./recipes/uploadImage');
 
 module.exports = {
   createUser,
@@ -14,4 +15,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   removeRecipe,
+  uploadImage,
 };
