@@ -2,7 +2,9 @@ const express = require('express');
 
 const usersController = require('../../controllers/users');
 const usersModel = require('../../models/users');
-const middlewares = require('../../middlewares/login');
+const recipesController = require('../../controllers/recipes');
+const login = require('../../middlewares/login');
+const token = require('../../middlewares/token');
 
 const app = express();
 
@@ -21,6 +23,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/users', usersController.createUser);
-app.post('/login', middlewares.login);
+app.post('/login', login.login);
+app.post('/recipes', token.tokenValidation, recipesController.createRecipe);
 
 module.exports = app;
