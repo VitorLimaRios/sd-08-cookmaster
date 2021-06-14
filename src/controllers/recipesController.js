@@ -37,8 +37,23 @@ const getRecipeById = rescue(async (req, res ) => {
   return res.status(OK_STATUS).json(recipe);
 });
 
+const updateRecipe = rescue(async (req, res) => {
+  const token = req.headers.authorization;
+  if(!token) return res
+    .status(UNAUTHORIZED).json({ message: 'missing auth token'});
+  const verifiedTokenInfo = await validateJWT(token);
+  if(verifiedTokenInfo.error) return res
+    .status(verifiedTokenInfo.error.code)
+    .json({ message: verifiedTokenInfo.error.message});
+  const { id } = req.params;
+  const newInfo = req.body;
+  const updatedRecipe = await RecipesService.update(id, newInfo);
+  return res.status(OK_STATUS).json(updatedRecipe);
+});
+
 module.exports = {
   createRecipe,
   getAllRecipes,
-  getRecipeById
+  getRecipeById,
+  updateRecipe
 };
