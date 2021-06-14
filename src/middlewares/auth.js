@@ -9,12 +9,20 @@ const error = {
   message: 'jwt malformed',
 };
 
+const missingJWT = {
+  status: UNAUTHORIZED_STATUS,
+  message: 'missing auth token',
+};
+
 const auth = rescue((req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) return next({ err: error });
+  if (!token) return next({ err: missingJWT });
   try {
     const decoded = jwt.verify(token, SECRET);
-    const {data: {id, role}} = decoded;
+    const {
+      data: { id, role, userEmail },
+    } = decoded;
+    req.email = userEmail;
     req.userId = id;
     req.role = role;
   } catch (e) {

@@ -29,8 +29,24 @@ const getRecipeById = rescue(async (req, res, next) => {
   res.status(OK_STATUS).json(result);
 });
 
+const updateRecipeById = rescue(async (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  const { id } = req.params;
+  const email = req.email;
+  const role = req.role;
+  const result = await recipeService.updateRecipeById(
+    id,
+    { name, ingredients, preparation },
+    role,
+    email
+  );
+  if (result.err) return next(result);
+  res.status(OK_STATUS).json(result);
+});
+
 module.exports = {
   registerRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipeById,
 };
