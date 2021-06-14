@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const User = require('./controllers/users/User');
+const User = require('./controllers/users/Users');
+const Recipe = require('./controllers/recipes/Recipes');
 const validateCreateMiddleware = require('./middlewares/users/validateCreateMiddleware');
 const validateLoginMiddleware = require('./middlewares/users/validateLoginMiddleware');
+const validateCreateRecipeMiddleware =
+  require('./middlewares/recipes/validateCreateRecipeMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,5 +19,8 @@ app.get('/', (request, response) => {
 //Users
 app.post('/users', validateCreateMiddleware, User.create);
 app.post('/login', validateLoginMiddleware, User.login);
+
+//Recipes
+app.post('/recipes', validateCreateRecipeMiddleware, Recipe.create);
 
 module.exports = app;

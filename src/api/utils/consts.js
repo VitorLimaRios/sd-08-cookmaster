@@ -35,8 +35,13 @@ const ERRORS = {
 
   eLoginInvalid: {
     status: STATUS_401,
-    message: 'Incorrect username or password'
-  }
+    message: 'Incorrect username or password',
+  },
+
+  eToken: {
+    status: STATUS_401,
+    message: 'jwt malformed',
+  },
 };
 const JWT_CONFIG = {
   expiresIn: '1d',

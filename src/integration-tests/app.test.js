@@ -10,6 +10,7 @@ const { expect } = chai;
 
 let connectionMock;
 let response;
+let token;
 
 describe('Test Init', () => {
   before(async () => {
@@ -92,7 +93,7 @@ describe('Test Init', () => {
       });
     });
       
-    describe('1.2 - When the registration is successful', () => {
+    describe('1.2 - When the user registration is successful', () => {
       before(async () => {
         response = await chai.request(server)
           .post('/users')
@@ -221,7 +222,7 @@ describe('Test Init', () => {
         });
       });
 
-      describe('2.1.3 - When email field is wrong', () => {
+      describe('2.1.4 - When email field is wrong', () => {
         before(async () => {
           response = await chai.request(server)
             .post('/login')
@@ -267,6 +268,174 @@ describe('Test Init', () => {
 
       it(`the "token" property has an encrypted string`, async () => {
         expect(typeof (response.body.token)).to.be.equals('string');
+      });
+    });
+  });
+  
+  describe('POST /recipes', () => {
+    before(async () => {
+      const login = await chai.request(server)
+        .post('/login')
+        .send({ email: 'remy@ratatouille.com', password: '123456' });
+      token = await login.body.token;
+    });
+    describe('3.1 - When registration fails due to an invalid entry', () => {
+      describe('3.1.1 - When name field is empty', () => {
+        before(async () => {
+          response = await chai.request(server)
+            .post('/recipes')
+            .set('authorization', token)
+            .send({ name: '', ingredients: 'water', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "400"', () => {
+          expect(response).to.have.status(400);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "Invalid entries. Try again."`, async () => {
+          expect(response.body.message).to.be.equals('Invalid entries. Try again.');
+        });
+      });
+
+      describe('3.1.2 - When ingredients field is empty', () => {
+        before(async () => {
+          response = await chai.request(server)
+            .post('/recipes')
+            .set('authorization', token)
+            .send({ name: 'ice', ingredients: '', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "400"', () => {
+          expect(response).to.have.status(400);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "Invalid entries. Try again."`, async () => {
+          expect(response.body.message).to.be.equals('Invalid entries. Try again.');
+        });
+      });
+
+      describe('3.1.3 - When preparation field is empty', () => {
+        before(async () => {
+          response = await chai.request(server)
+            .post('/recipes')
+            .set('authorization', token)
+            .send({ name: 'ice', ingredients: 'water', preparation: ''});
+        });
+
+        it('returns status code "400"', () => {
+          expect(response).to.have.status(400);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "Invalid entries. Try again."`, async () => {
+          expect(response.body.message).to.be.equals('Invalid entries. Try again.');
+        });
+      });
+    });
+
+    describe('3.2 - When registration fails due to an invalid token', () => {
+      describe('3.2.1 - When token field is empty', () => {
+        before(async () => {
+          response = await chai.request(server)
+            .post('/recipes')
+            .set('authorization', '')
+            .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "401"', () => {
+          expect(response).to.have.status(401);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "jwt malformed"`, async () => {
+          expect(response.body.message).to.be.equals('jwt malformed');
+        });
+      });
+
+      describe('3.2.2 - When token field is invalid', () => {
+        before(async () => {
+          response = await chai.request(server)
+            .post('/recipes')
+            .set('authorization', 'Invalid_token')
+            .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "401"', () => {
+          expect(response).to.have.status(401);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "jwt malformed"`, async () => {
+          expect(response.body.message).to.be.equals('jwt malformed');
+        });
+      });
+    });
+
+    describe('3.3 - When the recipe registration is successful', () => {
+      before(async () => {
+        response = await chai.request(server)
+          .post('/recipes')
+          .set('authorization', token)
+          .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
+      });
+
+      it('returns status code "201"', () => {
+        expect(response).to.have.status(201);
+      });
+
+      it('returns an object in the body', () => {
+        expect(response.body).to.be.an('object');
+      });
+
+      it('the response object has the property "recipe"', () => {
+        expect(response.body).to.have.property('recipe');
+      });
+
+      it(`the "recipe" property has the recipe's registration data as its value`, async () => {
+        expect(response.body.recipe).to.be.deep.equals({
+          _id: `${response.body.recipe._id}`,
+          ingredients: "water",
+          name: "ice",
+          preparation: "freeze the water",
+          userId: `${response.body.recipe.userId}`,
+        });
       });
     });
   });
