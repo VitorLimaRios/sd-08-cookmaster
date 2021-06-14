@@ -14,6 +14,13 @@ class Error401 extends Error {
   }
 }
 
+class Error404 extends Error {
+  constructor(message) {
+    super(message);
+    this.code = 404;
+  }
+}
+
 class Error409 extends Error {
   constructor(message) {
     super(message);
@@ -24,5 +31,6 @@ class Error409 extends Error {
 module.exports = {
   Error400,
   Error401,
+  Error404,
   Error409,
 };

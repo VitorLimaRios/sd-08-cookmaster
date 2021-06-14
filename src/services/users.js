@@ -1,59 +1,61 @@
-const UsersModels = require('../models/users');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
+const usersModels = require('../models/users');
 const { Error400, Error401, Error409 } = require('../errors/');
 
-const isUserValid = async (user) => {
-  if (typeof user.name !== 'string') {
-    throw new Error400('Invalid entries. Try again.');
-  }
-  const validEmailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-  if (typeof user.email !== 'string' || !validEmailRegex.test(user.email)) {
-    throw new Error400('Invalid entries. Try again.');
-  }
-  const emailAlreadyExists = await UsersModels.findByEmail(user.email);
+const secret = 'umaSenhaMuitoDoida';
+const validEmailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+const createUserSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().pattern(validEmailRegex).required(),
+  password: Joi.string().required(),
+});
+
+const add = async (user) => {
+  const emailAlreadyExists = await usersModels.findByEmail(user.email);
   if (emailAlreadyExists) {
     throw new Error409('Email already registered');
   }
 
-  if (!user.password) {
+  const { error } = createUserSchema.validate(user);
+  if (error) {
     throw new Error400('Invalid entries. Try again.');
   }
+
+  if (!user.role) {
+    user = { ...user, role: 'user'};
+  }
+
+  const {password, ...userInfo} = await usersModels.add(user);
+
+  return userInfo;
 };
 
-const isLoginValid = async (userLogin) => {
+const login = async (userLogin) => {
   if (!userLogin.email || !userLogin.password) {
     throw new Error401('All fields must be filled');
   }
 
-  const dbUser = await UsersModels.findByEmail(userLogin.email);
-  
-  if (!dbUser || userLogin.password !== dbUser.password) {
+  const result = await usersModels.findByEmail(userLogin.email);
+
+  if (!result || userLogin.password !== result.password) {
     throw new Error401('Incorrect username or password');
   }
 
-  return dbUser;
-};
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256',
+  };
 
-const add = async (user) => {
-  await isUserValid(user);
+  const { password, ...userInfo } = result;
 
-  if (!user.role) {
-    user.role = 'user';
-  }
+  const token = jwt.sign({ data: userInfo }, secret, jwtConfig);
 
-  const result = await UsersModels.add(user);
-  delete result.password;
-
-  return result;
-};
-
-const login = async (userLogin) => {
-  const result = await isLoginValid(userLogin);
-  delete result.password;
-
-  return result;
+  return token;
 };
 
 module.exports = {
   add,
-  login
+  login,
 };
