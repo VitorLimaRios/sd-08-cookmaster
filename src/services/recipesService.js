@@ -1,10 +1,10 @@
 const recipesModel = require('../models/recipesModel');
 
+const OK = 200;
 const CREATED = 201;
 const BAD_REQUEST = 400;
 
 const createRecipes = async (recipes) => {
-  console.log(recipes);
   const { name, ingredients, preparation, _id } = recipes;
   if(!name || !ingredients || !preparation)
     return { code: BAD_REQUEST, message: { message: 'Invalid entries. Try again.' } };
@@ -24,6 +24,12 @@ const createRecipes = async (recipes) => {
   };
 };
 
+const getRecipes = async () => {
+  const result = await recipesModel.getRecipes();
+  return { code: OK, message: result };
+};
+
 module.exports = {
   createRecipes,
+  getRecipes,
 };
