@@ -3,6 +3,7 @@ const service = require('../service/recipesService');
 const success = 201;
 const success2 = 200;
 const fail = 400;
+const fail2 = 404;
 
 const createRecipe = async (req, res) => {
   try {
@@ -26,7 +27,22 @@ const getAll = async (_req, res) => {
   }
 };
 
+const recipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const recipe = await service.recipeById(id);
+    res.status(success2).json(recipe);
+  } catch (err) {
+    console.log(err.message);
+    res.status(fail2).json({
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  recipeById,
 };

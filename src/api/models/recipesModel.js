@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
@@ -22,7 +23,16 @@ const getAll = async () => {
   if (recipes) return recipes;
 };
 
+const recipeById = async (id) => {
+  const db = await connection();
+  const recipe = await db.collection('recipes').findOne(ObjectId(id));
+  console.log('recipe no model:', recipe);
+  console.log('ta entrando no model');
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  recipeById,
 };
