@@ -9,9 +9,13 @@ const addUsers = (name, email, password, role) =>
   });
 
 const getAll = async () =>
-  connect().then((db) => db.collection('users').find().toArray());  
+  connect().then((db) => db.collection('users').find().toArray());
+
+const findUser = async (userId) =>
+  connect().then((db) => db.collection('users').findOne({ userId }));
 
 module.exports = {
   addUsers,
   getAll,
+  findUser,
 };

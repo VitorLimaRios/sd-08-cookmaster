@@ -1,5 +1,7 @@
 // regras dos negócios
 const LoginModel = require('../models/loginMod');
+const userModel = require('../models/usersMod');
+
 
 const getAll = async (dataUsers) => {
 
@@ -20,6 +22,9 @@ const getAll = async (dataUsers) => {
   console.log('emailExist loginSer line 16', passwordExist);
 
   if(!emailExist || !passwordExist) return { message: 'Incorrect username or password'};
+
+  const findUser = await getAll.find((data) => data.email === dataUsers.email);
+  console.log('findUser', findUser);
 
 
   // console.log('dataUsers', dataUsers);
@@ -51,7 +56,7 @@ const getAll = async (dataUsers) => {
   //   _id: insertUserDb._id,
   // };
 
-  return getAll;
+  return findUser;
 
 
 };

@@ -36,6 +36,8 @@ router.post('/', async (req, res) => {
     role: getAll.role,
   };
 
+  console.log('payload', payload);
+
 
   const jwtConfig = {
     expiresIn: '7d',
