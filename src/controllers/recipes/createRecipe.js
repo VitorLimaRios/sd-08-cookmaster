@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const RecipeModel = require('../../models/index');
 
-const secret = process.env.SECRET;
+const secret = 'VamoQueVamo88';
 
 const CREATED_CODE = 201;
 const BAD_REQUEST_CODE = 400;

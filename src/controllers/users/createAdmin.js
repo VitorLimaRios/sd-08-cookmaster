@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const UserModel = require('../../models/index');
 
-const secret = process.env.SECRET;
+const secret = 'VamoQueVamo88';
 
 const CREATED_CODE = 201;
 const FORBIDDEN_CODE = 403;

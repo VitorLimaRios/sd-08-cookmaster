@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const RecipeModel = require('../../models/index');
 
-const secret = process.env.SECRET;
+const secret = 'VamoQueVamo88';
 
 const NO_CONTENT_CODE = 204;
 const UNAUTHORIZED_CODE = 401;
