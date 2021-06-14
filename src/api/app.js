@@ -7,7 +7,8 @@ const {
   getAllRecipes, 
   getRecipeById, 
   editRecipe, 
-  deleteRecipe } = require('../controllers/recipeController');
+  deleteRecipe, 
+  upload} = require('../controllers/recipeController');
 const { uploadImage } = require('../middleware/uploadImage');
 
 const app = express();
@@ -30,7 +31,7 @@ app.route('/recipes/:id')
   .delete(validateJWT, deleteRecipe);
 
 app.route('/recipes/:id/image')
-  .put(validateJWT, uploadImage());
+  .put(validateJWT, uploadImage(), upload);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

@@ -63,7 +63,13 @@ const deleteRecipe = async(req, res) => {
 const upload = async(req, res) => {
   const { id } = req. params;
   const { filename } = req.file;
-  console.log(id, filename);
+  const imagePath = `localhost:3000/src/uploads/${filename}`;
+  try {
+    const data = await recipes.uploadRecipe(id, imagePath);
+    res.status(success).json(data);
+  } catch (error) {
+    res.status(internalServerError).json({message: error.message});
+  }
 };
 module.exports = {
   createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, upload

@@ -26,6 +26,11 @@ async function deleteRecipe(id){
   return;
 }
 
+async function uploadRecipe(id, imagePath){
+  const data = await recipes.addImage(id, imagePath);
+  return data;
+}
+
 module.exports = {
-  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe
+  createRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, uploadRecipe
 };
