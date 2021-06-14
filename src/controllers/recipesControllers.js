@@ -1,5 +1,6 @@
 const express = require('express');
 const recipesModels = require('../models/recipesModels');
+const recipesServices = require('../services/recipesServices');
 const validateJWT = require('../auth/validateJWT');
 const validateRecipes = require('../middlewares/recipesValidation');
 const { status } = require('../schema/status');
@@ -17,6 +18,11 @@ routes.post('/', validateJWT, validateRecipes, async (req, res) => {
     userId,
   );
   return res.status(status.created).json({ recipe: response });
+});
+
+routes.get('/', async (req, res) => {
+  const response = await recipesServices.getAll();
+  return res.status(status.OK).json(response);
 });
 
 module.exports = routes;
