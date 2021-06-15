@@ -293,3 +293,8 @@ $RECYCLE.BIN/
 
 **/uploads/*
 !**/uploads/ratinho.jpg
+
+
+# Private enviroment
+# .env.js
+src/api/tests
