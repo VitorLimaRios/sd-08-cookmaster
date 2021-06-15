@@ -57,27 +57,10 @@ const update = rescue(async (req, res) => {
 });
 
 const deleteRecipe = rescue(async (req, res) => {
-  const { e500 } = ERRORS;
-  const { authorization } = req.headers;
   const { id } = req.params;
-  console.log(id);
-  console.log(authorization);
-  try {
-    console.log('try');
-    const decode = jwt.verify(authorization, KEY);
-    const { data } = decode;
-    const userId = data._id;
-    const userRole = data.role;
-    const recipe = await Recipe.getRecipeById(id);
-    if (userId === recipe.userId || userRole === 'admin') {
-      console.log('if');
-      await Recipe.deleteRecipe(id);
-      return res.status(STATUS_204);
-    }
-    return res.status(e500.status).json({ message: e500.message });
-  } catch (err) {
-    return res.status(e500.status).json({ message: e500.message });
-  }
+
+  await Recipe.deleteRecipe(id);
+  return res.status(STATUS_204).json();
 });
 
 module.exports = {
