@@ -10,14 +10,11 @@ const auth = async (req, res, next) => {
   try {
     const decode = jwt.verify(token, secret);
     if (!decode) return res.status(STATUS_401).json({ message: 'jwt malformed' });
-    const user = await usersModel.findByEmail(decode.email);
-    // console.log(user);
+    const user = await usersModel.findByEmail(decode.email);   
     req.user = user;
     next();
   } catch (error) { 
-    // console.log('entrei', error);
-    return res.status(STATUS_401).json({ message: 'jwt malformed' });
-   
+    return res.status(STATUS_401).json({ message: 'jwt malformed' });   
   }
 };
 
