@@ -19,5 +19,7 @@ router.put('/recipes/:id',
   rescue(recipesController.updateRecipe)
 );
 router.delete('/recipes/:id', validateJWT, rescue(recipesController.deleteRecipe));
+//router.post('/recipes/:id/image/', validateJWT, rescue(recipesController.deleteRecipe));
+
 
 module.exports = router;

@@ -3,13 +3,12 @@ const { code } = require('../helpers/messages');
 
 const createRecipe = async (req, res) => {
   try {
-    const { name, ingredients, preparation } = req.body;
-    const userId = req.user.id;
+    const { name, ingredients, preparation, userId } = req.body;
     const newRecipe = await recipesServices.createRecipe(
       name,
       ingredients,
       preparation,
-      userId
+      userId,
     );
     res.status(code.CREATED).json(newRecipe);
   } catch (error) {
@@ -39,13 +38,13 @@ const getRecipeById = async (req, res) => {
 };
 
 const updateRecipe = async (req, res) => {
+  //console.log(req);
   try {
     const { id } = req.params;
-    const { name, ingredients, preparation } = req.body;
-    const recipe = await recipesServices.updateRecipe(id, name, ingredients, preparation);
+    const form = req.body;
+    const recipe = await recipesServices.updateRecipe({ id, ...form });
     return res.status(code.OK).json(recipe);
   } catch (error) {
-    //console.log(error.message);
     res.status(code.SERVER_ERROR).json({ message: error.message });
   }
 };

@@ -2,7 +2,7 @@ const connection = require('../config/connection');
 const { ObjectId } = require('mongodb');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
-  console.log(name, ingredients, preparation, userId);
+  //console.log(name, ingredients, preparation, userId);
   const recipe = await connection()
     .then((db) => db.collection('recipes')
       .insertOne({ name, ingredients, preparation, userId }))
@@ -28,7 +28,7 @@ const  getRecipeById = async (id) => {
   return recipe;
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
+const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
   await connection()
     .then((db) => db.collection('recipes')
       .updateOne(
@@ -40,7 +40,7 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
     name,
     ingredients,
     preparation,
-    //userId,
+    userId,
   };
 };
 
