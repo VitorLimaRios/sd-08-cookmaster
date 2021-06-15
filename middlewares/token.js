@@ -8,6 +8,10 @@ const UNAUTHORIZED = 401;
 const tokenValidation = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    if (!token) {
+      return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+    };
+
     const decoded = jwt.verify(token, secret);
     const user = await usersModel.findEmail(decoded.data.email);
 
@@ -20,6 +24,4 @@ const tokenValidation = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  tokenValidation,
-};
+module.exports = tokenValidation;

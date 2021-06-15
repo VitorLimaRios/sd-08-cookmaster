@@ -30,8 +30,14 @@ const getById = async (id) => {
   return { code: 200, message: recipe };
 };
 
+const deleteRecipe = async (id) => {
+  const result = await recipesModel.deleteRecipe(id);
+  return { code: 204, message: '' };
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
+  deleteRecipe,
 };

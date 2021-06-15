@@ -28,8 +28,19 @@ const getById = async (id) => {
   try {
     const db = await connection();
     const recipe = await db.collection('recipes')
-      .findOne({ _id: ObjectId(id) });
+      .findOne(ObjectId(id));
     return recipe;
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
+const deleteRecipe = async (id) => {
+  try {
+    const db = await connection();
+    const result = await db.collection('recipes')
+      .removeOne(ObjectId(id));
+    return result;
   } catch (error) {
     return { error: error.message };
   }
@@ -39,4 +50,5 @@ module.exports = {
   createRecipe,
   getAll,
   getById,
+  deleteRecipe,
 };
