@@ -33,6 +33,15 @@ class ServicesRecipe {
       return err;
     }
   }
+
+  async getAllRecipes() {
+    try {
+      const result = await this._modelRecipe.getAllRecipes();
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ServicesRecipe;

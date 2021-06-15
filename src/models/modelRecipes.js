@@ -16,6 +16,15 @@ class ModelRecipes extends ModelDefault{
       return err;
     }
   }
+
+  async getAllRecipes() {
+    try {
+      const allRecipes = await super.getAll('recipes');
+      return allRecipes;
+    }catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ModelRecipes;

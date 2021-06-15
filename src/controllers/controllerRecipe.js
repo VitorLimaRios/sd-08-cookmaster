@@ -31,6 +31,18 @@ class ControllerRecipe {
       return next(error);
     }
   }
+
+  async getAll(req, res, next) {
+    try {
+      const serviceRecipe = new ServicesRecipe();
+      const resultService = await serviceRecipe.getAllRecipes();
+      console.log(resultService);
+      if (!Array.isArray(resultService)) return next(resultService);
+      return res.status(CODE.ok).json(resultService);
+    }catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ControllerRecipe;

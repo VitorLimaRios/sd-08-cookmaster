@@ -15,5 +15,7 @@ const controllerRecipe= new ControllerRecipe();
 Routes.post('/users', controllerUsers.create);
 Routes.post('/login', controllerLogin.login);
 Routes.post('/recipes', [middlewares.authentication, controllerRecipe.create]);
+Routes.get('/recipes', controllerRecipe.getAll);
+
 
 module.exports = Routes;

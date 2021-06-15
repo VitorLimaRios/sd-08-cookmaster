@@ -66,6 +66,18 @@ class modelDefault {
       return err;
     }
   }
+
+  async getAll(nameCollection) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(nameCollection));
+      const allRecipes = await getCollection.find({});
+      return allRecipes.toArray();
+    }catch (err) {
+      console.log(' --> Default getAll: ', err.message);
+      return err;
+    }
+  }
 }
 
 module.exports = modelDefault;
