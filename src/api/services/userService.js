@@ -1,4 +1,11 @@
 const userModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
+const secret = 'seusecretdetoken';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 const validarPropriedades = async (usuario) => {
   const { name, email, password, role } = usuario;
@@ -28,6 +35,25 @@ const criar = async (usuario) => {
   return usuarioSemPassword;
 };
 
+const validarLogin = async (usuario) => {
+  const {email, password} = usuario;
+  if (!email || !password) throw new Error('All fields must be filled');
+
+  const usuarioBuscado = await userModel.buscarUsuarioPorEmail(email);
+
+  if (!usuarioBuscado || usuarioBuscado.password !== password) 
+    throw new Error('Incorrect username or password');
+    
+};
+
+const login = async (usuario) => {
+  await validarLogin(usuario);
+  const {email, password} = usuario;
+  const token = jwt.sign({email, password}, secret, jwtConfig);
+  return token;
+};
+
 module.exports = {
   criar,
+  login,
 };
