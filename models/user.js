@@ -7,7 +7,7 @@ const getAll = async () => connection()
 
 const add = async (name, email, password, role = 'user') => connection()
   .then((db) => db.collection('users').insertOne({name, email, password}))
-  .then((result) => ({ _id: result.insertedId, name, email, password, role}));
+  .then((result) => ({ user: { _id: result.insertedId, name, email, role}}));
 
 const getByEmail = async (email) => {
 

@@ -7,15 +7,12 @@ const schema = joi.object({
     .required(),
   email: joi
     .string()
-    .email()    
+    .email()
     .required(),
   password: joi
     .string()
     .required()
-})
-  .messages({
-    'any.required': 'Invalid entries. Try again.'
-  });
+});
 
 const getAll = async () => model.getAll();
 
@@ -23,7 +20,7 @@ const add = async (name, email, password) => {
   const { error } = schema.validate({ name, email, password });
   if (error) {
     return {
-      error,
+      error: { message: 'Invalid entries. Try again.'},
       status: 400
     };
   }
