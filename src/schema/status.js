@@ -6,6 +6,7 @@ const status = {
   OK: 200,
   notFound: 404,
   forbidden: 403,
+  noContent: 204,
 };
 
 const message = {
