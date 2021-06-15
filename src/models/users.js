@@ -9,7 +9,7 @@ const create = async (name, email, password) => {
 
   return {
     _id,
-    role,
+    role: 'user',
   };
 };
 
