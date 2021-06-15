@@ -1,11 +1,11 @@
 const connection = require('./connection');
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 
-const getAllUsers = async () => connection()
-  .then((db) => db
-    .collection('users')
-    .find()
-    .toArray());
+// const getAllUsers = async () => connection()
+//   .then((db) => db
+//     .collection('users')
+//     .find()
+//     .toArray());
 
 // const getUserById = async (id) => {
 //   if (!ObjectId.isValid(id)) return null;
@@ -46,9 +46,22 @@ const createUser = async (name, email, password) => connection()
 //       .deleteOne({ _id: ObjectId(id) })
 //     );
 
+const findEmail = async (email) => {
+  try {
+    const emailRegistered = connection()
+      .then((db) => db
+        .collection('users')
+        .findOne({ email }));
+    return emailRegistered;
+  } catch (err) {
+    console.log('Email already registered');
+  }
+};
+
 module.exports = {
-  getAllUsers,
   createUser,
+  findEmail,
+  // getAllUsers,
   // getUserById,
   // updateUser,
   // deleteUser

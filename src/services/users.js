@@ -1,46 +1,31 @@
 const UserModel = require('../models/User');
 
-const err = {
-  message: ''
-};
-
-const nameIsRequired = async (name) => {
-  const MIN_LENGTH_NAME = 6;
-
-  if (typeof name !== 'string' || name === '') {
-    err.message = 'Invalid entries. Try again.';
-    throw new Error(err.message);
+const validateUser = (name, email, password, role) => {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  if(!regex.test(email)){
+    return 'Invalid entries. Try again.';
   }
-};
-
-const emailIsRequired = async (email) => {
-  if (!email || email === null) {
-    err.message = 'Invalid entries. Try again.';
-    throw new Error(err.message);
-  }
-};
-
-const passwordIsRequired = async (password) => {
-  if (!password) {
-    err.message = 'Invalid entries. Try again.';
-    throw new Error(err.message);
-  }
-};
-
-const emailAlreadyExists = async (email) => {
-  const users = await UserModel.getAllUsers();
-  const emailExists = users.find(user => user.email === email);
-
-  if (emailExists) {
-    err.code = 409;
-    err.message = 'Email already registered';
-    throw new Error(err.code, err.message);
+  if(!name || !email || !password) {
+    return 'Invalid entries. Try again.';
   };
+  if(typeof name !== 'string') {
+    return 'Invalid entries. Try again.';
+  };
+  return undefined;  
+};
+
+const createUser = async (name, email, password) => {
+  const invalid = validateUser(name, email, password);
+  if (invalid) {
+    throw new Error(invalid);
+  }
+  const findUser = await UserModel.findEmail(email);
+  if (findUser) {
+    throw new Error('Email already registered');
+  }
+  return await UserModel.createUser(name, email, password);
 };
 
 module.exports = {
-  nameIsRequired,
-  emailIsRequired,
-  passwordIsRequired,
-  emailAlreadyExists
+  createUser
 };

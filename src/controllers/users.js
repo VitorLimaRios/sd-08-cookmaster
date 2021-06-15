@@ -1,27 +1,23 @@
 // const { ObjectId } = require('mongodb');
-const UserModel = require('../models/User');
+// const UserModel = require('../models/User');
 const usersService = require('../services/users');
 
-const SUCCESS = 200;
-const CREATED = 201;
-const UNPROCESSABLE = 422;
-const BAD_REQUEST = 500;
+const Ok = 200;
+const Created = 201;
+// const UnprocessableEntity = 422;
+const BadRequest = 400;
+const Conflict = 409;
+// const InternalServerError = 500;
 
-const error = {
-  err: {
-    message: 'Invalid entries. Try again.'
-  }
-};
+// const getAllUsers = async (_req, res) => {
+//   try {
+//     const users = await UserModel.getAllUsers();
 
-const getAllUsers = async (_req, res) => {
-  try {
-    const users = await UserModel.getAllUsers();
-
-    res.status(SUCCESS).json({ users });
-  } catch (err) {
-    res.status(BAD_REQUEST).json({ message: err.message });
-  }
-};
+//     res.status(SUCCESS).json({ users });
+//   } catch (err) {
+//     res.status(BAD_REQUEST).json({ message: err.message });
+//   }
+// };
 
 // const getUserById = async (req, res) => {
 //   try {
@@ -41,19 +37,21 @@ const getAllUsers = async (_req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
+    const newUser = await usersService.createUser(name, email, password);
 
-    await usersService.nameIsRequired(name);
-    await usersService.emailIsRequired(email);
-    await usersService.emailAlreadyExists(email);
-    await usersService.passwordIsRequired(password);
-
-    const newUser = await UserModel.createUser(name, email, password, role);
-
-    res.status(CREATED).json(newUser);
+    res.status(Created).json(
+      { user: { name: newUser.name, email: newUser.email, role: newUser.role } }
+    );
   } catch (err) {
-    error.err.message = err.message;
-    res.status(UNPROCESSABLE).json(error);
+    if (err.message === 'Email already registered') {
+      return res.status(Conflict).json({
+        message: err.message,
+      });
+    }
+    return res.status(BadRequest).json({
+      message: err.message,
+    });
   }
 };
 
@@ -93,8 +91,8 @@ const createUser = async (req, res) => {
 // };
 
 module.exports = {
-  getAllUsers,
   createUser,
+  // getAllUsers,
   // getUserById,
   // updateUser,
   // deleteUser
