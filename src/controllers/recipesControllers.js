@@ -27,6 +27,14 @@ routes.get('/', async (req, res) => {
   return res.status(status.OK).json(response);
 });
 
+routes.put('/:id/image', validateJWT, imageUpload(), async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+  const image = `localhost:3000/src/uploads/${filename}`;
+  const response = await recipesServices.pictureUpload(id, image);
+  return res.status(status.OK).json(response);
+});
+
 routes.get('/:id', async (req, res) => {
   try{
     const { id } = req.params;
@@ -53,14 +61,6 @@ routes.delete('/:id', validateJWT, async (req, res) => {
   const { id } = req.params;
   await recipesServices.deleteRecipeById(id);
   return res.status(status.noContent).json();
-});
-
-routes.put('/:id/image', validateJWT, imageUpload(), async (req, res) => {
-  const { id } = req.params;
-  const { filename } = req.file;
-  const image = `localhost:3000/src/uploads/${filename}`;
-  const response = await recipesServices.pictureUpload(id, image);
-  return res.status(status.OK).json(response);
 });
 
 module.exports = routes;
