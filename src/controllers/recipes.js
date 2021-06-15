@@ -19,8 +19,8 @@ const createRecipe = async (req, res) => {
 };
 
 const getRecipes = async (req, res) => {
-  const products = await recipesModel.getRecipes();
-  return res.status(OK_STATUS).json({products});
+  const recipes = await recipesModel.getRecipes();
+  return res.status(OK_STATUS).json(recipes);
 };
 
 module.exports = {
