@@ -1,8 +1,10 @@
 const { verifyByEmail } = require('../services/userManagement.service');
+const { ObjectId } = require('mongodb');
 const { StatusCodes: { 
   BAD_REQUEST, 
   CONFLICT, 
-  UNAUTHORIZED 
+  UNAUTHORIZED,
+  NOT_FOUND
 } } = require('http-status-codes');
 
 const verifyEmail = async (email) => {
@@ -61,5 +63,16 @@ exports.validateFormRecipes = (req, res, next) => {
     next();
   } catch (err) {
     res.status(BAD_REQUEST).json({ message: err.message });
+  }
+};
+
+exports.validateId = (req, res, next) => {
+  try {
+    const isValid = ObjectId.isValid(req.params.id);
+    if(!isValid)
+      throw new Error('recipe not found');
+    next();
+  } catch (err) {
+    res.status(NOT_FOUND).json({ message: err.message });
   }
 };
