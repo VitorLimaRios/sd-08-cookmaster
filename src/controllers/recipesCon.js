@@ -7,6 +7,7 @@ const recipesServices = require('../services/recipesSer');
 const code = {
   code200: 200,
   code201: 201,
+  code204: 204,
   code400: 400,
   code401: 401,
   code404: 404,
@@ -74,10 +75,27 @@ const recipeUpdate = async (req, res) => {
   return res.status(code.code200).json(updateRecipes);
 };
 
+const recipeDelete = async (req, res) => {
+  const { id } = req.params;
+  console.log('req.params', id);
+
+  const deleteRecipes = await recipesServices.exclude(id);
+
+  console.log('deleteRecipes', deleteRecipes);
+
+  // if (deleteRecipes.code) {
+  //   return res.status(codeMessage.code422).json({ err: deleteRecipes});
+  // }
+
+  return res.status(code.code204).json();
+
+};
+
 
 router.post('/', validJWT, recipesController);
 router.get('/', recipesGetAll);
 router.get('/:id', recipesGetById);
 router.put('/:id', validJWT, recipeUpdate);
+router.delete('/:id', validJWT, recipeDelete );
 
 module.exports = router;

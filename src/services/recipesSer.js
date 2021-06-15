@@ -79,9 +79,25 @@ const updateRecipes = async (dataRecipes, IdRecipe) => {
   };
 };
 
+const exclude = async (id) => {
+  // const recipeById = await recipesModel
+  //   .getById(id);
+  // console.log('recipeById exclude', recipeById);
+
+  const deleteRecipe = await recipesModel
+    .exclude(id);
+  console.log('deleteRecipe exclude', deleteRecipe);
+  // if( deleteRecipe === null) return {
+  //   message: 'Wrong id format'
+  // };
+
+  return {};
+};
+
 module.exports = {
   addRecipes,
   getAllRecipes,
   getById,
   updateRecipes,
+  exclude,
 };
