@@ -11,7 +11,7 @@ module.exports = (req, _res, next) => {
   try {
     user = jwt.verify(token, secret);
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     return next(createError('jwt malformed', 'invalid_token'));
   }
 

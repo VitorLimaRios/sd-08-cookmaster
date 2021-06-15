@@ -3,10 +3,10 @@ require('dotenv').config();
 const { expect } = require('chai');
 const { MongoClient } = require('mongodb');
 const sinon = require('sinon');
-const connection = require('../../models/connection');
+const connection = require('../../src/models/connection');
 
 const getConnection = require('./getConnection');
-const UserModel = require('../../models/user');
+const UserModel = require('../../src/models/user');
 
 describe('É possível cadastrar um usuário', () => {
   let conn;

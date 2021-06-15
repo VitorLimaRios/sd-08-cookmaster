@@ -5,8 +5,8 @@ const {
   invalidEmailError, invalidEntryErrorMessage, invalidEmailErrorMessage
 } = require('./payloadMocks');
 
-const UserService = require('../../services/user');
-const UserController = require('../../controllers/user');
+const UserService = require('../../src/services/user');
+const UserController = require('../../src/controllers/user');
 
 const HTTP_STATUS_CODES = {
   CREATED: 201,

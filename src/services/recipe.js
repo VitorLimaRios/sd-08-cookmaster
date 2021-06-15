@@ -14,17 +14,20 @@ const getAll = () => RecipeModel.getAll();
 
 const getById = (id) => RecipeModel.getById(id);
 
-const remove = async (id) => {
-  const result = await RecipeModel.remove(id);
-  if (!result) return createError('Deletion failed');
-  return result;
-};
-
 const grantAccess = async (recipeId, user) => {
   const { userId, role } = user;
   const recipe = await getById(recipeId);
   if (recipe._id !== userId && role !== 'admin') return false;
   return true;
+};
+
+const remove = async (id, user) => {
+  if (!grantAccess(id, user)) {
+    return createError('Forbidden', 'forbidden');
+  }
+  const result = await RecipeModel.remove(id);
+  if (!result) return createError('Deletion failed');
+  return result;
 };
 
 const edit = async (recipeId, updates, user) => {

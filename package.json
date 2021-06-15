@@ -11,7 +11,7 @@
     "dev:test:coverage": "nyc --all npm run dev:test",
     "dev:test:coverage:json": "nyc --all --reporter=json-summary npm run dev:test",
     "lint": "eslint --no-inline-config --ext .js,.jsx --no-error-on-unmatched-pattern -c .eslintrc.json .",
-    "unit-tests": "mocha ./src/unit-tests/**/*$NAME$*.test.js --exit"
+    "unit-tests": "mocha ./unit-tests/**/*$NAME$*.test.js --exit"
   },
   "repository": {
     "type": "git",

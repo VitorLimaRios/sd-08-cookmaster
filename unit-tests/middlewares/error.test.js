@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const errorMiddleware = require('../../middlewares/error');
-const createError = require('../../utils/createError');
-const httpStatusCodes = require('../../data/httpStatusCodes');
+const errorMiddleware = require('../../src/middlewares/error');
+const createError = require('../../src/utils/createError');
+const httpStatusCodes = require('../../src/data/httpStatusCodes');
 
 describe('Middleware de Error', () => {
   let request, response, next;

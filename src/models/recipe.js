@@ -55,9 +55,17 @@ const edit = saveMe(async (id, {
 
 const remove = saveMe(async (id) => {
   if (!ObjectId.isValid(id)) return null;
+  
   const db = await connection();
-  const { deletedCount } = await db.collection('recipes').deleteOne({ _id: id });
+
+  const recipe = await getById(id);
+  if (!recipe) return null;
+
+  const { deletedCount } = await db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) });
+
   if (!deletedCount) return null;
+
   return recipe;
 });
 

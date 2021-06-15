@@ -2,8 +2,8 @@ const sinon = require('sinon');
 const { ObjectId, MongoClient } = require('mongodb');
 const { expect } = require('chai');
 
-const UserModel = require('../../models/user');
-const UserService = require('../../services/user');
+const UserModel = require('../../src/models/user');
+const UserService = require('../../src/services/user');
 
 describe('É possível cadastrar um usuário', () => {
   before(() => sinon.stub(MongoClient, 'connect').resolves());

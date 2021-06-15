@@ -44,8 +44,9 @@ const edit = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   const { id } = req.params;
-  const result = await RecipeService.remove(id);
-  if (!result) return next(result);
+  const { id: userId, role } = req.user;
+  const result = await RecipeService.remove(id, { userId, role });
+  if (result.err) return next(result);
   res.sendStatus(httpStatusCodes.NO_CONTENT);
 };
 

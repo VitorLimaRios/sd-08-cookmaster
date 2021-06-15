@@ -3,11 +3,11 @@ const sinon = require('sinon');
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
 
-const httpStatusCodes = require('../../data/httpStatusCodes');
-const createError = require('../../utils/createError');
+const httpStatusCodes = require('../../src/data/httpStatusCodes');
+const createError = require('../../src/utils/createError');
 
-const UserService = require('../../services/user');
-const login = require('../../controllers/login');
+const UserService = require('../../src/services/user');
+const login = require('../../src/controllers/login');
 
 describe('É possível fazer login', () => {
   let request, response, next;
