@@ -27,10 +27,20 @@ const update = async (id, recipe, authorization) => {
   return { _id: insertedId, recipe };
 };
 
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return;
+
+  const result = await getCollections('recipes').then(db => 
+    db.deleteOne({ _id: ObjectId(id) })
+  );
+  return { _id: result.insertedId };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };  
 

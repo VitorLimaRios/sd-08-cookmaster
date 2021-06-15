@@ -7,6 +7,7 @@ const router = Router();
 
 const STATUS_200 = 200;
 const STATUS_201 = 201;
+const STATUS_204 = 204;
 const STATUS_400 = 400;
 const STATUS_401 = 401;
 const STATUS_404 = 404;
@@ -58,6 +59,20 @@ router.put('/:id', async (req, res) => {
   if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
 
   res.status(STATUS_200).json(recipe); 
+});
+
+
+router.delete('/:id', async (req, res) => {
+ 
+  const { authorization } = req.headers; 
+
+  const { id } = req.params;
+  const recipe = await service.exclude(id, authorization);
+
+  if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
+
+  res.status(STATUS_204).end();        
+  
 });
 
 module.exports = router;

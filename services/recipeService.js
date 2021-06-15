@@ -39,10 +39,20 @@ const update = async (id, recipe, authorization) => {
   }
   return model.update(id, recipe, authorization);
 };
+
+const exclude = async (id, authorization) => {
+  if (!authorization) {
+    return {      
+      message: 'missing auth token'   
+    };    
+  }
+  return model.exclude(id);
+}; 
   
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };
