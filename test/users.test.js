@@ -233,8 +233,8 @@ describe("2 - Crie um endpoint para o login de usuários", () => {
   it("Será validado que é possível fazer login com sucesso", async () => {
     await frisby
       .post(`${url}/users/`, {
-        name: "Erick Jacquin",
-        email: "erickjacquin@gmail.com",
+        name: 'Erick Jacquin',
+        email: 'erickjacquin@gmail.com',
         password: "12345678",
       })
       .expect("status", 201)
@@ -244,7 +244,7 @@ describe("2 - Crie um endpoint para o login de usuários", () => {
         return frisby
           .post(`${url}/login`, {
             email: result.user.email,
-            password: "12345678",
+            password: '12345678',
           })
           .expect("status", 200)
           .then((responseLogin) => {
