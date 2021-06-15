@@ -22,6 +22,23 @@ const writeRecipes = async (userId, name, ingredients, preparation) => {
   }
 };
 
+const readRecipes = async () => {
+  try {
+    const db = await connection();
+
+    const result = await db
+      .collection(NAME_COLLECTION)
+      .find({}).toArray();
+
+    return result;
+
+  } catch (error) {
+    console.log(error.message);
+    return null;
+  }
+};
+
 module.exports = {
   writeRecipes,
+  readRecipes,
 };

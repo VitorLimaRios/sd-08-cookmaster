@@ -4,6 +4,7 @@ const { recipesModel, usersModel } = require('../models');
 const { findEmail } = usersModel;
 const {
   writeRecipes,
+  readRecipes,
 } = recipesModel;
 
 const secret = 'trybecookmaster'; // isso deve ir pro .env
@@ -38,6 +39,12 @@ const checkRecipes = async (name, ingredients, preparation) => {
   return false;
 };
 
+const getRecipes = async () => {
+  const result = await readRecipes();
+  return result;
+};
+
 module.exports = {
   recipesCreate,
+  getRecipes,
 };

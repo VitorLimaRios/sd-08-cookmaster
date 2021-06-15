@@ -1,9 +1,11 @@
 const { recipesServices } = require('../services');
 const {
   recipesCreate,
+  getRecipes,
 } = recipesServices;
 
-const OK = 201;
+const SUCCESS = 200;
+const CREATED = 201;
 const BAD = 400;
 const UNAUTHORIZED = 401;
 
@@ -20,13 +22,25 @@ const registerRecipes = async (req, res) => {
     if (result.message === 'jwt malformed')
       return res.status(UNAUTHORIZED).json(result);
 
-    return res.status(OK).json(result);
+    return res.status(CREATED).json(result);
   } catch (error) {
 
     return res.status(UNAUTHORIZED).json({ message: error.message });
   }
 };
 
+const getAllRecipes = async (_req, res) => {
+  try {
+
+    const result = await getRecipes();
+
+    return res.status(SUCCESS).json(result);
+  } catch (error) {
+    return res.status(BAD).json(error);
+  }
+};
+
 module.exports = {
   registerRecipes,
+  getAllRecipes,
 };
