@@ -5,14 +5,16 @@ const serviceLogin = require('../services/loginService');
 const rescue = require('express-rescue');
 const router = Router();
 
+const STATUS_200 = 200;
 const STATUS_201 = 201;
 const STATUS_400 = 400;
 const STATUS_401 = 401;
 
 router.get('/', rescue(async (_req, res) => {
   const recipe = await service.getAll();
-  res.status(STATUS_201).json({recipe});
+  res.status(STATUS_200).json(recipe);
 }));
+
 router.post('/', rescue(async (req, res) => {
   const { authorization } = req.headers; 
  

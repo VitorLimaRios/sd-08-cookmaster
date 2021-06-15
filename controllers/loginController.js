@@ -1,12 +1,14 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const router = Router();
-const crypto = require('crypto');
+// const crypto = require('crypto');
+const secret = require('../utils/crypto');
+
 const service = require('../services/loginService');
 const jwt = require('jsonwebtoken');
 
-const EIGHT = 8;
-const secret = crypto.randomBytes(EIGHT).toString('hex');
+// const EIGHT = 8;
+// const secret = crypto.randomBytes(EIGHT).toString('hex');
 
 const jwtConfig = { 
   expiresIn: '7d',
