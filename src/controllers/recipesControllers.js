@@ -37,4 +37,14 @@ routes.get('/:id', async (req, res) => {
   }
 });
 
+routes.put('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const recipe = req.body;
+  const { userId } = req;
+
+  const response = await recipesServices
+    .updateRecipeById(id, recipe, userId);
+  return res.status(status.OK).json(response);
+});
+
 module.exports = routes;

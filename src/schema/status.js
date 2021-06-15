@@ -5,6 +5,7 @@ const status = {
   unauthorized: 401,
   OK: 200,
   notFound: 404,
+  forbidden: 403,
 };
 
 const message = {
@@ -14,6 +15,8 @@ const message = {
   incorrectFields: 'Incorrect username or password',
   invalidToken: 'jwt malformed',
   recipeNotFound: 'recipe not found',
+  authToken: 'missing auth token',
+  userAdmin: 'Only admins can register new admins',
 };
 
 module.exports = {
