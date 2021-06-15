@@ -80,18 +80,23 @@ const updateRecipes = async (dataRecipes, IdRecipe) => {
 };
 
 const exclude = async (id) => {
-  // const recipeById = await recipesModel
-  //   .getById(id);
-  // console.log('recipeById exclude', recipeById);
 
   const deleteRecipe = await recipesModel
     .exclude(id);
   console.log('deleteRecipe exclude', deleteRecipe);
-  // if( deleteRecipe === null) return {
-  //   message: 'Wrong id format'
-  // };
 
   return {};
+};
+
+const saveImageById = async (id, urlImage) => {
+  const imageSaved = await recipesModel.saveImage(id, urlImage);
+  console.log('imageSaved', imageSaved);
+
+  const recipesById = await recipesModel.getById(id);
+  console.log('recipesById', recipesById);
+
+  return recipesById;
+
 };
 
 module.exports = {
@@ -100,4 +105,5 @@ module.exports = {
   getById,
   updateRecipes,
   exclude,
+  saveImageById,
 };

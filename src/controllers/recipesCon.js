@@ -3,6 +3,7 @@ const router = express.Router();
 const middlewares_recipes = require('../middlewares/recipesValidation');
 const { validJWT } = require('../middlewares/validateJWT');
 const recipesServices = require('../services/recipesSer');
+const multer = require('multer');
 
 const code = {
   code200: 200,
@@ -81,21 +82,49 @@ const recipeDelete = async (req, res) => {
 
   const deleteRecipes = await recipesServices.exclude(id);
 
-  console.log('deleteRecipes', deleteRecipes);
-
-  // if (deleteRecipes.code) {
-  //   return res.status(codeMessage.code422).json({ err: deleteRecipes});
-  // }
+  // console.log('deleteRecipes', deleteRecipes);
 
   return res.status(code.code204).json();
 
 };
 
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+
+  }
+
+});
+
+
+const upload = multer({storage});
+
+
+const saveImage = async (req, res) => {
+  const { id } = req.params;
+
+  const urlImage = `localhost:3000/src/uploads/${id}.jpeg`;
+
+  console.log('id and urlImage', id, urlImage);
+
+  const saveImageById = await recipesServices.saveImageById(id, urlImage);
+
+  console.log('saveImageById', saveImageById);
+
+  console.log('saveImage req.body and req.file', req.body, req.file);
+  res.status(code.code200).json(saveImageById);
+};
+
 router.post('/', validJWT, recipesController);
 router.get('/', recipesGetAll);
 router.get('/:id', recipesGetById);
 router.put('/:id', validJWT, recipeUpdate);
 router.delete('/:id', validJWT, recipeDelete );
+router.put('/:id/image', validJWT, upload.single('image'), saveImage);
 
 module.exports = router;
