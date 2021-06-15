@@ -6,6 +6,7 @@ const validateCreateMiddleware = require('./middlewares/users/validateCreateMidd
 const validateLoginMiddleware = require('./middlewares/users/validateLoginMiddleware');
 const validateCreateRecipeMiddleware =
   require('./middlewares/recipes/validateCreateRecipeMiddleware');
+const JWTValidationMiddleware = require('./middlewares/recipes/JWTValidationMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,9 +22,14 @@ app.post('/users', validateCreateMiddleware, User.create);
 app.post('/login', validateLoginMiddleware, User.login);
 
 //Recipes
-app.post('/recipes', validateCreateRecipeMiddleware, Recipe.create);
+app.post('/recipes',
+  validateCreateRecipeMiddleware,
+  JWTValidationMiddleware,
+  Recipe.create,
+);
 app.get('/recipes', Recipe.getAll);
 app.get('/recipes/:id', Recipe.getRecipeById);
-app.put('/recipes/:id', Recipe.update);
+app.put('/recipes/:id', JWTValidationMiddleware, Recipe.update);
+app.delete('/recipes/:id', JWTValidationMiddleware, Recipe.deleteRecipe);
 
 module.exports = app;

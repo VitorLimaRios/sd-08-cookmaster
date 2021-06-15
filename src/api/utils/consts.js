@@ -16,6 +16,7 @@ const STATUS_400 = 400;
 const STATUS_401 = 401;
 const STATUS_404 = 404;
 const STATUS_409 = 409;
+const STATUS_500 = 500;
 const KEY = 'Trybe';
 const ERRORS = {
   eInput: {
@@ -56,7 +57,12 @@ const ERRORS = {
   eUnauthorized: {
     status: STATUS_401,
     message: 'you are not authorized to edit this recipe',
-  }
+  },
+
+  e500: {
+    status: STATUS_500,
+    message: 'sorry, internal error'
+  },
 };
 const JWT_CONFIG = {
   expiresIn: '1d',
@@ -81,4 +87,5 @@ module.exports = {
   STATUS_400,
   STATUS_401,
   STATUS_409,
+  STATUS_500,
 };

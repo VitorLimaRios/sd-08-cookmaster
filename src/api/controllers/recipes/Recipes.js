@@ -1,18 +1,21 @@
 const rescue = require('express-rescue');
+const jwt = require('jsonwebtoken');
 const Recipe = require('../../services/recipes/Recipes');
-const { ERRORS, STATUS_201, STATUS_200 } = require('../../utils/consts');
-const JWTValidation = require('../../utils/JWTValidation');
+const { ERRORS, STATUS_201, STATUS_200, STATUS_204, KEY } = require('../../utils/consts');
 
 const create = rescue(async (req, res) => {
-  const { eToken } = ERRORS;
+  const { e500 } = ERRORS;
   const { name, ingredients, preparation } = req.body;
-  const token = req.headers.authorization;
-  if (!token) return res.status(eToken.status).json({ message: eToken.message });
-  const data = JWTValidation(token);
-  if (!data._id) return res.status(eToken.status).json({ message: eToken.message });
-  const userId = data._id;
-  const newRecipe = await Recipe.create(name, ingredients, preparation, userId);
-  return res.status(STATUS_201).json({ recipe: newRecipe });
+  const { authorization } = req.headers;
+  try {
+    const decode = jwt.verify(authorization, KEY);
+    const { data } = decode;
+    const userId = data._id;
+    const newRecipe = await Recipe.create(name, ingredients, preparation, userId);
+    return res.status(STATUS_201).json({ recipe: newRecipe });
+  } catch (err) {
+    return res.status(e500.status).json({ message: e500.message });
+  }
 });
 
 const getAll = rescue(async (_req, res) => {
@@ -26,31 +29,55 @@ const getRecipeById = rescue(async (req, res) => {
 
   const recipe = await Recipe.getRecipeById(id);
 
-  if (!recipe._id) {
+  if (!recipe) {
     return res.status(eNotFound.status).json({ message: eNotFound.message });
   }
   return res.status(STATUS_200).json(recipe);
 });
 
 const update = rescue(async (req, res) => {
-  const { eToken, eNotToken, eNotFound, eUnauthorized } = ERRORS;
+  const { e500 } = ERRORS;
   const { name, ingredients, preparation } = req.body;
+  const { authorization } = req.headers;
   const { id } = req.params;
-  const token = req.headers.authorization;
-  if (!token) return res.status(eToken.status).json({ message: eNotToken.message });
-  const data = JWTValidation(token);
-  if (!data._id) return res.status(eToken.status).json({ message: eToken.message });
-  const userId = data._id;
-  const userRole = data.role;
-  const recipe = await Recipe.getRecipeById(id);
-  if (!recipe._id) {
-    return res.status(eNotFound.status).json({ message: eNotFound.message });
+  try {
+    const decode = jwt.verify(authorization, KEY);
+    const { data } = decode;
+    const userId = data._id;
+    const userRole = data.role;
+    const recipe = await Recipe.getRecipeById(id);
+    if (userId === recipe.userId || userRole === 'admin') {
+      const updateRecipe = await Recipe.update(id, name, ingredients, preparation);
+      return res.status(STATUS_200).json(updateRecipe);
+    }
+    return res.status(e500.status).json({ message: e500.message });
+  } catch (err) {
+    return res.status(e500.status).json({ message: e500.message });
   }
-  if (userId !== recipe.userId && userRole !== 'admin') {
-    return res.status(eUnauthorized.status).json({ message: eUnauthorized.message });
+});
+
+const deleteRecipe = rescue(async (req, res) => {
+  const { e500 } = ERRORS;
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  console.log(id);
+  console.log(authorization);
+  try {
+    console.log('try');
+    const decode = jwt.verify(authorization, KEY);
+    const { data } = decode;
+    const userId = data._id;
+    const userRole = data.role;
+    const recipe = await Recipe.getRecipeById(id);
+    if (userId === recipe.userId || userRole === 'admin') {
+      console.log('if');
+      await Recipe.deleteRecipe(id);
+      return res.status(STATUS_204);
+    }
+    return res.status(e500.status).json({ message: e500.message });
+  } catch (err) {
+    return res.status(e500.status).json({ message: e500.message });
   }
-  const updateRecipe = await Recipe.update(id, name, ingredients, preparation);
-  return res.status(STATUS_200).json(updateRecipe);
 });
 
 module.exports = {
@@ -58,4 +85,5 @@ module.exports = {
   getAll,
   getRecipeById,
   update,
+  deleteRecipe,
 };

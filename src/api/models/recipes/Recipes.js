@@ -25,14 +25,11 @@ const getAll = async () => {
 };
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isValid(id)) return {};
+  if (!ObjectId.isValid(id)) return null;
 
   return connectionDB()
     .then((db) => db.collection(COLLECTION_RECIPES).findOne(new ObjectId(id))
-      .then((result) => {
-        if (result !== null) return result;
-        return {};
-      }));
+      .then(result => result));
 };
 
 const update = async (id, name, ingredients, preparation) => {
@@ -49,9 +46,19 @@ const update = async (id, name, ingredients, preparation) => {
       .then(result => result.value));
 };
 
+const deleteRecipe = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const recipeId = new ObjectId(id);
+  return connectionDB()
+    .then((db) => db.collection(COLLECTION_RECIPES).findOneAndDelete({_id: recipeId})
+      .then(result => result.value));
+};
+
 module.exports = {
   create,
   getAll,
   getRecipeById,
   update,
+  deleteRecipe,
 };
