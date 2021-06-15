@@ -3,6 +3,7 @@ const { validateJWT } = require('../../middlewares/validateJWT');
 const { checkIfUserIsOwnerRecipeOrAdmin } 
   = require('../../middlewares/checkIfUserIsOwnerRecipeOrAdmin');
 const recipeController = require('../controllers/recipeController');
+const loadFile = require('../../middlewares/loadFile');
 
 const router = express.Router();
 
@@ -15,6 +16,12 @@ router.delete(
   validateJWT,
   checkIfUserIsOwnerRecipeOrAdmin,
   recipeController.exclude,
+);
+router.put('/:id/image',
+  validateJWT,
+  checkIfUserIsOwnerRecipeOrAdmin,
+  loadFile.single('image'),
+  recipeController.updateImage,
 );
 
 module.exports = router;

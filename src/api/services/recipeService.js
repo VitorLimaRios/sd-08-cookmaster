@@ -45,10 +45,24 @@ const exclude = async (id) => {
   return deletedRecipe;
 };
 
+const updateImage = async (id, fullPathImage) => {
+  RecipeValidations.validateRecipeId(id);
+  
+  const recipe = await RecipeModel.findById(id);
+  
+  await RecipeModel.updateImage(id, fullPathImage);
+  
+  return {
+    ...recipe,
+    image: fullPathImage
+  };
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
   exclude,
+  updateImage,
 };

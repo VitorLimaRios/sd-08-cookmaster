@@ -66,10 +66,30 @@ const exclude = async (req, res) => {
   }
 };
 
+const updateImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fullPathImage = `localhost:3000/src/uploads/${id}.jpeg`;
+    
+    const updatedRecipeWithImage = await RecipeService
+      .updateImage(id, fullPathImage);
+    
+    res
+      .status(StatusCode.OK)
+      .json(updatedRecipeWithImage);
+  } catch (error) {
+    const { message, code } = error;
+    res
+      .status(code)
+      .json({ message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
   exclude,
+  updateImage,
 };

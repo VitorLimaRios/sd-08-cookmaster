@@ -62,10 +62,24 @@ const exclude = async (id) => {
   return await recipesCollection.deleteOne({ _id: ObjectId(id) });
 };
 
+const updateImage = async (id, fullPathImage) => {
+  const recipesCollection = await mongoConnection()
+    .then((db) => db.collection('recipes'));
+  
+  const updatedRecipeWithImage = await recipesCollection
+    .updateOne(
+      { _id: ObjectId(id) },
+      { $set: { image: fullPathImage } }
+    );
+  
+  return updatedRecipeWithImage;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
   exclude,
+  updateImage,
 };
