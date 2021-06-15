@@ -22,11 +22,11 @@ const findUserByName = async (name) => {
   return findingUserName
 };
 
-const findUserByEmail = async(email) => {
+const findUserByEmail = async (email) => {
   const findingUserName = await connection()
-  .then((db => db.collection('users').findOne({ email })));
-// ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.email === email)?
-return findingUserName
+    .then((db => db.collection('users').findOne({ email })));
+  // ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.email === email)?
+  return findingUserName
 }
 
 const createNewUser = async (user) => {
@@ -41,4 +41,4 @@ const deleteUserByName = async (userName) => {
 }
 
 
-module.exports = { getAllTheUsers, findUserByName, createNewUser, deleteUserByName };
+module.exports = { getAllTheUsers, findUserByName, findUserByEmail, createNewUser, deleteUserByName };

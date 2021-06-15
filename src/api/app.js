@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const users = require('../models/usersModel');
-const { create, getAll } = require('../controllers/userController');
+const { create, getAll, tokenGenerate } = require('../controllers/userController');
 const { validateUserCreation } = require('../services/usersValidations')
 app.use(bodyParser.json());
 // ...
@@ -20,7 +20,11 @@ app.get('/', (_request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+app.post('/users', validateUserCreation, create);
+
+// routes for testing
 app.get('/all', getAll);
+app.post('/test', tokenGenerate);
 
 app.get('/user', async (req, res) => {
   const { name } = req.body;
@@ -28,8 +32,6 @@ app.get('/user', async (req, res) => {
   if (!foundUser) return res.status(404).send({ message: 'User not found' })
   return res.status(200).send({ user: foundUser });
 });
-
-app.post('/users', validateUserCreation, create);
 
 app.delete('/users', async (req, res) => {
   await users.deleteUserByName(req.body.name);

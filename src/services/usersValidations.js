@@ -15,7 +15,7 @@ const checkForBadRequest = async (req, res, next) => {
 
 const checkEmail = async (req, res, next) => {
   const { email } = req.body;
-  const EMAIL_VALIDATION = /^[\w]+@([\w]+\.)+[\w]{2,4}$/gi;
+  const EMAIL_VALIDATION = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+?$/gi;
   const checkEmailValid = EMAIL_VALIDATION.test(email);
   if (!checkEmailValid) return res.status(emailMustBeValid.status).send(emailMustBeValid.send);
   const checkEmailUnique = (await usersModel.getAllTheUsers()).find((database) => database.email === email);

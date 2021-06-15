@@ -5,9 +5,12 @@ const OPTIONS = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
+const urlLocal = 'mongodb://localhost:27017/Cookmaster';
+const urlAval = 'mongodb://mongodb:27017/Cookmaster';
+const urlUsage = (avaliador) => avaliador ? urlAval : urlLocal;
 
-const MONGO_DB_URL = process.env.MONGO_DB_URL_LOCAL || process.env.MONGO_DB_URL_AVALIADOR;
-const DB_NAME = process.env.DB_NAME;
+const MONGO_DB_URL = urlUsage(false);
+const DB_NAME = 'Cookmaster';
 
 const connection = () => { // depois tentar com o async await
   return MongoClient
