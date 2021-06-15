@@ -18,17 +18,6 @@ const controlValidation = (name, ingredients, preparation) => {
 
 };
 
-
-
-// const postUsers = (req, res, next) => {
-//   const { name } = req.body;
-
-//   const isNameValid = nameValidation(name);
-
-//   if(!isNameValid) return { message: 'Invalid entries. Try again'};
-
-// };
-
 module.exports = {
   controlValidation,
 };
