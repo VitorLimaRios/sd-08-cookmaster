@@ -17,5 +17,6 @@ app.get('/', (request, response) => {
 app.use('/users', userController);
 app.use('/login', loginController);
 app.use('/recipes', recipeController);
+app.use('/recipes/id', recipeController);
 
 module.exports = app;

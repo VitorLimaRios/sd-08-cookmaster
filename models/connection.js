@@ -1,13 +1,13 @@
 const { MongoClient } = require('mongodb');
 
 const DB_NAME = 'Cookmaster';
-const DB_URI = `mongodb://localhost:27017/${DB_NAME}`;
+const MONGO_DB_URL = `mongodb://mongodb:27017/${DB_NAME}`;
 
 let connection;
 
 const getConnection = async (collectionName) => {
   connection = connection ||
-    (await MongoClient.connect(DB_URI, {
+    (await MongoClient.connect(MONGO_DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }));

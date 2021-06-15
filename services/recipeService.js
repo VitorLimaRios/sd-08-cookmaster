@@ -2,6 +2,14 @@ const model = require('../models/recipeModel');
 
 const getAll = async () => model.getAll();
 
+const getById = async (id) => {
+  const recipe = await model.getById(id);
+  if (!recipe || recipe === null) {
+    return { message: 'recipe not found' };
+  }
+  return recipe;
+}; 
+
 const create = async (recipes, authorization) => {
   const DOZE = 12;
   const { name, ingredients, preparation } = recipes; 
@@ -20,5 +28,6 @@ const create = async (recipes, authorization) => {
   
 module.exports = {
   getAll,
+  getById,
   create,
 };
