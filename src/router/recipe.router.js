@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/',
   validateFormRecipes,
   auth, 
-  controller.register);
+  controller.register)
+  .get('/', controller.findAll);
 
 module.exports = router;
