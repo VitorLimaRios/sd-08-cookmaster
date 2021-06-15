@@ -14,8 +14,21 @@ const getAll = async () => await connection()
 const getOne = async (id) => await connection()
   .then(db => db.collection('recipes').findOne({ _id: ObjectId(id) }));
 
+const updateOne = async (recipeID, info) =>{
+  await connection().then(db => db.collection('recipes')
+    .updateOne({ _id: ObjectId(recipeID) }, 
+      { $set: { ...info }} ));
+};
+  
+const deleteOne = async (recipeID) =>{
+  await connection().then(db => db.collection('recipes')
+    .deleteOne({ _id: ObjectId(recipeID) } ));
+};
+
 module.exports = {
   create,
   getAll,
   getOne,
+  updateOne,
+  deleteOne,
 };
