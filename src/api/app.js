@@ -4,10 +4,9 @@ const bodyParser = require('body-parser');
 // const path = require('path');
 
 const { isValidName, isValidEmail, isValidPassword } = require('../middlewares/users');
+const { auth } = require('../middlewares/recipes');
 const usersControllers = require('../controllers/users');
-// const userAuth = require('../controllers/login');
-//const recipesControllers = ('../controllers/recipes');
-
+const recipesControllers = require('../controllers/recipes');
 const app = express();
 app.use(bodyParser.json());
 
@@ -20,8 +19,7 @@ app.get('/', (request, response) => {
 
 app.post('/users', isValidName, isValidEmail, isValidPassword, usersControllers.create);
 app.post('/login', usersControllers.login);
-
-// app.post('/recipes', tokenValidation, recipesController.create);
+app.post('/recipes', auth, recipesControllers.create);
 // app.get('/recipes', recipesController.getAll);
 // app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 // app.get(recipeId, recipesController.findById);

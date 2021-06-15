@@ -39,10 +39,11 @@ const login = async (req, res) => {
     algorithm: 'HS256',
   };
   const token = jwt.sign(
-    { email: user.email, password: user.password }, 
+    { id: user._id, email: user.email, role: user.role }, 
     secret, 
     jwtConfig
   );
+  console.log(token);
   res.status(STATUS_200).json({ token });
 };
 
