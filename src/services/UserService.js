@@ -23,9 +23,10 @@ module.exports = {
     const user = await User.findUserByEmail(email);
     if (!user || user.email !== email || user.password !== password) {
       return { code: msg.status.unauthorized, message: msg.loginInvalid };
-    } else return false;
+    } else return user;
   },
   generateToken: async (user) => {
+    console.log(user);
     const JWTConfig = {
       expiresIn: '7d',
       algorithm: 'HS256',

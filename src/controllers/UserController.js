@@ -20,10 +20,10 @@ module.exports = {
     }
     const { email, password } = req.body;
     const dataLogin = await UserService.verifyLoginData(email, password);
-    if (dataLogin) {
+    if (dataLogin.hasOwnProperty('code')) {
       return res.status(dataLogin.code).json({ message: dataLogin.message });
     }
-    const result = await UserService.generateToken(req.body);
+    const result = await UserService.generateToken(dataLogin);
     return res.status(result.code).json({ token: result.token });
   },
 };

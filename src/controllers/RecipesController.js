@@ -76,5 +76,11 @@ module.exports = {
     }
     await Recipe.deleteRecipe(id);
     return res.status(msg.status.noContent).json();
-  }
+  },
+  upload: async (req, res) => {
+    const { id } = req.params;
+    const path = 'localhost:3000/src/uploads/';
+    const setImage = await Recipe.setImage(id, path);
+    res.status(msg.status.ok).json(setImage);
+  },
 };

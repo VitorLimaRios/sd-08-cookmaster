@@ -9,6 +9,7 @@ const modelSchema = new mongoose.Schema(
     ingredients: String,
     preparation: String,
     userId: String,
+    image: String,
   },
   { versionKey: false },
 );
@@ -50,5 +51,13 @@ module.exports = {
   },
   deleteRecipe: async (id) => {
     return await Recipe.deleteOne({ _id: id });
+  },
+  setImage: async (id, path) => {
+    const recipe = await Recipe.findOneAndUpdate(
+      { _id: ObjectId(`${id}`) },
+      { $set: { image: path + id + '.jpeg' } },
+    );
+    recipe.image = path + id + '.jpeg';
+    return recipe;
   },
 };
