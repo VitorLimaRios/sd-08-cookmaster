@@ -27,6 +27,7 @@ app.post('/login', login.login);
 app.post('/recipes', tokenValidation, recipesController.createRecipe);
 app.get('/recipes', recipesController.getAll);
 app.get('/recipes/:id', recipesController.getById);
+app.put('/recipes/:id', tokenValidation, recipesController.updateRecipe);
 app.delete('/recipes/:id', tokenValidation, recipesController.deleteRecipe);
 
 module.exports = app;
