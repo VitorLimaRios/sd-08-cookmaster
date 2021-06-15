@@ -30,10 +30,19 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  const updateRecipes = await recipes.update(id, name, ingredients, preparation);
+  return updateRecipes;
+};
 
+const excludeRecipe = async (id) => {
+  await recipes.exclude(id);
+};
 
 module.exports = {
   createRecipes,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
+  excludeRecipe,
 };

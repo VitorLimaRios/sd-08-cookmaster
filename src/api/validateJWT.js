@@ -3,46 +3,24 @@ const user = require('./models/userModel');
 
 const secret = 'odeioBackEnd';
 const invalid = 401; 
-
-const jwtConfig = {
-  expiresIn: '1d',
-  algorithm: 'HS256',
-};
+const invalid_status = 400;
 
 module.exports = async (req, res, next) => {
   const token = req.headers['authorization'];
 
-  // if (!token) return res.status(400).json({ 'message': 'Token not found' });
+  if (!token) return res.status(invalid).json({ 'message': 'missing auth token' });
 
   try {
     const payload = jwt.verify(token, secret);
 
-    const userAccount = await user.findByEmail(payload.data.email);
+    const userAccount = await user.findByEmail(payload.email);
 
     if (!userAccount) return res.status(invalid).json({ 'message': 'jwt malformed' });
 
     req.user = userAccount;
 
+    next();
   } catch (err) {
-    // return res.status(invalid).json({ 'message': 'jwt malformed' });
+    return res.status(invalid).json({message: err.message});
   }
-  next();
 };
-
-// const jwt = require('jsonwebtoken');
-// const user = require('./models/userModel');
-
-// const secret = 'odeioBackEnd';
-// const invalid = 401; 
-
-// module.exports = async (req, res, next) => {
-//   const token = req.headers.authorization;
-//   console.log('9',token);
-
-//   jwt.verify(token, secret, function (err, decoded) {
-//     if(err) return res.status(invalid).json({ 'message': 'jwt malformed'});
-//     req.userId = decoded.id;
-//     console.log('User Id: ' + decoded.id);
-//     next();
-//   });
-// };

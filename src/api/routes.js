@@ -9,5 +9,7 @@ router.post('/login', user.doLogin);
 router.post('/recipes', tokenValidator, recipe.create);
 router.get('/recipes', recipe.getAll);
 router.get('/recipes/:id', recipe.getRecipeById);
+router.put('/recipes/:id', tokenValidator, recipe.updateRecipes);
+router.delete('/recipes/:id', tokenValidator, recipe.exclude);
 
 module.exports = router;

@@ -29,7 +29,7 @@ const doLogin = async(req, res) => {
   try {
     const { email, password } = req.body;
     const login = await service.login(email, password);
-    return res.status(OK).json(login);
+    return res.status(OK).json({token: login});
   } catch (err) {
     return res.status(invalid).json({
       message: err.message,
