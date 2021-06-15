@@ -8,18 +8,35 @@ const server = require('../api/app');
 const { getConnection } = require('./connectionMock');
 const { expect } = chai;
 
-let connectionMock;
-let response;
-let token;
 
 describe('Test Init', () => {
+  let connectionMock;
+  let response;
+  let token;
+  let validId;
+  let adminToken;
+
   before(async () => {
     connectionMock = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+    const db = connectionMock.db('Cookmaster');
+    await db.collection('users').insertOne({
+      name: 'admin',
+      email: 'root@email.com',
+      password: 'admin',
+      role: 'admin',
+    });
+
+    const adminLogin = await chai.request(server)
+      .post('/login')
+      .send({email: 'root@email.com', password: 'admin'});
+
+      adminToken = adminLogin.body.token;
   });
 
   describe('POST /users', () => {
-    describe('1.1 - When registration fails due to an invalid entry', () => {
+    describe('1.1 - When the registration fails due to an invalid entry', () => {
       describe('1.1.1 - When name field is empty', () => {
         before(async () => {
           response = await chai.request(server)
@@ -501,7 +518,7 @@ describe('Test Init', () => {
           .set('authorization', token)
           .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
 
-          const validId = newRecipe.body.recipe._id;
+          validId = newRecipe.body.recipe._id;
         
           response = await chai.request(server)
             .get(`/recipes/${validId}`);
@@ -523,6 +540,116 @@ describe('Test Init', () => {
               preparation: "freeze the water",
               userId: `${response.body.userId}`,
             });
+        });
+      });
+    });
+  });
+
+  describe('GET /recipes/:id', () => {
+    describe('5 - Update recipes', () => {
+      describe('5.1 - When update fails because of user not logged in', async () => {
+        before(async () => {
+          response = await chai.request(server)
+            .put(`/recipes/${validId}`)
+            .set('authorization', '')
+            .send({ name: 'ice too', ingredients: 'water', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "401"', () => {
+          expect(response).to.have.status(401);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "missing auth token"`, async () => {
+          expect(response.body.message).to.be.equals('missing auth token');
+        });
+      });
+
+      describe('5.2 - When update fails due to invalid token', async () => {
+        before(async () => {
+          response = await chai.request(server)
+            .put(`/recipes/${validId}`)
+            .set('authorization', 'invalid_token')
+            .send({ name: 'ice too', ingredients: 'water', preparation: 'freeze the water'});
+        });
+
+        it('returns status code "401"', () => {
+          expect(response).to.have.status(401);
+        });
+  
+        it('returns an object in the body', () => {
+          expect(response.body).to.be.an('object');
+        });
+  
+        it('the response object has the property "message"', () => {
+          expect(response.body).to.have.property('message');
+        });
+  
+        it(`the "message" property has the value: "jwt malformed"`, async () => {
+          expect(response.body.message).to.be.equals('jwt malformed');
+        });
+      });
+
+      describe('5.3 - When the update is successful', () => {
+        describe('5.3.1 - When the recipe belongs to the user', async () => {
+          before(async () => {
+            response = await chai.request(server)
+              .put(`/recipes/${validId}`)
+              .set('authorization', token)
+              .send({ name: 'ice too', ingredients: 'water', preparation: 'freeze the water'});
+          });
+  
+          it('returns status code "200"', () => {
+            expect(response).to.have.status(200);
+          });
+    
+          it('returns an object in the body', () => {
+            expect(response.body).to.be.an('object');
+          });
+    
+          it("the response object contains the recipe's new data", () => {
+            expect(response.body).to.be.deep.equals({
+                _id: `${response.body._id}`,
+                name: "ice too",
+                ingredients: "water",
+                preparation: "freeze the water",
+                userId: `${response.body.userId}`,
+            });
+          });
+        });
+
+        describe('5.3.2 - When the user is admin', async () => {
+          before(async () => {
+            response = await chai.request(server)
+              .put(`/recipes/${validId}`)
+              .set('authorization', adminToken)
+              .send({ name: 'ice', ingredients: 'water', preparation: 'freeze the water'});
+          });
+  
+          it('returns status code "200"', () => {
+            expect(response).to.have.status(200);
+          });
+    
+          it('returns an object in the body', () => {
+            expect(response.body).to.be.an('object');
+          });
+    
+          it("the response object contains the recipe's new data", () => {
+            expect(response.body).to.be.deep.equals({
+                _id: `${response.body._id}`,
+                name: "ice",
+                ingredients: "water",
+                preparation: "freeze the water",
+                userId: `${response.body.userId}`,
+            });
+          });
         });
       });
     });

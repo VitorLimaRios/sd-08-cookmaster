@@ -45,8 +45,18 @@ const ERRORS = {
 
   eNotFound: {
     status: STATUS_404,
-    message: 'recipe not found'
+    message: 'recipe not found',
   },
+
+  eNotToken: {
+    status: STATUS_401,
+    message: 'missing auth token',
+  },
+
+  eUnauthorized: {
+    status: STATUS_401,
+    message: 'you are not authorized to edit this recipe',
+  }
 };
 const JWT_CONFIG = {
   expiresIn: '1d',
