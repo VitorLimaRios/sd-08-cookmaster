@@ -16,6 +16,11 @@ app.get('/', (request, response) => {
 
 app.post('/users', userController.createUser);
 app.post('/login', userController.login);
+
+app.get('/recipes',recipesController.getAllRecipes);
+app.get('/recipes/:id', recipesController.getRecipeById);
 app.post('/recipes', auth, recipesController.createRecipe);
+app.put('/recipes/:id', auth, recipesController.updateRecipe);
+app.delete('/recipes/:id', auth, recipesController.deleteRecipe);
 
 module.exports = app;

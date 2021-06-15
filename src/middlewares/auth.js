@@ -3,14 +3,13 @@ const userModel = require('../models/User');
 
 const secret = 'secretPass';
 const Unauthorized = 401;
-const BadRequest = 400;
 
 const validateToken = async (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) {
     return res
-      .status(BadRequest)
-      .json({ message: 'jwt malformed' });
+      .status(Unauthorized)
+      .json({ message: 'missing auth token' });
   }
 
   try {
