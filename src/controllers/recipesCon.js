@@ -8,6 +8,7 @@ const code = {
   code200: 200,
   code201: 201,
   code400: 400,
+  code401: 401,
   code404: 404,
   code409: 409,
 };
@@ -58,9 +59,25 @@ const recipesGetById = async (req, res) => {
   return res.status(code.code200).json(filterIdRecipes);
 };
 
+const recipeUpdate = async (req, res) => {
+  const {name, ingredients, preparation} = req.body;
+  const {id} = req.params;
+  console.log('------------'); 
+  console.log('recipeUpdate line 61 req.body', name, ingredients, preparation, id);
+ 
+  const updateRecipes = await recipesServices.updateRecipes(req.body, id);
+  console.log('updateRecipes recipesCon line 75', updateRecipes);
+  
+  if(updateRecipes.message) 
+    return res.status(code.code409).json(updateRecipes);
+
+  return res.status(code.code200).json(updateRecipes);
+};
+
 
 router.post('/', validJWT, recipesController);
 router.get('/', recipesGetAll);
 router.get('/:id', recipesGetById);
+router.put('/:id', validJWT, recipeUpdate);
 
 module.exports = router;

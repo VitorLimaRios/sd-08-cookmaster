@@ -11,7 +11,7 @@ const validJWT = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if(!token) {
-    return res.status().json({ message: 'jwt malformed'});
+    return res.status(code.code401).json({ message: 'missing auth token'});
   }
 
   try {
@@ -30,7 +30,7 @@ const validJWT = async (req, res, next) => {
     if(!findUser) {
       return res
         .status(code.code401)
-        .json({ message: 'Erro ao procurar usuário do token.'});
+        .json({ message: 'jwt malformed'});
     }
 
     req.user = findUser;

@@ -1,4 +1,5 @@
 // regras dos negócios
+// const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesMod');
 // const usersModel = require('../models/usersMod');
 
@@ -39,8 +40,48 @@ const getById = async (id) => {
   return recipesById;
 };
 
+const updateRecipes = async (dataRecipes, IdRecipe) => {
+  const { name, ingredients, preparation } = dataRecipes;
+
+  console.log('------------'); 
+  console.log('IdRecipe', IdRecipe);
+
+  const getAll = await recipesModel.getAllRecipes();
+
+  console.log('------------'); 
+  console.log('getAll line 51 Service', getAll);
+
+  const getIdUser = getAll.find((data) => 
+  // const IdRecipeData = data._id;
+  // console.log('type data._id', typeof(IdRecipeData));
+  // console.log('type IdRecipe', typeof(IdRecipe));
+  // console.log('data._id', IdRecipeData);
+  // console.log('IdRecipe', IdRecipe);
+    
+    // console.log('true or false', IdRecipeData == IdRecipe);
+    data._id == IdRecipe
+  );
+  console.log('------------'); 
+  console.log('getIdUser line 51 Service', getIdUser);
+
+
+  await recipesModel
+    .update(name, ingredients, preparation, IdRecipe);
+  // console.log('------------'); 
+  // console.log('updateRecipe line 43 Service', updateRecipe);
+
+  return {
+    _id: IdRecipe,
+    name,
+    ingredients,
+    preparation,
+    userId: getIdUser.userId,
+  };
+};
+
 module.exports = {
   addRecipes,
   getAllRecipes,
   getById,
+  updateRecipes,
 };
