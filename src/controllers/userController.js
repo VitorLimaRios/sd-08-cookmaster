@@ -3,13 +3,14 @@ const usersServices = require('../services/usersServices');
 
 const { responsesNCodes: { OK, CREATED } } = require('../utils/errorsNCodes');
 
-const getAll = async (_req, res) => {
+const listUsers = async (_req, res) => {
   return res.status(OK.status).send({ allUsers: await usersServices.getAllUsers() })
 };
 
 const login = async (req, res) => {
   const { username: reqUsername, password: reqPassword } = req.body;
-  const tokenGenerated = await usersServices.loginUser(reqUsername, reqPassword)
+  const tokenGenerated = await usersServices.loginUser(reqUsername, reqPassword);
+  console.log(req.headers);
   return res.status(200).send({ token: tokenGenerated })
 };
 
@@ -20,5 +21,5 @@ const create = async (req, res) => {
 };
 
 
-module.exports = { create, getAll, login }
+module.exports = { create, listUsers, login }
 
