@@ -1,4 +1,3 @@
-// Código de connect retirado do conteúdo disponibilizado no bloco 27.1
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {

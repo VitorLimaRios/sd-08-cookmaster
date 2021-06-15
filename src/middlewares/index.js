@@ -1,3 +1,4 @@
+const auth = require('./auth');
 const error = require('./error');
 
-module.exports = { error };
+module.exports = { auth, error };
