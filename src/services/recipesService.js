@@ -59,10 +59,18 @@ const deleteRecipes = async (recipeId) => {
   return { code: NO_CONTENT, message: '' };
 };
 
+const imageUpdate = async (recipeId, file) => {
+  const image = 'localhost:3000/' + file.destination + file.filename;
+  recipesModel.imageUpdate(recipeId, image);
+  const result = await recipesModel.findRecipes(recipeId);
+  return { code: OK, message: result };
+};
+
 module.exports = {
   createRecipes,
   getRecipes,
   findRecipes,
   updateRecipes,
   deleteRecipes,
+  imageUpdate,
 };

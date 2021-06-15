@@ -1,4 +1,6 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const userController = require('../controllers/userController');
 const recipesController = require('../controllers/recipesController');
 const auth = require('../middlewares/auth');
@@ -7,7 +9,23 @@ const validUser = require('../middlewares/validUser');
 
 const app = express();
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads/');
+  },
+  filename: (req, file, callback) => {
+    const { mimetype } = file;
+    const extension = mimetype.split('/')[1];
+    callback(null, `${req.params.id}.${extension}`);
+  }
+});
+
+const upload = multer({ storage });
+
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(__dirname + '/uploads'));
 
 app.post('/users', userController.createUser);
 
@@ -22,6 +40,14 @@ app.get('/recipes/:id', recipesController.findRecipes);
 app.put('/recipes/:id', tokenValidation, validUser, recipesController.updateRecipes);
 
 app.delete('/recipes/:id', tokenValidation, validUser, recipesController.deleteRecipes);
+
+app.put(
+  '/recipes/:id/image',
+  tokenValidation,
+  validUser,
+  upload.single('image'),
+  recipesController.imageUpdate,
+);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
