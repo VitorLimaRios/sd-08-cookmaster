@@ -21,14 +21,14 @@ const getAllRecipes = async () => {
 };
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
+  if (!ObjectId.isValid(id)) throw new Error(message.NOT_FOUND);
   const recipe = await recipesModel.getRecipeById(id);
-  if (!recipe) throw new Error('recipe not found');
+  if (!recipe) throw new Error(message.NOT_FOUND);
   return recipe;
 };
 
 const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
-  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
+  if (!ObjectId.isValid(id)) throw new Error(message.NOT_FOUND);
   const newRecipe = await recipesModel.updateRecipe({ 
     id,
     name,
@@ -41,9 +41,16 @@ const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
 };
 
 const deleteRecipe = async (id) => {
-  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
+  if (!ObjectId.isValid(id)) throw new Error(message.NOT_FOUND);
   const deleteRecipe = await recipesModel.deleteRecipe(id);
   return deleteRecipe;
+};
+
+const uploadImages = async (id, path) => {
+  if (!ObjectId.isValid(id)) throw new Error(message.NOT_FOUND);
+  await recipesModel.uploadImage(id, { image: path });
+  const recipe = await recipesModel.getRecipeById(id);
+  return recipe;
 };
 
 module.exports = {
@@ -52,4 +59,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImages,
 };

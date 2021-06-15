@@ -14,7 +14,7 @@ const message = {
   EMAIL_ALREADY_REGISTERED: 'Email already registered',
   ALL_FIELDS_MUST_BE_FILLED: 'All fields must be filled',
   INCORRECT_USERNAME_OR_PASSWORD: 'Incorrect username or password',
-  NOT_FOUND: 'recipe not found'
+  NOT_FOUND: 'recipe not found',
 };
 
 module.exports = { code, message };

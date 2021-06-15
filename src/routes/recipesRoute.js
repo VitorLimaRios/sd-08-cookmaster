@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const recipesController = require('../controllers/recipesController');
 const validateJWT = require('../middlewares/validateJWT');
 const validateForm = require('../middlewares/validateForm');
+const uploadImages = require('../middlewares/uploadImagesMiddleware');
 
 const router = express.Router();
 
@@ -19,7 +20,11 @@ router.put('/recipes/:id',
   rescue(recipesController.updateRecipe)
 );
 router.delete('/recipes/:id', validateJWT, rescue(recipesController.deleteRecipe));
-//router.post('/recipes/:id/image/', validateJWT, rescue(recipesController.deleteRecipe));
+router.post('/recipes/:id/image/',
+  validateJWT,
+  uploadImages.single('image'),
+  rescue(recipesController.uploadImages)
+);
 
 
 module.exports = router;
