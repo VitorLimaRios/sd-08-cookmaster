@@ -4,10 +4,6 @@ const pattern = new RegExp(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i);
 const secret = 'mysecrettoken';
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
-const MIN_CHARACTERS = 5;
-const MIN_QUANTITY = 0;
-const MIN_ID_LENGTH = 16;
-const MAX_ID_LENGTH = 24;
 
 const jwtConfig = {
   expiresIn: '15m',
@@ -95,6 +91,7 @@ const findUser = async (email, password) => {
 module.exports = {
   userIsValid,
   findUser,
+  secret
 //   idIsValid,
 //   updateProductIsValid,
 };

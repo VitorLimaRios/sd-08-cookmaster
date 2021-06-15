@@ -2,7 +2,6 @@ const usersModel = require('../models/users');
 const usersService = require('../services/users');
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
-const INVALID_DATA_STATUS = 422;
 
 const getUsers = async (req, res) => {
   const users = await usersModel.getAll();

@@ -63,6 +63,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
           .expect('status', 400)
           .then((responseLogin) => {
             const { json } = responseLogin;
+            //console.log(json);
             expect(json.message).toBe('Invalid entries. Try again.');
           });
       });
