@@ -13,6 +13,11 @@ router.post('/recipes',
 );
 router.get('/recipes/:id',  rescue(recipesController.getRecipeById));
 router.get('/recipes', rescue(recipesController.getAllRecipes));
-router.put('/recipes/:id', validateJWT, rescue(recipesController.updateRecipe));
+router.put('/recipes/:id',
+  validateJWT,
+  validateForm,
+  rescue(recipesController.updateRecipe)
+);
+router.delete('/recipes/:id', validateJWT, rescue(recipesController.deleteRecipe));
 
 module.exports = router;

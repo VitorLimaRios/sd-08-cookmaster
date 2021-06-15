@@ -6,6 +6,7 @@ const code = {
   UNAUTHORIZED: 401,
   SERVER_ERROR: 500,
   NOT_FOUND: 404,
+  NO_CONTENT: 204,
 };
 
 const message = {

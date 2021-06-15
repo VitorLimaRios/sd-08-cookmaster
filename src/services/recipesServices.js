@@ -28,11 +28,17 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const updateRecipe = async (id,name, ingredients, preparation) => {
-  if (!ObjectId.isValid(id)) throw new Error('Wrong id format');
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
   const newRecipe = await recipesModel.updateRecipe(id, name, ingredients, preparation);
 
   return newRecipe;
+};
+
+const deleteRecipe = async (id) => {
+  if (!ObjectId.isValid(id)) throw new Error('recipe not found');
+  const deleteRecipe = await recipesModel.deleteRecipe(id);
+  return deleteRecipe;
 };
 
 module.exports = {
@@ -40,4 +46,5 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
