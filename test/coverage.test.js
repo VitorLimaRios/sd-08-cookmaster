@@ -15,7 +15,7 @@ beforeAll(async () =>{
     const lines = await readFile(path, "utf-8")
       .then((coverageTxt) => JSON.parse(coverageTxt))
       .then(({ total: { lines } }) => lines );
-  
+
     testResults = {
       path,
       lines,
