@@ -6,7 +6,7 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-mongoose.connect('mongodb://localhost:27017/Cookmaster', OPTIONS);
+mongoose.connect('mongodb://mongodb:27017/Cookmaster', OPTIONS);
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (error) => {
   console.log('Erro: ', error.message);
