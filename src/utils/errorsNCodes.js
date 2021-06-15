@@ -24,11 +24,20 @@ const responsesNCodes = {
     },
     sendInvalid: {
       message: 'Incorrect username or password'
+    },
+    sendProblematicToken: {
+      message: 'jwt malformed'
     }
-  }
+  },
+  NOT_FOUND: {
+    status: 404,
+    send: {
+      message: 'recipe not found'
+    }
+  },
 };
 
-const { BAD_REQUEST, CONFLICT, UNAUTHORIZED } = responsesNCodes;
+const { BAD_REQUEST, CONFLICT, UNAUTHORIZED, NOT_FOUND } = responsesNCodes;
 
 const errors = {
   Users: {
@@ -39,6 +48,10 @@ const errors = {
     emailMustBeUnique: CONFLICT,
     emailOrPasswordIsMissing: UNAUTHORIZED,
     emailOrPasswordIsInvalid: UNAUTHORIZED,
+  },
+  Recipes: {
+    notFound: NOT_FOUND,
+    invalidToken: UNAUTHORIZED
   }
 };
 

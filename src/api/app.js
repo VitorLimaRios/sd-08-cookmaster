@@ -3,9 +3,10 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const users = require('../models/usersModel');
-const { create, listUsers, login } = require('../controllers/userController');
+const { createUser, listUsers, login } = require('../controllers/userController');
 const { validateUserCreation, checkLoginRequest } = require('../services/usersValidations');
-const { listRecipes } = require('../controllers/recipesController');
+const { listRecipes, searchRecipe } = require('../controllers/recipesController');
+const { checkIdSearch } = require('../services/recipesValidations');
 app.use(bodyParser.json());
 // ...
 
@@ -21,9 +22,10 @@ app.get('/', (_request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.post('/users', validateUserCreation, create);
+app.post('/users', validateUserCreation, createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
+app.get('/recipes:id', checkIdSearch, searchRecipe)
 
 // routes for testing
 app.get('/all', listUsers);

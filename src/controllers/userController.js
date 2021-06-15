@@ -11,15 +11,15 @@ const login = async (req, res) => {
   const { username: reqUsername, password: reqPassword } = req.body;
   const tokenGenerated = await usersServices.loginUser(reqUsername, reqPassword);
   console.log(req.headers);
-  return res.status(200).send({ token: tokenGenerated })
+  return res.status(200).send(tokenGenerated)
 };
 
-const create = async (req, res) => {
+const createUser = async (req, res) => {
   const newUser = req.body;
   const addedUser = await usersServices.addNewUser(newUser);
   return res.status(CREATED.status).send(addedUser);
 };
 
 
-module.exports = { create, listUsers, login }
+module.exports = { createUser, listUsers, login }
 

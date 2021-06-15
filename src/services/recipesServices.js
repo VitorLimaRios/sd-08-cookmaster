@@ -3,6 +3,11 @@ const recipesModel = require('../models/recipesModel');
 const getAllRecipes = async () => {
   const allRecipes = await recipesModel.getAllTheRecipes();
   return allRecipes;
+};
+
+const getById = async (id) => {
+  const searchById = await recipesModel.getRecipeById(id);
+  return searchById;
 }
 
-module.exports = { getAllRecipes };
+module.exports = { getAllRecipes, getById };
