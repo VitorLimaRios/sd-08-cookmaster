@@ -6,13 +6,13 @@ const validateJWT = require('../../middlewares/jwt/validateJwt');
 const {
   registerRec,
   allRec,
-  // idRec,
+  idRec,
 } = require('../../controllers/recipes/recipes');
 
 router.post('/recipes', validateJWT, registerRec);
 
 router.get('/recipes', allRec);
 
-// router.get('/recipes/:id');
+router.get('/recipes/:id', idRec);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const {
   registerRecipesModel,
   allRecipesModel,
+  idRecipesModel,
 } = require('../../models/recipe/recipe');
 
 const {
@@ -19,7 +20,14 @@ const allRecipes = async () => {
   return result;
 };
 
+const idRecipes = async (id) => {
+  const result = await idRecipesModel(id);
+  if (result === null) return { status: 404, message: 'recipe not found' };
+  return result;
+};
+
 module.exports = {
   registerRecipes,
   allRecipes,
+  idRecipes,
 };

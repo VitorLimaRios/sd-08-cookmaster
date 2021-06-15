@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const {
   registerRecipes,
   allRecipes,
+  idRecipes,
 } = require('../../services/recipes/recipes');
 
 const DOU = 201;
@@ -21,7 +22,14 @@ const allRec = rescue(async (_req, res) => {
   res.status(DOO).json(result);
 });
 
+const idRec = rescue(async (req, res, next) => {
+  const id = req.params;
+  const result = await idRecipes(id);
+  if (result.status) return next(result);
+  res.status(DOO).json(result);
+});
 module.exports = {
   registerRec,
   allRec,
+  idRec,
 };
