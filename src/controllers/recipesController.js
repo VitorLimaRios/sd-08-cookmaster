@@ -13,7 +13,6 @@ const registerRecipes = async (req, res) => {
     const { authorization } = req.headers;
     
     const result = await recipesCreate(name, ingredients, preparation, authorization);
-    console.log(result.message);
 
     if (result.message === 'Invalid entries. Try again.')
       return res.status(BAD).json(result);

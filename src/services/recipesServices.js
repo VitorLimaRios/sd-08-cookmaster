@@ -18,7 +18,6 @@ const recipesCreate = async (name, ingredients, preparation, auth) => {
   
   const userId = decoded.data._id;
   const addRecipes = await writeRecipes(userId, name, ingredients, preparation);
-  console.log(addRecipes.insertedId);
 
   return {
     recipe: {
