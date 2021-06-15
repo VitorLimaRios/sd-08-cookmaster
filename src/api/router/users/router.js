@@ -8,6 +8,7 @@ const {
   addUsers,
   loginUsers,
   registerRec,
+  allRec,
 } = require('../../controllers/users/users');
 
 router.get('/users', getAllUsers);
@@ -17,5 +18,7 @@ router.post('/users', addUsers);
 router.post('/login', loginUsers);
 
 router.post('/recipes', validateJWT, registerRec);
+
+router.get('/recipes', allRec);
 
 module.exports = router;

@@ -5,6 +5,7 @@ const {
   addServices,
   generateToken,
   registerRecipes,
+  allRecipes,
 } = require('../../services/users/users');
 
 const DOU = 201;
@@ -37,9 +38,15 @@ const registerRec = rescue(async (req, res, next) => {
   res.status(DOU).json({ recipe });
 });
 
+const allRec = rescue(async (_req, res) => {
+  const result = await allRecipes();
+  res.status(DOO).json(result);
+});
+
 module.exports = {
   getAllUsers,
   addUsers,
   loginUsers,
   registerRec,
+  allRec,
 };

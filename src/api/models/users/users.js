@@ -26,9 +26,15 @@ const registerRecipesModel = async (recipe) => {
   return result.ops[0];  
 };
 
+const allRecipesModel = async () => {
+  const db = await Connection();
+  return await db.collection('recipes').find({}).toArray();
+};
+
 module.exports = {
   getAllModel,
   addModel,
   getByEmail,
   registerRecipesModel,
+  allRecipesModel,
 };

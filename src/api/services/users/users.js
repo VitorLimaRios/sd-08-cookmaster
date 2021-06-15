@@ -11,6 +11,7 @@ const {
   getAllModel,
   addModel,
   registerRecipesModel,
+  allRecipesModel,
 } = require('../../models/users/users');
 
 const {
@@ -52,11 +53,16 @@ const generateToken = async (user) => {
   return token;
 };
 
-const registerRecipes = async(recipes) => {
+const registerRecipes = async (recipes) => {
   const { error } = validRecipes.validate(recipes);
   if (error) return { status: 400, message: error.details[0].message };
   const recipe = await registerRecipesModel(recipes);
   return recipe;
+};
+
+const allRecipes = async () => {
+  const result = await allRecipesModel();
+  return result;
 };
 
 module.exports = {
@@ -64,4 +70,5 @@ module.exports = {
   addServices,
   generateToken,
   registerRecipes,
+  allRecipes,
 };
