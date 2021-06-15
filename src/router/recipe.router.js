@@ -5,13 +5,20 @@ const controller = require('../controllers/recipe.controller');
 
 const router = express.Router();
 
-router.post('/',
-  validateFormRecipes,
-  auth, 
-  controller.register)
+router
+  .post('/',
+    validateFormRecipes,
+    auth, 
+    controller.register)
   .get('/', controller.findAll);
 
-router.get('/:id', validateId,
-  controller.findById);
+router
+  .get('/:id', 
+    validateId,
+    controller.findById)
+  .put('/:id',
+    auth,
+    validateId, 
+    controller.change);
 
 module.exports = router;

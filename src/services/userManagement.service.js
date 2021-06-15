@@ -23,5 +23,11 @@ exports.loginUser = async ({ email, password }) => {
 };
 
 exports.verifyByEmail = async (email) => {
-  return existEmail = !! await getByEmail(email);
+  return !! await getByEmail(email);
+};
+
+exports.verifyUserAdmin = async (id) => {
+  const { role } = await getById(id);
+  if(role === 'admin') return true;
+  return false;
 };

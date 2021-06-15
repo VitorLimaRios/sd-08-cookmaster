@@ -1,4 +1,8 @@
-const { createRecipe, getRecipeById } = require('../services/recipeFunctions.service');
+const { 
+  createRecipe, 
+  getRecipeById, 
+  updateRecipe 
+} = require('../services/recipeFunctions.service');
 const { getAll } = require('../models/recipe.model');
 const { StatusCodes: { 
   CREATED, BAD_REQUEST, OK, NOT_FOUND
@@ -27,6 +31,17 @@ exports.findAll = async (_req, res) => {
 exports.findById = async (req, res) => {
   try {
     const recipe = await getRecipeById(req.params.id);
+    res.status(OK).json(recipe);
+  } catch (err) {
+    res.status(NOT_FOUND).json({message: err.message});
+  }
+};
+
+exports.change = async (req, res) => {
+  const form = req.body;
+  const { id } = req.params;
+  try {
+    const recipe = await updateRecipe(id, form);
     res.status(OK).json(recipe);
   } catch (err) {
     res.status(NOT_FOUND).json({message: err.message});

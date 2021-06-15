@@ -6,12 +6,15 @@ const { StatusCodes: {
 exports.auth = (req, res, next) => {
   const { authorization } = req.headers;
   try {
-    const { user } = verify(authorization);
     if(!authorization) 
-      throw new Error('jwt malformed');
+      throw new Error('missing auth token');
+    const { user } = verify(authorization);
+    // if(!authorization) 
+    //   throw new Error('jwt malformed');
     req.body.userId = user.id;
     next();
   } catch (err) {
     res.status(UNAUTHORIZED).json({ message: err.message });
   }
 };
+

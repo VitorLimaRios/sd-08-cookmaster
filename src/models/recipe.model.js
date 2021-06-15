@@ -22,7 +22,7 @@ exports.getById = async (id) => {
 exports.getByName = (name) => connect().then(db => db.collection('recipes')
   .findOne({ name }));
 
-exports.update = async (id, { name, ingredients, preparation, userId }) =>
+exports.update = async ({id, name, ingredients, preparation, userId }) =>
   connect().then(async (db) => {
     const recipe = { name, ingredients, preparation, userId };
     await db
