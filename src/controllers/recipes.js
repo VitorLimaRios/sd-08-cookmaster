@@ -9,9 +9,9 @@ const NotFound = 404;
 
 const createRecipe = async (req, res) => {
   try {
-    const { name, ingredients, preparation, recipeId } = req.body;
+    const { name, ingredients, preparation, userId } = req.body;
     const newRecipe = await recipesService
-      .createRecipe(name, ingredients, preparation, recipeId);
+      .createRecipe(name, ingredients, preparation, userId);
 
     res.status(Created).json(newRecipe);
   } catch (err) {
@@ -25,7 +25,7 @@ const getAllRecipes = async (_req, res) => {
   try {
     const recipes = await recipesService.getAllRecipes();
 
-    res.status(OK).json({ recipes });
+    res.status(OK).json(recipes);
   } catch (err) {
     res.status(BadRequest).json({ message: err.message });
   }
@@ -36,10 +36,10 @@ const getRecipeById = async (req, res) => {
     const { id } = req.params;
     const recipe = await recipesService.getRecipeById(id);
 
-    if (!recipe) {
-      error.err.message = 'Wrong id format';
-      return res.status(NotFound).json(error);
-    };
+    // if (!recipe) {
+    //   error.err.message = 'Wrong id format';
+    //   return res.status(NotFound).json(error);
+    // };
 
     res.status(OK).json(recipe);
   } catch (err) {
@@ -52,7 +52,7 @@ const updateRecipe = async (req, res) => {
     const { name, ingredients, preparation } = req.body;
     const { id } = req.params;
 
-    const recipe = await RecipeService.updateRecipe(id, name, ingredients, preparation);
+    const recipe = await recipesService.updateRecipe(id, name, ingredients, preparation);
 
     res.status(OK).json(recipe);
   } catch (err) {
@@ -66,7 +66,7 @@ const deleteRecipe = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await RecipeService.deleteRecipe(id);
+    await recipesService.deleteRecipe(id);
 
     res.status(NoContent).end();
   } catch (err) {

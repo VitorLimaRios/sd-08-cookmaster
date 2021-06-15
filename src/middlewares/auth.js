@@ -14,7 +14,6 @@ const validateToken = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
-    console.log('decoded:', decoded);
     const user = await userModel.findEmail(decoded.email);
 
     if (!user) {

@@ -24,9 +24,11 @@ const getAllRecipes = async () => {
 
 const getRecipeById = async (id) => {
   if (!ObjectId.isValid(id)) throw new Error('recipe not found');
-  if (!recipe) throw new Error('recipe not found');
-
+  
   const recipe = await RecipeModel.getRecipeById(id);
+  
+  if (!recipe) throw new Error('recipe not found');
+  
   return recipe;
 };
 

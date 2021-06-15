@@ -24,7 +24,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
 };
 
 const getAllRecipes = async () => {
-  connection()
+  const recipes = connection()
     .then((db) => db
       .collection('recipes')
       .find()
