@@ -28,6 +28,7 @@ const createUser = async (req, res) => {
     .json({ user: { name, email, role: newUser.role, _id: newUser._id } });
 };
 
+
 // const findProduct = async (req, res) => {
 //   const { id } = req.params;
 

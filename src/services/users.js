@@ -1,11 +1,18 @@
 const usersModel = require('../models/users');
+const jwt = require('jsonwebtoken');
 const pattern = new RegExp(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i);
+const secret = 'mysecrettoken';
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 const MIN_CHARACTERS = 5;
 const MIN_QUANTITY = 0;
 const MIN_ID_LENGTH = 16;
 const MAX_ID_LENGTH = 24;
+
+const jwtConfig = {
+  expiresIn: '15m',
+  algorithm: 'HS256',
+};
 
 const userIsValid = async (name, email, password) => {
   if (!name || !email || !pattern.test(email) || !password) {
@@ -24,6 +31,23 @@ const userIsValid = async (name, email, password) => {
   }
 
   return { name, email, password };
+};
+
+const findUser = async (email, password) => {
+  if (!email || !password) return (
+    { status: 401, message: 'All fields must be filled'}
+  );
+
+  const userSearch = await usersModel.findUser(email);
+
+  if (!userSearch || userSearch.password !== password) return (
+    { status: 401, message: 'Incorrect username or password' }
+  );
+
+  const { password: seia, ...userWithoutPassword } = userSearch;
+  const token = jwt.sign({data: userWithoutPassword}, secret, jwtConfig);
+
+  return ({ status: 200, message: token});
 };
 
 // const idIsValid = async (id) => {
@@ -70,6 +94,7 @@ const userIsValid = async (name, email, password) => {
 
 module.exports = {
   userIsValid,
+  findUser,
 //   idIsValid,
 //   updateProductIsValid,
 };

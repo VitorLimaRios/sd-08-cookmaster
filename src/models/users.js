@@ -5,8 +5,10 @@ const getAll = async () => {
   return connection().then((db) => db.collection('users').find().toArray());
 };
 
-const findUser = async (name) => {
-  return connection().then((db) => db.collection('users').findOne({ name }));
+const findUser = async (email) => {
+  const db = await connection();
+  const result = db.collection('users').findOne({email});
+  return result;
 };
 
 const createUser = async (name, email, password) => {
