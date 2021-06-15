@@ -15,6 +15,7 @@ app.post('/users', userController.createUser);
 app.post('/login', userController.userLogin);
 
 app.get('/recipes', recipeController.getRecipes);
+app.get('/recipes/:id', recipeController.getRecipeById);
 app.use(middleware.auth);
 app.post('/recipes', recipeController.createRecipe);
 
