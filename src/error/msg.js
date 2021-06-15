@@ -25,6 +25,12 @@ const message = {
     },
     code: CODE.unauthorized,
   },
+  'r-i-jwt': {
+    err: {
+      message: 'jwt malformed'
+    },
+    code: CODE.unauthorized
+  }
 };
 
 module.exports = message;

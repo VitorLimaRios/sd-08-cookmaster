@@ -72,11 +72,10 @@ class ServicesUsers {
           'email-exist'
         );
       }
-      const hash = await this._encryptPass(newUserData.password);
+      // const hash = await this._encryptPass(newUserData.password);
       const setNewUser = await this._modelUser.createUser({
         ...newUserData,
         role,
-        password: hash,
       });
 
       return this.viewerNotPassword(setNewUser, authorization);

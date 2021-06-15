@@ -70,9 +70,10 @@ class ServicesLogin {
         );
       }
       
+      // 'password': await this._decrypt(dataUser.password, user.password),
       const compareInfo = {
         'email': dataUser.email === user.email ? true : false,
-        'password': await this._decrypt(dataUser.password, user.password),
+        'password': dataUser.password === user.password
       };
 
       if (!compareInfo.email || !compareInfo.password) {

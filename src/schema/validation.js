@@ -1,4 +1,5 @@
-class ValidUser {
+
+class Validation {
   constructor() {
     this.key = '';
     this.param = '';
@@ -9,6 +10,9 @@ class ValidUser {
   }
   
   setValue(object) {
+    if (typeof object !== 'object') {
+      object = { [object]: object ? object : '' };
+    }
     this.key = Object.keys(object)[0];
     this.param = Object.values(object)[0];
     return this;
@@ -21,6 +25,12 @@ class ValidUser {
   };
     
   required() {
+    if (!Object.keys(this.param).length || (Array.isArray(this.param) && !this.length)){
+      this.result = false;
+      this.aux = false;
+      this.resolve('required');
+      return this;
+    }
     this.aux = this.param ? true : false;
     this.result = this.result && this.aux;
     this.resolve('required');
@@ -51,6 +61,7 @@ class ValidUser {
     if(!this.param) {
       this.aux = false;
       this.result = false;
+      this.resolve('min');
       return this;
     }
     this.aux = this.param.length >= min ? true : false;
@@ -60,4 +71,4 @@ class ValidUser {
   };
 };
 
-module.exports = ValidUser;
+module.exports = Validation;

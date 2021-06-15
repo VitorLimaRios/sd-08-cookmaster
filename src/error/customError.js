@@ -8,6 +8,7 @@ class CustomError extends Error {
    * [email-exist]
    * [l-f-invalid]
    * [l-f-incorrect]
+   * [r-i-jwt]
    */
 
   constructor(message, otherInfo, msgCode) {
