@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const {
   usersRouter,
   loginRouter,
+  recipesRouter,
 } = require('../routes');
 
 const app = express();
@@ -17,5 +18,6 @@ app.get('/', (request, response) => {
 
 app.use(usersRouter);
 app.use(loginRouter);
+app.use(recipesRouter);
 
 module.exports = app;
