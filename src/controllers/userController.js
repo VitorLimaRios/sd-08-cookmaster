@@ -1,26 +1,16 @@
 // o controller aplica as requisições e responses às funções refinadas do services
 const usersServices = require('../services/usersServices');
-const jwt = require('jsonwebtoken');
+
 const { responsesNCodes: { OK, CREATED } } = require('../utils/errorsNCodes');
 
 const getAll = async (_req, res) => {
   return res.status(OK.status).send({ allUsers: await usersServices.getAllUsers() })
 };
 
-const secret = 'senha123';
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
-
-const tokenGenerate = async (req, res) => {
-  const { username, password } = req.body;
-  const token = jwt.sign({ username, password }, secret, jwtConfig);
-  console.log(token)
-  if (!username || !password) {
-    res.status(422).send({ message: 'falta username ou password' })
-  }
-  return res.status(200).send({ token })
+const login = async (req, res) => {
+  const { username: reqUsername, password: reqPassword } = req.body;
+  const tokenGenerated = await usersServices.loginUser(reqUsername, reqPassword)
+  return res.status(200).send({ token: tokenGenerated })
 };
 
 const create = async (req, res) => {
@@ -30,5 +20,5 @@ const create = async (req, res) => {
 };
 
 
-module.exports = { create, getAll, tokenGenerate }
+module.exports = { create, getAll, login }
 

@@ -2,7 +2,8 @@ const usersModel = require('../models/usersModel');
 const {
   errors: {
     Users: {
-      mustHaveName, mustHaveEmail, mustHavePassword, emailMustBeValid, emailMustBeUnique }
+      mustHaveName, mustHaveEmail, mustHavePassword, emailMustBeValid, emailMustBeUnique,
+      emailOrPasswordIsMissing, emailOrPasswordIsInvalid }
   }, } = require('../utils/errorsNCodes');
 
 const checkForBadRequest = async (req, res, next) => {
@@ -22,9 +23,18 @@ const checkEmail = async (req, res, next) => {
   if (checkEmailUnique) return res.status(emailMustBeUnique.status).send(emailMustBeUnique.send);
   return next();
 }
+
+const checkLoginRequest = async (req, res, next) => {
+  const { email: reqEmail, password: reqPassword } = req.body;
+  if (!reqEmail || !reqPassword) return res.status(emailOrPasswordIsMissing.status).send(emailOrPasswordIsMissing.sendMissing)
+  const existsInDb = await usersModel.findUserByEmail(reqEmail);
+  if (!existsInDb || existsInDb.password !== reqPassword) return res.status(emailOrPasswordIsInvalid.status).send(emailOrPasswordIsInvalid.sendInvalid);
+  next();
+}
+
 const validateUserCreation = async (req, res, next) => {
   const runCheckEmail = () => checkEmail(req, res, next);
   checkForBadRequest(req, res, runCheckEmail);
 };
 
-module.exports = { validateUserCreation };
+module.exports = { validateUserCreation, checkLoginRequest };

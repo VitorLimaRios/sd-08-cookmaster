@@ -1,12 +1,18 @@
 // Models é a conexão com o banco de dados em 'estado bruto', para ser filtrado em services, ou, se desnecessário, pode ir direto para o controller
-
 const connection = require('./connection');
+const jwt = require('jsonwebtoken');
 
 const firstUser = {
   "name": "Erick Jacquin",
   "email": "erickjacquin@gmail.com",
   "password": "12345678",
   "role": "user"
+};
+
+const secret = 'senha123';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
 };
 const getAllTheUsers = async () => {
   const gotAllUsers = await connection()
@@ -35,10 +41,14 @@ const createNewUser = async (user) => {
   const inserting = await connection().then((db => db.collection('users').insertOne(insertWithRole)));
   return { name, email, role, _id: inserting.insertedId, }
 };
+const tokenGenerateForLogin = async (username, password) => {
+  const token = jwt.sign({ username, password }, secret, jwtConfig);
+  return ({ token })
+};
 
 const deleteUserByName = async (userName) => {
   return connection().then(db => db.collection('users').deleteOne({ 'name': userName }))
 }
 
 
-module.exports = { getAllTheUsers, findUserByName, findUserByEmail, createNewUser, deleteUserByName };
+module.exports = { getAllTheUsers, findUserByName, findUserByEmail, createNewUser, tokenGenerateForLogin, deleteUserByName };

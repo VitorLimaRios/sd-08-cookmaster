@@ -16,10 +16,19 @@ const responsesNCodes = {
     send: {
       message: 'Email already registered'
     }
+  },
+  UNAUTHORIZED: {
+    status: 401,
+    sendMissing: {
+      message: 'All fields must be filled'
+    },
+    sendInvalid: {
+      message: 'Incorrect username or password'
+    }
   }
 };
 
-const { BAD_REQUEST, CONFLICT } = responsesNCodes;
+const { BAD_REQUEST, CONFLICT, UNAUTHORIZED } = responsesNCodes;
 
 const errors = {
   Users: {
@@ -28,6 +37,8 @@ const errors = {
     mustHavePassword: BAD_REQUEST,
     emailMustBeValid: BAD_REQUEST,
     emailMustBeUnique: CONFLICT,
+    emailOrPasswordIsMissing: UNAUTHORIZED,
+    emailOrPasswordIsInvalid: UNAUTHORIZED,
   }
 };
 
