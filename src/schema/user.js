@@ -13,6 +13,9 @@ module.exports = joi.object({
   password: joi
     .string()
     .required(),
+  role: joi
+    .string()
+    .valid('user', 'admin')
 })
   .messages({
     'any.required': ERROR_MESSAGE,

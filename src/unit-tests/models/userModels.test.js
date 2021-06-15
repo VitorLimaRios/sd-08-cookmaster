@@ -40,7 +40,7 @@ describe('É possível cadastrar um usuário', () => {
 
     it('o objeto retornado deve ser referente ao novo cadastro', async () => {
       const result = await UserModel.create(payloadUser);
-      expect(result).to.have.all.keys(['id', 'name', 'email', 'password', 'role']);
+      expect(result).to.have.all.keys(['_id', 'name', 'email', 'password', 'role']);
       const { name, email, password } = result;
       expect(name).to.equal(payloadUser.name);
       expect(email).to.equal(payloadUser.email);
@@ -86,7 +86,7 @@ describe('É possível pesquisar um usuário pelo email', () => {
     it('retorna um objeto referente a um usuário', async () => {
       const result = await UserModel.getByEmail('validemail@email.com');
       expect(result).to.be.a('object');
-      expect(result).to.have.all.keys(['id', 'name', 'password', 'email', 'role']);
+      expect(result).to.have.all.keys(['_id', 'name', 'password', 'email', 'role']);
     });
   });
 

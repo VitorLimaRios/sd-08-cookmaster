@@ -27,9 +27,9 @@ module.exports = async (req, res, next) => {
     return next(createError('Incorrect username or password', 'invalid_login'));
   }
 
-  const { id, email, role } = user;
+  const { _id, email, role } = user;
 
-  const userPayload = { id, email, role };
+  const userPayload = { id: _id, email, role };
 
   const token = jwt.sign(userPayload, secret);
 
