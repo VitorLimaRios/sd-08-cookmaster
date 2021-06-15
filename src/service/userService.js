@@ -38,7 +38,7 @@ const loginUser = async (user) => {
   const token = jwt.sign({ data: data }, secret, jwtHeader);
 
   return { message: token, code: 200 };
-}
+};
 
 module.exports = {
   addNewUser,
