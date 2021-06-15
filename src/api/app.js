@@ -20,11 +20,11 @@ app.get('/', (request, response) => {
 app.post('/users', isValidName, isValidEmail, isValidPassword, usersControllers.create);
 app.post('/login', usersControllers.login);
 app.post('/recipes', auth, recipesControllers.create);
-// app.get('/recipes', recipesController.getAll);
+app.get('/recipes', recipesControllers.getAll);
 // app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 // app.get(recipeId, recipesController.findById);
-// app.put(recipeId, tokenValidation, recipesController.updateById);
-// app.delete(recipeId, tokenValidation, recipesController.deleteById);
+// app.put(recipeId, recipesController.updateById);
+// app.delete(recipeId, recipesController.deleteById);
 
 
 module.exports = app;

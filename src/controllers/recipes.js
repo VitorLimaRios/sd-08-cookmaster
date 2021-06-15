@@ -1,6 +1,7 @@
 const recipesModels= require('../models/recipes');
 
 const STATUS_201 = 201;
+const STATUS_200 = 200;
 const STATUS_400 = 400;
 
 
@@ -16,7 +17,16 @@ const create = async (req, res) => {
   res.status(STATUS_201).json({ recipe: newRecipe });
 };
 
+// GETALL
+const getAll = async (_req, res) => {
+  const recipes = await recipesModels.getAll();
+  console.log(recipes);
+  res.status(STATUS_200).send(recipes);
+  
+};
+
 
 module.exports = {
   create,
+  getAll,
 };
