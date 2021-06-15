@@ -51,3 +51,15 @@ exports.validateLogin = (req, res, next) => {
     res.status(UNAUTHORIZED).json({ message: err.message });
   }
 };
+
+
+exports.validateFormRecipes = (req, res, next) => {
+  try {
+    const { name, ingredients, preparation} = req.body;
+    if(!name || !ingredients || !preparation) 
+      throw new Error('Invalid entries. Try again.');
+    next();
+  } catch (err) {
+    res.status(BAD_REQUEST).json({ message: err.message });
+  }
+};

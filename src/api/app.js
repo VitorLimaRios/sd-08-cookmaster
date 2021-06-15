@@ -1,11 +1,13 @@
 const express = require('express');
 const signUpRouter = require('../router/user.router');
 const signInRouter = require('../router/login.router');
+const recipeRouter = require('../router/recipe.router');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use('/recipes', recipeRouter);
 app.use('/users', signUpRouter);
 app.use('/login', signInRouter);
 
