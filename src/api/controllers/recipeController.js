@@ -85,7 +85,7 @@ const updateImage = async (req, res) => {
   }
 };
 
-const getImage = async (_req, res) => {
+const getImage = async (req, res) => {
   try {
     const { id } = req.params;
     

@@ -16,6 +16,21 @@ const create = async (req, res) => {
   }
 };
 
+const createAdmin = async (req, res) => {
+  try {
+    const newUserAdmin = req.body;
+    const loggedUserRole = req.user.role;
+    
+    const createdAdmin = await UserService.createAdmin(newUserAdmin, loggedUserRole);
+
+    res.status(StatusCode.CREATED).json(createdAdmin);
+  } catch (error) {
+    const { code, message } = error;
+    res.status(code).json(message);
+  }
+};
+
 module.exports = {
   create,
+  createAdmin,
 };

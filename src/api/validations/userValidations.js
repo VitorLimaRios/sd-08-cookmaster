@@ -51,10 +51,21 @@ const validateEmailIsValid = (email) => {
   }
 };
 
+const validateIsUserAdmin = (userRole) => {
+  if (userRole !== 'admin') {
+    console.log(userRole);
+    throw new CustomError(
+      ErrorMessages.notUserAdmin,
+      StatusCode.FORBIDDEN,
+    );
+  }
+};
+
 module.exports = {
   validateNameIsRequire,
   validateEmailIsRequire,
   validatePasswordIsRequire,
   validateEmailAlreadyExists,
-  validateEmailIsValid,  
+  validateEmailIsValid,
+  validateIsUserAdmin,
 };

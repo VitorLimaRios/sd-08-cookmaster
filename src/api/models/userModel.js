@@ -27,7 +27,26 @@ const findByEmail = async (email) => {
   return user;
 };
 
+const createAdmin = async (newUserAdmin) => {
+  try
+  {
+    const usersCollection = await mongoConnection()
+      .then((db) => db.collection('users'));
+
+    const createdAdmin = await usersCollection
+      .insertOne(newUserAdmin);
+
+    return createdAdmin.ops[0];
+  }
+  catch (error)
+  {
+    const { code, message } = error;
+    console.log(code, message);
+  }
+};
+
 module.exports = {
   create,
   findByEmail,
+  createAdmin,
 };
