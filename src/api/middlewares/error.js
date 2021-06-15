@@ -3,7 +3,6 @@ const QON = 409;
 const QOU = 401;
 
 const error = (err, _req, res, _next) => {
-  console.log(err);
   if (err.status === QOO) {
     return res.status(QOO)
       .json({ message: err.message });

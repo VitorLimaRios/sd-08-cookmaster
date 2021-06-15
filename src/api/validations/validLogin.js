@@ -2,7 +2,6 @@ const joi = require('joi');
 
 const msg = 'All fields must be filled';
 const msg1 = 'Incorrect username or password';
-const msg2 = '"password" length must be at least 8 characters long';
 const EIGHT = 8;
 
 const validLogin = joi.

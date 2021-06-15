@@ -1,5 +1,4 @@
 const Connection = require('../connection');
-const { ObjectId } = require('mongodb');
 
 const getAllModel = async () => {
   const db = await Connection();
@@ -20,15 +19,16 @@ const getByEmail = async (email) => {
   return result;
 };
 
-const getByPassword = async (password) => {
+const registerRecipesModel = async (recipe) => {
   const db = await Connection();
-  const result = await db.collection('users').findOne({ 'password': password });
-  return result;
+  const result = await db.collection('recipes')
+    .insertOne(recipe);
+  return result.ops[0];  
 };
 
 module.exports = {
   getAllModel,
   addModel,
   getByEmail,
-  getByPassword,
+  registerRecipesModel,
 };

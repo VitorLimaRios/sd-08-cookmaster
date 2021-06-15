@@ -10,13 +10,14 @@ const secret = 'tokenSecret';
 const {
   getAllModel,
   addModel,
+  registerRecipesModel,
 } = require('../../models/users/users');
 
 const {
   valid,
   validEmail,
   validLogin,
-  validPassword,
+  validRecipes,
 } = require('../../validations');
 
 const getAllServices = async () => {
@@ -40,10 +41,10 @@ const generateToken = async (user) => {
   if (findEmail === null) {
     return { status: 401, message: 'Incorrect username or password' };
   };
-  const findPassword = await validPassword(user.password);
   let bool = true;
-  if (!findEmail || !findPassword) bool = false;
+  if (!findEmail) bool = false;
   const payload = {
+    _id: findEmail._id,
     email: user.email,
     role: bool,
   };
@@ -51,8 +52,16 @@ const generateToken = async (user) => {
   return token;
 };
 
+const registerRecipes = async(recipes) => {
+  const { error } = validRecipes.validate(recipes);
+  if (error) return { status: 400, message: error.details[0].message };
+  const recipe = await registerRecipesModel(recipes);
+  return recipe;
+};
+
 module.exports = {
   getAllServices,
   addServices,
   generateToken,
+  registerRecipes,
 };
