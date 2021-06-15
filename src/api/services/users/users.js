@@ -10,15 +10,12 @@ const secret = 'tokenSecret';
 const {
   getAllModel,
   addModel,
-  registerRecipesModel,
-  allRecipesModel,
 } = require('../../models/users/users');
 
 const {
   valid,
   validEmail,
   validLogin,
-  validRecipes,
 } = require('../../validations');
 
 const getAllServices = async () => {
@@ -53,22 +50,8 @@ const generateToken = async (user) => {
   return token;
 };
 
-const registerRecipes = async (recipes) => {
-  const { error } = validRecipes.validate(recipes);
-  if (error) return { status: 400, message: error.details[0].message };
-  const recipe = await registerRecipesModel(recipes);
-  return recipe;
-};
-
-const allRecipes = async () => {
-  const result = await allRecipesModel();
-  return result;
-};
-
 module.exports = {
   getAllServices,
   addServices,
   generateToken,
-  registerRecipes,
-  allRecipes,
 };
