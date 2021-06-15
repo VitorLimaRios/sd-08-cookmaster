@@ -17,7 +17,7 @@ const createRecipe = async (req, res, next) => {
   res.status(CREATED).json(newRecipe);
 };
 
-const getRecipes = async (req, res, next) => {
+const getRecipes = async (_req, res, _next) => {
   const recipes = await recipeService.getRecipes();
 
   res.status(OK).json(recipes);
@@ -58,4 +58,14 @@ const deleteRecipe = async (req, res, next) => {
   res.status(NO_CONTENT).json();
 };
 
-module.exports = { createRecipe, getRecipes, getRecipeById, editRecipe, deleteRecipe };
+const addRecipeImage = async (req, res, next) => {
+  const { id } = req.params;
+
+  const editedRecipe = await recipeService.addRecipeImage(id);
+
+  res.status(OK).json(editedRecipe);
+};
+
+module.exports = {
+  createRecipe, getRecipes, getRecipeById, editRecipe, deleteRecipe, addRecipeImage
+};
