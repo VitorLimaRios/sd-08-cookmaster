@@ -14,7 +14,12 @@ const getRecipes = async () => {
   return connection().then((db) => db.collection('recipes').find().toArray());
 };
 
+const findRecipe = (id) => {
+  return connection().then((db) => db.collection('recipes').findOne(new ObjectId(id)));
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
+  findRecipe
 };

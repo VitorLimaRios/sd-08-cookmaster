@@ -1,6 +1,7 @@
 const recipesModel = require('../models/recipes');
 const recipesService = require('../services/recipes');
 const OK_STATUS = 200;
+const NOT_FOUNDED = 404;
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -23,7 +24,18 @@ const getRecipes = async (req, res) => {
   return res.status(OK_STATUS).json(recipes);
 };
 
+const findRecipe = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipesService.idIsValid(id);
+  if (recipe.status === NOT_FOUNDED) {
+    return res.status(recipe.status).json({ message: recipe.message });
+  }
+  
+  return res.status(recipe.status).json(recipe.message);
+};
+
 module.exports = {
   createRecipe,
-  getRecipes
+  getRecipes,
+  findRecipe,
 };

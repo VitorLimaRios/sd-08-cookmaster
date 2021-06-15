@@ -1,7 +1,9 @@
 const recipesModel = require('../models/recipes');
 const BAD_REQUEST = 400;
 const CREATED = 201;
-const CONFLICT = 409;
+const OK = 200;
+const NOT_FOUND = 404;
+const REQUIRED_LENGTH = 24;
 
 const recipeIsValid = async (name, ingredients, preparation, id) => {
   if (!name || !ingredients || !preparation) {
@@ -24,6 +26,23 @@ const recipeIsValid = async (name, ingredients, preparation, id) => {
   return { status: CREATED, message: { recipe: newRecipe} };
 };
 
+const idIsValid = async (id) => {
+  if (id.length === REQUIRED_LENGTH) {
+    const recipe = await recipesModel.findRecipe(id);
+    if (recipe == null) {
+      return {
+        status: NOT_FOUND, message: 'recipe not found'
+      };
+    }
+    return { status: OK, message: recipe };
+  }
+
+  return {
+    status: NOT_FOUND, message: 'recipe not found'
+  };
+};
+
 module.exports = {
   recipeIsValid,
+  idIsValid
 };
