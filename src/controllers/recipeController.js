@@ -2,7 +2,9 @@ const recipeService = require('../services/recipeService');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 
 const createRecipe = async (req, res, next) => {
@@ -32,4 +34,28 @@ const getRecipeById = async (req, res, next) => {
   res.status(OK).json(recipe);
 };
 
-module.exports = { createRecipe, getRecipes, getRecipeById };
+const editRecipe = async (req, res, next) => {
+  const { id } = req.params;
+  const recipeData = req.body;
+  const editedRecipe = await recipeService.editRecipe(id, recipeData, req.userId);
+
+  if (!editedRecipe) {
+    return next({ status: UNAUTHORIZED, message: 'You cant edit this recipe' });
+  }
+
+  res.status(OK).json(editedRecipe);
+};
+
+const deleteRecipe = async (req, res, next) => {
+  const { id } = req.params;
+
+  const deletedRecipe = await recipeService.deleteRecipe(id);
+
+  if (!deletedRecipe) {
+    return next({ status: NOT_FOUND, message: 'recipe not found' });
+  }
+
+  res.status(NO_CONTENT).json();
+};
+
+module.exports = { createRecipe, getRecipes, getRecipeById, editRecipe, deleteRecipe };

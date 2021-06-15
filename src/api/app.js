@@ -18,6 +18,8 @@ app.get('/recipes', recipeController.getRecipes);
 app.get('/recipes/:id', recipeController.getRecipeById);
 app.use(middleware.auth);
 app.post('/recipes', recipeController.createRecipe);
+app.put('/recipes/:id', recipeController.editRecipe);
+app.delete('/recipes/:id', recipeController.deleteRecipe);
 
 app.use(middleware.error);
 

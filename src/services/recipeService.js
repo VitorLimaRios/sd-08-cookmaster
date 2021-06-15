@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 
 const recipeModel = require('../models/recipeModel');
+const userModel = require('../models/userModel');
 
 const validateRecipe = Joi.object({
   name: Joi.string().required(),
@@ -31,4 +32,27 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-module.exports = { createRecipe, getRecipes, getRecipeById };
+const editRecipe = async (id, recipeData, userId) => {
+  const recipe = await recipeModel.getRecipeById(id);
+  const user = await userModel.getUserById(recipe.userId);
+
+  if (!user.role === 'admin' && !userId.equals(recipe.userId)) {
+    return null;
+  }
+  
+  const editedRecipe = await recipeModel.editRecipe(id, recipeData);
+
+  if (!editedRecipe) return null;
+
+  return editedRecipe;
+};
+
+const deleteRecipe = async (id) => {
+  const deletedRecipe = await recipeModel.deleteRecipe(id);
+
+  if (!deletedRecipe) return null;
+
+  return true;
+};
+
+module.exports = { createRecipe, getRecipes, getRecipeById, editRecipe, deleteRecipe };
