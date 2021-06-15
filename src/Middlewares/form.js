@@ -1,18 +1,27 @@
-const { getByEmail } = require('../models/user.model');
-const { StatusCodes: { BAD_REQUEST, CONFLICT } } = require('http-status-codes');
+const { verifyByEmail } = require('../services/userManagement.service');
+const { StatusCodes: { 
+  BAD_REQUEST, 
+  CONFLICT, 
+  UNAUTHORIZED 
+} } = require('http-status-codes');
 
-const valid = () => ({
-  name: (name) => !!(name && name.length >= MAX_SIZE_FIVE),
-  quantity: (quantity) => !!(quantity && +quantity >= MIN_SIZE_ONE),
-});
+const verifyEmail = async (email) => {
+  const isValid = await verifyByEmail(email);
+  if(isValid) throw new Error('Email already registered');
+  return isValid;
+};
+
+const verifyFormatEmail = (email) => {
+  const isValid = new RegExp('.+@[A-z]+[.]com').test(email);
+  if(!isValid) throw new Error('Invalid entries. Try again.');
+  return isValid;
+};
 
 exports.validateEmail = async (req, res, next) => {
   const { email } = req.body;
-  const isValid = new RegExp('.+@[A-z]+[.]com').test(email);
   try {
-    const emailUser = !!await getByEmail(email);
-    if(!isValid) throw new Error('Invalid entries. Try again.');
-    if(emailUser) throw new Error('Email already registered');
+    verifyFormatEmail(email);
+    await verifyEmail(email);
     next();
   } catch (err) {
     if(err.message === 'Email already registered')
@@ -20,13 +29,25 @@ exports.validateEmail = async (req, res, next) => {
     res.status(BAD_REQUEST).json({ message: err.message });
   } 
 };
+
 exports.validateForm = (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-    if(!name || !email || !password) 
+    const { name,  password } = req.body;
+    if(!name  || !password) 
       throw new Error('Invalid entries. Try again.');
     next();
   } catch (err) {
     res.status(BAD_REQUEST).json({ message: err.message });
+  }
+};
+
+exports.validateLogin = (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if(!email || !password) 
+      throw new Error('All fields must be filled');
+    next();
+  } catch (err) {
+    res.status(UNAUTHORIZED).json({ message: err.message });
   }
 };
