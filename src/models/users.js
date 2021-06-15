@@ -13,7 +13,7 @@ const create = async (name, email, password) => {
   };
 };
 
-const getByEmail = async (email) => connect()
+const getByEmail = async (email) => await connect()
   .then((db) => db.collection('users').findOne({ email }));
 
 module.exports = {

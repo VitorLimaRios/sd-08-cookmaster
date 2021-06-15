@@ -70,7 +70,7 @@ const login = async (email, password) => {
   if (isValid) throw new Error(isValid);
   
   const user = await usersModel.getByEmail(email);
-  // console.log(user);
+
   const emailAndPassword = await emailOrPasswordInvalid(user, password);
   if (emailAndPassword) throw new Error(emailAndPassword);
 
