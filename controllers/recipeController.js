@@ -55,8 +55,8 @@ router.put('/:id', async (req, res) => {
 
   const {recipe} = await service.update(id, req.body, authorization);
 
-  if (recipe.message === 'jwt malformed') return res.status(STATUS_401).json(recipe);
-  if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
+  // if (recipe.message === 'jwt malformed') return res.status(STATUS_401).json(recipe);
+  // if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
 
   res.status(STATUS_200).json(recipe); 
 });
