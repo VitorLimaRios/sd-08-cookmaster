@@ -2,12 +2,14 @@ const { recipesServices } = require('../services');
 const {
   recipesCreate,
   getRecipes,
+  recipesById,
 } = recipesServices;
 
 const SUCCESS = 200;
 const CREATED = 201;
 const BAD = 400;
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 
 const registerRecipes = async (req, res) => {
   try {
@@ -40,7 +42,22 @@ const getAllRecipes = async (_req, res) => {
   }
 };
 
+const getRecipesById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await recipesById(id);
+
+    if (result.message === 'recipe not found')
+      return res.status(NOT_FOUND).json(result);
+
+    return res.status(SUCCESS).json(result);
+  } catch (error) {
+    return res.status(BAD).json(error);
+  }
+};
+
 module.exports = {
   registerRecipes,
   getAllRecipes,
+  getRecipesById,
 };

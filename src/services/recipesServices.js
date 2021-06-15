@@ -5,6 +5,7 @@ const { findEmail } = usersModel;
 const {
   writeRecipes,
   readRecipes,
+  readRecipesById,
 } = recipesModel;
 
 const secret = 'trybecookmaster'; // isso deve ir pro .env
@@ -44,7 +45,16 @@ const getRecipes = async () => {
   return result;
 };
 
+const recipesById = async (id) => {
+  const result = await readRecipesById(id);
+
+  if (!result) return { message: 'recipe not found' };
+
+  return result;
+};
+
 module.exports = {
   recipesCreate,
   getRecipes,
+  recipesById,
 };
