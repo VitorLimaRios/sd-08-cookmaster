@@ -1,11 +1,13 @@
 // const { ObjectId } = require('mongodb');
 // const UserModel = require('../models/User');
 const usersService = require('../services/users');
+const loginService = require('../services/login');
 
 const Ok = 200;
 const Created = 201;
 // const UnprocessableEntity = 422;
 const BadRequest = 400;
+const Unauthorized = 401;
 const Conflict = 409;
 // const InternalServerError = 500;
 
@@ -90,8 +92,22 @@ const createUser = async (req, res) => {
 //   }
 // };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const token = await loginService.login(email, password);
+
+    return res.status(Ok).json({ token: token });
+  } catch (err) {
+    return res.status(Unauthorized).json({
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   createUser,
+  login,
   // getAllUsers,
   // getUserById,
   // updateUser,
