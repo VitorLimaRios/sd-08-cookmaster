@@ -1,9 +1,11 @@
 const express = require('express');
+
 const recipesModels = require('../models/recipesModels');
 const recipesServices = require('../services/recipesServices');
 const validateJWT = require('../auth/validateJWT');
 const validateRecipes = require('../middlewares/recipesValidation');
 const { status, message } = require('../schema/status');
+const imageUpload = require('../api/multer');
 
 const routes = express.Router();
 
@@ -51,6 +53,14 @@ routes.delete('/:id', validateJWT, async (req, res) => {
   const { id } = req.params;
   await recipesServices.deleteRecipeById(id);
   return res.status(status.noContent).json();
+});
+
+routes.put('/:id/image', validateJWT, imageUpload(), async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+  const image = `localhost:3000/src/uploads/${filename}`;
+  const response = await recipesServices.pictureUpload(id, image);
+  return res.status(status.OK).json(response);
 });
 
 module.exports = routes;
