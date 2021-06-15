@@ -4,14 +4,14 @@ const recipesModel = require('../models/recipesMod');
 // const usersModel = require('../models/usersMod');
 
 const addRecipes = async (dataRecipes, dataUsers) => {
-  console.log('------------');
+  // console.log('------------');
   console.log('dataUsers', dataRecipes);
 
   const { name, ingredients, preparation } = dataRecipes;
   
   const insertRecipesDb = await recipesModel
     .addRecipes(name, ingredients, preparation, dataUsers._id);
-  console.log('------------');
+  // console.log('------------');
   console.log('addUsers usersSer line 7', insertRecipesDb);
 
   return {
