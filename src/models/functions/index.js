@@ -13,7 +13,14 @@ const getByKeysValues = async(keysValues, collectionName) => {
   return foundDocument;
 };
 
+const getAll = async(collectionName) => {
+  const db = await connect();
+  const allDocuments = await db.collection(collectionName).find().toArray();
+  return allDocuments;
+};
+
 module.exports = {
   addNew,
   getByKeysValues,
+  getAll,
 };

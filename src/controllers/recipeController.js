@@ -1,10 +1,10 @@
-const { CREATED } = require('../api/constants/statusCodes');
+const { CREATED, OK } = require('../api/constants/statusCodes');
+const { getAllRecipes } = require('../models/recipeModel');
 const { newRecipe } = require('../services/recipeServices');
 
 const createsRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { userId } = req;
-  console.log(userId);
 
   const createdRecipe = await newRecipe(name, ingredients, preparation, userId);
 
@@ -16,7 +16,14 @@ const createsRecipe = async (req, res) => {
 
 };
 
+const getsRecipes = async (_req, res) => {
+  const allRecipes = await getAllRecipes();
+  res.status(OK).json(allRecipes);
+
+};
+
 
 module.exports = {
   createsRecipe,
+  getsRecipes,
 };
