@@ -1,11 +1,15 @@
-const usersModels = require('../models/users');
-
 const status_400 = 400;
-// const status_409 = 409;
-// const status_201 = 201;
+const status_409 = 409;
+const status_401 = 401;
 const invalidMessage = {
   'message': 'Invalid entries. Try again.'
 };
+const loginMessage_1 = {
+  'message': 'All fields must be filled',
+};
+const loginMessage_2 = {
+  'message': 'Incorret username or password',
+}; 
 
 const isValidName = (req, res, next) => {
   const name = req.body.name;
@@ -21,9 +25,15 @@ const isValidEmail = (req, res, next) => {
   next();
 };
 
-const isValidPassword = (req, res, next) => {
+const isValidPassword = async (req, res, next) => {
   const password = req.body.password;
-  if (!password) return res.status(status_400).json(invalidMessage);
+  if (!password) return res.status(status_400).json(invalidMessage);  
+  next();
+};
+
+const isValidLogin = (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) return res.status(status_401).json(loginMessage_1);
   next();
 };
 
@@ -31,4 +41,5 @@ module.exports = {
   isValidName,
   isValidEmail,
   isValidPassword,   
+  isValidLogin,
 };

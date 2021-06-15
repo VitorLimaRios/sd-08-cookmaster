@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const usersModels = require('../models/users');
 
 const create = async (name, email, password) => {
@@ -8,11 +9,6 @@ const create = async (name, email, password) => {
   return { user: newUser };
 };
 
-const login = async (email, password) => {
-
-};
-
 module.exports = {
   create,
-  login,
 };
