@@ -1,15 +1,17 @@
 const message = require('./msg');
 const CODE = require('./code');
 
-class HTTPError extends Error {
+class CustomError extends Error {
   /**
    * @param {string} [msgCode]
    * [pr-inv]
    * [email-exist]
+   * [l-f-invalid]
+   * [l-f-incorrect]
    */
 
-  constructor(message, nameFunction, msgCode) {
-    super(`${message} -- ${nameFunction}`);
+  constructor(message, otherInfo, msgCode) {
+    super(`${message} -- ${otherInfo}`);
     this.name = this.constructor.name;
     this.code = CODE.internalError;
     this.msgCode = msgCode;
@@ -26,9 +28,9 @@ class HTTPError extends Error {
   }
 }
 
-module.exports = HTTPError;
+module.exports = CustomError;
 
-// -------------------------------------------------------------------
+// --------------------------------------------------------------------
 // https://javascript.info/custom-errors
 // https://gist.github.com/TooTallNate/4fd641f820e1325695487dfd883e5285
 // --------------------------------------------------------------------

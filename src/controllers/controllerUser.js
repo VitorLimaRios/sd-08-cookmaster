@@ -7,7 +7,7 @@ class ControllerUsers {
     try {
       const user = req.body;
       const result = await servicesUsers.serviceCreateUser(user, false);
-      if (result.err) return next(result);
+      if (result.err || !result.user) return next(result);
       return res.status(CODE.created).json(result);
     } catch (err) {
       next(err);

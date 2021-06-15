@@ -1,6 +1,7 @@
-const HTTPError = require('../error/httpError');
+const CustomError = require('../error/customError');
 const ModelUser = require('../models/modelUser');
 const schemaUser = require('../schema/schemaUser');
+const bcrypt = require('bcrypt');
 
 class ServicesUsers {
   constructor() {
@@ -9,10 +10,13 @@ class ServicesUsers {
     this._checkForDuplicateEmail = this._checkForDuplicateEmail.bind(this);
     this._checkingNewUserInformation =
       this._checkingNewUserInformation.bind(this);
+    this._salt = 5;
   }
 
-  checkForAdmin(role) {
-    return '';
+  async _encryptPass(password) {
+    const salt = await bcrypt.genSalt(this._salt);
+    const passWordEncrypted = await bcrypt.hash(password, salt);
+    return passWordEncrypted;
   }
 
   async _checkForDuplicateEmail(email) {
@@ -28,19 +32,19 @@ class ServicesUsers {
   async _checkingNewUserInformation(newUserData, authorization) {
     const { email } = newUserData;
     const check = {
-      'emailExist': await this._checkForDuplicateEmail({ email }),
-      'role': authorization ? 'admin' : 'user',
-      'schema': this._serviceSchema(newUserData),
+      emailExist: await this._checkForDuplicateEmail({ email }),
+      role: authorization ? 'admin' : 'user',
+      schema: this._serviceSchema(newUserData),
     };
     return check;
   }
 
-  viewer(object, authorization) {
+  viewerNotPassword(object, authorization) {
     if (!authorization) {
       delete object.password;
     }
     return {
-      user: object
+      user: object,
     };
   }
 
@@ -54,7 +58,7 @@ class ServicesUsers {
       const { schema, emailExist, role } = checkingInfo;
 
       if (schema !== 'pass') {
-        throw new HTTPError(
+        throw new CustomError(
           'Error schema invalid',
           this.serviceCreateUser.name,
           'pr-inv'
@@ -62,22 +66,26 @@ class ServicesUsers {
       }
 
       if (emailExist) {
-        throw new HTTPError(
+        throw new CustomError(
           'Error email already exists',
           this.serviceCreateUser.name,
           'email-exist'
         );
       }
+      const hash = await this._encryptPass(newUserData.password);
+      const setNewUser = await this._modelUser.createUser({
+        ...newUserData,
+        role,
+        password: hash,
+      });
 
-      const setNewUser = await this._modelUser.createUser({ ...newUserData, role });
-      
-      return this.viewer(setNewUser, authorization);
+      return this.viewerNotPassword(setNewUser, authorization);
     } catch (err) {
-      if (err instanceof HTTPError) {
+      if (err instanceof CustomError) {
         return err.responseError();
       }
       console.error(err);
-      return { 'message': this.serviceCreateUser.name, 'code': 500 };
+      return { err: { message: this.serviceCreateUser.name }, code: 500 };
     }
   }
 }
