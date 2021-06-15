@@ -30,20 +30,21 @@ const userIsValid = async (name, email, password) => {
 };
 
 const findUser = async (email, password) => {
-  if (!email || !password) return (
-    { status: 401, message: 'All fields must be filled'}
-  );
+  if (!email || !password)
+    return { status: 401, message: { message: 'All fields must be filled' } };
 
   const userSearch = await usersModel.findUser(email);
 
-  if (!userSearch || userSearch.password !== password) return (
-    { status: 401, message: 'Incorrect username or password' }
-  );
+  if (!userSearch || userSearch.password !== password)
+    return {
+      status: 401,
+      message: { message: 'Incorrect username or password' },
+    };
 
   const { password: seia, ...userWithoutPassword } = userSearch;
-  const token = jwt.sign({data: userWithoutPassword}, secret, jwtConfig);
+  const token = jwt.sign({ data: userWithoutPassword }, secret, jwtConfig);
 
-  return ({ status: 200, message: token});
+  return { status: 200, message: token };
 };
 
 // const idIsValid = async (id) => {
@@ -91,7 +92,7 @@ const findUser = async (email, password) => {
 module.exports = {
   userIsValid,
   findUser,
-  secret
-//   idIsValid,
-//   updateProductIsValid,
+  secret,
+  //   idIsValid,
+  //   updateProductIsValid,
 };

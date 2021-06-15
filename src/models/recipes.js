@@ -10,6 +10,11 @@ const createRecipe = async (name, ingredients, preparation, userID) => {
     .catch((err) => err);
 };
 
+const getRecipes = async () => {
+  return connection().then((db) => db.collection('recipes').find().toArray());
+};
+
 module.exports = {
   createRecipe,
+  getRecipes,
 };
