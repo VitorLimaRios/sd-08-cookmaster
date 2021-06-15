@@ -4,7 +4,7 @@ const useValidate = require('./userValidations');
 const addNewUser = async (data) => {
   const { name, email, password } = data;
   const validations = await useValidate
-      .userValidations(name, email, password);
+    .userValidations(name, email, password);
 
   if (validations) return validations;
 
@@ -22,5 +22,5 @@ const addNewUser = async (data) => {
 };
 
 module.exports = {
-    addNewUser,
+  addNewUser,
 };

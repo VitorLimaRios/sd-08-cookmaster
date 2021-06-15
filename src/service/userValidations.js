@@ -1,7 +1,8 @@
 const userModel = require('../model/userModel');
 
+const NUMBER_ZERO = 0;
 const nameIsValid = (name) => {
-  if (!name || name.length === 0) {
+  if (!name || name.length === NUMBER_ZERO) {
     return { 
       message: 'Invalid entries. Try again.',
       code: 400,
