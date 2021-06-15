@@ -13,8 +13,6 @@ const createUser = async(newUser) => {
   
   const user = await userModel.readByKey('email', newUser.email);
 
-  console.log('user no service', user);
-
   validations.userAlreadyExists(user);
 
   const created = await userModel.createUser(newUser);
