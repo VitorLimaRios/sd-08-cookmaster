@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const recipeController = require('./controllers/recipeController');
 const path = require('path');
 
 const usersRoutes = require('./routes/usersRoutes');
@@ -15,6 +16,8 @@ app.use(bodyParser.json());
 app.use('/users', usersRoutes);
 app.use('/login', loginsRoutes);
 app.use('/recipes', recipesRoutes);
+
+app.get('/images/:id', recipeController.getImage);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_request, response) => {

@@ -85,6 +85,24 @@ const updateImage = async (req, res) => {
   }
 };
 
+const getImage = async (_req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const recipeImage = await RecipeService
+      .getImage(id);
+    
+    res
+      .status(StatusCode.OK)
+      .json(recipeImage);
+  } catch (error) {
+    const { message, code } = error;
+    res
+      .status(code)
+      .json({ message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
@@ -92,4 +110,5 @@ module.exports = {
   update,
   exclude,
   updateImage,
+  getImage,
 };

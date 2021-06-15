@@ -58,6 +58,17 @@ const updateImage = async (id, fullPathImage) => {
   };
 };
 
+const getImage = async (id) => {  
+  const idWithOutExtension = id.replace('.jpeg', '');
+
+  RecipeValidations.validateRecipeId(id);
+
+  const recipeImage = await RecipeService
+    .findById(idWithOutExtension);
+  
+  return recipeImage.image;
+};
+
 module.exports = {
   create,
   getAll,
@@ -65,4 +76,5 @@ module.exports = {
   update,
   exclude,
   updateImage,
+  getImage,
 };
