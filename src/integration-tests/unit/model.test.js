@@ -3,9 +3,9 @@ const sinon = require('sinon');
 const { MongoClient, ObjectId } = require('mongodb');
 const ConnectionMock = require('./connection');
 
-const connectionDB = require('../../src/models/connection');
-const ModelDefault = require('../../src/models/modelDefault');
-const ModelUser = require('../../src/models/modelUser');
+const connectionDB = require('../../models/connection');
+const ModelDefault = require('../../models/modelDefault');
+const ModelUser = require('../../models/modelUser');
 
 const databaseFakeUser = require('./data/user');
 
