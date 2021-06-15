@@ -32,19 +32,25 @@ const getById = saveMe(async (id) => {
   return db.collection('recipes').findOne(ObjectId(id));
 });
 
-const edit = saveMe(async (id, { name, ingredients, preparation, userId }) => {
+const edit = saveMe(async (id, {
+  name,
+  ingredients,
+  preparation,
+  userId,
+  image = ''
+}) => {
   if (!ObjectId.isValid(id)) return null;
 
   const db = await connection();
 
   const { modifiedCount } = await db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
-    { $set: { name, ingredients, preparation, userId } }
+    { $set: { name, ingredients, preparation, userId, image } }
   );
 
   if (!modifiedCount) return null;
 
-  return { _id: id, name, ingredients, preparation, userId };
+  return { _id: id, name, ingredients, preparation, userId, image };
 });
 
 const remove = saveMe(async (id) => {

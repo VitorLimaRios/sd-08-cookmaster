@@ -14,23 +14,35 @@ const getAll = () => RecipeModel.getAll();
 
 const getById = (id) => RecipeModel.getById(id);
 
-const isOwner = async (recipeId, userId) => {
-  const recipe = await getById(recipeId);
-  return recipe._id == userId;
-};
-
-const edit = async (recipeId, updates, user) => {
-  if (!isOwner(recipeId, user.userId) && user.role !== 'admin') {
-    return createError('Acesso negado', 'access_denied');
-  }
-
-  return RecipeModel.edit(recipeId, { ...updates, userId: user.userId });
-};
-
 const remove = async (id) => {
   const result = await RecipeModel.remove(id);
   if (!result) return createError('Deletion failed');
   return result;
+};
+
+const grantAccess = async (recipeId, user) => {
+  const { userId, role } = user;
+  const recipe = await getById(recipeId);
+  if (recipe._id !== userId && role !== 'admin') return false;
+  return true;
+};
+
+const edit = async (recipeId, updates, user) => {
+  if (!grantAccess(recipeId, user)) {
+    return createError('Acesso negado', 'access_denied');
+  }
+  return RecipeModel.edit(recipeId, { ...updates, userId: user.userId });
+};
+
+const setImage = async (recipeId, image, user) => {
+  if (!grantAccess(recipeId, user)) {
+    return createError('Acesso negado', 'access_denied');
+  }
+
+  const recipe = await getById(recipeId);
+  if (!recipe) return createError('Not found');
+
+  return edit(recipeId, { ...recipe, image }, user);
 };
 
 module.exports = {
@@ -38,5 +50,6 @@ module.exports = {
   getAll,
   getById,
   edit,
-  remove
+  remove,
+  setImage
 };

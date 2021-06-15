@@ -14,6 +14,10 @@ const ERRORS = {
 const INTERNAL_ERROR = 500;
 
 module.exports = (err, _req, res, _next) => {
+  if (!err.err) return res
+    .status(httpStatusCodes.INTERNAL_ERROR)
+    .json({ message: 'Internal error' });
+
   const { err: error } = err;
   const statusCode = ERRORS[error.code] || INTERNAL_ERROR;
   res.status(statusCode).json({ message: error.message });

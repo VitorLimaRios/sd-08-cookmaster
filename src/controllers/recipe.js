@@ -49,10 +49,25 @@ const remove = async (req, res, next) => {
   res.sendStatus(httpStatusCodes.NO_CONTENT);
 };
 
+const setImage = async (req, _res, next) => {
+  const { id } = req.params;
+  const { id: userId, role } = req.user;
+
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+  const result = await RecipeService.setImage(id, image, { userId, role });
+
+  if (result.err) return next(result);
+
+  req.recipe = result;
+
+  next();
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   edit,
-  remove
+  remove,
+  setImage
 };
