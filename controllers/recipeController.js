@@ -48,4 +48,16 @@ router.post('/', rescue(async (req, res) => {
   }  
 }));
 
+router.put('/:id', async (req, res) => {  
+  const { authorization } = req.headers; 
+  const { id } = req.params;
+
+  const {recipe} = await service.update(id, req.body, authorization);
+
+  if (recipe.message === 'jwt malformed') return res.status(STATUS_401).json(recipe);
+  if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
+
+  res.status(STATUS_200).json(recipe); 
+});
+
 module.exports = router;

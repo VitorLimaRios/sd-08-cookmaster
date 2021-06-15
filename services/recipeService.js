@@ -25,9 +25,24 @@ const create = async (recipes, authorization) => {
   }
   return model.create(recipes, authorization);
 };  
+
+const update = async (id, recipe, authorization) => {
+  if (!recipe) {
+    return {      
+      message: 'missing auth token'   
+    };
+  }  
+  if (!authorization) {
+    return {      
+      message: 'jwt malformed'   
+    };    
+  }
+  return model.update(id, recipe, authorization);
+};
   
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
