@@ -13,7 +13,6 @@ const createRecipe = async (req, res) => {
     );
     res.status(code.CREATED).json(newRecipe);
   } catch (error) {
-    console.log('controller',error.message);
     if (newRecipe.error === 'Invalid entries. Try again.') {
       res.status(code.BAD_REQUEST).json({ message: error.message });
     }
@@ -39,8 +38,21 @@ const getRecipeById = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+    const recipe = await recipesServices.updateRecipe(id, name, ingredients, preparation);
+    return res.status(code.OK).json(recipe);
+  } catch (error) {
+    //console.log(error.message);
+    res.status(code.SERVER_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

@@ -13,5 +13,6 @@ router.post('/recipes',
 );
 router.get('/recipes/:id',  rescue(recipesController.getRecipeById));
 router.get('/recipes', rescue(recipesController.getAllRecipes));
+router.put('/recipes/:id', validateJWT, rescue(recipesController.updateRecipe));
 
 module.exports = router;

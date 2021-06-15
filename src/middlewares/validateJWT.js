@@ -7,10 +7,11 @@ const secret = 'seusecretdetoken';
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
   try {
+    if (!token) throw new Error({ message:'missing auth token' });
     const decoded = jwt.verify(token, secret);
     const user = await usersModel.findUserByEmail(decoded.email);
     if (!user) return res.status(code.UNAUTHORIZED).json(
-      { message: 'Erro ao procurar usuario do token.' }
+      { message: 'jwt malformed' }
     );
     req.user = user;
     next();
