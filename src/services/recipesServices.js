@@ -48,7 +48,7 @@ const deleteRecipe = async (id) => {
 
 const uploadImages = async (id, path) => {
   if (!ObjectId.isValid(id)) throw new Error(message.NOT_FOUND);
-  await recipesModel.uploadImage(id, { image: path });
+  await recipesModel.uploadImage(id, path);
   const recipe = await recipesModel.getRecipeById(id);
   return recipe;
 };

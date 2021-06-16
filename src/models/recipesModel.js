@@ -52,7 +52,6 @@ const deleteRecipe = async (id) => {
 };
 
 const uploadImage = async (id, path) => {
-  console.log(path);
   const recipe = await connection()
     .then((db) => db.collection('recipes')
       .updateOne(

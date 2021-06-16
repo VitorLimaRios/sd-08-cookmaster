@@ -20,7 +20,7 @@ router.put('/recipes/:id',
   rescue(recipesController.updateRecipe)
 );
 router.delete('/recipes/:id', validateJWT, rescue(recipesController.deleteRecipe));
-router.post('/recipes/:id/image/',
+router.put('/recipes/:id/image/',
   validateJWT,
   uploadImages.single('image'),
   rescue(recipesController.uploadImages)

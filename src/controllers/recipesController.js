@@ -64,7 +64,7 @@ const uploadImages = async (req, res) => {
   const { id } = req.params;
   const { filename } = req.file;
   try {
-    const path = `localhost:3000/src/upload/${ filename }`;
+    const path = `localhost:3000/src/uploads/${ filename }`;
     const addImage = await recipesServices.uploadImages(id, path);
     return res.status(code.OK).json(addImage);
   } catch (error) {
