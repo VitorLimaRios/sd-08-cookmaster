@@ -3,6 +3,7 @@ const {
   allRecipesModel,
   idRecipesModel,
   editRecipesModel,
+  deleteRecipesModel,
 } = require('../../models/recipe/recipe');
 
 const {
@@ -32,9 +33,17 @@ const editRecipes = async (id, body) => {
   return result;
 };
 
+const deleteRecipes = async (id) => {
+  console.log(id);
+
+  const result = await deleteRecipesModel(id);
+  return result;
+};
+
 module.exports = {
   registerRecipes,
   allRecipes,
   idRecipes,
   editRecipes,
+  deleteRecipes,
 };

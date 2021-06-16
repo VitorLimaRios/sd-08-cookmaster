@@ -5,10 +5,12 @@ const {
   allRecipes,
   idRecipes,
   editRecipes,
+  deleteRecipes,
 } = require('../../services/recipes/recipes');
 
 const DOU = 201;
 const DOO = 200;
+const DOQ = 204;
 
 const registerRec = rescue(async (req, res, next) => {
   const { _id: userId } = req.users;
@@ -39,9 +41,17 @@ const editRec = rescue(async (req, res, next) => {
   res.status(DOO).json(show);
 });
 
+const deleteRec = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await deleteRecipes(id);
+  if (result.status) return next(result);
+  res.status(DOQ).json(result);
+});
+
 module.exports = {
   registerRec,
   allRec,
   idRec,
   editRec,
+  deleteRec,
 };
