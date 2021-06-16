@@ -19,4 +19,12 @@ app.post('/login', usersControllers.login);
 
 app.post('/recipes', recipesControllers.create);
 
+app.get('/recipes/:id', recipesControllers.getById);
+
+app.get('/recipes', recipesControllers.getAll);
+
+app.put('/recipes/:id', recipesControllers.update);
+
+app.delete('/recipes/:id', recipesControllers.erase);
+
 module.exports = app;

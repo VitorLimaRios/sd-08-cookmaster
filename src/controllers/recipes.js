@@ -2,32 +2,68 @@ const recipesService = require('../services/recipes');
 
 const OK = 200;
 const CREATED = 201;
-const UNAUTHORIZED = 401;
+const NO_CONTENT = 204;
 
 const create = async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
-    const token = req.headers.Authorization;
-    console.log(token);
+    const token = req.headers['authorization'];
+    recipesService.verifyToken(token);
     const recipe = await recipesService.create(name, ingredients, preparation, token);
-    res.status(CREATED).json({ recipe });
+    return res.status(CREATED).json({ recipe });
   } catch (e) {
     const { code, message } = JSON.parse(e.message);
     return res.status(code).json({ message });
   }
 };
 
-const login = async (req, res) => {
+const getAll = async (_req, res) => {
+  const recipes = await recipesService.getAll();
+  return res.status(OK).json(recipes);
+};
+
+const getById = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const token = await recipesService.login(email, password);
-    res.status(OK).json({ token });
+    const { id } = req.params;
+    const recipes = await recipesService.getById(id);
+    return res.status(OK).json(recipes);
   } catch (e) {
-    return res.status(UNAUTHORIZED).json({ message: e.message });
+    const { code, message } = JSON.parse(e.message);
+    return res.status(code).json({ message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const reqBody = req.body;
+    const token = req.headers['authorization'];
+    recipesService.verifyToken(token);
+    const newRecipe = await recipesService.update(id, reqBody, token);
+    return res.status(OK).json(newRecipe);
+  } catch (e) {
+    const { code, message } = JSON.parse(e.message);
+    return res.status(code).json({ message });
+  }
+};
+
+const erase = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const token = req.headers['authorization'];
+    recipesService.verifyToken(token);
+    await recipesService.erase(id);
+    res.status(NO_CONTENT).json({ message: 'Recepi erased' });
+  } catch (e) {
+    const { code, message } = JSON.parse(e.message);
+    return res.status(code).json({ message });
   }
 };
 
 module.exports = {
   create,
-  login,
+  getAll,
+  getById,
+  update,
+  erase,
 };
