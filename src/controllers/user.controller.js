@@ -25,19 +25,3 @@ exports.login = async (req, res) => {
     res.status(UNAUTHORIZED).json({message: err.message});
   }
 };
-
-// exports.getAll = async (req, res) => {
-//   try {
-//     res.status(200).json({message: ''});
-//   } catch (err) {
-//     res.status(422).json({message: err.message});
-//   }
-// };
-
-// exports.getById = async (req, res) => {
-//   try {
-//     res.status(200).json({message: ''});
-//   } catch (err) {
-//     res.status(422).json({message: err.message});
-//   }
-// };
