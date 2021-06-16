@@ -67,7 +67,7 @@ const addImage = async (req, res) => {
     const result = await recipesService.addImage(id, req.file,req.user);
     res.status(result.status).json(result.message);
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(ERR_500).json(error.message);
   }
 
 };
