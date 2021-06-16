@@ -1,6 +1,7 @@
 const recipesServices = require('../services/recipesServices');
 const { code } = require('../helpers/messages');
 const path = require('path');
+const fs = require('fs');
 
 const createRecipe = async (req, res) => {
   try {
@@ -74,10 +75,13 @@ const uploadImages = async (req, res) => {
 };
 
 const getImage = async(req, res) => {
-  console.log(req.params);
-  const { id } = req.params;
-  const imagePath = path.resolve('src/uploads', id);
-  return res.status(code.OK).sendFile(imagePath);
+  try {
+    const { id } = req.params;
+    const imagePath = path.resolve('src/uploads', id);
+    return res.status(code.OK).sendFile(imagePath);
+  } catch (error) {
+    res.status(code.SERVER_ERROR).json({ message: error.message });
+  }
 };
 
 module.exports = {
@@ -89,3 +93,15 @@ module.exports = {
   uploadImages,
   getImage,
 };
+
+/*const getImage = async(req, res) => {
+  try {
+    // console.log(req.params);
+    const { id } = req.params;
+    const imagePath = path.resolve('src/uploads', id + '.jpeg');
+    const contentImage = await fs.promises.readFile(imagePath);
+    return res.status(code.OK).send(contentImage);
+  } catch (error) {
+    res.status(code.SERVER_ERROR).json({ message: error.message });
+  }
+};*/

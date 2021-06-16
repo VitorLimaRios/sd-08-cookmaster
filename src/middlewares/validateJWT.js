@@ -12,6 +12,7 @@ const validateJWT = async (req, res, next) => {
     const user = await usersModel.findUserByEmail(decoded.email);
     if (!user) throw new Error('jwt malformed');
     req.body.userId = user._id;
+    req.body.role = user.role;
     next();
   } catch (error) {
     return res.status(code.UNAUTHORIZED).json({ message: error.message });

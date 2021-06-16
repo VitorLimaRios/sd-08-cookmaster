@@ -7,6 +7,7 @@ const code = {
   SERVER_ERROR: 500,
   NOT_FOUND: 404,
   NO_CONTENT: 204,
+  FORBIDDEN: 403,
 };
 
 const message = {

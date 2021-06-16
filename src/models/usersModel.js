@@ -25,4 +25,22 @@ const getAllUsers = async () => {
   return allUsers;
 };
 
-module.exports = { createUser, findUserByEmail, getAllUsers };
+const createAdmin = async (name, email, password) => {
+  const newAdmin = await connection()
+    .then((db) => db.collection('users')
+      .insertOne({ name, email, password, role: 'admin' }))
+    .then(result => result.ops[0]);
+  return { user: { 
+    name,
+    email,
+    role: 'admin',
+    _id: newAdmin._id,
+  }};
+};
+
+module.exports = {
+  createUser,
+  findUserByEmail,
+  getAllUsers,
+  createAdmin,
+};
