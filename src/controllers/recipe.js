@@ -37,7 +37,7 @@ const edit = async (req, res, next) => {
     { userId, role }
   );
 
-  if (!result) return next(result);
+  if (result.err) return next(result);
 
   res.status(httpStatusCodes.OK).json(result);
 };

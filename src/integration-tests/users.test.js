@@ -113,7 +113,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
     })
 
     it('retorna um objeto contendo a mensagem de error', () => {
-      console.log(response);
       expect(response).to.equal('missing auth token');
     })
   });

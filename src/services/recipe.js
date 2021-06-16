@@ -12,38 +12,56 @@ const create = async (recipe) => {
 
 const getAll = () => RecipeModel.getAll();
 
-const getById = (id) => RecipeModel.getById(id);
+const getById = (recipeId) => RecipeModel.getById(recipeId);
 
-const grantAccess = async (recipeId, user) => {
+const grantAccess = async (recipe, user) => {
   const { userId, role } = user;
-  const recipe = await getById(recipeId);
-  if (recipe._id !== userId && role !== 'admin') return false;
-  return true;
+  // O _id vem do mongodb como um objeto
+  if (String(recipe.userId) === userId || role === 'admin') return true;
+  return false;
 };
 
-const remove = async (id, user) => {
-  if (!grantAccess(id, user)) {
+const remove = async (recipeId, user) => {
+  const recipe = await RecipeModel.getById(recipeId);
+
+  if (!recipe) {
+    return createError('Recipe not found');
+  }
+
+  if (!await grantAccess(recipe, user)) {
     return createError('Forbidden', 'forbidden');
   }
-  const result = await RecipeModel.remove(id);
+
+  const result = await RecipeModel.remove(recipeId);
   if (!result) return createError('Deletion failed');
+
   return result;
 };
 
 const edit = async (recipeId, updates, user) => {
-  if (!grantAccess(recipeId, user)) {
+  const recipe = await RecipeModel.getById(recipeId);
+
+  if (!recipe) {
+    return createError('Recipe not found');
+  }
+
+  if (!await grantAccess(recipe, user)) {
     return createError('Acesso negado', 'access_denied');
   }
+
   return RecipeModel.edit(recipeId, { ...updates, userId: user.userId });
 };
 
 const setImage = async (recipeId, image, user) => {
-  if (!grantAccess(recipeId, user)) {
-    return createError('Acesso negado', 'access_denied');
+  const recipe = await RecipeModel.getById(recipeId);
+
+  if (!recipe) {
+    return createError('Recipe not found');
   }
 
-  const recipe = await getById(recipeId);
-  if (!recipe) return createError('Not found');
+  if (!await grantAccess(recipe, user)) {
+    return createError('Acesso negado', 'access_denied');
+  }
 
   return edit(recipeId, { ...recipe, image }, user);
 };
