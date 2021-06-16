@@ -22,15 +22,14 @@ exports.getById = async (id) => {
 exports.getByName = (name) => connect().then(db => db.collection('recipes')
   .findOne({ name }));
 
-exports.update = async ({id, name, ingredients, preparation, userId }) =>
+exports.update = async (_id, entry) =>
   connect().then(async (db) => {
-    const recipe = { name, ingredients, preparation, userId };
     await db
       .collection('recipes')
-      .updateOne({ _id: ObjectId(id) }, { $set: { ...recipe } });
+      .updateOne({ _id: ObjectId(_id) }, { $set: { ...entry } });
     return {
-      _id: id,
-      ...recipe,
+      _id,
+      ...entry,
     };
   });
 

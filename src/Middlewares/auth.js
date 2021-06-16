@@ -11,7 +11,7 @@ exports.auth = (req, res, next) => {
     const { user } = verify(authorization);
     // if(!authorization) 
     //   throw new Error('jwt malformed');
-    req.body.userId = user.id;
+    req.user = user ;
     next();
   } catch (err) {
     res.status(UNAUTHORIZED).json({ message: err.message });

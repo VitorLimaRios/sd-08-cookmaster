@@ -8,12 +8,11 @@ const { getAll } = require('../models/recipe.model');
 const { StatusCodes: { 
   CREATED, BAD_REQUEST, OK, NOT_FOUND, NO_CONTENT
 } } = require('http-status-codes');
-const { getById } = require('../models/user.model');
 
 exports.register = async (req, res) => {
   const form = req.body;
   try {
-    const recipe = await createRecipe(form);
+    const recipe = await createRecipe({...form, userId: req.user._id});
     res.status(CREATED).json(recipe);
   } catch (err) {
     res.status(BAD_REQUEST).json({message: err.message});
@@ -40,9 +39,10 @@ exports.findById = async (req, res) => {
 
 exports.change = async (req, res) => {
   const form = req.body;
+  const user = req.user;
   const { id } = req.params;
   try {
-    const recipe = await updateRecipe(id, form);
+    const recipe = await updateRecipe(id, { user, ...form });
     res.status(OK).json(recipe);
   } catch (err) {
     res.status(NOT_FOUND).json({message: err.message});

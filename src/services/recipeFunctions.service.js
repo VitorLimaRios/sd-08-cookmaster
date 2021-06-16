@@ -1,5 +1,4 @@
 const { add, exclude, getAll, update, getById } = require('../models/recipe.model');
-const { verifyUserAdmin } = require('../services/userManagement.service');
 
 exports.createRecipe = async (entry) => {
   const recipe = await add(entry);
@@ -12,17 +11,19 @@ exports.getRecipeById = async (id) => {
   return recipe;
 };
 
-exports.updateRecipe = async ( _id, { userId, ...entry }) => {
+exports.updateRecipe = async ( _id, { user, ...entry }) => {
   const recipe = await getById(_id);
   if(!recipe) throw new Error('recipe not found');
+  const auth = recipe.userId === user._id;
+  const isAdmin = user.role === 'admin';
 
-  const auth = recipe.userId === userId;
-  if(!auth && !await verifyUserAdmin(userId)) throw new Error('');
-  await update(entry);
+  if(!auth && !isAdmin) throw new Error('');
+  await update(_id, entry);
+  
   return {
-    _id,
+    ...recipe,
     ...entry,
-    userId,
+    userId: user._id,
   };
 };
 

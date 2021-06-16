@@ -18,16 +18,11 @@ exports.loginUser = async ({ email, password }) => {
   const user = await getByEmail(email);
   if(!user || user.password !== password) 
     throw new Error('Incorrect username or password');
-  const token = jwt.sign({user: { id: user._id }});
+  const { _id, role } = user;
+  const token = jwt.sign({user: { _id, role }});
   return { token };
 };
 
 exports.verifyByEmail = async (email) => {
   return !! await getByEmail(email);
-};
-
-exports.verifyUserAdmin = async (id) => {
-  const { role } = await getById(id);
-  if(role === 'admin') return true;
-  return false;
 };

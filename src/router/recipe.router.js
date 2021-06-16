@@ -1,29 +1,32 @@
 const express = require('express');
 const { auth } = require('../Middlewares/auth');
+const { upload } = require('../Middlewares/uplead');
 const { validateFormRecipes, validateId } = require('../Middlewares/form');
 const controller = require('../controllers/recipe.controller');
 
 const router = express.Router();
 
-router
-  .post('/',
+router.route('/')
+  .post(auth, 
     validateFormRecipes,
-    auth, 
     controller.register)
-  .get('/', controller.findAll);
+  .get(controller.findAll);
 
-router
-  .get('/:id', 
-    validateId,
+router.route('/:id')
+  .get(validateId,
     controller.findById)
-  .put('/:id',
+  .put(auth,
     validateFormRecipes,
-    auth,
     validateId, 
     controller.change)
-  .delete('/:id',
-    auth,
+  .delete(auth,
     validateId,
     controller.exclude);
+
+router.route('/:id/image/')
+  .put(auth, 
+    upload(),
+    controller.uploadOne);
+
 
 module.exports = router;
