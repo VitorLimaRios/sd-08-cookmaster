@@ -6,7 +6,7 @@ const criarReceita = async (receita) => {
   const {name, ingredients, preparation, _id} = receita;
   const db = await connection();
   const adiconaReceita = await db.collection('recipes')
-    .insertOne({name, ingredients, preparation, _id});
+    .insertOne({name, ingredients, preparation, userId:_id});
   return {
     recipe: {
       ...adiconaReceita.ops[0],
@@ -28,8 +28,18 @@ const buscarReceitaPorId = async (id) => {
   return idReceita;
 };
 
+const atualizarReceita = async(id, receita) => {
+  const {name, ingredients, preparation} = receita;
+  const db = await connection();
+  const buscaReceita = await buscarReceitaPorId(id);
+  await db.collection('recipes')
+    .updateOne({ _id: id}, { $set: { name, ingredients, preparation } });
+  return { _id: id, name, ingredients, preparation, userId: buscaReceita.userId};
+};
+
 module.exports = {
   criarReceita,
   listarReceitas,
   buscarReceitaPorId,
+  atualizarReceita,
 };

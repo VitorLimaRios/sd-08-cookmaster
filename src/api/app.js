@@ -23,4 +23,6 @@ app.get('/recipes', recipesController.listarReceitas);
 
 app.get('/recipes/:id', recipesController.buscarReceitaPorId);
 
+app.put('/recipes/:id', validateJWT.validateJWT, recipesController.atualizarReceita);
+
 module.exports = app;

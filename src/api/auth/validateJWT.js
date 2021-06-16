@@ -2,14 +2,13 @@ const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
 
 const secret = 'seusecretdetoken';
-const httpStatusCodeBadRequest = 400;
 const httpStatusCodeUnauthorized = 401;
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
-    return res.status(httpStatusCodeBadRequest).json({ message: 'Invalid token' });
+    return res.status(httpStatusCodeUnauthorized).json({ message: 'missing auth token' });
   }
 
   try {
@@ -17,12 +16,12 @@ const validateJWT = async (req, res, next) => {
     const user = await userModel.buscarUsuarioPorEmail(decoded.email);
 
     if (!user) return res.status(httpStatusCodeUnauthorized).json(
-      { message: 'Invalid token' }
+      { message: 'jwt malformed' }
     );
     req.user = user;
     next();
   } catch (err) {
-    return res.status(httpStatusCodeUnauthorized).json({ message: err.message });
+    return res.status(httpStatusCodeUnauthorized).json({  message: 'jwt malformed' });
   }
 };
 

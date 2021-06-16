@@ -4,6 +4,7 @@ const rescue = require('express-rescue');
 const httpStatusCodeSucess = 200;
 const httpStatusCodeCreated = 201;
 const httpStatusCodeBadRequest = 400;
+const httpStatusCodeUnauthorized = 401;
 const httpStatusCodeNotFound = 404;
 
 const criarReceita = async (req, res) => {
@@ -40,8 +41,25 @@ const buscarReceitaPorId = async (req, res) => {
   }
 };
 
+const atualizarReceita = async (req, res) => {
+  const {id} = req.params;
+  const receita = req.body;
+  try {
+    const atualizar =
+    await recipesService.atualizarReceita(id, receita);
+    res.status(httpStatusCodeSucess).json(atualizar);
+  } catch (err) {
+    res.status(httpStatusCodeUnauthorized).json(
+      {
+        message: err.message
+      }
+    );
+  }
+};
+
 module.exports = {
   criarReceita,
   listarReceitas,
   buscarReceitaPorId,
+  atualizarReceita,
 };
