@@ -1,5 +1,6 @@
 const recipesModel = require('../models/recipesModel');
 const { ObjectId } = require('mongodb');
+const fs = require('fs/promises');
 
 const OK = 200;
 const CREATED = 201;
@@ -66,6 +67,15 @@ const imageUpdate = async (recipeId, file) => {
   return { code: OK, message: result };
 };
 
+const getImage = async (recipeId) => {
+  const { image } = await recipesModel.findRecipes(recipeId);
+  const array = image.split('3000/');
+  const filename = array[array.length - 1];
+  console.log(filename);
+  const localImage = await fs.readFile(filename, 'utf8');
+  return { code: OK, message: localImage };
+};
+
 module.exports = {
   createRecipes,
   getRecipes,
@@ -73,4 +83,5 @@ module.exports = {
   updateRecipes,
   deleteRecipes,
   imageUpdate,
+  getImage,
 };

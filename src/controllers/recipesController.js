@@ -34,6 +34,12 @@ const imageUpdate = async (req, res) => {
   res.status(result.code).json(result.message);
 };
 
+const getImage = async (req, res) => {
+  const { id } = req.params;
+  const result = await recipesService.getImage(id);
+  res.status(result.code).sendFile(result.message, { root: __dirname });
+};
+
 module.exports = {
   createRecipes,
   getRecipes,
@@ -41,4 +47,5 @@ module.exports = {
   updateRecipes,
   deleteRecipes,
   imageUpdate,
+  getImage,
 };
