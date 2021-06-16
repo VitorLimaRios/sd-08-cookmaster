@@ -18,7 +18,14 @@ const listarReceitas = async() => {
   return receita;
 };
 
+const buscarReceitaPorId = async(id) => {
+  const idReceita = await recipesModel.buscarReceitaPorId(id);
+  if(idReceita === null) throw new Error('recipe not found');
+  return idReceita;
+};
+
 module.exports = {
   criarReceita,
   listarReceitas,
+  buscarReceitaPorId,
 };
