@@ -57,6 +57,24 @@ class ControllerRecipe {
       return err;
     }
   }
+
+  async update(req, res, next) {
+    try {
+      const serviceRecipe = new ServicesRecipe();
+      const { id } = req.params;
+      const { name, ingredients, preparation } = req.body;
+      const dataUser = req.payload;
+      const resultService = await serviceRecipe.updateRecipe(
+        { _id: id },
+        dataUser,
+        { name, ingredients, preparation }
+      );
+      if (!resultService.recipe) return next(resultService);
+      return res.status(CODE.ok).json(resultService.recipe);
+    }catch (err) {
+      return next(err);
+    }
+  }
 }
 
 module.exports = ControllerRecipe;

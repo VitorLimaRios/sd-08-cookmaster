@@ -43,15 +43,73 @@ class ServicesRecipe {
       return err;
     }
   }
+  
+  _idFormatted(dataId) {
+    return { _id: new ObjectId(dataId._id) };
+  }
+
 
   async getRecipeById(dataId) {
     try {
-      const idFormatted = {
-        _id: ObjectId(dataId._id)
-      };
-      const result = await this._modelRecipe.searchById(idFormatted);
+      const result = await this._modelRecipe.searchById(this._idFormatted(dataId));
       return  { result: result };
     } catch (err) {
+      return err;
+    }
+  }
+
+  async checkInfoUpdate(idRecipe, dataUser, dataRecipe) {
+    const recipeDb = await this._modelRecipe.searchById(this._idFormatted(idRecipe));
+    if (!recipeDb) return { recipe: false };
+    const editable = () => {
+      if (recipeDb.userId === dataUser.id) return true;
+      if (dataUser.role === 'admin') return true;
+      return false;
+    };
+    const checkList = {
+      editable: editable(),  
+      schema: this._validRecipe(dataRecipe),
+    };
+    return checkList;
+  }
+
+  async updateRecipe(idRecipe, dataUser, dataRecipe) {
+    try {
+      const checkList = await  this.checkInfoUpdate(idRecipe, dataUser, dataRecipe);
+      if (checkList.recipe && checkList.recipe === false) {
+        throw new CustomErro(
+          'Update recipe',
+          'update',
+          'r-n-found'
+        );
+      }
+
+      if (!checkList.editable) {
+        throw new CustomErro(
+          'User unauthorized',
+          'update',
+          'r-i-jwt'
+        );
+      }
+
+      if (!checkList.schema) {
+        throw new CustomErro(
+          'Invalid entries',
+          'update',
+          'pr-inv'
+        );
+      }
+
+      const getUpdate = await this._modelRecipe.updateRecipe(
+        this._idFormatted(idRecipe),
+        dataRecipe
+      );
+      getUpdate.userId = dataUser.id;
+      return { recipe: getUpdate };
+    } catch (err) {
+      if (err instanceof CustomErro) {
+        return err.responseError();
+      }
       return err;
     }
   }

@@ -1,15 +1,20 @@
 const { ObjectId } = require('mongodb');
 const CustomError = require('../error/customError');
 
+const validId = {
+  'type-param': (req) => {
+    const { id } = req.params;
+    if (!id || !ObjectId.isValid(id)) {
+      return 'r-n-found';
+    }
+    return { _id: id };
+  }
+};
+
 const path = {
   '/recipes/:id': {
-    'get': (req) => {
-      const { id } = req.params;
-      if (!id || !ObjectId.isValid(id)) {
-        return 'r-n-found';
-      }
-      return { _id: id };
-    }
+    'get': validId['type-param'],
+    'put': validId['type-param']
   }
 };
 

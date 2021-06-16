@@ -34,6 +34,21 @@ class ModelRecipes extends ModelDefault{
       return err;
     }
   }
+
+  async updateRecipe(id, props) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(this[collectionRecipe]));
+      const resultUpdate = await getCollection
+        .updateOne(
+          { _id: id },
+          { '$set': { ...props } }
+        );
+      return { ...id, ...props };
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ModelRecipes;

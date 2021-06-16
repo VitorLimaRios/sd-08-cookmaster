@@ -17,6 +17,11 @@ Routes.post('/login', controllerLogin.login);
 Routes.post('/recipes', [middlewares.authentication, controllerRecipe.create]);
 Routes.get('/recipes', controllerRecipe.getAll);
 Routes.get('/recipes/:id', [middlewares.verifyObjectId, controllerRecipe.getOne]);
-
+Routes.put('/recipes/:id', [
+  middlewares.requiredToken,
+  middlewares.authentication,
+  middlewares.verifyObjectId,
+  controllerRecipe.update
+]);
 
 module.exports = Routes;

@@ -36,6 +36,12 @@ const message = {
       message: 'recipe not found'
     },
     code: CODE.notFound,
+  },
+  'm-a-token': {
+    err: {
+      message: 'missing auth token'
+    },
+    code: CODE.unauthorized
   }
 };
 
