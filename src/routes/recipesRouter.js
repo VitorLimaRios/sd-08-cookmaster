@@ -6,6 +6,7 @@ const {
   getAllRecipes,
   getRecipesById,
   updateRecipes,
+  deleteRecipes,
 } = recipesController;
 
 const recipes = express.Router();
@@ -17,5 +18,7 @@ recipes.get('/recipes', getAllRecipes);
 recipes.get('/recipes/:id', getRecipesById);
 
 recipes.put('/recipes/:id', updateRecipes);
+
+recipes.delete('/recipes/:id', deleteRecipes);
 
 module.exports = recipes;

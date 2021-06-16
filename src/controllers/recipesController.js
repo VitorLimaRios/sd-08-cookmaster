@@ -4,10 +4,12 @@ const {
   getRecipes,
   recipesById,
   updateRecipesById,
+  deleteRecipesById,
 } = recipesServices;
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const BAD = 400;
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
@@ -78,9 +80,29 @@ const updateRecipes = async (req, res) => {
   }
 };
 
+const deleteRecipes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+
+    const result = await deleteRecipesById(id, authorization);
+
+    if (result.message === 'missing auth token')
+      return res.status(UNAUTHORIZED).json(result);
+
+    if (result.message === 'recipe not found')
+      return res.status(NOT_FOUND).json(result);
+
+    return res.status(SUCCESS).json(result);
+  } catch (error) {
+    return res.status(NO_CONTENT).json({ message: 'jwt malformed' });
+  }
+};
+
 module.exports = {
   registerRecipes,
   getAllRecipes,
   getRecipesById,
   updateRecipes,
+  deleteRecipes,
 };

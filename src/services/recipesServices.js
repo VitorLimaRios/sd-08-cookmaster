@@ -7,6 +7,7 @@ const {
   readRecipes,
   readRecipesById,
   editRecipesById,
+  removeRecipesById,
 } = recipesModel;
 
 const secret = 'trybecookmaster'; // isso deve ir pro .env
@@ -56,24 +57,13 @@ const recipesById = async (id) => {
 
 const updateRecipesById = async ({
   id, name, ingredients, preparation}, authorization) => {
-
   if (!authorization) return { message: 'missing auth token' };
-
-  console.log(jwt.verify(authorization, secret));
-
   const decoded = jwt.verify(authorization, secret);
-  console.log(decoded);
   const user = await findEmail(decoded.data.email);
-  console.log(decoded.data._id);
-  console.log(user);
   const userId = decoded.data._id;
   if (!user) return { message: 'jwt malformed' };
-  
   const result = await editRecipesById({ id, name, ingredients, preparation });
-
   if (!result) return { message: 'recipe not found' };
-
-
   return {
     _id: id,
     name,
@@ -83,9 +73,25 @@ const updateRecipesById = async ({
   };
 };
 
+const deleteRecipesById = async (id, authorization) => {
+  if (!authorization) return { message: 'missing auth token' };
+
+  const decoded = jwt.verify(authorization, secret);
+  const user = await findEmail(decoded.data.email);
+  // const userId = decoded.data._id;
+
+  if (!user) return { message: 'jwt malformed' };
+
+  const result = await removeRecipesById(id);
+  if (!result) return { message: 'recipe not found' };
+  
+  // return false;
+};
+
 module.exports = {
   recipesCreate,
   getRecipes,
   recipesById,
   updateRecipesById,
+  deleteRecipesById,
 };
