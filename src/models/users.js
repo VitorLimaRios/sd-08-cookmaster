@@ -7,21 +7,21 @@ const create = async (name, email, password)  =>
     db.collection('users').insertOne({ name, email, password, role }))
     .then(result => result.ops[0]);
 
-const createAdmin = async (name, email, password) =>
-  connection()
-    .then((db) => db.collection('users').insertOne({
-      name,
-      email,
-      password,
-      role: 'admin',
-    }))
-    .then((result) => ({
-      _id: result.insertedId,
-      name,
-      email,
-      password,
-      role: 'admin',
-    }));
+// const createAdmin = async (name, email, password) =>
+//   connection()
+//     .then((db) => db.collection('users').insertOne({
+//       name,
+//       email,
+//       password,
+//       role: 'admin',
+//     }))
+//     .then((result) => ({
+//       _id: result.insertedId,
+//       name,
+//       email,
+//       password,
+//       role: 'admin',
+//     }));
 
 const findByEmail = async (email) => {
   const foundUser = await  connection()
@@ -32,5 +32,5 @@ const findByEmail = async (email) => {
 module.exports = {
   create,
   findByEmail, 
-  createAdmin,
+  // createAdmin,
 };

@@ -6,7 +6,7 @@ const STATUS_401 = 401;
 const auth = async (req, res, next) => {
   const secret = 'xablau';
   const token = req.headers.authorization;
-  if (!token)  return res.status(STATUS_401).json({ message: 'Token Not Found'});
+  if (!token)  return res.status(STATUS_401).json({ message: 'missing auth token'});
   try {
     const decode = jwt.verify(token, secret);
     if (!decode) return res.status(STATUS_401).json({ message: 'jwt malformed' });

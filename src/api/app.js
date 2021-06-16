@@ -22,8 +22,8 @@ app.post('/login', usersControllers.login);
 app.post('/recipes', auth, recipesControllers.create);
 app.get('/recipes', recipesControllers.getAll);
 app.get('/recipes/:id', recipesControllers.getById);
-// app.put(recipeId, recipesController.updateById);
-// app.delete(recipeId, recipesController.deleteById);
+app.put('/recipes/:id', auth, recipesControllers.updateById);
+app.delete('/recipes/:id', auth, recipesControllers.deleteById);
 // app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 module.exports = app;
