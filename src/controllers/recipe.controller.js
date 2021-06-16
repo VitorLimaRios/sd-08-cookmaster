@@ -61,7 +61,8 @@ exports.exclude = async (req, res) => {
 
 exports.uploadOne = async (req, res) => {
   const user = req.user;
-  const image = 'localhost:3000/src/uploads/' + req.file.filename;
+  // const image = 'localhost:3000/src/uploads/' + req.file.filename;
+  const image = 'localhost:3000/src/uploads/' + req.params.id + '.jpeg';
   try {
     const recipe = await updateRecipe(req.params.id, { user, image});
     res.status(OK).json(recipe);

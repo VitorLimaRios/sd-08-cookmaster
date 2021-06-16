@@ -25,7 +25,7 @@ router.route('/:id')
 
 router.route('/:id/image/')
   .put(auth, 
-    upload(),
+    // upload(),
     controller.uploadOne);
 
 
