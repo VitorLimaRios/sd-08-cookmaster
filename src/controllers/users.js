@@ -42,8 +42,7 @@ const login = async (req, res) => {
     { id: user._id, email: user.email, role: user.role }, 
     secret, 
     jwtConfig
-  );
-  console.log(token);
+  ); 
   res.status(STATUS_200).json({ token });
 };
 

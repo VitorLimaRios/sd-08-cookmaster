@@ -21,10 +21,9 @@ app.post('/users', isValidName, isValidEmail, isValidPassword, usersControllers.
 app.post('/login', usersControllers.login);
 app.post('/recipes', auth, recipesControllers.create);
 app.get('/recipes', recipesControllers.getAll);
-// app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
-// app.get(recipeId, recipesController.findById);
+app.get('/recipes/:id', recipesControllers.getById);
 // app.put(recipeId, recipesController.updateById);
 // app.delete(recipeId, recipesController.deleteById);
-
+// app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 module.exports = app;
