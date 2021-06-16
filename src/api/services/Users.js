@@ -1,5 +1,8 @@
+const bcrypt = require('bcryptjs');
 const { General } = require('../models');
 const { resources: { Users } } = require('../.env');
+
+const SALT_SIZE = 10;
 
 const getAll = async () => {
   const resources = await General.getAll(Users.tableOrCollec);
@@ -14,10 +17,14 @@ const findById = async (id) => {
 };
 
 const insertOne = async (obj) => {
+  const existingUsers = await General.findWith(Users.tableOrCollec, { email: obj.email });
+  if (existingUsers[0]) return { error: {
+    code: 'already_exists', message: 'Email already registered' } };
+  await bcrypt.hash(obj.password, SALT_SIZE).then((hash) => {obj.password = hash;});
+  if (!obj.role) obj.role = 'user';
   const insertedId = await General.insertOne(Users.tableOrCollec, obj);
-  if (!insertedId) return { error: {
-    code: 'already_exists', message: `${Users.singular} already exists` } };
-  return { result: { _id: insertedId, ...obj } };
+  const { password: _pwd, ...restObj } = obj;
+  return { result: { user: { _id: insertedId, ...restObj } } };
 };
 
 const deleteById = async (id) => {

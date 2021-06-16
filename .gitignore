@@ -298,3 +298,6 @@ $RECYCLE.BIN/
 # Private enviroment
 # .env.js
 src/api/tests
+crypt.js
+private-key.pem
+public-key.pem

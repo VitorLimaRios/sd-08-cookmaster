@@ -1,22 +1,21 @@
 const Joi = require('joi');
 
 const insert = Joi.object({
-  fill_it_up: Joi.string().required(),
-  label2: Joi.string().isoDate().message('Date needs to be on ISODate pattern')
-    .required(),
-  label3: Joi.number().required(),
-  label4: Joi.array().items(Joi.number()).required(),
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  role: Joi.string(),
 })
   .messages({
-    'any.required': 'The {#label} field is required.',
-    'string.type': '{#label} needs to be a string',
+    'any.required': 'Invalid entries. Try again.',
+    'string.email': 'Invalid entries. Try again.',
   });
 
 const update = Joi.object({
-  label1: Joi.string(),
-  label2: Joi.string().isoDate().message('Date needs to be on ISODate pattern'),
-  label3: Joi.number(),
-  label4: Joi.array().items(Joi.number()),
+  name: Joi.string(),
+  email: Joi.string().email(),
+  password: Joi.string(),
+  role: Joi.string(),
 });
 
 module.exports = {

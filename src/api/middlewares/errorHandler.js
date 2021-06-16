@@ -14,10 +14,10 @@ module.exports = (err, _req, res, _next) => {
 
   const resJson = () => {
     switch (code) {
-    case 'bad_request':
-      return { error: { code, message: 'invalid_data', data: message } };
+    // case 'bad_request':
+    //   return { error: { code, message: 'invalid_data', data: message } };
     default:
-      return { error: { code, message } };
+      return {  message };
     }
   };
 
