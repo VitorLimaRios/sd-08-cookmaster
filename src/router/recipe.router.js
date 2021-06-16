@@ -17,8 +17,13 @@ router
     validateId,
     controller.findById)
   .put('/:id',
+    validateFormRecipes,
     auth,
     validateId, 
-    controller.change);
+    controller.change)
+  .delete('/:id',
+    auth,
+    validateId,
+    controller.exclude);
 
 module.exports = router;

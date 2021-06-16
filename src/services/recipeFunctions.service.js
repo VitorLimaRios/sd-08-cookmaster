@@ -25,3 +25,9 @@ exports.updateRecipe = async ( _id, { userId, ...entry }) => {
     userId,
   };
 };
+
+exports.excludeRecipe = async (id) => {
+  const recipe = !! await getById(id);
+  if(!recipe) throw new Error('recipe not found');
+  await exclude(id);
+};
