@@ -25,6 +25,7 @@ router.put('/recipes/:id/image/',
   uploadImages.single('image'),
   rescue(recipesController.uploadImages)
 );
+router.get('/images/:id',  rescue(recipesController.getImage));
 
 
 module.exports = router;

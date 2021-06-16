@@ -1,5 +1,6 @@
 const recipesServices = require('../services/recipesServices');
 const { code } = require('../helpers/messages');
+const path = require('path');
 
 const createRecipe = async (req, res) => {
   try {
@@ -72,6 +73,13 @@ const uploadImages = async (req, res) => {
   }
 };
 
+const getImage = async(req, res) => {
+  console.log(req.params);
+  const { id } = req.params;
+  const imagePath = path.resolve('src/uploads', id);
+  return res.status(code.OK).sendFile(imagePath);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
@@ -79,4 +87,5 @@ module.exports = {
   updateRecipe,
   deleteRecipe,
   uploadImages,
+  getImage,
 };
