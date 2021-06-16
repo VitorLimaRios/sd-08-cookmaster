@@ -1,7 +1,7 @@
 const recipesModels = require('../models/recipes');
 
-const updateById = async (updatedProduct) => {
-  const recipe = await recipesModels.updateById(updatedProduct);
+const updateById = async (id, updatedProduct) => {
+  const recipe = await recipesModels.updateById(id, updatedProduct);
   return recipe;
 };
 

@@ -39,14 +39,16 @@ const getById = async (req, res) => {
 
 // UPDATEBYID
 const updateById = async (req, res) => {
-  const userId = req.user._id;
+  const { id } = req.params;
+  const { userId } = req.users;
+  console.log('control_update', userId);
   const updatedRecipe = req.body;
-  const recipe = await recipesModels.updateById(updatedRecipe);
+  const recipe = await recipesModels.updateById(id, userId, updatedRecipe);
   return res.status(STATUS_200).json(recipe);
 };
 
 //DELETEBYID
-const deleteById = async (req, res) => {
+const deleteById = async (req, res) => {  
   const { id } = req.params;
   const recipe = await recipesServices.deleteById(id);
   if (recipe !== null) return res.status(STATUS_204).send(recipe);

@@ -35,7 +35,7 @@ const login = async (req, res) => {
   }
   const secret = 'xablau';
   const jwtConfig = {
-    expiresIn: '1h',
+    expiresIn: '12h',
     algorithm: 'HS256',
   };
   const token = jwt.sign(
