@@ -16,6 +16,7 @@ Routes.post('/users', controllerUsers.create);
 Routes.post('/login', controllerLogin.login);
 Routes.post('/recipes', [middlewares.authentication, controllerRecipe.create]);
 Routes.get('/recipes', controllerRecipe.getAll);
+Routes.get('/recipes/:id', [middlewares.verifyObjectId, controllerRecipe.getOne]);
 
 
 module.exports = Routes;

@@ -19,9 +19,18 @@ class ModelRecipes extends ModelDefault{
 
   async getAllRecipes() {
     try {
-      const allRecipes = await super.getAll('recipes');
+      const allRecipes = await super.getAll(this[collectionRecipe]);
       return allRecipes;
     }catch (err) {
+      return err;
+    }
+  }
+
+  async searchById(idRecipe) {
+    try {
+      const getRecipe = await super.getByKey(this[collectionRecipe], idRecipe);
+      return getRecipe;
+    } catch (err) {
       return err;
     }
   }

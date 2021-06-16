@@ -4,11 +4,11 @@ const CODE = require('./code');
 class CustomError extends Error {
   /**
    * @param {string} [msgCode]
-   * [pr-inv]
-   * [email-exist]
-   * [l-f-invalid]
-   * [l-f-incorrect]
-   * [r-i-jwt]
+   * [pr-inv] [email-exist] [l-f-invalid]
+   * [l-f-incorrect] [r-i-jwt] [r-n-found]
+   * 
+   * @param {string} [message]
+   * @param {string} [otherInfo]
    */
 
   constructor(message, otherInfo, msgCode) {

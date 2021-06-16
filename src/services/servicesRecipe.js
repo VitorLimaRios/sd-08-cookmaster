@@ -1,6 +1,7 @@
 const ModelRecipes = require('../models/modelRecipes');
 const schema = require('../schema/schemaRecipe');
 const CustomErro = require('../error/customError');
+const { ObjectId } = require('mongodb');
 
 class ServicesRecipe {
   constructor() {
@@ -38,6 +39,18 @@ class ServicesRecipe {
     try {
       const result = await this._modelRecipe.getAllRecipes();
       return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async getRecipeById(dataId) {
+    try {
+      const idFormatted = {
+        _id: ObjectId(dataId._id)
+      };
+      const result = await this._modelRecipe.searchById(idFormatted);
+      return  { result: result };
     } catch (err) {
       return err;
     }

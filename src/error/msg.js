@@ -30,6 +30,12 @@ const message = {
       message: 'jwt malformed'
     },
     code: CODE.unauthorized
+  },
+  'r-n-found': {
+    err: {
+      message: 'recipe not found'
+    },
+    code: CODE.notFound,
   }
 };
 

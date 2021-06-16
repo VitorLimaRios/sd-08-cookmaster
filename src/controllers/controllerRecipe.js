@@ -43,6 +43,20 @@ class ControllerRecipe {
       return err;
     }
   }
+  
+  async getOne(req, res, next) {
+    try {
+      const serviceRecipe = new ServicesRecipe();
+      const { id } = req.params;
+      const resultService = await serviceRecipe.getRecipeById({ _id: id });
+      if (!resultService.result) {
+        return next(resultService);
+      }
+      return res.status(CODE.ok).json(resultService.result);
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ControllerRecipe;
