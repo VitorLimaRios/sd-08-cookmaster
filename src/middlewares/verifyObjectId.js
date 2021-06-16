@@ -14,7 +14,8 @@ const validId = {
 const path = {
   '/recipes/:id': {
     'get': validId['type-param'],
-    'put': validId['type-param']
+    'put': validId['type-param'],
+    'delete': validId['type-param'],
   }
 };
 

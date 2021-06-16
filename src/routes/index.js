@@ -23,5 +23,10 @@ Routes.put('/recipes/:id', [
   middlewares.verifyObjectId,
   controllerRecipe.update
 ]);
+Routes.delete('/recipes/:id', [
+  middlewares.authentication,
+  middlewares.verifyObjectId,
+  controllerRecipe.deleteOneRecipe
+]);
 
 module.exports = Routes;

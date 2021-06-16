@@ -36,7 +36,6 @@ class ControllerRecipe {
     try {
       const serviceRecipe = new ServicesRecipe();
       const resultService = await serviceRecipe.getAllRecipes();
-      console.log(resultService);
       if (!Array.isArray(resultService)) return next(resultService);
       return res.status(CODE.ok).json(resultService);
     }catch (err) {
@@ -72,6 +71,22 @@ class ControllerRecipe {
       if (!resultService.recipe) return next(resultService);
       return res.status(CODE.ok).json(resultService.recipe);
     }catch (err) {
+      return next(err);
+    }
+  }
+
+  async deleteOneRecipe(req, res, next) {
+    try {
+      const serviceRecipe = new ServicesRecipe();
+      const { id } = req.params;
+      const dataUser = req.payload;
+      const resultService = await serviceRecipe.deleteOneRecipe(
+        { _id: id },
+        dataUser
+      );
+      if (!resultService.deletedRecipe) return next(resultService);
+      res.status(CODE.notContent).json('');
+    } catch (err) {
       return next(err);
     }
   }

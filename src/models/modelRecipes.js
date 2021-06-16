@@ -49,6 +49,15 @@ class ModelRecipes extends ModelDefault{
       return err;
     }
   }
+
+  async deleteRecipe(id) {
+    try {
+      const result = await super.deleteOneDocument(this[collectionRecipe], id);
+      return result; 
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 module.exports = ModelRecipes;

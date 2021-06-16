@@ -6,7 +6,7 @@ module.exports = (req, _res, next) => {
       path: req.route.path,
       method: Object.keys(req.route.methods)[0]
     };
-    if (info.path === '/recipes/:id' && info.method === 'put') {
+    if (info.path === '/recipes/:id' && info.method === ('put' || 'delete')) {
       const { authorization: token } = req.headers;
       if (!token) {
         throw new CustomError(

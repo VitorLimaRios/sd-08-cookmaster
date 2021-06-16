@@ -78,6 +78,18 @@ class modelDefault {
       return err;
     }
   }
+
+  async deleteOneDocument(nameCollection, document) {
+    try {
+      const getCollection = await this._conn()
+        .then((db) => db.collection(nameCollection));
+      const resultDelete = await getCollection.deleteOne({ ...document });
+      return resultDelete;
+    } catch (err) {
+      console.log(' --> Default delete one: ', err.message);
+      return err;
+    }
+  }
 }
 
 module.exports = modelDefault;

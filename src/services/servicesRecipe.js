@@ -16,7 +16,6 @@ class ServicesRecipe {
   async serviceCreateRecipe(dataRecipe) {
     try {
       const checkData = this._validRecipe(dataRecipe);
-      console.log(checkData);
       if (!checkData) {
         throw new CustomErro(
           'Invalid recipes',
@@ -106,6 +105,49 @@ class ServicesRecipe {
       );
       getUpdate.userId = dataUser.id;
       return { recipe: getUpdate };
+    } catch (err) {
+      if (err instanceof CustomErro) {
+        return err.responseError();
+      }
+      return err;
+    }
+  }
+
+  async _authorizationToDelete(idRecipe, dataUser) {
+    const authDelete = await this.checkInfoUpdate(idRecipe, dataUser, {});
+    if (authDelete.recipe && authDelete.recipe === false) {
+      return { notFound: 'r-n-found' };
+    }
+
+    if (!authDelete.editable) return { unauthorized:'m-a-token' };
+
+    return { auth: true };
+  }
+
+  async deleteOneRecipe(id, dataUser) {
+    try {
+      const authDelete = await this._authorizationToDelete(id, dataUser);
+
+      if (authDelete.notFound) {
+        throw new CustomErro(
+          'Delete recipe not found',
+          'delete',
+          authDelete.notFound
+        );
+      }
+
+      if (authDelete.unauthorized) {
+        throw new CustomErro(
+          'Delete unauthorized',
+          'delete',
+          authDelete.unauthorized
+        );
+      }
+
+      const resultDelete = await this._modelRecipe
+        .deleteRecipe(this._idFormatted(id));
+
+      return { deletedRecipe: resultDelete };
     } catch (err) {
       if (err instanceof CustomErro) {
         return err.responseError();

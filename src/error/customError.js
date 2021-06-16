@@ -6,6 +6,7 @@ class CustomError extends Error {
    * @param {string} [msgCode]
    * [pr-inv] [email-exist] [l-f-invalid]
    * [l-f-incorrect] [r-i-jwt] [r-n-found]
+   * [m-a-token]
    * 
    * @param {string} [message]
    * @param {string} [otherInfo]

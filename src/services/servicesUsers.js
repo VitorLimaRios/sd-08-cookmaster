@@ -6,10 +6,10 @@ const bcrypt = require('bcrypt');
 class ServicesUsers {
   constructor() {
     this._modelUser = new ModelUser();
-    this.serviceCreateUser = this.serviceCreateUser.bind(this);
-    this._checkForDuplicateEmail = this._checkForDuplicateEmail.bind(this);
-    this._checkingNewUserInformation =
-      this._checkingNewUserInformation.bind(this);
+    // this.serviceCreateUser = this.serviceCreateUser.bind(this);
+    // this._checkForDuplicateEmail = this._checkForDuplicateEmail.bind(this);
+    // this._checkingNewUserInformation =
+    //   this._checkingNewUserInformation.bind(this);
     this._salt = 5;
   }
 
