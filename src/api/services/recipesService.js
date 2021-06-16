@@ -13,6 +13,12 @@ const criarReceita = async (receita) => {
   return resultReceita;
 };
 
+const listarReceitas = async() => {
+  const receita = await recipesModel.listarReceitas();
+  return receita;
+};
+
 module.exports = {
   criarReceita,
+  listarReceitas,
 };

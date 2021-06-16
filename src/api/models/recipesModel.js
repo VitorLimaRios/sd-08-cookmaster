@@ -14,6 +14,13 @@ const criarReceita = async (receita) => {
   };
 };
 
+const listarReceitas = async () => {
+  const db = await connection();
+  const receita = await db.collection('recipes').find().toArray();
+  if (receita) return receita;
+};
+
 module.exports = {
   criarReceita,
+  listarReceitas,
 };

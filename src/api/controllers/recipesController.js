@@ -1,5 +1,7 @@
 const recipesService = require('../services/recipesService');
+const rescue = require('express-rescue');
 
+const httpStatusCodeSucess = 200;
 const httpStatusCodeCreated = 201;
 const httpStatusCodeBadRequest = 400;
 
@@ -18,6 +20,13 @@ const criarReceita = async (req, res) => {
   }
 };
 
+const listarReceitas = rescue(async (req, res) => {
+  const receita = await recipesService.listarReceitas();
+  res.status(httpStatusCodeSucess).json(receita);
+  
+});
+
 module.exports = {
   criarReceita,
+  listarReceitas,
 };
