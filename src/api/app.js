@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { router } = require('./routes/usersControler');
+const { router: userRouter } = require('./routes/usersControler');
+const { router: loginRouter } = require('./routes/loginControler');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,7 +15,9 @@ app.get('/', (request, response) => {
 
 app.use('/image', express.static(path.join(__dirname, '..', 'uploadas')));
 
-app.use('/users', router);
+app.use('/users', userRouter);
+
+app.use('/login', loginRouter);
 
 module.exports = app;
 

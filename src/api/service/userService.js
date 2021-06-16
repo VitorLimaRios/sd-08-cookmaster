@@ -5,18 +5,15 @@ const {
   CREATED,
   OK,
   ID_LENGTH,
-  BAD_REQUEST
+  BAD_REQUEST,
+  UNAUTHORIZED,
+  MIN_PASS_LENGTH,
 } = require('./consts');
 const { verifyConflictEmails, addUser } = require('../models/usersModel');
-const { verify } = require('sinon');
+const { validateEmail } = require('./jokerFunctions');
 
 const app = express();
 app.use(bodyParser.json());
-
-const validateEmail = (email) => {
-  const emailRegex = /^([a-zA-Z0-9_-]+)@([a-zA-Z0-9_-]+)/;
-  return emailRegex.test(email);
-};
 
 const userValidation = (body) => {
   const { name, email, password } = body;
@@ -30,7 +27,6 @@ const userValidation = (body) => {
 
 // 1 - Crie um endpoint para o cadastro de usuários
 const tryAddUser = async (body, res) => {
-
   try {
     await verifyConflictEmails(body.email);
     userValidation(body);
@@ -42,5 +38,5 @@ const tryAddUser = async (body, res) => {
 };
 
 module.exports = {
-  tryAddUser
+  tryAddUser,
 };
