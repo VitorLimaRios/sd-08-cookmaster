@@ -1,3 +1,7 @@
+const express = require('express');
+const multer = require('multer');
+const { resolve } = require('path');
+
 const { recipesServices } = require('../services');
 const {
   recipesCreate,
@@ -5,6 +9,7 @@ const {
   recipesById,
   updateRecipesById,
   deleteRecipesById,
+  uploadImage,
 } = recipesServices;
 
 const SUCCESS = 200;
@@ -99,10 +104,50 @@ const deleteRecipes = async (req, res) => {
   }
 };
 
+const uploadRecipeImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const { filename } = req.file;
+    
+    const path = `localhost:3000/src/uploads/${ filename }`;
+    const result = await uploadImage(id, path, authorization);
+
+    if (result.message === 'missing auth token')
+      return res.status(UNAUTHORIZED).json(result);
+
+    if (result.message === 'recipe not found')
+      return res.status(NOT_FOUND).json(result);
+
+    return res.status(SUCCESS).json(result);
+  } catch (error) {
+    console.log(error.message);
+    res.status(NOT_FOUND).json({ message: error.message });
+  }
+};
+
+const showImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await recipesById(id);
+    console.log(result.imageURL);
+    return res.status(SUCCESS).send(result.imageURL);
+    // return res.status(SUCCESS)
+    //   .send(`<img src="${result.imageURL}" style="width:100%;" />`);
+  } catch (error) {
+    console.log('aqui');
+    console.log(error.message);
+    res.status(NOT_FOUND).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   registerRecipes,
   getAllRecipes,
   getRecipesById,
   updateRecipes,
   deleteRecipes,
+  uploadRecipeImage,
+  showImage,
 };

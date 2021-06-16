@@ -82,10 +82,25 @@ const removeRecipesById = async (id) => {
   }
 };
 
+const uploadImageById = async (id, path) => {
+  try {
+    const db = await connection();
+
+    return await db
+      .collection(NAME_COLLECTION)
+      .updateOne({ _id: ObjectId(id) }, { $set: { image: path } });
+
+  } catch (error) {
+    console.log(error.message);
+    return null;
+  }
+};
+
 module.exports = {
   writeRecipes,
   readRecipes,
   readRecipesById,
   editRecipesById,
   removeRecipesById,
+  uploadImageById,
 };

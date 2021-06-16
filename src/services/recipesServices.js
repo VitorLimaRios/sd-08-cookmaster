@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 const { recipesModel, usersModel } = require('../models');
@@ -8,6 +9,7 @@ const {
   readRecipesById,
   editRecipesById,
   removeRecipesById,
+  uploadImageById,
 } = recipesModel;
 
 const secret = 'trybecookmaster'; // isso deve ir pro .env
@@ -75,17 +77,25 @@ const updateRecipesById = async ({
 
 const deleteRecipesById = async (id, authorization) => {
   if (!authorization) return { message: 'missing auth token' };
-
   const decoded = jwt.verify(authorization, secret);
   const user = await findEmail(decoded.data.email);
-  // const userId = decoded.data._id;
-
   if (!user) return { message: 'jwt malformed' };
-
   const result = await removeRecipesById(id);
   if (!result) return { message: 'recipe not found' };
-  
-  // return false;
+};
+
+const uploadImage = async (id, path, authorization) => {
+  if (!authorization) return { message: 'missing auth token' };
+  const decoded = jwt.verify(authorization, secret);
+  const user = await findEmail(decoded.data.email);
+  const userId = decoded.data._id;
+  if (!user) return { message: 'jwt malformed' };
+
+  await uploadImageById(id, path);
+
+  const recipe = await recipesById(id);
+  return recipe;
+
 };
 
 module.exports = {
@@ -94,4 +104,5 @@ module.exports = {
   recipesById,
   updateRecipesById,
   deleteRecipesById,
+  uploadImage,
 };
