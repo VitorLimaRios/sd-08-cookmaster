@@ -2,6 +2,7 @@ const {
   registerRecipesModel,
   allRecipesModel,
   idRecipesModel,
+  editRecipesModel,
 } = require('../../models/recipe/recipe');
 
 const {
@@ -26,8 +27,14 @@ const idRecipes = async (id) => {
   return result;
 };
 
+const editRecipes = async (id, body) => {
+  const result = await editRecipesModel(id, body);
+  return result;
+};
+
 module.exports = {
   registerRecipes,
   allRecipes,
   idRecipes,
+  editRecipes,
 };

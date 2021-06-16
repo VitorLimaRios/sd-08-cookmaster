@@ -7,6 +7,7 @@ const {
   registerRec,
   allRec,
   idRec,
+  editRec,
 } = require('../../controllers/recipes/recipes');
 
 router.post('/recipes', validateJWT, registerRec);
@@ -14,5 +15,7 @@ router.post('/recipes', validateJWT, registerRec);
 router.get('/recipes', allRec);
 
 router.get('/recipes/:id', idRec);
+
+router.put('/recipes/:id', validateJWT, editRec);
 
 module.exports = router;
