@@ -40,7 +40,7 @@ const getById = async (req, res) => {
 // UPDATEBYID
 const updateById = async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.users;
+  const { userId } = req.user;
   console.log('control_update', userId);
   const updatedRecipe = req.body;
   const recipe = await recipesModels.updateById(id, userId, updatedRecipe);
