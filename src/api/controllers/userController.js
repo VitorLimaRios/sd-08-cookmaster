@@ -26,7 +26,7 @@ const login = async (req, res) => {
   try {
     const usuario = req.body;
     const resultLogin = await userService.login(usuario);
-    return res.status(httpStatusCodeSucess).json(resultLogin);
+    return res.status(httpStatusCodeSucess).json({token:resultLogin});
   } catch (err) {
     return res.status(httpStatusCodeUnauthorized).json(
       {

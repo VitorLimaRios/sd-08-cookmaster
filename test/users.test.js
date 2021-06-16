@@ -239,7 +239,7 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
       .post(`${url}/users/`,
         {
           name: 'Erick Jacquin',
-          email: 'erickjacquin1@gmail.com',
+          email: 'erickjacquin@gmail.com',
           password: '12345678',
         })
       .expect('status', 201)
