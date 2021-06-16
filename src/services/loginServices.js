@@ -28,7 +28,7 @@ const makeLogin = async (email, pass) => {
       return { message: 'Incorrect username or password' };
   
     const token = jwt.sign({ data: otherInfo }, secret, jwtConfig);
-    // console.log(token);
+
     return { token };
   }
 

@@ -130,10 +130,7 @@ const showImage = async (req, res) => {
   try {
     const { id } = req.params;
     const result = await recipesById(id);
-    console.log(result.imageURL);
     return res.status(SUCCESS).send(result.imageURL);
-    // return res.status(SUCCESS)
-    //   .send(`<img src="${result.imageURL}" style="width:100%;" />`);
   } catch (error) {
     console.log('aqui');
     console.log(error.message);

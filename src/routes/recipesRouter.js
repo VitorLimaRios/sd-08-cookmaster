@@ -28,7 +28,4 @@ recipes.delete('/recipes/:id', deleteRecipes);
 
 recipes.put('/recipes/:id/image', uploadImages.single('image'), uploadRecipeImage);
 
-// recipes.get('/images/:id.jpeg', showImage);
-// recipes.get('/images', express.static(resolve(__dirname, '..', 'uploads')), showImage);
-
 module.exports = recipes;
