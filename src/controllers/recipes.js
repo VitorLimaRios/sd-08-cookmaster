@@ -30,12 +30,28 @@ const findRecipe = async (req, res) => {
   if (recipe.status === NOT_FOUNDED) {
     return res.status(recipe.status).json({ message: recipe.message });
   }
-  
+
   return res.status(recipe.status).json(recipe.message);
+};
+
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+  const { name, ingredients, preparation } = req.body;
+  const recipe = await recipesService.updateRecipeIsValid(id, user);
+  const editedRecipe = await recipesModel.updateRecipe(
+    id,
+    name,
+    ingredients,
+    preparation
+  );
+
+  return res.status(recipe.status).json({...editedRecipe, userId: recipe.userId});
 };
 
 module.exports = {
   createRecipe,
   getRecipes,
   findRecipe,
+  updateRecipe,
 };

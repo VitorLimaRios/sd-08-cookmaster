@@ -13,6 +13,7 @@ app.post('/login', loginController.login);
 app.post('/recipes', validateJWT, recipesController.createRecipe);
 app.get('/recipes', recipesController.getRecipes);
 app.get('/recipes/:id', recipesController.findRecipe);
+app.put('/recipes/:id', validateJWT, recipesController.updateRecipe);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
