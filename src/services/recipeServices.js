@@ -1,5 +1,7 @@
-const { BAD_REQUEST } = require('../api/constants/statusCodes');
-const { addNewRecipe } = require('../models/recipeModel');
+const { ObjectId } = require('mongodb');
+const { BAD_REQUEST, NOT_FOUND } = require('../api/constants/statusCodes');
+const { RECIPE_NOT_FOUND } = require('../api/constants/statusMessages');
+const { addNewRecipe, getRecipeById } = require('../models/recipeModel');
 const { generateError } = require('./errors/generateError');
 const recipeValidation = require('./validations/recipeValidation');
 
@@ -20,6 +22,17 @@ const newRecipe = async (name, ingredients, preparation, userId) => {
   
 };
 
+const recipeById = async (id) => {
+ 
+  if(!ObjectId.isValid(id)) {
+    return generateError(RECIPE_NOT_FOUND, NOT_FOUND);
+  }
+
+  const recipe = await getRecipeById(id);
+  return recipe;
+};
+
 module.exports = {
   newRecipe,
+  recipeById,
 };

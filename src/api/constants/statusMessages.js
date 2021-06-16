@@ -3,6 +3,7 @@ const ALREADY_REGISTERED = 'Email already registered';
 const ALL_FIELDS_REQUIRED = 'All fields must be filled';
 const INCORRECT_USER_OR_PASS = 'Incorrect username or password';
 const JWT_MALFORMED = 'jwt malformed';
+const RECIPE_NOT_FOUND = 'recipe not found';
 
 
 module.exports = {
@@ -11,4 +12,5 @@ module.exports = {
   ALL_FIELDS_REQUIRED,
   INCORRECT_USER_OR_PASS,
   JWT_MALFORMED,
+  RECIPE_NOT_FOUND,
 };
