@@ -46,7 +46,21 @@ const readRecipesById = async (id) => {
 
     return await db
       .collection(NAME_COLLECTION)
-      .findOne({_id: ObjectId(id)});
+      .findOne({ _id: ObjectId(id) });
+
+  } catch (error) {
+    console.log(error.message);
+    return null;
+  }
+};
+
+const editRecipesById = async ({ id, name, ingredients, preparation }) => {
+  try {
+    const db = await connection();
+
+    return await db
+      .collection(NAME_COLLECTION)
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
 
   } catch (error) {
     console.log(error.message);
@@ -58,4 +72,5 @@ module.exports = {
   writeRecipes,
   readRecipes,
   readRecipesById,
+  editRecipesById,
 };

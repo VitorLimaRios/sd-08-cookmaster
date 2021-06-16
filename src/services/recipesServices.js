@@ -6,6 +6,7 @@ const {
   writeRecipes,
   readRecipes,
   readRecipesById,
+  editRecipesById,
 } = recipesModel;
 
 const secret = 'trybecookmaster'; // isso deve ir pro .env
@@ -53,8 +54,38 @@ const recipesById = async (id) => {
   return result;
 };
 
+const updateRecipesById = async ({
+  id, name, ingredients, preparation}, authorization) => {
+
+  if (!authorization) return { message: 'missing auth token' };
+
+  console.log(jwt.verify(authorization, secret));
+
+  const decoded = jwt.verify(authorization, secret);
+  console.log(decoded);
+  const user = await findEmail(decoded.data.email);
+  console.log(decoded.data._id);
+  console.log(user);
+  const userId = decoded.data._id;
+  if (!user) return { message: 'jwt malformed' };
+  
+  const result = await editRecipesById({ id, name, ingredients, preparation });
+
+  if (!result) return { message: 'recipe not found' };
+
+
+  return {
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+};
+
 module.exports = {
   recipesCreate,
   getRecipes,
   recipesById,
+  updateRecipesById,
 };
