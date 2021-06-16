@@ -18,7 +18,7 @@ const loginValidation = Joi.object({
   
   password: Joi
     .string()
-    .min(MINIMUM_PASSWORD_LENGTH)
+    // .min(MINIMUM_PASSWORD_LENGTH)
     .required()
     .messages({
       'string.base': ALL_FIELDS_REQUIRED,

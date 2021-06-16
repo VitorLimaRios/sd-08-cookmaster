@@ -22,9 +22,17 @@ const userLogin = async(email, password) => {
     return generateError(INCORRECT_USER_OR_PASS, UNAUTHORIZED);
   }
   const userInDB = await getUserbyEmail(email);
-  const userId = userInDB['_id'];
-  const token = createToken({email, userId});
-  return token;
+
+  try {
+    const userId = userInDB['_id'];
+  
+    const token = createToken({email, userId});
+    return token;
+    
+  } catch (_error) {
+    return generateError(INCORRECT_USER_OR_PASS, UNAUTHORIZED);
+  }
+
 };
 
 module.exports = {
