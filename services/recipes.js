@@ -1,3 +1,4 @@
+const fs = require('fs/promises');
 const recipesModel = require('../models/recipes');
 
 const createRecipe = async (name, ingredients, preparation, _id) => {
@@ -40,10 +41,19 @@ const updateRecipe = async (id, newRecipe) => {
   return { code: 200, message: update };
 };
 
+const getImage = async (id) => {
+  const { image } = await recipesModel.getById(id);
+  const array = image.split('3000/');
+  const filename = array[array.length - 1];
+  const localImage = await fs.readFile(filename, 'utf8');
+  return { code: 200, message: localImage };
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   deleteRecipe,
   updateRecipe,
+  getImage,
 };
