@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 const userRouter = require('../routes/user.routes');
 const loginRouter = require('../routes/login.routes');
-// const recipesRouter = require('../routes/recipes.routes');
+const recipesRouter = require('../routes/recipes.routes');
 
 const app = express();
 
@@ -17,6 +17,6 @@ app.use('/users', userRouter);
 
 app.use('/login', loginRouter);
 
-// app.use('/recipes', recipesRouter);
+app.use('/recipes', recipesRouter);
 
 module.exports = app;

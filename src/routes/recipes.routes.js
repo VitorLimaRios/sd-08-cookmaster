@@ -1,15 +1,16 @@
 const router = require('express').Router();
 
-const useController = require('../controller/recipeController');
+const useController = require('../controllers/recipes.controllers');
 
-const authenticationToken = require('../middleware/authenticationToken.middleware');
+const {
+  authenticationByToken,
+  recipeValidate,
+} = require('../middleware/recipesAuth.middleware');
 
-const auth = require('../auth');
+router.post('/', authenticationByToken, recipeValidate, useController.add);
 
-router.post('/', useController.addNewRecipe);
+// router.get('/', useController.list);
 
-router.get('/', useController.list);
-
-router.get('/:id', useController.find);
+// router.get('/:id', useController.find);
 
 module.exports = router;

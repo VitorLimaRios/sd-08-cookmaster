@@ -14,7 +14,7 @@ const SignIn = async (req, res) => {
   const tokenGeneration = jwt.sign({ email, password }, secret, jwtConfig);
 
   return res.status(HTTP_200_STATUS).json({
-    token: tokenGeneration,
+    token: `Bearer ${tokenGeneration}`,
   });
 };
 
