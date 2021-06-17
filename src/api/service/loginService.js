@@ -10,6 +10,8 @@ const {
   MIN_PASS_LENGTH,
 } = require('./consts');
 const { validateEmail } = require('./jokerFunctions');
+const { getUser } = require('../models/loginModel');
+const { generateToken } = require('./jwt');
 
 const app = express();
 app.use(bodyParser.json());
@@ -36,7 +38,11 @@ const loginValidation = (body) => {
 const tryLogin = async(body, res) => {
   try {
     loginValidation(body);
-    return res.status(OK).json({teste: 'teste'});
+    const user = await getUser(body.email);
+    console.log(user);
+    const token = generateToken(user);
+    console.log('token', token);
+    return res.status(OK).json({token});
   } catch (error) {
     return res.status(error.status).json({'message': error.message});
   }
