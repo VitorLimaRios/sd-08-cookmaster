@@ -31,10 +31,9 @@ exports.verifyById = async (id) => {
 };
 
 exports.verifyByEmail = async (email) => {
-  const user = await getByEmail(email);
-  if(!user)  
-    throw new Error('user not found');
-  return !!user;
+  const isValid = !! await getByEmail(email);
+  if (isValid) throw new Error('Email already registered');
+  return isValid;
 };
 
 exports.userAuthorization = ({_id, role}, userId) => {
