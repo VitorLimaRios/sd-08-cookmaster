@@ -34,16 +34,20 @@ const getById = async (req, res) => {
     res.status(STATUS_404).json({ message: 'recipe not found' });
   } else { 
     res.status(STATUS_200).json(recipe);
-  }  
+  }
 };
 
 // UPDATEBYID
 const updateById = async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.user;
-  console.log('control_update', userId);
+  const userId = req.user._id;
+  // console.log('control_update1', userId);
+  // console.log('control_update2', id);
+  // console.log('control_update3', req.body);
+  // console.log('control_update4', req.user);
+  // console.log('control_update5', req.user._id);
   const updatedRecipe = req.body;
-  const recipe = await recipesModels.updateById(id, userId, updatedRecipe);
+  const recipe = await recipesModels.updateById(id, updatedRecipe, userId );
   return res.status(STATUS_200).json(recipe);
 };
 
@@ -60,10 +64,28 @@ const deleteById = async (req, res) => {
   });
 };
 
+// ADDIMAGE
+const addImage = async (req, res) => {
+  const { id } = req.params;
+  const { path } = req.file;
+  const url = `localhost:3000/${path}`;
+  const result = await recipesServices.addImage(id, url);
+  return res.status(STATUS_200).json(result);
+};
+
+// GETIMAGE
+const getImage = async (req, res) => {
+  const { id } = req.params;
+  const result = await recipesServices.getImage(id);
+  return res.status(STATUS_200).json(result);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
   deleteById,
+  addImage,
+  getImage,
 };
