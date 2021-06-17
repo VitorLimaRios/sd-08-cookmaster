@@ -4,9 +4,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const users = require('../models/usersModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
-const { validateUserCreation, checkLoginRequest } = require('../services/usersValidations');
-const { listRecipes, searchRecipe } = require('../controllers/recipesController');
-const { checkIdSearch } = require('../services/recipesValidations');
+const {
+  validateUserCreation,
+  checkLoginRequest } = require('../services/usersValidations');
+const { listRecipes, searchRecipe, addTheRecipe } = require('../controllers/recipesController');
+const { checkIdSearch, validateToken } = require('../services/recipesValidations');
+const { getAllTheRecipes } = require('../models/recipesModel');
 app.use(bodyParser.json());
 // ...
 
@@ -25,7 +28,8 @@ app.get('/', (_request, response) => {
 app.post('/users', validateUserCreation, createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
-app.get('/recipes:id', checkIdSearch, searchRecipe)
+app.post('/recipes', validateToken);
+app.get('/recipes:id', checkIdSearch, searchRecipe);
 
 // routes for testing
 app.get('/all', listUsers);
@@ -34,13 +38,13 @@ app.post('/test', validateUserCreation);
 app.get('/user', async (req, res) => {
   const { name } = req.body;
   const foundUser = await users.findUserByName(name);
-  if (!foundUser) return res.status(404).send({ message: 'User not found' })
+  if (!foundUser) return res.status(404).send({ message: 'User not found' });
   return res.status(200).send({ user: foundUser });
 });
 
 app.delete('/users', async (req, res) => {
   await users.deleteUserByName(req.body.name);
-  return res.status(200).send({ message: `usuário deletado ${req.body.name}` })
+  return res.status(200).send({ message: `usuário deletado ${req.body.name}` });
 });
 
 module.exports = app;
