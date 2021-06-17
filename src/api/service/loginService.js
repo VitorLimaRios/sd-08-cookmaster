@@ -39,9 +39,7 @@ const tryLogin = async(body, res) => {
   try {
     loginValidation(body);
     const user = await getUser(body.email);
-    console.log(user);
     const token = generateToken(user);
-    console.log('token', token);
     return res.status(OK).json({token});
   } catch (error) {
     return res.status(error.status).json({'message': error.message});
