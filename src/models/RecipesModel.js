@@ -12,7 +12,7 @@ const getRecipeByName = async (name) => {
   const getName = await db.collection('recipes')
     .findOne({ name });
   return getName;
-}
+};
 
 module.exports = {
   createRecipe,
