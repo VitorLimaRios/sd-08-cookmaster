@@ -5,7 +5,7 @@ const app = express();
 
 const indexRouter = require('../routes/index');
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.use(indexRouter);
 

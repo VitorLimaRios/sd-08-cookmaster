@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
 router.get('/', (request, response) => {
-    response.send();
-  });
+  response.send();
+});
 
-  module.exports = router;
+module.exports = router;
   
