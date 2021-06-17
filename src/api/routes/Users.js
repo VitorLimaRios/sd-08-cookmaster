@@ -1,7 +1,7 @@
 const express = require('express');
 const Controller = require('../controllers').Users;
 const isBodyValidFor = require('../middlewares/validations').Users;
-const { notFoundHandler } = require('../middlewares/');
+const { notFoundHandler, jwtAuthentication, isAdmin } = require('../middlewares/');
 
 const route = express.Router();
 
@@ -14,6 +14,12 @@ route.delete('/:id', Controller.deleteById);
 route.get('/', Controller.getAll);
 
 route.post('/', isBodyValidFor('insert'), Controller.insertOne);
+
+route.post('/admin',
+  jwtAuthentication('Users'),
+  isAdmin,
+  isBodyValidFor('insertAdmin'),
+  Controller.insertOne);
 
 route.use('/:notFound', notFoundHandler);
 
