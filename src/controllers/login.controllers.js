@@ -8,7 +8,7 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const SignIn = async (req, res) => {
+const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   const tokenGeneration = jwt.sign({ email, password }, secret, jwtConfig);
@@ -19,5 +19,5 @@ const SignIn = async (req, res) => {
 };
 
 module.exports = {
-  SignIn,
+  signIn,
 };
