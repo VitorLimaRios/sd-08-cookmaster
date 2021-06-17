@@ -1,14 +1,21 @@
 const { verify } = require('../../jwt.config');
+const { verifyById } = require('../services/userManagement.service');
 const { StatusCodes: { 
   UNAUTHORIZED, 
 } } = require('http-status-codes');
 
-exports.auth = (req, res, next) => {
+const getAuth = (authorization) => {
+  if(!authorization) 
+    throw new Error('missing auth token');
+  const { user } = verify(authorization);
+  return { user };
+};
+
+exports.auth = async (req, res, next) => {
   const { authorization } = req.headers;
   try {
-    if(!authorization) 
-      throw new Error('missing auth token');
-    const { user } = verify(authorization);
+    const { user } = getAuth(authorization);
+    await verifyById(user._id);
     req.user = user ;
     next();
   } catch (err) {

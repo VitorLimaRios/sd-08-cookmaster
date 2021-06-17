@@ -38,11 +38,10 @@ exports.findById = async (req, res) => {
 };
 
 exports.change = async (req, res) => {
-  const form = req.body;
-  const user = req.user;
+  const { name, ingredients, preparation } = req.body;
   const { id } = req.params;
   try {
-    const recipe = await updateRecipe(id, { user, ...form });
+    const recipe = await updateRecipe(id, { name, ingredients, preparation });
     res.status(OK).json(recipe);
   } catch (err) {
     res.status(NOT_FOUND).json({message: err.message});
@@ -60,10 +59,10 @@ exports.exclude = async (req, res) => {
 };
 
 exports.uploadOne = async (req, res) => {
-  const user = req.user;
+  const { id } = req.params;
   const image = `${req.headers.host}/src/uploads/${req.params.id}.jpeg`;
   try {
-    const recipe = await updateRecipe(req.params.id, { user, image});
+    const recipe = await updateRecipe(id, { image });
     res.status(OK).json(recipe);
   } catch (err) {
     res.status(NOT_FOUND).json({message: err.message});

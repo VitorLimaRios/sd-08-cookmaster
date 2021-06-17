@@ -11,20 +11,11 @@ exports.getRecipeById = async (id) => {
   return recipe;
 };
 
-exports.updateRecipe = async ( _id, { user, ...entry }) => {
-  const recipe = await getById(_id);
+exports.updateRecipe = async ( _id, entry) => {
+  const recipe = await exports.getRecipeById(_id);
   if(!recipe) throw new Error('recipe not found');
-  const auth = recipe.userId === user._id;
-  const isAdmin = user.role === 'admin';
-
-  if(!auth && !isAdmin) throw new Error('');
-  await update(_id, entry);
-  
-  return {
-    ...recipe,
-    ...entry,
-    userId: user._id,
-  };
+  await update(_id, {...recipe, ...entry});
+  return {...recipe, ...entry};
 };
 
 exports.excludeRecipe = async (id) => {

@@ -19,10 +19,28 @@ exports.loginUser = async ({ email, password }) => {
   if(!user || user.password !== password) 
     throw new Error('Incorrect username or password');
   const { _id, role } = user;
-  const token = jwt.sign({user: { _id, role }});
+  const token = jwt.sign({user: { _id, email, role }});
   return { token };
 };
 
-exports.verifyByEmail = async (email) => {
-  return !! await getByEmail(email);
+exports.verifyById = async (id) => {
+  const user = await getById(id);
+  if(!user)  
+    throw new Error('user not found');
+  return !!user;
 };
+
+exports.verifyByEmail = async (email) => {
+  const user = await getByEmail(email);
+  if(!user)  
+    throw new Error('user not found');
+  return !!user;
+};
+
+exports.userAuthorization = ({_id, role}, userId) => {
+  const isAdmin = role === 'admin';
+  const isAuth = userId === _id;
+  if(!isAuth && !isAdmin) throw new Error('');
+  return true;
+};
+

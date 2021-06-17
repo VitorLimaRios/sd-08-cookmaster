@@ -1,11 +1,11 @@
 const { ObjectId } = require('mongodb');
 const { connect } = require('./config/mongodb.config');
 
-exports.add = async ({ name, ingredients, preparation, userId }) =>
+exports.add = async ({ name, ingredients, preparation, userId, image }) =>
   connect().then(async (db) => {
     const recipe = await db
       .collection('recipes')
-      .insertOne({ name, ingredients, preparation, userId });
+      .insertOne({ name, ingredients, preparation, userId, image });
     return recipe.ops[0];
   });
 
