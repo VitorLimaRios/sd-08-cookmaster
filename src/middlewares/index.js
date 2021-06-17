@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const Joi = require('joi');
+const { findEmail } = require('../models/Users');
 const Bad_Request = '400';
 const Conflict = '409';
 
