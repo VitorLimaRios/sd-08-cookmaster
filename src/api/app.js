@@ -7,7 +7,7 @@ const { resources } = require('./.env');
 const app = express();
 
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use(`/${resources.Users.basePath}`, Users);
 app.use(`/${resources.Login.basePath}`, Login);

@@ -4,6 +4,7 @@ const validations = require('./validations');
 const jwtAuthentication = require('./jwtAuthentication');
 const isAdmin = require('./isAdmin');
 const isUserIdOrAdmin = require('./isUserIdOrAdmin');
+const addImage = require('./addImage');
 
 module.exports = {
   errorHandler,
@@ -12,4 +13,5 @@ module.exports = {
   jwtAuthentication,
   isAdmin,
   isUserIdOrAdmin,
+  addImage,
 };

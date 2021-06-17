@@ -39,6 +39,10 @@ const insertOne = tcw(async (req, res, next) => {
   res.status(STATUS_CREATED).json(result);
 });
 
+const addImage = tcw(async (req, res, next) => {
+  const { _id } = req.resource;
+});
+
 module.exports = {
   getAll,
   findById,

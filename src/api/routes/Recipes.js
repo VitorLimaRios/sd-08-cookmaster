@@ -2,9 +2,15 @@ const express = require('express');
 const Controller = require('../controllers').Recipes;
 const isBodyValidFor = require('../middlewares/validations').Recipes;
 const { notFoundHandler, jwtAuthentication,
-  isUserIdOrAdmin } = require('../middlewares/');
+  isUserIdOrAdmin, addImage } = require('../middlewares/');
 
 const route = express.Router();
+
+route.put('/:id/image',
+  jwtAuthentication('Users'),
+  isUserIdOrAdmin,
+  addImage,
+  Controller.updateById);
 
 route.get('/:id', Controller.findById);
 
