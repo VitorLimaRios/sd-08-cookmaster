@@ -30,9 +30,16 @@ const atualizarReceita = async (id, receita) => {
   return resultReceita;
 };
 
+const deletarReceita = async (id) => {
+  const deletaReceita = await recipesModel.deletarReceita(id);
+  return deletaReceita;
+};
+
+
 module.exports = {
   criarReceita,
   listarReceitas,
   buscarReceitaPorId,
   atualizarReceita,
+  deletarReceita,
 };

@@ -31,10 +31,16 @@ const buscarReceitaPorId = async (id) => {
 const atualizarReceita = async(id, receita) => {
   const {name, ingredients, preparation} = receita;
   const db = await connection();
-  const buscaReceita = await buscarReceitaPorId(id);
+  const novareceita = await buscarReceitaPorId(id);
   await db.collection('recipes')
     .updateOne({ _id: id}, { $set: { name, ingredients, preparation } });
-  return { _id: id, name, ingredients, preparation, userId: buscaReceita.userId};
+  return { _id: id, name, ingredients, preparation, userId: novareceita.userId};
+};
+
+const deletarReceita = async(id) => {
+  const db = await connection();
+  const deletarReceita = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return deletarReceita;
 };
 
 module.exports = {
@@ -42,4 +48,5 @@ module.exports = {
   listarReceitas,
   buscarReceitaPorId,
   atualizarReceita,
+  deletarReceita,
 };

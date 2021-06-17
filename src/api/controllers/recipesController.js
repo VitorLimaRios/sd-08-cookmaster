@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 
 const httpStatusCodeSucess = 200;
 const httpStatusCodeCreated = 201;
+const httpStatusCodeNoContent = 204;
 const httpStatusCodeBadRequest = 400;
 const httpStatusCodeUnauthorized = 401;
 const httpStatusCodeNotFound = 404;
@@ -57,9 +58,34 @@ const atualizarReceita = async (req, res) => {
   }
 };
 
+const deletarReceita = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const deletar = await recipesService.deletarReceita(id);
+    res.status(httpStatusCodeNoContent).json(deletar);
+  } catch (err) {
+    res.status(httpStatusCodeBadRequest).json(
+      {
+        message: err.message
+      }
+    );
+  }
+};
+
+const enviarImagem = rescue(async (req, res) => {
+  const { id } = req.params;
+  const buscarReceita = await recipesService.buscarReceitaPorId(id);
+  const atualizar = {...buscarReceita, image: `localhost:3000/src/uploads/${id}.jpeg`};
+  const atualizarReceita = await recipesService.atualizarReceita(id, atualizar);
+  res.json(atualizarReceita);
+
+});
+
 module.exports = {
   criarReceita,
   listarReceitas,
   buscarReceitaPorId,
   atualizarReceita,
+  deletarReceita,
+  enviarImagem,
 };
