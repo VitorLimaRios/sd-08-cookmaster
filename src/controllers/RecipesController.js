@@ -1,6 +1,7 @@
 const RecipesService = require('../services/RecipesService');
 
 const ERROR = 500;
+const OK = 200;
 
 const createRecipes = async (req, res) => {
   try {
@@ -15,6 +16,16 @@ const createRecipes = async (req, res) => {
   }
 };
 
+const getAllRecipes = async (_req, res) => {
+  try {
+    const getAll = await RecipesService.getAllRecipes();
+    return res.status(OK).json(getAll);
+  } catch (err) {
+    res.status(ERROR).json({ message: err });
+  }
+};
+
 module.exports = {
   createRecipes,
+  getAllRecipes,
 };
