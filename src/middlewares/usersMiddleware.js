@@ -1,5 +1,5 @@
-const UserModel = require('../models/UsersModel');
-const UserSchema = require('../schema/UserValidation');
+const UsersModel = require('../models/UsersModel');
+const UsersSchema = require('../schema/UsersValidation');
 
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
@@ -15,7 +15,7 @@ const validate = (req, res, next) => {
 
 const validateUserEmail = async (req, res, next) => {
   const { email } = req.body;
-  const getAllUsers = await UserModel.getAllUsers();
+  const getAllUsers = await UsersModel.getAllUsers();
   const filterEmail = getAllUsers.some((userEmail) => userEmail.email === email);
   if (filterEmail) {
     return res.status(CONFLICT).json({ message: 'Email already registered' });
@@ -25,7 +25,7 @@ const validateUserEmail = async (req, res, next) => {
 
 const validateEmailFormat = async (req, res, next) => {
   const { email } = req.body;
-  const verifyEmail = await UserSchema.validateEmail(email);
+  const verifyEmail = await UsersSchema.validateEmail(email);
   if (verifyEmail) {
     return res.status(verifyEmail.STATUS_CODE).json({ message: verifyEmail.message });
   }

@@ -4,9 +4,9 @@ const {
   validate,
   validateUserEmail,
   validateEmailFormat
-} = require('../middlewares/userMiddleware');
+} = require('../middlewares/usersMiddleware');
 
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/UsersController');
 
 router.post('/',
   validate,
