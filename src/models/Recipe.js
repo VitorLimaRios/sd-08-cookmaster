@@ -2,25 +2,23 @@ const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
-  connection()
-    .then(async (db) => {
-      const newRecipe = await db.collection('recipes')
-        .insertOne({
-          name,
-          ingredients,
-          preparation,
-          userId
-        });
-      return {
-        recipe: {
-          name,
-          ingredients,
-          preparation,
-          userId,
-          _id: newRecipe.insertedId,
-        }
-      };
-    });
+  return connection()
+    .then((db) => db.collection('recipes')
+      .insertOne({
+        name,
+        ingredients,
+        preparation,
+        userId
+      }))
+    .then(({ insertedId }) => ({
+      recipe: {
+        name,
+        ingredients,
+        preparation,
+        userId,
+        _id: insertedId,
+      }
+    }));
 };
 
 const getAllRecipes = async () => {
@@ -40,21 +38,20 @@ const getRecipeById = async (id) => {
       .findOne(ObjectId(id)));
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) =>
+const updateRecipe = async (id, { name, ingredients, preparation, userId }) =>
   connection()
-    .then(async (db) => {
-      const recipeToUpdate = await db
-        .collection('recipes')
-        .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
-
-      return {
-        _id: recipeToUpdate._id,
-        name,
-        ingredients,
-        preparation,
-        userId: recipeToUpdate.userId
-      };
-    });
+    .then((db) => db
+      .collection('recipes')
+      .updateOne({ _id: ObjectId(id) }, {
+        $set: { name, ingredients, preparation, userId }
+      }))
+    .then(() => ({
+      _id: id,
+      name,
+      ingredients,
+      preparation,
+      userId
+    }));
 
 const deleteRecipe = async (id) => {
   return connection()

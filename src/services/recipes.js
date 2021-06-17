@@ -13,7 +13,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   if (invalidEntries) {
     throw new Error(invalidEntries);
   }
-  return await RecipeModel.createRecipe(name, ingredients, preparation, userId);
+  return RecipeModel.createRecipe(name, ingredients, preparation, userId);
 };
 
 const getAllRecipes = async () => {
@@ -32,15 +32,13 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
+const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
   const invalidEntries = validateRecipe(name, ingredients, preparation);
   if (invalidEntries) {
     throw new Error(invalidEntries);
   }
 
-  const recipeToUpdate = await RecipeModel
-    .updateRecipe(id, name, ingredients, preparation);
-  return recipeToUpdate;
+  return RecipeModel.updateRecipe(id, { name, ingredients, preparation, userId });
 };
 
 const deleteRecipe = async (id) => {

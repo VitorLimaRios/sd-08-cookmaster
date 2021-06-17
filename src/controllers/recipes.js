@@ -12,7 +12,7 @@ const createRecipe = async (req, res) => {
     const { name, ingredients, preparation, userId } = req.body;
     const newRecipe = await recipesService
       .createRecipe(name, ingredients, preparation, userId);
-
+    console.log(newRecipe);
     res.status(Created).json(newRecipe);
   } catch (err) {
     res.status(BadRequest).json({
@@ -51,8 +51,11 @@ const updateRecipe = async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
     const { id } = req.params;
-
-    const recipe = await recipesService.updateRecipe(id, name, ingredients, preparation);
+    const { _id: userId } = req.user;
+    console.log(userId);
+    const recipe = await recipesService.updateRecipe(id, {
+      name, ingredients, preparation, userId
+    });
 
     res.status(OK).json(recipe);
   } catch (err) {
