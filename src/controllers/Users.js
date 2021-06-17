@@ -1,5 +1,9 @@
 const models = require('../models/Users');
-const { checkUserData, checkUniqueEmail } = require('../middlewares');
+const {
+  checkUserData,
+  checkUniqueEmail,
+  checkLoginData,
+} = require('../middlewares');
 const userSchemas = require('../schemas');
 const { Router } = require('express');
 const Created = '201';

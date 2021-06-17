@@ -1,5 +1,7 @@
 const Joi = require('joi');
 const msg = 'Invalid entries. Try again.';
+const msgLogin = 'All fields must be filled';
+
 
 const userSchemas = Joi.object({
   name: Joi.string()
@@ -27,4 +29,23 @@ const userSchemas = Joi.object({
     .required(),
 });
 
-module.exports = { userSchemas };
+const loginSchemas = Joi.object({
+  email: Joi.string()
+    .email()
+    .messages({
+      'string.base': msgLogin,
+      'string.empty': msgLogin,
+      'any.required': msgLogin,
+    })
+    .required(),
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    .messages({
+      'string.base': msgLogin,
+      'string.empty': msgLogin,
+      'any.required': msgLogin,
+    })
+    .required(),
+});
+
+module.exports = { userSchemas, loginSchemas };
