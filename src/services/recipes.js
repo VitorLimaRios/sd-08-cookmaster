@@ -1,10 +1,12 @@
 const recipesModel = require('../models/recipes');
+const multer = require('multer');
 const BAD_REQUEST = 400;
 const CREATED = 201;
 const OK = 200;
 const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 const REQUIRED_LENGTH = 24;
+const RECIPE_NOT_FOUND = 'recipe not found';
 
 const recipeIsValid = async (name, ingredients, preparation, id) => {
   if (!name || !ingredients || !preparation) {
@@ -32,7 +34,7 @@ const idIsValid = async (id) => {
     if (recipe == null) {
       return {
         status: NOT_FOUND,
-        message: 'recipe not found',
+        message: RECIPE_NOT_FOUND,
       };
     }
     return { status: OK, message: recipe };
@@ -40,7 +42,7 @@ const idIsValid = async (id) => {
 
   return {
     status: NOT_FOUND,
-    message: 'recipe not found',
+    message: RECIPE_NOT_FOUND,
   };
 };
 
@@ -65,7 +67,7 @@ const deleteRecipe = async (id, user) => {
     if (recipe == null) {
       return {
         status: NOT_FOUND,
-        message: 'recipe not found',
+        message: RECIPE_NOT_FOUND,
       };
     }
     if (
@@ -78,8 +80,27 @@ const deleteRecipe = async (id, user) => {
   }
   return {
     status: NOT_FOUND,
-    message: 'recipe not found',
+    message: RECIPE_NOT_FOUND,
   };
+};
+
+const uploadImage = async (id, user, image) => {
+  const { _id, role } = user;
+  const recipe = await recipesModel.findRecipe(id);
+  if (
+    JSON.stringify(_id) === JSON.stringify(recipe.userId) ||
+    role === 'admin'
+  ) {
+    const uploadedImgRecipe = await recipesModel.uploadImage(id, image);
+    if (!uploadedImgRecipe) {
+      return { status: 404, message: RECIPE_NOT_FOUND };
+    }
+    
+    return {
+      status: 200,
+      message: uploadedImgRecipe,
+    };
+  }
 };
 
 module.exports = {
@@ -87,4 +108,5 @@ module.exports = {
   idIsValid,
   updateRecipeIsValid,
   deleteRecipe,
+  uploadImage
 };
