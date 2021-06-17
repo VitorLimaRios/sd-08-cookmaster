@@ -12,6 +12,6 @@ router.post('/',
   validateEntries,
   validateMalformedToken,
   RecipesController.createRecipes,
-)
+);
 
 module.exports = router;

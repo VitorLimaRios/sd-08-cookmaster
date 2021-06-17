@@ -1,7 +1,8 @@
 const errors = {
   invalid_entries: 'Invalid entries. Try again.',
   malformed: 'jwt malformed'
-}
+};
+
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const INTERNAL_ERROR = 500;
@@ -22,7 +23,7 @@ const validateMalformedToken = async (req, res, next) => {
       return res.status(UNAUTHORIZED).json({ message: errors.malformed });
     }
   } catch (err) {
-    res.status(INTERNAL_ERROR).json({ message: 'Hmm, e agora?' })
+    res.status(INTERNAL_ERROR).json({ message: 'Hmm, e agora?' });
   }
   next();
 };
@@ -30,4 +31,4 @@ const validateMalformedToken = async (req, res, next) => {
 module.exports = {
   validateEntries,
   validateMalformedToken
-}
+};
