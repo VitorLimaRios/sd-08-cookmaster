@@ -27,9 +27,23 @@ const getById = async(id, collectionName) => {
   return foundDocument;
 };
 
+const updateById = async(keysValues, id, collectionName) => {
+  const db = await connect();
+  await db.collection(collectionName).updateOne(
+    {'_id': ObjectId(id)},
+    { $set: {...keysValues}}
+  );
+  // console.log('AFTER', await getById(id, collectionName));
+  // console.log(updated);
+  const updated = await getById(id, collectionName);
+
+  return updated;
+};
+
 module.exports = {
   addNew,
   getByKeysValues,
   getAll,
   getById,
+  updateById,
 };

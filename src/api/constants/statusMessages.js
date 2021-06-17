@@ -4,6 +4,7 @@ const ALL_FIELDS_REQUIRED = 'All fields must be filled';
 const INCORRECT_USER_OR_PASS = 'Incorrect username or password';
 const JWT_MALFORMED = 'jwt malformed';
 const RECIPE_NOT_FOUND = 'recipe not found';
+const MISSING_TOKEN = 'missing auth token';
 
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
   INCORRECT_USER_OR_PASS,
   JWT_MALFORMED,
   RECIPE_NOT_FOUND,
+  MISSING_TOKEN,
 };

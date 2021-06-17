@@ -1,7 +1,9 @@
 const { ObjectId } = require('mongodb');
 const { BAD_REQUEST, NOT_FOUND } = require('../api/constants/statusCodes');
 const { RECIPE_NOT_FOUND } = require('../api/constants/statusMessages');
-const { addNewRecipe, getRecipeById } = require('../models/recipeModel');
+const {
+  addNewRecipe, getRecipeById, updateRecipeById
+} = require('../models/recipeModel');
 const { generateError } = require('./errors/generateError');
 const recipeValidation = require('./validations/recipeValidation');
 
@@ -32,7 +34,18 @@ const recipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async(recipeInfos, recipeId) => {
+  const { name, ingredients, preparation } = recipeInfos;
+  const updatedRecipe = await updateRecipeById(
+    {name, ingredients, preparation},
+    recipeId
+  );
+
+  return updatedRecipe;
+};
+
 module.exports = {
   newRecipe,
   recipeById,
+  updateRecipe,
 };

@@ -1,6 +1,6 @@
 const { CREATED, OK } = require('../api/constants/statusCodes');
 const { getAllRecipes } = require('../models/recipeModel');
-const { newRecipe, recipeById } = require('../services/recipeServices');
+const { newRecipe, recipeById, updateRecipe } = require('../services/recipeServices');
 
 const createsRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -29,13 +29,21 @@ const getsRecipeById = async(req, res) => {
     const {errorMessage, errorCode} = recipe;
     return res.status(errorCode).json({message: errorMessage});
   }
-  
   return res.status(OK).json(recipe);
 };
 
+const updatesRecipe = async(req, res) => {
+  const recipeInfos = req.body;
+  // const { token, userId } = req;
+  const recipeId = req.params.id;
+  const updatedRecipe = await updateRecipe(recipeInfos, recipeId);
+  return res.status(OK).json(updatedRecipe);
+
+};
 
 module.exports = {
   createsRecipe,
   getsRecipes,
   getsRecipeById,
+  updatesRecipe,
 };
