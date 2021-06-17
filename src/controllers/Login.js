@@ -3,14 +3,9 @@ const { findEmail } = require('../models/Users');
 const { generateToken } = require('../services/tokenGenerate');
 const OK = '200';
 
-const {
-  checkUserData,
-  checkUniqueEmail,
-  checkLoginData,
-} = require('../middlewares');
+const { checkLoginData } = require('../middlewares');
 const userSchemas = require('../schemas');
 const { Router } = require('express');
-
 
 const loginController = Router();
   
