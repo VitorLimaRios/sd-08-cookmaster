@@ -32,7 +32,8 @@ const getAll = tcw(async (_req, res, next) => {
 });
 
 const insertOne = tcw(async (req, res, next) => {
-  const { result, error } = await Service.insertOne(req.body);
+  const userId = req.resource._id;
+  const { result, error } = await Service.insertOne({ ...req.body, userId });
   if (error) return next(error);
   res.status(STATUS_CREATED).json(result);
 });

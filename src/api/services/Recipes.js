@@ -17,7 +17,7 @@ const insertOne = async (obj) => {
   const insertedId = await General.insertOne(Recipes.tableOrCollec, obj);
   if (!insertedId) return { error: {
     code: 'already_exists', message: `${Recipes.singular} already exists` } };
-  return { result: { _id: insertedId, ...obj } };
+  return { result: { recipe: { _id: insertedId, ...obj } } };
 };
 
 const deleteById = async (id) => {

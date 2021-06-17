@@ -6,17 +6,23 @@ module.exports = {
     username: '',
     password: '',
     pathname: '',
-    privateKey: `-----BEGIN EC PRIVATE KEY-----
+    jwt: {
+      jwtOptions: {
+        algorithm: 'ES256',
+        issuer: 'cookmaster-api'
+      },
+      privateKey: `-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIB7uws1Z2+wFVQgJSOvpwGcxsSB4KBhqhzMR4I7DDCOZoAoGCCqGSM49
 AwEHoUQDQgAEOmV0/JG68Q34j216K3BmtJvUIi9pAgza/pWVIqP/9FgroJkP48gb
 pR6iVPBewrBbW1MK/8GaS2bsbUKi5bK/tg==
 -----END EC PRIVATE KEY-----
 `, // FOR ES256 SIGN: openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem 
-    publicKey: `-----BEGIN PUBLIC KEY-----
+      publicKey: `-----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEOmV0/JG68Q34j216K3BmtJvUIi9p
 Agza/pWVIqP/9FgroJkP48gbpR6iVPBewrBbW1MK/8GaS2bsbUKi5bK/tg==
 -----END PUBLIC KEY-----
 `, // openssl ec -in private-key.pem -pubout -out public-key.pem
+    },
   },
   mysqlConnection: {
     host: 'localhost',
