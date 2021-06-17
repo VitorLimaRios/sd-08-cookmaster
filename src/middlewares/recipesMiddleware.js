@@ -1,12 +1,15 @@
 const errors = {
   invalid_entries: 'Invalid entries. Try again.',
-  malformed: 'jwt malformed'
+  malformed: 'jwt malformed',
+  message: 'recipe not found',
 };
 
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 const INTERNAL_ERROR = 500;
 const TOKEN_LENGTH = 233;
+const ID_LENGTH = 24;
 
 const validateEntries = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -28,7 +31,16 @@ const validateMalformedToken = async (req, res, next) => {
   next();
 };
 
+const verifyId = async (req, res, next) => {
+  const { id } = req.params;
+  if (id.length < ID_LENGTH) {
+    return res.status(NOT_FOUND).json({ message: errors.message });
+  }
+  next();
+};
+
 module.exports = {
   validateEntries,
-  validateMalformedToken
+  validateMalformedToken,
+  verifyId,
 };

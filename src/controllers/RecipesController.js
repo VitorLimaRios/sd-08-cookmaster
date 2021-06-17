@@ -6,7 +6,6 @@ const OK = 200;
 const createRecipes = async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
-    console.log(name, ingredients, preparation);
     const token = req.headers['authorization'];
     const { CREATED, message } = await RecipesService
       .createRecipe(name, ingredients, preparation, token);
@@ -25,7 +24,18 @@ const getAllRecipes = async (_req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const getId = await RecipesService.getRecipeById(id);
+    return res.status(OK).json(getId);
+  } catch (err) {
+    res.status(ERROR).json({ message: err });
+  }
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
+  getRecipeById,
 };
