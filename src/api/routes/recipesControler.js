@@ -3,7 +3,8 @@ const rescue = require('express-rescue');
 const bodyParser = require('body-parser');
 
 const {
-  registerRecipe
+  registerRecipe,
+  findAllRecipes
 } = require('../service/recipesService');
 const { decodeToken } = require('../service/jwt');
 
@@ -13,10 +14,16 @@ app.use(bodyParser.json());
 
 const router = express.Router();
 
-// 2 - Crie um endpoint para o login de usuários
-router.post('/', decodeToken, rescue(async(req, res) => {
-  const { body, headers, user } = req;
+// 3 - Crie um endpoint para o cadastro de receitas
+router.post('/', rescue(decodeToken), rescue(async(req, res) => {
+  const { body, user } = req;
   const end = await registerRecipe(body, user, res);
+  return end;
+}));
+
+// 4 - Crie um endpoint para a listagem de receitas
+router.get('/', rescue(async (_req, res) => {
+  const end = await findAllRecipes(res);
   return end;
 }));
 

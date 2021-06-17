@@ -10,7 +10,7 @@ const {
   UNAUTHORIZED,
   MIN_PASS_LENGTH,
 } = require('./consts');
-const { getUser, addRecipe } = require('../models/recipesModel');
+const { addRecipe, getAllRecipes } = require('../models/recipesModel');
 const { getToken, secret, decodeToken } = require('./jwt');
 
 const app = express();
@@ -37,6 +37,13 @@ const registerRecipe = async(body, user, res) => {
   }
 };
 
+// 4 - Crie um endpoint para a listagem de receitas
+const findAllRecipes = async (res) => {
+  const allRecipes = await getAllRecipes();
+  return res.status(OK).json(allRecipes);
+};
+
 module.exports = {
+  findAllRecipes,
   registerRecipe,
 };

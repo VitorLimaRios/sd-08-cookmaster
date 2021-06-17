@@ -1,11 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {
-  UNPROCESSABE_ENTITY,
-  CREATED,
   OK,
-  ID_LENGTH,
-  BAD_REQUEST,
   UNAUTHORIZED,
   MIN_PASS_LENGTH,
 } = require('./consts');
