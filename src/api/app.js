@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const user = require('../../controllers/user');
+const loginController = require('../../controllers/login');
 
 const errorMiddleware = require('../../controllers/error');
 
@@ -16,6 +17,8 @@ app.get('/', (_request, response) => {
 app.get('/users', user.getAllUsers );
 // Criar usuário
 app.post('/users', user.createUsers);
+//Criar login
+app.post('/login', loginController);
 // //Atualizar produtos
 // app.put('/products/:id', products.updateProduct);
 // //Deletando produtos
