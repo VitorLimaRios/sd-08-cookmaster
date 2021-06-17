@@ -5,6 +5,7 @@ const Services = require('../services');
 module.exports = (resource) => async (req, _res, next) => {
   try {
     const token = req.headers.authorization;
+    if (!token) next({ code: 'unauthenticated', message: 'missing auth token' });
 
     const payload = jwt.verify(token, publicKey);
     

@@ -24,8 +24,7 @@ const deleteById = async (id) => {
   const resp = await General.deleteById(Recipes.tableOrCollec, id);
   if (!resp) return { error: {
     code: 'not_found', message: 'not_found message delete' } };
-  return { result: {
-    message: `The ${Recipes.singular} with id = ${id} was deleted successfully` } };
+  return { result: true };
 };
 
 const updateById = async (id, obj) => {

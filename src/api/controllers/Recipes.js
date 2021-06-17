@@ -3,6 +3,7 @@ const tcw = require('../utils').tryCatchWrapper;
 
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
+const STATUS_NO_CONTENT = 204;
 
 const findById = tcw(async (req, res, next) => {
   const { id } = req.params;
@@ -20,9 +21,9 @@ const updateById = tcw(async (req, res, next) => {
 
 const deleteById = tcw(async (req, res, next) => {
   const { id } = req.params;
-  const { result, error } = await Service.deleteById(id);
+  const { error } = await Service.deleteById(id);
   if (error) return next(error);
-  res.status(STATUS_OK).json(result);
+  res.status(STATUS_NO_CONTENT).send();
 });
 
 const getAll = tcw(async (_req, res, next) => {

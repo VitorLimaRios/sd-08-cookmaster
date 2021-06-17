@@ -3,6 +3,7 @@ const notFoundHandler = require('./notFound');
 const validations = require('./validations');
 const jwtAuthentication = require('./jwtAuthentication');
 const isAdmin = require('./isAdmin');
+const isUserIdOrAdmin = require('./isUserIdOrAdmin');
 
 module.exports = {
   errorHandler,
@@ -10,4 +11,5 @@ module.exports = {
   validations,
   jwtAuthentication,
   isAdmin,
+  isUserIdOrAdmin,
 };
