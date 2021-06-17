@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
 // 2 - Crie um endpoint para o login de usuários
 
@@ -15,6 +16,13 @@ const addRecipe = async(body, user) => {
   return recipeInsertion.ops[0];
 };
 
+// 5 - Crie um endpoint para visualizar uma receita específica
+const getRecipe = async (idParam) => {
+  const db = await connection();
+  const recipe = await db.collection('recipes').findOne(ObjectId(idParam));
+  return recipe;
+};
+
 // 4 - Crie um endpoint para a listagem de receitas
 const getAllRecipes = async () => {
   const db = await connection();
@@ -26,5 +34,6 @@ const getAllRecipes = async () => {
 module.exports = {
   getAllRecipes,
   getUser,
-  addRecipe
+  addRecipe,
+  getRecipe
 };

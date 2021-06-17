@@ -7,10 +7,11 @@ const {
   OK,
   ID_LENGTH,
   BAD_REQUEST,
+  NOT_FOUND,
   UNAUTHORIZED,
   MIN_PASS_LENGTH,
 } = require('./consts');
-const { addRecipe, getAllRecipes } = require('../models/recipesModel');
+const { addRecipe, getAllRecipes, getRecipe} = require('../models/recipesModel');
 const { getToken, secret, decodeToken } = require('./jwt');
 
 const app = express();
@@ -37,6 +38,27 @@ const registerRecipe = async(body, user, res) => {
   }
 };
 
+// 5 - Crie um endpoint para visualizar uma receita específica
+const validationToFind = (params) => {
+  if (params.id.length !== ID_LENGTH) {
+    throw {
+      status: NOT_FOUND,
+      message: 'recipe not found'
+    };
+  }
+};
+
+const findRecipe = async (req, res) => {
+  const { params } = req;
+  try {
+    validationToFind(params);
+    const product = await getRecipe(params.id);
+    return res.status(OK).json(product);
+  } catch (error) {
+    return res.status(error.status).json({message: error.message});
+  }
+};
+
 // 4 - Crie um endpoint para a listagem de receitas
 const findAllRecipes = async (res) => {
   const allRecipes = await getAllRecipes();
@@ -46,4 +68,5 @@ const findAllRecipes = async (res) => {
 module.exports = {
   findAllRecipes,
   registerRecipe,
+  findRecipe,
 };
