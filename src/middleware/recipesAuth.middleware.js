@@ -31,7 +31,7 @@ const authenticationByToken = async (req, res, cb) => {
 const recipeValidate = async (req, res, cb) => {
   const { name, ingredients, preparation } = req.body;
   if (!name || !ingredients || !preparation) {
-    res.status(HTTP_400_STATUS).json({
+    return res.status(HTTP_400_STATUS).json({
       message: INVALID_ENTRIES,
     });
   }
