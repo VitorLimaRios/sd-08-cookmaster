@@ -17,7 +17,6 @@ module.exports = (req, _res, next) => {
     const typeMsg = msgErr[info.path] || { [info.method]: '' };
     const msgCode =
       typeMsg[info.method] === 'm-a-token' ? 'm-a-token' : 'r-i-jwt';
-
     if (!token) {
       throw new CustomErro(
         'Token invalid',
@@ -25,10 +24,9 @@ module.exports = (req, _res, next) => {
         msgCode
       );
     }
-
+      
     const compare = auth(token);
-
-    console.log('MSG CODE ---', msgCode);
+    
     if (!compare.payload) {
       throw new CustomErro(
         'Token invalid',
@@ -36,7 +34,7 @@ module.exports = (req, _res, next) => {
         msgCode
       );
     }
-
+      
     req.payload = compare.payload;
     next();
   } catch (err) {

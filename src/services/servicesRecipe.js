@@ -155,6 +155,51 @@ class ServicesRecipe {
       return err;
     }
   }
+
+  async addUrlImg(idRecipe, url, userData) {
+    try {
+      const authDelete = await this._authorizationToDelete({ _id:idRecipe }, userData);
+
+      // if (authDelete.notFound) {
+      //   throw new CustomErro(
+      //     'Delete recipe not found',
+      //     'delete',
+      //     authDelete.notFound
+      //   );
+      // }
+
+      // if (authDelete.unauthorized) {
+      //   throw new CustomErro(
+      //     'Delete unauthorized',
+      //     'delete',
+      //     authDelete.unauthorized
+      //   );
+      // }
+
+      await this._modelRecipe.updateRecipe(
+        this._idFormatted({ _id: idRecipe })._id,
+        { image: url }
+      );
+
+      const result = await this.getRecipeById(
+        this._idFormatted({ _id: idRecipe })
+      );
+
+      
+      return { recipe: result };
+
+    } catch (err) {
+      if (err instanceof CustomErro) {
+        return err.responseError();
+      }
+      return err;
+    }
+  }
 }
 
 module.exports = ServicesRecipe;
+
+
+// "name": "Banana",
+//     "ingredients": "banana",
+//     "preparation": "cortar a banana",

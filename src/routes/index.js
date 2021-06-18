@@ -12,6 +12,10 @@ const controllerLogin = new ControllerLogin();
 const ControllerRecipe = require('../controllers/controllerRecipe');
 const controllerRecipe= new ControllerRecipe();
 
+const upload = require('../config/multer');
+const CODE = require('../error/code');
+
+
 Routes.post('/users', controllerUsers.create);
 Routes.post('/login', controllerLogin.login);
 Routes.post('/recipes', [middlewares.authentication, controllerRecipe.create]);
@@ -28,5 +32,13 @@ Routes.delete('/recipes/:id', [
   middlewares.verifyObjectId,
   controllerRecipe.deleteOneRecipe
 ]);
+Routes.put('/recipes/:id/image/',
+  middlewares.authentication,
+  controllerRecipe.getUpload,
+  upload.single('image'),
+  (req, res) => {
+    res.status(CODE.ok).json(req.recipe);
+  }
+);
 
 module.exports = Routes;
