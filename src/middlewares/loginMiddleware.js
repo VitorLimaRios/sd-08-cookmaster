@@ -5,6 +5,7 @@ const error_message = 'All fields must be filled';
 
 const validateFields = (req, res, next) => {
   const { email, password } = req.body;
+  console.log(password);
   if (!email || !password) {
     return res.status(UNAUTHORIZED).json({ message: error_message });
   }
@@ -14,6 +15,7 @@ const validateFields = (req, res, next) => {
 const validateEmailFormat = async (req, res, next) => {
   const { email } = req.body;
   const verifyEmail = await LoginSchema.validateEmail(email);
+  console.log(verifyEmail);
   if (verifyEmail) {
     return res.status(verifyEmail.UNAUTHORIZED).json({ message: verifyEmail.message });
   }
