@@ -28,10 +28,14 @@ const findUserByEmail = async (email) => {
 };
 
 const createNewUser = async ({ name, email, password }) => {
-  let userInformation = { name, email, password, role: 'user' };
+  const userInformation = { name, email, password, role: 'user' };
   const inserting = await connection()
     .then((db => db.collection('users').insertOne(userInformation)));
-  return { name, email, role: inserting.role, _id: inserting.insertedId, };
+  return {
+    user: {
+      name, email, role: userInformation.role, _id: inserting.insertedId,
+    }
+  };
 };
 
 const secret = 'senha123';
