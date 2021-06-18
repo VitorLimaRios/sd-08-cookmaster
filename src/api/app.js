@@ -1,5 +1,4 @@
 const express = require('express');
-const rescue = require('express-rescue');
 const bodyParser = require('body-parser');
 const user = require('../../controllers/user');
 const loginController = require('../../controllers/login');
@@ -24,7 +23,9 @@ app.post('/users', user.createUsers);
 //Criar login
 app.post('/login', loginController);
 //Criar receitas
-app.post('/recipes', validateJWT, validateRecipeForm, rescue(recipes.createRecipe));
+app.post('/recipes', validateJWT, validateRecipeForm, recipes.createRecipe);
+//Pegar todas as receitas
+app.get('/recipes', recipes.getAll);
 
 
 // //Atualizar produtos
