@@ -4,6 +4,12 @@ const { ObjectId } = require('mongodb');
 // 2 - Crie um endpoint para o login de usuários
 
 const getUser = async(email) => {
+  // if (!email) {
+  //   throw {
+  //     status: 401,
+  //     message: 'jwt malformed',
+  //   };
+  // }
   const db = await connection();
   return userFound = await db.collection('users').findOne({'email': email });
 };
@@ -30,10 +36,23 @@ const getAllRecipes = async () => {
   return allRecipes;
 };
 
+// 7 - Crie um endpoint para a edição de uma receita
+const updateRecipe = async(body, params) => {
+  const db = await connection();
+  await db.collection('recipes').updateOne(
+    {_id: ObjectId(params.id)},
+    {$set: {
+      ...body
+    }}
+  );
+  const isFound = await db.collection('recipes').findOne( {_id: ObjectId(params.id)});
+  return isFound;
+};
 
 module.exports = {
   getAllRecipes,
   getUser,
   addRecipe,
-  getRecipe
+  getRecipe,
+  updateRecipe
 };

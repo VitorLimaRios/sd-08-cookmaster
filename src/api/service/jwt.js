@@ -27,22 +27,27 @@ const getToken = (headers) => {
   if (!token) {
     throw {
       status: UNAUTHORIZED,
-      message: 'jwt malformed',
+      message: 'missing auth token',
     };
   }
   return token;
 };
 
 const decodeToken = async(req, res, next) => {
-  const token = getToken(req.headers);
   try {
+    const token = getToken(req.headers);
     const decodedToken = jwt.verify(token, secret);
     const userFound = await getUser(decodedToken.email);
     req.user= userFound;
     next();
   } catch (err) {
-    console.log('erro jwt', err);
-    return res.status(UNAUTHORIZED).json({message: 'jwt malformed'});
+    if (err.message === 'missing auth token') {
+      return res.status(err.status).json({message: err.message});
+    } else {
+      // Por algum motivo não estou conseguindo lançar o erro lá no getUser do recipesModel
+      // Deve ser pq ele já lança o erro do verify primeiro.
+      return res.status(UNAUTHORIZED,).json({message: 'jwt malformed'});
+    }
   }
 };
 

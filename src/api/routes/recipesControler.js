@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const {
   registerRecipe,
   findAllRecipes,
-  findRecipe
+  findRecipe,
+  tryUpdate
 } = require('../service/recipesService');
 const { decodeToken } = require('../service/jwt');
 
@@ -31,6 +32,12 @@ router.get('/:id', rescue(async (req, res) => {
 // 4 - Crie um endpoint para a listagem de receitas
 router.get('/', rescue(async (_req, res) => {
   const end = await findAllRecipes(res);
+  return end;
+}));
+
+// 7 - Crie um endpoint para a edição de uma receita
+router.put('/:id', rescue(decodeToken), rescue(async (req, res) => {
+  const end = await tryUpdate(req, res);
   return end;
 }));
 

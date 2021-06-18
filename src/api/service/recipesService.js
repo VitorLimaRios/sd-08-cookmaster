@@ -11,7 +11,8 @@ const {
   UNAUTHORIZED,
   MIN_PASS_LENGTH,
 } = require('./consts');
-const { addRecipe, getAllRecipes, getRecipe} = require('../models/recipesModel');
+const { addRecipe, getAllRecipes, getRecipe,
+  updateRecipe} = require('../models/recipesModel');
 const { getToken, secret, decodeToken } = require('./jwt');
 
 const app = express();
@@ -65,8 +66,16 @@ const findAllRecipes = async (res) => {
   return res.status(OK).json(allRecipes);
 };
 
+// 5 - Crie um endpoint para visualizar uma receita específica
+const tryUpdate = async (req, res) => {
+  const { body, params } = req;
+  const updatedRecipe = await updateRecipe(body, params);
+  return res.status(OK).json(updatedRecipe);
+};
+
 module.exports = {
   findAllRecipes,
   registerRecipe,
   findRecipe,
+  tryUpdate
 };
