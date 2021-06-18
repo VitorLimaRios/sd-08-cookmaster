@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
 const {
   INVALID_TOKEN,
   INVALID_ENTRIES,
@@ -89,9 +91,8 @@ const licenseToAddValidation = async (req, res, cb) => {
   }
 };
 
-const licenseToRemoveValidation = (req, res, cb) => {
+const licenseToRemoveValidation = async (req, res, cb) => {
   const token = req.headers['authorization']?.split(' ')[1];
-  const secret = 'seusecretdetoken';
 
   if (!token) {
     return res.status(HTTP_401_STATUS).json({
@@ -101,10 +102,25 @@ const licenseToRemoveValidation = (req, res, cb) => {
   cb();
 };
 
+const uploadFile = (uploadPath) => {
+  const storage = multer.diskStorage({
+    destination: (_req, _file, callback) => {
+      callback(null, `${uploadPath}`);
+    },
+    filename: (req, _file, callback) => {
+      callback(null, `${req.params.id}.jpeg`);
+    },
+  });
+
+  const upload = multer({ storage });
+  return upload.single('image');
+};
+
 module.exports = {
   authenticationByToken,
   recipeValidate,
   recipeIdValidate,
   licenseToAddValidation,
   licenseToRemoveValidation,
+  uploadFile,
 };

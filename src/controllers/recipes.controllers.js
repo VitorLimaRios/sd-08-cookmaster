@@ -1,4 +1,5 @@
 const useModels = require('../models/recipes.modules');
+const { resolve } = require('path');
 
 const {
   HTTP_201_STATUS,
@@ -54,10 +55,30 @@ const remove = async (req, res) => {
   return res.status(HTTP_204_STATUS).json(removeResult);
 };
 
+const getImage = async (req, res) => {
+  const { filename } = req.params;
+  const filePath = resolve('src/uploads', filename);
+  try {
+    return res.status(STATUS_OK).sendFile(filePath);
+  } catch (e) {
+    res.status(ERROR).send({ message: 'Error to image' });
+  }
+};
+
+const uploadImageById = async (req, res) => {
+  const { id } = req.params;
+  const { path } = req.file;
+  const url = `localhost:3000/${path}`;
+  const result = await useModels.uploadImage(id, url);
+  return res.status(200).json(result);
+};
+
 module.exports = {
   add,
   list,
   find,
   update,
   remove,
+  uploadImageById,
+  getImage,
 };

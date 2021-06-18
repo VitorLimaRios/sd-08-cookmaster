@@ -8,6 +8,7 @@ const RECIPE_NOT_FOUND = 'recipe not found';
 const INTERNAL_ERROR = 'sorry, internal error';
 const MISSING_AUTH_TOKEN = 'missing auth token';
 const WRONG_ID_FORMAT = 'Wrong id format';
+const ERROR_IMAGE = 'Error to image';
 
 module.exports = {
   INVALID_ENTRIES,
@@ -20,4 +21,5 @@ module.exports = {
   INTERNAL_ERROR,
   MISSING_AUTH_TOKEN,
   WRONG_ID_FORMAT,
+  ERROR_IMAGE,
 };
