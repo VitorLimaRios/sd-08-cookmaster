@@ -2,13 +2,37 @@ const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('mongodb');
 
+// codigo de res em algarismos romanos
+const cc = 200;
+const cci = 201;
+const z = 0;
+const cdxxii = 422;
+const cd = 400;
+const cdiv = 404;
+const cdix = 409;
+
+
+const {
+  createUser,
+
+} = require('../services/usersService');
+
+
+
+
+
+
+router.post('/', async(req, res) => {
+  const result = await createUser(req.body);
+  if (result.message){
+    return res.status(cd).json(result);  
+  }
+  res.status(cci).json(result);
+});
 
 
 router.get('/', async(req, res) => {
   res.send('get');
-});
-router.post('/', async(req, res) => {
-  res.send('post');
 });
 router.put('/', async(req, res) => {
   res.send('put');

@@ -1,4 +1,4 @@
-const frisby = require('frisby');
+/* const frisby = require('frisby');
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
 const path = require('path');
@@ -1357,3 +1357,4 @@ describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
   });
 
 });
+ */

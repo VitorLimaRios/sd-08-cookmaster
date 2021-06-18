@@ -1,15 +1,15 @@
+const mongoClient = require('mongodb').MongoClient;
 // colocar query do MongoDB aqui
 
 //A conexão do banco local deverá conter os seguintes parâmetros:
 
-//const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
-const mongoClient = require('mongodb').MongoClient;
+const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
 
 const DB_NAME = 'Cookmaster';
 
 //Para o avaliador funcionar altere a conexão do banco para:
 
-const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
+//const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
 
 
 connection = () =>
