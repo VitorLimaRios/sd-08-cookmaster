@@ -1,7 +1,7 @@
 const { CREATED, OK, NO_CONTENT } = require('../api/constants/statusCodes');
 const { getAllRecipes } = require('../models/recipeModel');
 const {
-  newRecipe, recipeById, updateRecipe, deleteRecipe 
+  newRecipe, recipeById, updateRecipe, deleteRecipe, addRecipeImage 
 } = require('../services/recipeServices');
 
 const createsRecipe = async (req, res) => {
@@ -49,10 +49,19 @@ const deletesRecipe = async(req, res) => {
   return res.status(NO_CONTENT).send();
 };
 
+const addRecipeImageUrl = async(req, res) => {
+  if(req.fileValidationError) return res.status().json();
+  const recipeId = req.params.id;
+  const updatedRecipe = await addRecipeImage(recipeId);
+  
+  res.status(OK).json(updatedRecipe);
+};
+
 module.exports = {
   createsRecipe,
   getsRecipes,
   getsRecipeById,
   updatesRecipe,
   deletesRecipe,
+  addRecipeImageUrl,
 };

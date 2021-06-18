@@ -49,9 +49,23 @@ const deleteRecipe = async(id) => {
   return deletedRecipe;
 };
 
+const addRecipeImage = async(id) => {
+
+  // console.log('BEFORE', await getRecipeById(id));
+
+  const imageUrl = `localhost:3000/src/uploads/${id}.jpeg`;
+  await updateRecipeById({'image': imageUrl}, id);
+  const updatedRecipe = await getRecipeById(id);
+
+  // console.log('AFTER', updatedRecipe);
+
+  return updatedRecipe;
+};
+
 module.exports = {
   newRecipe,
   recipeById,
   updateRecipe,
   deleteRecipe,
+  addRecipeImage,
 };
