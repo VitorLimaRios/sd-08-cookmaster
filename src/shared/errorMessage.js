@@ -7,6 +7,7 @@ const JWT_MALFORMED = 'jwt malformed';
 const RECIPE_NOT_FOUND = 'recipe not found';
 const INTERNAL_ERROR = 'sorry, internal error';
 const MISSING_AUTH_TOKEN = 'missing auth token';
+const WRONG_ID_FORMAT = 'Wrong id format';
 
 module.exports = {
   INVALID_ENTRIES,
@@ -18,4 +19,5 @@ module.exports = {
   RECIPE_NOT_FOUND,
   INTERNAL_ERROR,
   MISSING_AUTH_TOKEN,
+  WRONG_ID_FORMAT,
 };

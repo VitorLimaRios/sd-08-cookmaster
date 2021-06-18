@@ -1,6 +1,13 @@
 const useModels = require('../models/recipes.modules');
 
-const { HTTP_201_STATUS, HTTP_200_STATUS } = require('../shared/httpTypes');
+const {
+  HTTP_201_STATUS,
+  HTTP_200_STATUS,
+  HTTP_204_STATUS,
+  HTTP_400_STATUS,
+} = require('../shared/httpTypes');
+
+const { WRONG_ID_FORMAT } = require('../shared/errorMessage');
 
 const add = async (req, res) => {
   const { name, ingredients, preparation, userId } = req.body;
@@ -34,9 +41,23 @@ const update = async (req, res) => {
   return res.status(HTTP_200_STATUS).json(updateResult);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const removeResult = await useModels.removeRecipe(id);
+
+  if (!removeResult) {
+    return res.status(HTTP_400_STATUS).json({
+      message: WRONG_ID_FORMAT,
+    });
+  }
+
+  return res.status(HTTP_204_STATUS).json(removeResult);
+};
+
 module.exports = {
   add,
   list,
   find,
   update,
+  remove,
 };

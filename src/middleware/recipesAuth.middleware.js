@@ -89,9 +89,22 @@ const licenseToAddValidation = async (req, res, cb) => {
   }
 };
 
+const licenseToRemoveValidation = (req, res, cb) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  const secret = 'seusecretdetoken';
+
+  if (!token) {
+    return res.status(HTTP_401_STATUS).json({
+      message: MISSING_AUTH_TOKEN,
+    });
+  }
+  cb();
+};
+
 module.exports = {
   authenticationByToken,
   recipeValidate,
   recipeIdValidate,
   licenseToAddValidation,
+  licenseToRemoveValidation,
 };
