@@ -9,11 +9,11 @@ const ZERO = 0;
 const validateJWT = async (req, resp, next) => {
   const token = req.headers.authorization;
 
-  if(!token) return resp.status(UNAUTHORIZED).json({ message: 'Token não encontrado!'});
+  if(!token) return resp.status(UNAUTHORIZED).json({ message: 'missing auth token'});
 
   try {
     const decode = jwt.verify(token, keySectret);
-    const { email } = decode.data;
+    const { email, role } = decode.data; 
 
     const user = await RecipesModel.finUserEmail(email);
 

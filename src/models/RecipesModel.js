@@ -42,9 +42,34 @@ const getRecipeID = async (id) => {
   }
 };
 
+const editRecipe = async (ObjectValues) => {
+  const { idUserLogin, idRecipe, name, ingredients, preparation } = ObjectValues;
+  try {
+    const response = await connection().then((db) => db.collection('recipes')
+      .updateOne({_id: ObjectID(idRecipe)}, {$set: { name, ingredients, preparation }}));
+    return {
+      _id: idRecipe,
+      name,
+      ingredients,
+      preparation,
+      userId: idUserLogin,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteRecipeBank = async (idRecipe) => {
+  const response = await connection().then((db) => db.collection('recipes')
+    .deleteOne({_id: ObjectID(idRecipe)}));
+  return response.deletedCount;
+};
+
 module.exports = {
   finUserEmail,
   insertRecipe,
   getRecipes,
   getRecipeID,
+  editRecipe,
+  deleteRecipeBank,
 };

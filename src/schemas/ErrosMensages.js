@@ -21,6 +21,13 @@ const recipeNotFound = {
   }
 };
 
+const UserNotAutorized = {
+  code: 401,
+  message: {
+    message: 'User not autorized'
+  }
+};
+
 // Login
 
 const fieldsMustBeFilled = {
@@ -43,4 +50,5 @@ module.exports = {
   fieldsMustBeFilled,
   IncorrectFields,
   recipeNotFound,
+  UserNotAutorized,
 };

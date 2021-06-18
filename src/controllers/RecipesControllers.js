@@ -2,6 +2,7 @@ const RecipesSerices = require('../services/RecipesServices');
 
 const HTT_SATATUS_OK = 200;
 const CODE_HTTP_CREATE = 201;
+const NO_CONTENT = 204;
 
 const insertRecipe = async (req, resp) => {
   const { name, ingredients, preparation } = req.body;
@@ -30,8 +31,37 @@ const getRecipeID = async (req, resp) => {
   resp.status(HTT_SATATUS_OK).json(response);
 };
 
+const editRecipe = async (req, resp) => {
+  const { id: idRecipe } = req.params;
+  const {_id: idUserLogin, role: typeUser} = req.user;
+  const { name, ingredients, preparation } = req.body;
+
+  const ObjectValues = {
+    idUserLogin, idRecipe, name, ingredients, preparation, typeUser
+  };
+  
+  const response = await RecipesSerices.editRecipe(ObjectValues);
+
+  if(response.code) return resp.status(response.code).json(response.message);
+
+  resp.status(HTT_SATATUS_OK).json(response);
+};
+
+const deleteRecipe = async (req, resp) => {
+  const { id } = req.params;
+  const {_id: idUserLogin, role: typeUser} = req.user;
+
+  const response = await RecipesSerices.deleteRecipe(idUserLogin, id, typeUser);
+
+  if(response.code) return resp.status(response.code).json(response.message);
+
+  resp.status(NO_CONTENT).end();
+};
+
 module.exports = {
   insertRecipe,
   getRecipes,
   getRecipeID,
+  editRecipe,
+  deleteRecipe
 };

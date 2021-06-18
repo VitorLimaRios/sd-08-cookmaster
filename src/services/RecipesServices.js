@@ -31,8 +31,33 @@ const getRecipeID = async (id) => {
   return response[0];
 };
 
+const editRecipe = async (ObjectValues) => {
+
+  const response = await RecipesSchemas
+    .verifiUserAndRecipe(ObjectValues);
+
+  if(response.code) return response;
+
+  const recipeEdit = await RecipesModel.editRecipe(ObjectValues);
+  
+  return recipeEdit;
+};
+
+const deleteRecipe = async (idUserLogin, idRecipe, typeUser) => {
+  const response = await RecipesSchemas
+    .verifiUserAndRecipe(idUserLogin, idRecipe, typeUser);
+  if(response.code) return response;
+
+  const recipeDelete = await RecipesModel.deleteRecipeBank(idRecipe);
+
+  if(recipeDelete === 1) return true;
+  return false;
+};
+
 module.exports = {
   insertRecipe,
   getRecipes,
   getRecipeID,
+  editRecipe,
+  deleteRecipe
 };
