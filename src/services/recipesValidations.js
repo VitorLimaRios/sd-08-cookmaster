@@ -11,13 +11,11 @@ const checkIdSearch = async (req, res, next) => {
 };
 
 const validateToken = async (req, res, next) => {
-  const { authorization } = req.headers;
-  console.log(req.headers);
-  if (!authorization) {
+  const { token } = req.headers;
+  if (!token) {
     return res.status(invalidToken.status).send(invalidToken.sendProblematicToken);
   }
-  return res.status(200).send(authorization);
-  // next();
+  next();
 };
 
 module.exports = { checkIdSearch, validateToken };

@@ -8,9 +8,9 @@ const {
   validateUserCreation,
   checkLoginRequest } = require('../services/usersValidations');
 const {
-  listRecipes, searchRecipe, addTheRecipe } = require('../controllers/recipesController');
+  listRecipes, searchRecipe, addTheRecipe, addRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
-const { getAllTheRecipes } = require('../models/recipesModel');
+const { getAllTheRecipes, addRecipeToDb } = require('../models/recipesModel');
 app.use(bodyParser.json());
 // ...
 
@@ -29,12 +29,18 @@ app.get('/', (_request, response) => {
 app.post('/users', createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
-app.post('/recipes', validateToken);
+app.post('/recipes', validateToken, addRecipe);
 app.get('/recipes:id', checkIdSearch, searchRecipe);
 
 // routes for testing
 app.get('/all', listUsers);
-app.post('/test', validateUserCreation);
+app.post('/test', async (req, res) => {
+  const { token } = req.headers;
+  const recipe = req.body;
+  const test1 = await addRecipeToDb(recipe, token);
+  console.log(test1);
+  res.send(recipe);
+});
 app.get('/user', async (req, res) => {
   const { name } = req.body;
   const foundUser = await users.findUserByName(name);

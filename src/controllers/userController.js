@@ -22,9 +22,7 @@ const createUser = async (req, res) => {
   }
   catch (error) {
     const objMessage = JSON.parse(error.message);
-    return res.status(objMessage.status).send(
-      objMessage.send
-    );
+    return res.status(objMessage.status).send(objMessage.send);
   }
 
 };

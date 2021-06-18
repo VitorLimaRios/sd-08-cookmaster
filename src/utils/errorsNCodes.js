@@ -50,6 +50,9 @@ const errors = {
     emailOrPasswordIsInvalid: UNAUTHORIZED,
   },
   Recipes: {
+    mustHaveName: BAD_REQUEST,
+    mustHaveIngredients: BAD_REQUEST,
+    mustHavePreparation: BAD_REQUEST,
     notFound: NOT_FOUND,
     invalidToken: UNAUTHORIZED
   }
@@ -64,22 +67,22 @@ const errors = {
 //   }
 // }
 
+// Para futura refatoração
+// const errorMessages = { 
+//   validation: {
+//     mustHaveName: 'Invalid entries. Try again.',
+//     mustHaveEmail: 'Invalid entries. Try again.',
+//     mustHavePassword: 'Invalid entries. Try again.',
+//     emailMustBeValid: 'Invalid entries. Try again.',
+//   },
+//   application: {
+//     emailMustBeUnique: 'Email already registered',
+//   },
+//   auth: {
+//     emailOrPasswordIsMissing: 'All fields must be filled',
+//     emailOrPasswordIsInvalid: 'All fields must be filled',
+//   }
+// };
 
-const errorMessages = {
-  validation: {
-    mustHaveName: 'Invalid entries. Try again.',
-    mustHaveEmail: 'Invalid entries. Try again.',
-    mustHavePassword: 'Invalid entries. Try again.',
-    emailMustBeValid: 'Invalid entries. Try again.',
-  },
-  application: {
-    emailMustBeUnique: 'Email already registered',
-  },
-  auth: {
-    emailOrPasswordIsMissing: 'All fields must be filled',
-    emailOrPasswordIsInvalid: 'All fields must be filled',
-  }
-};
 
-
-module.exports = { errors, responsesNCodes, errorMessages };
+module.exports = { errors, responsesNCodes };

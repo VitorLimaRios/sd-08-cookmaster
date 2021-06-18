@@ -3,6 +3,7 @@ const usersModel = require('../models/usersModel');
 const { errors: { Users:
   { mustHaveEmail, mustHaveName, mustHavePassword, emailMustBeValid, emailMustBeUnique } }
 } = require('../utils/errorsNCodes');
+const { tokenGenerateForLogin } = require('../utils/tokenation');
 
 const getAllUsers = async () => await usersModel.getAllTheUsers();
 
@@ -23,7 +24,7 @@ const addNewUser = async ({ name, email, password }) => {
 };
 
 const loginUser = async (username, password) => {
-  return await usersModel.tokenGenerateForLogin(username, password);
+  return await tokenGenerateForLogin(username, password);
 };
 
 

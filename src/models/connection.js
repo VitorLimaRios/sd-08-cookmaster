@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
@@ -7,9 +7,9 @@ const OPTIONS = {
 };
 const urlLocal = 'mongodb://localhost:27017/Cookmaster';
 const urlAval = 'mongodb://mongodb:27017/Cookmaster';
-const urlUsage = (avaliador) => avaliador ? urlAval : urlLocal;
+const urlAvaliador = (avaliador) => avaliador ? urlAval : urlLocal;
 
-const MONGO_DB_URL = urlUsage(false);
+const MONGO_DB_URL = urlAvaliador(false);
 const DB_NAME = 'Cookmaster';
 
 const connection = () => { // depois tentar com o async await

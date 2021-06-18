@@ -1,11 +1,29 @@
 const { ObjectId } = require('mongodb');
 const connection = require('../models/connection');
+const { tokenDecodation } = require('../utils/tokenation');
+const { findUserByEmail } = require('./usersModel');
 
-const addRecipeToDb = async (newRecipe) => {
+const addRecipeToDb = async (newRecipe, tokenToDecode) => {
   const addingTheRecipe = await connection()
     .then((db => db.collection('recipes').insertOne(newRecipe)))
     .then(result => result.ops[0]);
-  return addingTheRecipe;
+  const { data: userEmail } = await tokenDecodation(tokenToDecode);
+  const { _id: userId } = await findUserByEmail(userEmail);
+  const {
+    name: recipeName,
+    ingredients: recipeIng,
+    preparation: recipePrep,
+    _id: recipeInsertId } = addingTheRecipe;
+  return {
+    recipe:
+    {
+      name: recipeName,
+      ingredients: recipeIng,
+      preparation: recipePrep,
+      userId,
+      _id: recipeInsertId
+    }
+  };
 };
 const getAllTheRecipes = async () => {
   const gotAllRecipes = await connection()
