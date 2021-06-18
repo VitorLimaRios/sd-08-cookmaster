@@ -4,7 +4,6 @@ const router = express.Router();
 const {
   validateFields,
   validateEmailFormat,
-  validatePassword
 } = require('../middlewares/loginMiddleware');
 
 const LoginController = require('../controllers/LoginController');
@@ -12,7 +11,6 @@ const LoginController = require('../controllers/LoginController');
 router.post('/',
   validateFields,
   validateEmailFormat,
-  validatePassword,
   LoginController.login
 );
 

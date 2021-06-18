@@ -1,33 +1,27 @@
-const LoginSchema = require('../schema/LoginValidation');
+const UsersModel = require('../models/UsersModel');
 
 const UNAUTHORIZED = 401;
-const error_message = 'All fields must be filled';
+const errors = {
+  incorrect_info: 'Incorrect username or password',
+  error_message: 'All fields must be filled'
+};
 
 const validateFields = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(password);
   if (!email || !password) {
-    return res.status(UNAUTHORIZED).json({ message: error_message });
+    return res.status(UNAUTHORIZED).json({ message: errors.error_message });
   }
   next();
 };
 
 const validateEmailFormat = async (req, res, next) => {
-  const { email } = req.body;
-  const verifyEmail = await LoginSchema.validateEmail(email);
-  console.log(verifyEmail);
-  if (verifyEmail) {
-    return res.status(verifyEmail.UNAUTHORIZED).json({ message: verifyEmail.message });
+  const { email, password } = req.body;
+  const getUser = await UsersModel.getUserByEmail(email);
+  if (!getUser) {
+    return res.status(UNAUTHORIZED).json({ message: errors.incorrect_info });
   }
-  next();
-};
-
-const validatePassword = async (req, res, next) => {
-  const { password } = req.body;
-  const verifyPassword = await LoginSchema.validatePassword(password);
-  if (verifyPassword) {
-    return res.status(verifyPassword.UNAUTHORIZED)
-      .json({ message: verifyPassword.message });
+  if (getUser.password !== password) {
+    return res.status(UNAUTHORIZED).json({ message: errors.incorrect_info });
   }
   next();
 };
@@ -35,5 +29,4 @@ const validatePassword = async (req, res, next) => {
 module.exports = {
   validateFields,
   validateEmailFormat,
-  validatePassword
 };
