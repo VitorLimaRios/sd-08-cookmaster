@@ -51,12 +51,23 @@ const updateRecipe = async(body, params) => {
 
 // 8 - Crie um endpoint para a exclusão de uma receita
 const deleteRecipe = async (idParam) => {
-  console.log('deleteRecipe', idParam);
   const db = await connection();
-  const deletedRecipe = await db.collection('recipes').deleteOne(
+  await db.collection('recipes').deleteOne(
     { _id: ObjectId(idParam) }
   );
-  console.log('receita deletada com sucesso', deletedRecipe);
+};
+
+// 9 - Crie um endpoint para a adição de uma imagem a uma receita
+const createImageField = async(params, host, path) => {
+  const db = await connection();
+  await db.collection('recipes').updateOne(
+    {_id: ObjectId(params.id)},
+    {$set: {
+      image: `${host}/${path}`
+    }}
+  );
+  const isFound = await db.collection('recipes').findOne( {_id: ObjectId(params.id)});
+  return isFound;
 };
 
 module.exports = {
@@ -65,5 +76,6 @@ module.exports = {
   addRecipe,
   getRecipe,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  createImageField
 };

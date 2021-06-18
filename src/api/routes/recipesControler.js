@@ -1,15 +1,20 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const { resolve } = require('path');
+const path = require('path');
 
 const {
   registerRecipe,
   findAllRecipes,
   findRecipe,
   tryUpdate,
-  findToDelete
+  findToDelete,
+  addImage
 } = require('../service/recipesService');
 const { decodeToken } = require('../service/jwt');
+// const { upload } = require('../app');
 
 const app = express();
 
@@ -36,11 +41,17 @@ router.get('/', rescue(async (_req, res) => {
   return end;
 }));
 
+//9 - Crie um endpoint para a adição de uma imagem a uma receita
+
+
 // 7 - Crie um endpoint para a edição de uma receita
-router.put('/:id', rescue(decodeToken), rescue(async (req, res) => {
-  const end = await tryUpdate(req, res);
-  return end;
-}));
+router.put(
+  '/:id',
+  rescue(decodeToken),
+  rescue(async (req, res) => {
+    const end = await tryUpdate(req, res);
+    return end;
+  }));
 
 // 8 - Crie um endpoint para a exclusão de uma receita
 router.delete('/:id',rescue(decodeToken), rescue(async (req, res) => {

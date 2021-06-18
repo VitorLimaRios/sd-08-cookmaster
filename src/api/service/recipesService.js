@@ -13,7 +13,7 @@ const {
   MIN_PASS_LENGTH,
 } = require('./consts');
 const { addRecipe, getAllRecipes, getRecipe,
-  updateRecipe, deleteRecipe} = require('../models/recipesModel');
+  updateRecipe, deleteRecipe, createImageField} = require('../models/recipesModel');
 const { getToken, secret, decodeToken } = require('./jwt');
 
 const app = express();
@@ -77,15 +77,24 @@ const tryUpdate = async (req, res) => {
 // 8 - Crie um endpoint para a exclusão de uma receita
 const findToDelete = async (req, res) => {
   const { params } = req;
-  console.log('findToDelete', params.id);
   await deleteRecipe(params.id);
   return res.status(NO_CONTENT).json();
 };
+
+// 9 - Crie um endpoint para a adição de uma imagem a uma receita
+const addImage = async (req, res) => {
+  const { params, headers: {host}, file: {path} } = req;
+  console.log('Resposta', req.headers.host, req.file.path);
+  const recipeWithImagePath = await createImageField(params, host, path);
+  return res.status(OK).json(recipeWithImagePath);
+};
+
 
 module.exports = {
   findAllRecipes,
   registerRecipe,
   findRecipe,
   tryUpdate,
-  findToDelete
+  findToDelete,
+  addImage
 };

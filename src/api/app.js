@@ -6,6 +6,9 @@ const { router: loginRouter } = require('./routes/loginControler');
 const { router: recipesRouter } = require('./routes/recipesControler');
 const { decodeToken } = require('./service/jwt');
 const { addAdmin } = require('../../seed');
+const multer = require('multer');
+const { addImage } = require('./service/recipesService');
+const rescue = require('express-rescue');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,8 +29,28 @@ async function main() {
 }
 
 main();
+//MULTER
+app.use('/image', express.static(path.join(__dirname, '..', 'uploads')));
 
-app.use('/image', express.static(path.join(__dirname, '..', 'uploadas')));
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => callback(null, 'src/uploads'),
+  filename: (req, file, callback) => {
+    console.log('fileMulter', file);
+    callback(null, `${req.params.id}.jpeg`);
+    console.log('teste');
+  }
+});
+
+const upload = multer({storage});
+
+app.put('/recipes/:id/image/',
+  rescue(decodeToken),
+  upload.single('image'),
+  rescue(async (req, res) => {
+    const end = await addImage(req, res);
+    return end;
+  }));
+// MULTER
 
 app.use('/users', userRouter);
 
