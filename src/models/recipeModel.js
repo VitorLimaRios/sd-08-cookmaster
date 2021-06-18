@@ -1,5 +1,5 @@
 const { RECIPES } = require('./constants');
-const { addNew, getAll, getById, updateById } = require('./functions');
+const { addNew, getAll, getById, updateById, deleteById } = require('./functions');
 
 const addNewRecipe = async(fields) => await addNew({...fields}, RECIPES);
 
@@ -9,9 +9,12 @@ const getRecipeById = async(id) => await getById(id, RECIPES);
 
 const updateRecipeById = async(infos, id) => await updateById(infos, id, RECIPES);
 
+const deleteRecipeById = async(id) => deleteById(id, RECIPES);
+
 module.exports = {
   addNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
+  deleteRecipeById,
 };

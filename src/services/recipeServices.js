@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const { BAD_REQUEST, NOT_FOUND } = require('../api/constants/statusCodes');
 const { RECIPE_NOT_FOUND } = require('../api/constants/statusMessages');
 const {
-  addNewRecipe, getRecipeById, updateRecipeById
+  addNewRecipe, getRecipeById, updateRecipeById, deleteRecipeById
 } = require('../models/recipeModel');
 const { generateError } = require('./errors/generateError');
 const recipeValidation = require('./validations/recipeValidation');
@@ -44,8 +44,14 @@ const updateRecipe = async(recipeInfos, recipeId) => {
   return updatedRecipe;
 };
 
+const deleteRecipe = async(id) => {
+  const deletedRecipe = await deleteRecipeById(id);
+  return deletedRecipe;
+};
+
 module.exports = {
   newRecipe,
   recipeById,
   updateRecipe,
+  deleteRecipe,
 };

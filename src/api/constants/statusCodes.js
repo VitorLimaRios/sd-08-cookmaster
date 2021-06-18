@@ -5,6 +5,7 @@ const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 const CONFLICT = 409;
+const NO_CONTENT = 204;
 
 module.exports = {
   UNPROCESSABLE,
@@ -13,5 +14,6 @@ module.exports = {
   BAD_REQUEST,
   UNAUTHORIZED,
   NOT_FOUND,
-  CONFLICT
+  CONFLICT,
+  NO_CONTENT,
 };

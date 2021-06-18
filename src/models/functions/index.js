@@ -33,11 +33,15 @@ const updateById = async(keysValues, id, collectionName) => {
     {'_id': ObjectId(id)},
     { $set: {...keysValues}}
   );
-  // console.log('AFTER', await getById(id, collectionName));
-  // console.log(updated);
-  const updated = await getById(id, collectionName);
 
+  const updated = await getById(id, collectionName);
   return updated;
+};
+
+const deleteById = async(id, collectionName) => {
+  const db = await connect();
+  const deleted = await db.collection(collectionName).deleteOne({'_id': ObjectId(id)});
+  return deleted;
 };
 
 module.exports = {
@@ -46,4 +50,5 @@ module.exports = {
   getAll,
   getById,
   updateById,
+  deleteById,
 };
