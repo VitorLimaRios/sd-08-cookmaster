@@ -1,6 +1,8 @@
 const { CREATED, OK, NO_CONTENT } = require('../api/constants/statusCodes');
 const { getAllRecipes } = require('../models/recipeModel');
-const { newRecipe, recipeById, updateRecipe, deleteRecipe } = require('../services/recipeServices');
+const {
+  newRecipe, recipeById, updateRecipe, deleteRecipe 
+} = require('../services/recipeServices');
 
 const createsRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
