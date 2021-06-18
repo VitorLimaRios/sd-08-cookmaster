@@ -1,9 +1,13 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const bodyParser = require('body-parser');
 const user = require('../../controllers/user');
 const loginController = require('../../controllers/login');
+const recipes = require('../../controllers/recipes');
 
 const errorMiddleware = require('../../controllers/error');
+const validateJWT = require('../../controllers/jwtValidator');
+const validateRecipeForm = require('../../controllers/formValidator');
 
 const app = express();
 
@@ -19,6 +23,10 @@ app.get('/users', user.getAllUsers );
 app.post('/users', user.createUsers);
 //Criar login
 app.post('/login', loginController);
+//Criar receitas
+app.post('/recipes', validateJWT, validateRecipeForm, rescue(recipes.createRecipe));
+
+
 // //Atualizar produtos
 // app.put('/products/:id', products.updateProduct);
 // //Deletando produtos
