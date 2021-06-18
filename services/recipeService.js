@@ -27,16 +27,21 @@ const create = async (recipes, authorization) => {
 };  
 
 const update = async (id, recipe, authorization) => {
-  if (!recipe) {
+  // if (!recipe) {
+  //   return {      
+  //     message: 'missing auth token'   
+  //   };
+  // }  
+  // if (!authorization) {
+  //   return {      
+  //     message: 'jwt malformed'   
+  //   };    
+  // }
+  if (!authorization) {
     return {      
       message: 'missing auth token'   
     };
   }  
-  if (!authorization) {
-    return {      
-      message: 'jwt malformed'   
-    };    
-  }
   return model.update(id, recipe, authorization);
 };
 

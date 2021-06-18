@@ -75,4 +75,20 @@ router.delete('/:id', async (req, res) => {
   
 });
 
+router.put('/:id/image', rescue (async (req, res) => {  
+  const { authorization } = req.headers; 
+  const { id } = req.params;
+  const recipe = await service.getById(id);
+  const update = { 
+    ...recipe, userId: id, image: `localhost:3000/src/uploads/${id}.jpeg` 
+  };
+  const updatedRecipe = await service.update(id, update, authorization); 
+  if (updatedRecipe.message === 'missing auth token') {
+    res.status(STATUS_401).json(updatedRecipe);     
+  }  
+
+  res.status(STATUS_200).json(updatedRecipe); 
+}));
+  
+
 module.exports = router;
