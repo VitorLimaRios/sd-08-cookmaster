@@ -7,15 +7,17 @@ const { errors: { Users:
 const getAllUsers = async () => await usersModel.getAllTheUsers();
 
 const addNewUser = async ({ name, email, password }) => {
-  if (!name) throw new Error(mustHaveName.send.message);
-  if (!email) throw new Error(mustHaveEmail.send.message);
-  if (!password) throw new Error(mustHavePassword.send.message);
+  if (!name) throw new Error(JSON.stringify(mustHaveName));
+  if (!email) throw new Error(JSON.stringify(mustHaveEmail));
+  if (!password) throw new Error(JSON.stringify(mustHavePassword));
   const EMAIL_VALIDATION = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+?$/gi;
   const checkEmailValid = EMAIL_VALIDATION.test(email);
   if (!checkEmailValid) {
-    throw new Error(emailMustBeUnique.send.message);
+    throw new Error(JSON.stringify(emailMustBeValid));
   }
-  if (await usersModel.findUserByEmail(email)) throw new Error(e);
+  if (await usersModel.findUserByEmail(email)) {
+    throw new Error(JSON.stringify(emailMustBeUnique));
+  }
   const addingUser = await usersModel.createNewUser({ name, email, password });
   return addingUser;
 };

@@ -71,8 +71,6 @@ const errorMessages = {
     mustHaveEmail: 'Invalid entries. Try again.',
     mustHavePassword: 'Invalid entries. Try again.',
     emailMustBeValid: 'Invalid entries. Try again.',
-    emailOrPasswordIsMissing: 'Incorrect username or password',
-    emailOrPasswordIsInvalid: 'Incorrect username or password',
   },
   application: {
     emailMustBeUnique: 'Email already registered',

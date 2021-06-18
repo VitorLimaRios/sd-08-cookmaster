@@ -17,16 +17,14 @@ const login = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
     const addedUser = await usersServices.addNewUser({ name, email, password });
-
     return res.status(CREATED.status).send(addedUser);
   }
   catch (error) {
-    console.error(error);
-    return res.status(422).json({
-      message: error.message,
-    });
+    const objMessage = JSON.parse(error.message);
+    return res.status(objMessage.status).send(
+      objMessage.send
+    );
   }
 
 };
