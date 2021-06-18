@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 const {
-  URL_MONGODB_LOCAL: URL,
+  URL_MONGODB_EVALUATION: URL,
   NAME_OF_DATABASE,
   OPTIONS,
 } = require('../shared/defs');
