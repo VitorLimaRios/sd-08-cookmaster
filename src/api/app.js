@@ -2,13 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const users = require('../models/usersModel');
+const userModel = require('../models/usersModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
 const {
   validateUserCreation,
   checkLoginRequest } = require('../services/usersValidations');
 const {
-  listRecipes, searchRecipe, addTheRecipe, addRecipe } = require('../controllers/recipesController');
+  listRecipes, searchRecipe, addRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
 const { getAllTheRecipes, addRecipeToDb } = require('../models/recipesModel');
 app.use(bodyParser.json());
@@ -34,22 +34,11 @@ app.get('/recipes:id', checkIdSearch, searchRecipe);
 
 // routes for testing
 app.get('/all', listUsers);
-app.post('/test', async (req, res) => {
-  const { token } = req.headers;
-  const recipe = req.body;
-  const test1 = await addRecipeToDb(recipe, token);
-  console.log(test1);
-  res.send(recipe);
-});
-app.get('/user', async (req, res) => {
-  const { name } = req.body;
-  const foundUser = await users.findUserByName(name);
-  if (!foundUser) return res.status(404).send({ message: 'User not found' });
-  return res.status(200).send({ user: foundUser });
-});
+app.post('/test', validateToken, addRecipe); // ué
+app.get('/user', userModel.findUserByName);
 
 app.delete('/users', async (req, res) => {
-  await users.deleteUserByName(req.body.name);
+  await userModel.deleteUserByName(req.body.name);
   return res.status(200).send({ message: `usuário deletado ${req.body.name}` });
 });
 

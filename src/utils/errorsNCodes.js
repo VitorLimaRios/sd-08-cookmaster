@@ -46,15 +46,30 @@ const errors = {
     mustHavePassword: BAD_REQUEST,
     emailMustBeValid: BAD_REQUEST,
     emailMustBeUnique: CONFLICT,
-    emailOrPasswordIsMissing: UNAUTHORIZED,
-    emailOrPasswordIsInvalid: UNAUTHORIZED,
+    emailOrPasswordIsMissing: {
+      status: 401,
+      send: {
+        message: 'All fields must be filled'
+      },
+    },
+    emailOrPasswordIsInvalid: {
+      status: 401,
+      send: {
+        message: 'Incorrect username or password'
+      },
+    },
   },
   Recipes: {
     mustHaveName: BAD_REQUEST,
     mustHaveIngredients: BAD_REQUEST,
     mustHavePreparation: BAD_REQUEST,
     notFound: NOT_FOUND,
-    invalidToken: UNAUTHORIZED
+    invalidToken: {
+      status: 401,
+      send: {
+        message: 'jwt malformed'
+      }
+    }
   }
 };
 

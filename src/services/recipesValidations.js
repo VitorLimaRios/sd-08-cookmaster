@@ -11,9 +11,9 @@ const checkIdSearch = async (req, res, next) => {
 };
 
 const validateToken = async (req, res, next) => {
-  const { token } = req.headers;
-  if (!token) {
-    return res.status(invalidToken.status).send(invalidToken.sendProblematicToken);
+  const { authorization, token } = req.headers;
+  if (!authorization) {
+    throw new Error(invalidToken);
   }
   next();
 };

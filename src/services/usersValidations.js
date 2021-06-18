@@ -38,12 +38,12 @@ const checkLoginRequest = async (req, res, next) => {
   const { email: reqEmail, password: reqPassword } = req.body;
   if (!reqEmail || !reqPassword) {
     return res.status(emailOrPasswordIsMissing.status)
-      .send(emailOrPasswordIsMissing.sendMissing);
+      .send(emailOrPasswordIsMissing.send);
   }
   const existsInDb = await usersModel.findUserByEmail(reqEmail);
   if (!existsInDb || existsInDb.password !== reqPassword) {
     return res.status(emailOrPasswordIsInvalid.status)
-      .send(emailOrPasswordIsInvalid.sendInvalid);
+      .send(emailOrPasswordIsInvalid.send);
   }
   next();
 };

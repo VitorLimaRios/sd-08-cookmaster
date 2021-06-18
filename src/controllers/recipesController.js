@@ -4,16 +4,15 @@ const { OK, CREATED } = responsesNCodes;
 
 const addRecipe = async (req, res) => {
   try {
-    console.log(req);
     const { token } = req.headers;
     const recipe = req.body;
     const addedRecipe = await recipeServices.addTheRecipe(recipe, token);
-    console.log(addRecipe);
     return res.status(CREATED.status).send(addedRecipe);
   } catch (error) {
-    console.log(error);
     const objMessage = JSON.parse(error.message);
-    return res.status(objMessage.status).send(objMessage.send);
+    console.log(objMessage.status, objMessage.send);
+    if (objMessage) return res.status(objMessage.status).send(objMessage.send);
+    return res.status(500).send({ message: 'Unknown error' });
   }
 };
 
