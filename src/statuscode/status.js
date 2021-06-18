@@ -1,0 +1,19 @@
+const OK = 200;
+const CREATE = 201;
+const BAD_REQUEST = 400;
+const NOT_FOUND = 401;
+const CONFLICT = 409;
+const UNPROCESSABLE_ENTITY = 422;
+const INTERNAL_SERVER_ERROR = 500;
+const INVALID_ENTRIES = 'Invalid entries. Try again.';
+
+module.exports={
+  OK,
+  CREATE,
+  NOT_FOUND,
+  BAD_REQUEST,
+  CONFLICT,
+  UNPROCESSABLE_ENTITY,
+  INTERNAL_SERVER_ERROR,
+  INVALID_ENTRIES,
+};
