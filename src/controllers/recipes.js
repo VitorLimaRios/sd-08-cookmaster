@@ -36,11 +36,6 @@ const getRecipeById = async (req, res) => {
     const { id } = req.params;
     const recipe = await recipesService.getRecipeById(id);
 
-    // if (!recipe) {
-    //   error.err.message = 'Wrong id format';
-    //   return res.status(NotFound).json(error);
-    // };
-
     res.status(OK).json(recipe);
   } catch (err) {
     res.status(NotFound).json({ message: err.message });
@@ -79,10 +74,25 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
+
+const uploadImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+    const image = `localhost:3000/${path}`;
+    const imageToUpload = await recipesService.uploadImage(id, image);
+
+    res.status(OK).json(imageToUpload);
+  } catch (err) {
+    res.status(BadRequest).json({ message: 'upload failed' });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  uploadImage
 };
