@@ -6,7 +6,8 @@ const {
   registerRecipe,
   findAllRecipes,
   findRecipe,
-  tryUpdate
+  tryUpdate,
+  findToDelete
 } = require('../service/recipesService');
 const { decodeToken } = require('../service/jwt');
 
@@ -38,6 +39,12 @@ router.get('/', rescue(async (_req, res) => {
 // 7 - Crie um endpoint para a edição de uma receita
 router.put('/:id', rescue(decodeToken), rescue(async (req, res) => {
   const end = await tryUpdate(req, res);
+  return end;
+}));
+
+// 8 - Crie um endpoint para a exclusão de uma receita
+router.delete('/:id',rescue(decodeToken), rescue(async (req, res) => {
+  const end = await findToDelete(req, res);
   return end;
 }));
 

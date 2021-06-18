@@ -6,7 +6,8 @@ const ID_LENGTH = 24;
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 const UNAUTHORIZED = 401;
-const MIN_PASS_LENGTH = 8; 
+const MIN_PASS_LENGTH = 8;
+const NO_CONTENT = 204;
 
 module.exports = {
   UNPROCESSABE_ENTITY,
@@ -17,5 +18,6 @@ module.exports = {
   BAD_REQUEST,
   CONFLICT,
   UNAUTHORIZED,
-  MIN_PASS_LENGTH
+  MIN_PASS_LENGTH,
+  NO_CONTENT
 };

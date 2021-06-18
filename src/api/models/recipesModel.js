@@ -49,10 +49,21 @@ const updateRecipe = async(body, params) => {
   return isFound;
 };
 
+// 8 - Crie um endpoint para a exclusão de uma receita
+const deleteRecipe = async (idParam) => {
+  console.log('deleteRecipe', idParam);
+  const db = await connection();
+  const deletedRecipe = await db.collection('recipes').deleteOne(
+    { _id: ObjectId(idParam) }
+  );
+  console.log('receita deletada com sucesso', deletedRecipe);
+};
+
 module.exports = {
   getAllRecipes,
   getUser,
   addRecipe,
   getRecipe,
-  updateRecipe
+  updateRecipe,
+  deleteRecipe
 };

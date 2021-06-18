@@ -8,11 +8,12 @@ const {
   ID_LENGTH,
   BAD_REQUEST,
   NOT_FOUND,
+  NO_CONTENT,
   UNAUTHORIZED,
   MIN_PASS_LENGTH,
 } = require('./consts');
 const { addRecipe, getAllRecipes, getRecipe,
-  updateRecipe} = require('../models/recipesModel');
+  updateRecipe, deleteRecipe} = require('../models/recipesModel');
 const { getToken, secret, decodeToken } = require('./jwt');
 
 const app = express();
@@ -73,9 +74,18 @@ const tryUpdate = async (req, res) => {
   return res.status(OK).json(updatedRecipe);
 };
 
+// 8 - Crie um endpoint para a exclusão de uma receita
+const findToDelete = async (req, res) => {
+  const { params } = req;
+  console.log('findToDelete', params.id);
+  await deleteRecipe(params.id);
+  return res.status(NO_CONTENT).json();
+};
+
 module.exports = {
   findAllRecipes,
   registerRecipe,
   findRecipe,
-  tryUpdate
+  tryUpdate,
+  findToDelete
 };
