@@ -12,7 +12,12 @@ const tokenGenerateForLogin = async (email, password) => {
 };
 
 const tokenDecodation = async (toDecode) => {
-  const decodationData = jwt.verify(toDecode, secret);
+  const decodationData = jwt.verify(toDecode, secret, (err, decoded) => {
+    if (err) {
+      return null;
+    }
+    return decoded;
+  });
   return (decodationData);
 };
 

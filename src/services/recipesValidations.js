@@ -1,6 +1,8 @@
 const recipesModel = require('../models/recipesModel');
+const usersModel = require('../models/usersModel');
 const { errors } = require('../utils/errorsNCodes');
-const { Recipes: { notFound, invalidToken } } = errors;
+const { tokenDecodation } = require('../utils/tokenation');
+const { Recipes: { notFound, noAuth, invalidToken } } = errors;
 
 const checkIdSearch = async (req, res, next) => {
   const idParams = req.params;
@@ -11,10 +13,16 @@ const checkIdSearch = async (req, res, next) => {
 };
 
 const validateToken = async (req, res, next) => {
-  const { authorization, token } = req.headers;
+  const { authorization } = req.headers;
   if (!authorization) {
-    throw new Error(invalidToken);
+    return res.status(noAuth.status).send(noAuth.send);
   }
+  const dataExists = await tokenDecodation(authorization);
+  if (!dataExists || !dataExists.data) {
+    return res.status(invalidToken.status).send(invalidToken.send);
+  }
+  const validAuth = await usersModel.findUserByEmail(dataExists.data);
+  if (!validAuth) return res.status(invalidToken.status).send(invalidToken.send);
   next();
 };
 

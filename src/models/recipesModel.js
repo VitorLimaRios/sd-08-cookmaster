@@ -8,6 +8,7 @@ const addRecipeToDb = async (newRecipe, tokenToDecode) => {
     .then((db => db.collection('recipes').insertOne(newRecipe)))
     .then(result => result.ops[0]);
   const { data: userEmail } = await tokenDecodation(tokenToDecode);
+  if (!userEmail) return null;
   const { _id: userId } = await findUserByEmail(userEmail);
   const {
     name: recipeName,

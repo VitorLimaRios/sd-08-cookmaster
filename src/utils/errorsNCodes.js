@@ -69,6 +69,12 @@ const errors = {
       send: {
         message: 'jwt malformed'
       }
+    },
+    noAuth: {
+      status: 401,
+      send: {
+        message: 'missing auth token'
+      }
     }
   }
 };
