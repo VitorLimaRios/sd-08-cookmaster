@@ -20,11 +20,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = {
-      name: 'admin',
-      email: 'root@email.com',
-      password: 'admin',
-      role: 'admin',
-    };
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
     await db.collection('users').insertOne(users);
   });
 
@@ -34,10 +30,11 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que o campo "name" é obrigatório', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        email: 'erickjaquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          email: 'erickjaquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
@@ -48,10 +45,11 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que o campo "email" é obrigatório', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          password: '12345678',
+        })
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
@@ -62,11 +60,12 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que não é possível cadastrar usuário com o campo email inválido', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin',
+          password: '12345678',
+        })
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
@@ -77,10 +76,11 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que o campo "senha" é obrigatório', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin',
+        })
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
@@ -91,19 +91,21 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que o campo "email" é único', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 201);
 
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 409)
       .then((response) => {
         const { body } = response;
@@ -114,11 +116,12 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que é possível cadastrar usuário com sucesso', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 201)
       .then((response) => {
         const { body } = response;
@@ -131,11 +134,12 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
 
   it('Será validado que é possível ao cadastrar usuário, o valor do campo "role" tenha o valor "user"', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjaquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjaquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 201)
       .then((response) => {
         const { body } = response;
@@ -164,11 +168,7 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = {
-      name: 'admin',
-      email: 'root@email.com',
-      password: 'admin',
-      role: 'admin',
-    };
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
     await db.collection('users').insertOne(users);
   });
 
@@ -178,9 +178,10 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
 
   it('Será validado que o campo "email" é obrigatório', async () => {
     await frisby
-      .post(`${url}/login/`, {
-        password: '12345678',
-      })
+      .post(`${url}/login/`,
+        {
+          password: '12345678',
+        })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
@@ -191,9 +192,10 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
 
   it('Será validado que o campo "password" é obrigatório', async () => {
     await frisby
-      .post(`${url}/login/`, {
-        email: 'erickjaquin@gmail.com',
-      })
+      .post(`${url}/login/`,
+        {
+          email: 'erickjaquin@gmail.com',
+        })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
@@ -204,10 +206,11 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
 
   it('Será validado que não é possível fazer login com um email inválido', async () => {
     await frisby
-      .post(`${url}/login`, {
-        email: 'erickjaquin@3.com',
-        password: '12345678',
-      })
+      .post(`${url}/login`,
+        {
+          email: 'erickjaquin@3.com',
+          password: '12345678',
+        })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
@@ -218,10 +221,11 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
 
   it('Será validado que não é possível fazer login com uma senha inválida', async () => {
     await frisby
-      .post(`${url}/login`, {
-        email: 'erickjacquin@gmail.com',
-        password: '123456',
-      })
+      .post(`${url}/login`,
+        {
+          email: 'erickjacquin@gmail.com',
+          password: '123456',
+        })
       .expect('status', 401)
       .then((response) => {
         const { body } = response;
@@ -232,20 +236,22 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
 
   it('Será validado que é possível fazer login com sucesso', async () => {
     await frisby
-      .post(`${url}/users/`, {
-        name: 'Erick Jacquin',
-        email: 'erickjacquin@gmail.com',
-        password: '12345678',
-      })
+      .post(`${url}/users/`,
+        {
+          name: 'Erick Jacquin',
+          email: 'erickjacquin@gmail.com',
+          password: '12345678',
+        })
       .expect('status', 201)
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
         return frisby
-          .post(`${url}/login`, {
-            email: result.user.email,
-            password: '12345678',
-          })
+          .post(`${url}/login`,
+            {
+              email: result.user.email,
+              password: '12345678',
+            })
           .expect('status', 200)
           .then((responseLogin) => {
             const { json } = responseLogin;

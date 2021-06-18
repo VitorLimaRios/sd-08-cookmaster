@@ -22,12 +22,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -209,12 +204,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -227,8 +217,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -248,7 +237,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
         expect(result[0].name).toBe('banana caramelizada');
         expect(result[0].ingredients).toBe('banana, açúcar');
         expect(result[0].preparation).toBe(
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana'
+          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
         );
       });
   });
@@ -305,7 +294,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
             expect(json[0].name).toBe('banana caramelizada');
             expect(json[0].ingredients).toBe('banana, açúcar');
             expect(json[0].preparation).toBe(
-              'coloque o açúcar na frigideira até virar caramelo e jogue a banana'
+              'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
             );
             expect(json[1].name).toBe('Receita de frango do Jacquin');
             expect(json[1].ingredients).toBe('Frango');
@@ -331,12 +320,7 @@ describe('5 - Crie um endpoint para visualizar uma receita específica', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -349,8 +333,7 @@ describe('5 - Crie um endpoint para visualizar uma receita específica', () => {
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -540,12 +523,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -558,8 +536,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -819,12 +796,7 @@ describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -837,8 +809,7 @@ describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -1013,12 +984,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -1031,8 +997,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -1043,13 +1008,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
   });
 
   it('Será validado que é possível enviar foto com usuário autenticado', async () => {
-    const photoFile = path.resolve(
-      __dirname,
-      '..',
-      'src',
-      'uploads',
-      'ratinho.jpg'
-    );
+    const photoFile = path.resolve(__dirname, '..', 'src', 'uploads', 'ratinho.jpg');
     const content = fs.createReadStream(photoFile);
     const formData = frisby.formData();
 
@@ -1097,9 +1056,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, {
-        body: formData,
-      })
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200);
   });
 
@@ -1152,16 +1109,12 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, {
-        body: formData,
-      })
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
         result = JSON.parse(body);
-        expect(result.image).toBe(
-          `localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`
-        );
+        expect(result.image).toBe(`localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`);
         expect(result).toHaveProperty('_id');
         expect(result).toHaveProperty('userId');
         expect(result).toHaveProperty('name');
@@ -1211,9 +1164,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
       });
 
     await frisby
-      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, {
-        body: formData,
-      })
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 401);
   });
 
@@ -1278,17 +1229,12 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, {
-        body: formData,
-      })
-
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
         result = JSON.parse(body);
-        expect(result.image).toBe(
-          `localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`
-        );
+        expect(result.image).toBe(`localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`);
         expect(result).toHaveProperty('_id');
         expect(result).toHaveProperty('userId');
         expect(result).toHaveProperty('name');
@@ -1314,12 +1260,7 @@ describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = [
-      {
-        name: 'admin',
-        email: 'root@email.com',
-        password: 'admin',
-        role: 'admin',
-      },
+      { name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' },
       {
         name: 'Erick Jacquin',
         email: 'erickjacquin@gmail.com',
@@ -1332,8 +1273,7 @@ describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
       {
         name: 'banana caramelizada',
         ingredients: 'banana, açúcar',
-        preparation:
-          'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
+        preparation: 'coloque o açúcar na frigideira até virar caramelo e jogue a banana',
       },
     ];
     await db.collection('recipes').insertMany(ListRecipes);
@@ -1392,17 +1332,16 @@ describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
           },
         },
       })
-      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, {
-        body: formData,
-      })
+      .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200);
+
 
     await frisby
       .setup({
         request: {
           headers: {
             Authorization: result.token,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
         },
       })
@@ -1410,9 +1349,11 @@ describe('10 - Crie um endpoint para acessar a imagem de uma receita', () => {
       .expect('status', 200)
       .then((response) => {
         const { headers } = response;
-        const symbol = Object.getOwnPropertySymbols(headers)[0];
-        const contentType = headers[symbol]['content-type'][0];
-        expect(contentType).toBe('image/jpeg');
+        const symbol = Object.getOwnPropertySymbols(headers)[0]
+        const contentType = headers[symbol]['content-type'][0]
+        expect(contentType).toBe('image/jpeg')
+
       });
   });
+
 });
