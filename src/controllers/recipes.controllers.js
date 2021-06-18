@@ -26,8 +26,23 @@ const find = async (req, res) => {
   return res.status(HTTP_200_STATUS).json(searchResult);
 };
 
+const update = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const userId = req.user._id;
+  const { id } = req.params;
+  const updateResult = await useModels.updateRecipe(
+    id,
+    name,
+    ingredients,
+    preparation,
+    userId
+  );
+  return res.status(HTTP_200_STATUS).json(updateResult);
+};
+
 module.exports = {
   add,
   list,
   find,
+  update,
 };

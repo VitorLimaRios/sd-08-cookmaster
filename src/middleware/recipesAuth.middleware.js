@@ -4,6 +4,7 @@ const {
   INVALID_ENTRIES,
   JWT_MALFORMED,
   RECIPE_NOT_FOUND,
+  MISSING_AUTH_TOKEN,
 } = require('../shared/errorMessage');
 const {
   HTTP_400_STATUS,
@@ -14,7 +15,7 @@ const userModels = require('../models/user.models');
 const recipeModels = require('../models/recipes.modules');
 
 const authenticationByToken = async (req, res, cb) => {
-  const token = req.headers['authorization'].split(' ')[1];
+  const token = req.headers['authorization']?.split(' ')[1];
   const secret = 'seusecretdetoken';
 
   if (!token) {
@@ -57,8 +58,40 @@ const recipeIdValidate = async (req, res, cb) => {
   cb();
 };
 
+const licenseToAddValidation = async (req, res, cb) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  const secret = 'seusecretdetoken';
+
+  if (!authorization) {
+    return res.status(HTTP_401_STATUS).json({
+      message: MISSING_AUTH_TOKEN,
+    });
+  }
+
+  const token = authorization.split(' ')[1];
+
+  if (!token) {
+    return res.status(HTTP_401_STATUS).json({
+      message: JWT_MALFORMED,
+    });
+  }
+
+  const decoded = jwt.verify(token, secret);
+
+  const user = await userModels.findOneUserByEmail(decoded.email);
+
+  const recipe = await recipeModels.findOneRecipeById(id);
+
+  if (user._id === recipe.userId || user.role === 'admin' || decoded) {
+    req.user = user;
+    cb();
+  }
+};
+
 module.exports = {
   authenticationByToken,
   recipeValidate,
   recipeIdValidate,
+  licenseToAddValidation,
 };
