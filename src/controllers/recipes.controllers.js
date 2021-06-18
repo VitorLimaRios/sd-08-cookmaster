@@ -70,7 +70,7 @@ const uploadImageById = async (req, res) => {
   const { path } = req.file;
   const url = `localhost:3000/${path}`;
   const result = await useModels.uploadImage(id, url);
-  return res.status(200).json(result);
+  return res.status(HTTP_200_STATUS).json(result);
 };
 
 module.exports = {
