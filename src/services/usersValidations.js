@@ -6,21 +6,26 @@ const {
       emailOrPasswordIsMissing, emailOrPasswordIsInvalid }
   }, } = require('../utils/errorsNCodes');
 
-const checkForBadRequest = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  if (!name) return res.status(mustHaveName.status).send(mustHaveName.send);
-  if (!email) return res.status(mustHaveEmail.status).send(mustHaveEmail.send);
-  if (!password) return res.status(mustHavePassword.status).send(mustHavePassword.send);
-  return next();
-};
+// const checkForBadRequest = async (req, res, next) => {
+
+//   try {
+//     // throw new Error('erro do BadRequest');
+//     const { name, email, password } = req.body;
+//     if (!name) throw new Error(mustHaveName.send.message);
+//     if (!email) throw new Error(mustHaveEmail.send.message);
+//     if (!password) throw new Error(mustHavePassword.send.message);
+//     return next();
+//   } catch (error) {
+//     //console.log(error);
+//     return res.status(422).json({
+//       message: error.message,
+//     });
+//   }
+// };
 
 const checkEmail = async (req, res, next) => {
   const { email } = req.body;
-  const EMAIL_VALIDATION = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+?$/gi;
-  const checkEmailValid = EMAIL_VALIDATION.test(email);
-  if (!checkEmailValid) {
-    return res.status(emailMustBeValid.status).send(emailMustBeValid.send);
-  }
+
   const checkEmailUnique = (await usersModel.getAllTheUsers())
     .find((database) => database.email === email);
   if (checkEmailUnique) {

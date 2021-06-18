@@ -7,7 +7,8 @@ const { createUser, listUsers, login } = require('../controllers/userController'
 const {
   validateUserCreation,
   checkLoginRequest } = require('../services/usersValidations');
-const { listRecipes, searchRecipe, addTheRecipe } = require('../controllers/recipesController');
+const {
+  listRecipes, searchRecipe, addTheRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
 const { getAllTheRecipes } = require('../models/recipesModel');
 app.use(bodyParser.json());
@@ -25,7 +26,7 @@ app.get('/', (_request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.post('/users', validateUserCreation, createUser);
+app.post('/users', createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
 app.post('/recipes', validateToken);
@@ -34,7 +35,6 @@ app.get('/recipes:id', checkIdSearch, searchRecipe);
 // routes for testing
 app.get('/all', listUsers);
 app.post('/test', validateUserCreation);
-
 app.get('/user', async (req, res) => {
   const { name } = req.body;
   const foundUser = await users.findUserByName(name);

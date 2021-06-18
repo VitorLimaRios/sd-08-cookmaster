@@ -5,7 +5,8 @@ const { Recipes: { notFound, invalidToken } } = errors;
 const checkIdSearch = async (req, res, next) => {
   const idParams = req.params;
   const existsInDb = await recipesModel.getRecipeById(idParams.id);
-  if (!existsInDb) return res.status(notFound.status).send(notFound.send);
+  if (!existsInDb) return res
+    .status(notFound.status).send(notFound.send);
   next();
 };
 

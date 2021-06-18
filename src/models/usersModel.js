@@ -11,32 +11,27 @@ const jwt = require('jsonwebtoken');
 
 const getAllTheUsers = async () => {
   const gotAllUsers = await connection()
-    .then((db => db.collection('users').find().toArray()))
-    .then(allUsers => allUsers);
+    .then((db => db.collection('users').find().toArray()));
   return gotAllUsers;
 };
 
 const findUserByName = async (name) => {
   const findingUserName = await connection()
     .then((db => db.collection('users').findOne({ name })));
-  // ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.name === name)?
   return findingUserName;
 };
 
 const findUserByEmail = async (email) => {
   const findingUserName = await connection()
     .then((db => db.collection('users').findOne({ email })));
-  // ou seria melhor fazer um filtro? // const finding = allTheUsers.find(users => users.email === email)?
   return findingUserName;
 };
 
-const createNewUser = async (user) => {
-  let userInformation = user;
-  if (!userInformation.role) userInformation = { role: 'user', ...userInformation, };
-  const { name, role, email } = userInformation;
+const createNewUser = async ({ name, email, password }) => {
+  let userInformation = { name, email, password, role: 'user' };
   const inserting = await connection()
     .then((db => db.collection('users').insertOne(userInformation)));
-  return { name, email, role, _id: inserting.insertedId, };
+  return { name, email, role: inserting.role, _id: inserting.insertedId, };
 };
 
 const secret = 'senha123';
@@ -45,14 +40,15 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const tokenGenerateForLogin = async (username, password) => {
-  const userData = { username, password };
-  const token = jwt.sign({ data: userData.username }, secret, jwtConfig);
-  const decoded = jwt.verify(token, secret);
-  console.log(username);
-  console.log('-----------------');
-  console.log(decoded);
+const tokenGenerateForLogin = async (email, password) => {
+  const userData = { email, password };
+  const token = jwt.sign({ data: userData.email }, secret, jwtConfig);
   return ({ token });
+};
+
+const tokenDecodation = async (toDecode) => {
+  const decodation = jwt.verify(toDecode, secret);
+  return ({ decodation });
 };
 
 const deleteUserByName = async (userName) => {
@@ -61,6 +57,6 @@ const deleteUserByName = async (userName) => {
 
 
 module.exports = {
-  getAllTheUsers,
-  findUserByName, findUserByEmail, createNewUser, tokenGenerateForLogin, deleteUserByName
+  getAllTheUsers, findUserByName, findUserByEmail, createNewUser,
+  tokenGenerateForLogin, tokenDecodation, deleteUserByName
 };

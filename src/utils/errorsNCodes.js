@@ -1,4 +1,4 @@
-const responsesNCodes = {
+const responsesNCodes = { // verificar/pesquisar http-status-code
   OK: {
     status: 200
   },
@@ -55,4 +55,33 @@ const errors = {
   }
 };
 
-module.exports = { errors, responsesNCodes };
+
+// class AppError extends Error {
+//   constructor(message, status) {
+//     super(message);
+
+//     this.status = status,
+//   }
+// }
+
+
+const errorMessages = {
+  validation: {
+    mustHaveName: 'Invalid entries. Try again.',
+    mustHaveEmail: 'Invalid entries. Try again.',
+    mustHavePassword: 'Invalid entries. Try again.',
+    emailMustBeValid: 'Invalid entries. Try again.',
+    emailOrPasswordIsMissing: 'Incorrect username or password',
+    emailOrPasswordIsInvalid: 'Incorrect username or password',
+  },
+  application: {
+    emailMustBeUnique: 'Email already registered',
+  },
+  auth: {
+    emailOrPasswordIsMissing: 'All fields must be filled',
+    emailOrPasswordIsInvalid: 'All fields must be filled',
+  }
+};
+
+
+module.exports = { errors, responsesNCodes, errorMessages };

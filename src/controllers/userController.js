@@ -1,5 +1,6 @@
 // o controller aplica as requisições e responses às funções refinadas do services
 const usersServices = require('../services/usersServices');
+const { errors: { Users: mustHaveEmail, mustHaveName, mustHavePassword } } = require('../utils/errorsNCodes');
 
 const { responsesNCodes: { OK, CREATED } } = require('../utils/errorsNCodes');
 
@@ -10,14 +11,24 @@ const listUsers = async (_req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const tokenGenerated = await usersServices.loginUser(email, password);
-  console.log(email);
   return res.status(OK.status).send(tokenGenerated);
 };
 
 const createUser = async (req, res) => {
-  const newUser = req.body;
-  const addedUser = await usersServices.addNewUser(newUser);
-  return res.status(CREATED.status).send(addedUser);
+  try {
+    const { name, email, password } = req.body;
+
+    const addedUser = await usersServices.addNewUser({ name, email, password });
+
+    return res.status(CREATED.status).send(addedUser);
+  }
+  catch (error) {
+    console.error(error);
+    return res.status(422).json({
+      message: error.message,
+    });
+  }
+
 };
 
 
