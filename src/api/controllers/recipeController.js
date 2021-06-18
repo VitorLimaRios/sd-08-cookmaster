@@ -1,12 +1,9 @@
 const service = require('../service/recipesService');
-const fs = require('fs');
-const path = require('path');
 
 const OK = 200;
 const Created = 201;
 const excluded = 204;
 const notValid = 400;
-const notAuthorized = 401;
 const notFound = 404;
 
 const create = async (req, res) => {
@@ -56,10 +53,20 @@ const exclude = async (req, res) => {
   res.status(excluded).json();
 };
 
+const upload = async (req, res) => {
+  const { id } = req.params;
+  const { path } = req.file;
+  const imagePath = `localhost:3000/${path}`;
+
+  const result = await service.uploadRecipeImage(id, imagePath);
+  return res.status(OK).json(result);
+};
+
 module.exports = {
   create,
   getAll,
   getRecipeById,
   updateRecipes,
   exclude,
+  upload,
 };

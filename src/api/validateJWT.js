@@ -3,7 +3,6 @@ const user = require('./models/userModel');
 
 const secret = 'odeioBackEnd';
 const invalid = 401; 
-const invalid_status = 400;
 
 module.exports = async (req, res, next) => {
   const token = req.headers['authorization'];

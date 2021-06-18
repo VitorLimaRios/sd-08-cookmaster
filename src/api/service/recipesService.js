@@ -39,10 +39,16 @@ const excludeRecipe = async (id) => {
   await recipes.exclude(id);
 };
 
+const uploadRecipeImage = async (id, path) => {
+  const updatedImage = await recipes.upload(id, path);
+  return updatedImage;
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   excludeRecipe,
+  uploadRecipeImage,
 };
