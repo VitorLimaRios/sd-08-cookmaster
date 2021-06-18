@@ -2,6 +2,7 @@ const connection = require('./connection');
 const {
   CONFLICT,
 } = require('../service/consts');
+// const { addAdmin} = require('../../../seed');
 
 // 1 - Crie um endpoint para o cadastro de usuários
 
@@ -28,3 +29,4 @@ module.exports = {
   verifyConflictEmails,
   addUser
 };
+
