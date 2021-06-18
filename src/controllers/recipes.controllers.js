@@ -27,16 +27,10 @@ const find = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { name, ingredients, preparation } = req.body;
+  const entries = req.body;
   const userId = req.user._id;
   const { id } = req.params;
-  const updateResult = await useModels.updateRecipe(
-    id,
-    name,
-    ingredients,
-    preparation,
-    userId
-  );
+  const updateResult = await useModels.updateRecipe(id, entries, userId);
   return res.status(HTTP_200_STATUS).json(updateResult);
 };
 

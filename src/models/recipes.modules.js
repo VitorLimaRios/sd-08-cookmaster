@@ -33,10 +33,12 @@ const findOneRecipeById = async (id) => {
   return searchResult;
 };
 
-const updateRecipe = async (id, name, ingredients, preparation, userId) => {
+const updateRecipe = async (id, entries, userId) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
+
+  const { name, ingredients, preparation } = entries;
 
   const db = await connection();
   await db
