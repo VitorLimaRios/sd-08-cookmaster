@@ -9,4 +9,6 @@ router.get('/', RecipeController.getAllRecipes);
 
 router.post('/', middlewares.auth, RecipeController.createRecipe);
 
+router.put('/:id', middlewares.auth, RecipeController.editRecipe);
+
 module.exports = router;
