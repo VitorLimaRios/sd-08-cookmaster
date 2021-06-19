@@ -1,7 +1,7 @@
 const express = require('express');
 
 const users = require('../controllers/usersController');
-
+const login = require('../controllers/loginController');
 
 
 const app = express();
@@ -14,6 +14,7 @@ app.get('/', (request, response) => {
 
 
 app.use('/users', users);
+app.use('/login', login);
 
 
 module.exports = app;
