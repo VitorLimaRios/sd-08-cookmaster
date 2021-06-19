@@ -4,6 +4,7 @@ const { checkRecipesData } = require('../middlewares');
 const userSchemas = require('../schemas');
 const Created = '201';
 const Unauthorized = '401';
+const OK = '200';
 
 
 
@@ -20,6 +21,11 @@ recipesController.post('/', checkRecipesData(userSchemas), async (req, res) => {
   if (!valid) return res.status(Unauthorized).json({ message: 'jwt malformed' });
   const recipe = await models.create(name, ingredients, preparation, valid._id);
   res.status(Created).json({ recipe: recipe.ops[0] });
+});
+
+recipesController.get('/', async (_req, res) => {
+  const recipes = await models.getAll();
+  res.status(OK).send(recipes);
 });
 
 module.exports = recipesController;

@@ -12,4 +12,8 @@ const findId = async (id) => {
   );
 };
 
-module.exports = { create, findId };   
+const getAll = async () => 
+  connection() 
+    .then ((db) => db.collection('recipes').find().toArray());
+
+module.exports = { create, findId, getAll };   
