@@ -5,6 +5,9 @@ const responsesNCodes = { // verificar/pesquisar http-status-code
   CREATED: {
     status: 201
   },
+  NO_CONTENT: {
+    status: 204
+  },
   BAD_REQUEST: {
     status: 400,
     send: {

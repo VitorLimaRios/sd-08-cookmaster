@@ -9,7 +9,7 @@ const {
   validateUserCreation,
   checkLoginRequest } = require('../services/usersValidations');
 const {
-  listRecipes, searchRecipe, addRecipe, updateRecipe } = require('../controllers/recipesController');
+  listRecipes, searchRecipe, addRecipe, updateRecipe, deleteRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
 app.use(bodyParser.json());
 // ...
@@ -32,6 +32,7 @@ app.get('/recipes', listRecipes);
 app.post('/recipes', validateToken, addRecipe);
 app.get('/recipes/:id', checkIdSearch, searchRecipe);
 app.put('/recipes/:id', validateToken, checkIdSearch, updateRecipe);
+app.delete('/recipes/:id', validateToken, checkIdSearch, deleteRecipe);
 
 // routes for testing
 app.get('/users', listUsers);
