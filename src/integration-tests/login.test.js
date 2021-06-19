@@ -38,7 +38,6 @@ describe('É possível fazer login em POST /login', () => {
           email: 'emailInválido',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('Retorna um objeto com a mensagem de error', () => {
@@ -72,7 +71,6 @@ describe('É possível fazer login em POST /login', () => {
           email: 'teste@gmail.com',
           password: 'senhaErrada'
         })
-        .then((response) => response);
     });
 
     it('Retorna um objeto com a mensagem de error', () => {
@@ -106,7 +104,6 @@ describe('É possível fazer login em POST /login', () => {
           email: 'teste@gmail.com',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('Retorna um objeto contendo o token', () => {

@@ -55,7 +55,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno',
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -94,7 +93,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno',
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -143,7 +141,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -192,7 +189,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a receita editada', () => {
@@ -245,7 +241,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a receita editada', () => {
@@ -288,7 +283,6 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {

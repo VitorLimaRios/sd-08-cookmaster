@@ -54,7 +54,6 @@ describe('É possível adicionar uma imagem para a receita PUT /recipes/:id/imag
       response = await chai.request(app)
         .put(`/recipes/${recipeId}/image`)
         .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')), 'imageMock.jpg')
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -88,7 +87,6 @@ describe('É possível adicionar uma imagem para a receita PUT /recipes/:id/imag
         .put(`/recipes/${recipeId}/image`)
         .set('Authorization', 'invalidToken')
         .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')), 'imageMock.jpg')
-        .then((response) => response);
     });
     
     it('retorna um objeto com a mensagem de error', () => {
@@ -183,7 +181,6 @@ describe('É possível adicionar uma imagem para a receita PUT /recipes/:id/imag
         .put(`/recipes/${recipeId}/image`)
         .set('Authorization', token)
         .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')), 'imageMock.jpg')
-        .then((response) => response);
     });
     
     it('retorna um objeto com a mensagem de error', () => {
@@ -230,7 +227,6 @@ describe('É possível adicionar uma imagem para a receita PUT /recipes/:id/imag
         .put(`/recipes/${recipeId}/image`)
         .set('Authorization', token)
         .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')), 'imageMock.jpg')
-        .then((response) => response);
     });
     
     it('retorna um objeto com a receita tendo a imagem alterada', () => {
@@ -268,7 +264,6 @@ describe('É possível adicionar uma imagem para a receita PUT /recipes/:id/imag
         .put(`/recipes/${ObjectId()}/image`)
         .set('Authorization', token)
         .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')), 'imageMock.jpg')
-        .then((response) => response);
     });
     
     it('retorna um objeto com a mensagem de error', () => {

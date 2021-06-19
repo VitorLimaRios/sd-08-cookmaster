@@ -52,7 +52,6 @@ describe('É possível remover uma receita em DELETE /recipes/:id', () => {
       response = await chai.request(app)
         .delete(`/recipes/${recipeId}`)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -132,7 +131,6 @@ describe('É possível remover uma receita em DELETE /recipes/:id', () => {
         .delete(`/recipes/${ObjectId()}`)
         .set('Authorization', token)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {
@@ -178,7 +176,6 @@ describe('É possível remover uma receita em DELETE /recipes/:id', () => {
         .delete(`/recipes/${recipeId}`)
         .set('Authorization', token)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de error', () => {

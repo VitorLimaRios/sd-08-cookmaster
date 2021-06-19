@@ -41,7 +41,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: 'teste@gmail.com',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a mensagem de error', () => {
@@ -68,7 +67,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: 'teste@gmail.com',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a mensagem de error', () => {
@@ -114,7 +112,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: payloadUser2.email,
           password: payloadUser2.password
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a mensagem de error', () => {
@@ -152,7 +149,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: 'admin@gmail.com',
           password: 'aiaiaiuiui',
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com os dados do usuário admin cadastrado', () => {
@@ -191,7 +187,6 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: 'admin@gmail.com',
           password: 'aiaiaiuiui',
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com a mensagem de erro', () => {

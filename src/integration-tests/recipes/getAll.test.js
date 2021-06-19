@@ -50,7 +50,6 @@ describe('É possível recuperar todas as receitas em GET /recipes', () => {
       response = await chai.request(app)
         .get('/recipes')
         .send()
-        .then((response) => response);
     });
 
     it('retorna um array contendo as receitas', () => {
@@ -70,7 +69,6 @@ describe('É possível recuperar todas as receitas em GET /recipes', () => {
       response = await chai.request(app)
         .get('/recipes')
         .send()
-        .then((response) => response);
     });
 
     it('retorna um array vazio', () => {

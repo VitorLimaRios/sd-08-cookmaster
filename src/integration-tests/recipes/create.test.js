@@ -42,7 +42,6 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('Retorna um objeto com a mensagem de error', () => {
@@ -66,7 +65,6 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('Retorna um objeto com a mensagem de error', () => {
@@ -106,7 +104,6 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
           ingredients: 'Frango, sazon',
           preparation: '10 minutos no forno'
         })
-        .then((response) => response);
     });
 
     it('Deverá retornar um objeto com a receita criada', () => {

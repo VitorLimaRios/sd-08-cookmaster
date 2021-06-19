@@ -39,7 +39,6 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
           email: 'teste@gmail.com',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto', () => {
@@ -62,7 +61,6 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
           email: 'teste@gmail.com',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com uma mensagem de error', () => {
@@ -84,7 +82,6 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
           name: 'Teste',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com uma mensagem de error', () => {
@@ -106,7 +103,6 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
           name: 'Teste',
           email: 'teste@gmail.com',
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com uma mensagem de error', () => {
@@ -129,7 +125,6 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
           email: 'emailInválido',
           password: '12345678'
         })
-        .then((response) => response);
     });
 
     it('retorna um objeto com uma mensagem de error', () => {

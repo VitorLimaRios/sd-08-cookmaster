@@ -49,7 +49,6 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       response = await chai.request(app)
         .get(`/recipes/${recipeId}`)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a receita', () => {
@@ -70,7 +69,6 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       response = await chai.request(app)
         .get(`/recipes/${ObjectId()}`)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a mensagem de erro', () => {
@@ -89,7 +87,6 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       response = await chai.request(app)
         .get(`/recipes/invalidId`)
         .send()
-        .then((response) => response);
     });
 
     it('retorna um objeto contendo a mensagem de erro', () => {
