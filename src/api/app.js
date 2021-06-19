@@ -26,6 +26,8 @@ app.post('/login', loginController);
 app.post('/recipes', validateJWT, validateRecipeForm, recipes.createRecipe);
 //Pegar todas as receitas
 app.get('/recipes', recipes.getAll);
+//Pegar receitas pelo ID
+app.get('/recipes/:id', recipes.getById);
 
 
 // //Atualizar produtos
