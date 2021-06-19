@@ -29,5 +29,10 @@ router.delete('/:id',
   validateMissingToken,
   RecipesController.deleteRecipe
 );
+router.put('/:id/image',
+  validateMissingToken,
+  validateTokenAuthentication,
+  RecipesController.addImage,
+);
 
 module.exports = router;
