@@ -3,7 +3,9 @@ const UserController = require('./users/controllers/User');
 
 const router = Router();
 
-router.get('/', UserController.index);
-router.post('/', UserController.store);
+router.get('/users', UserController.index);
+router.post('/users', UserController.store);
+
+router.post('/login', UserController.login);
 
 module.exports = router;
