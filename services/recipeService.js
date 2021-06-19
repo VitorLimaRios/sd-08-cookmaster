@@ -1,5 +1,7 @@
 const model = require('../models/recipeModel');
 const getAll = async () => model.getAll();
+const jwt = require('jsonwebtoken');
+const secret = require('../utils/crypto');
 
 const getById = async (id) => {
   const recipe = await model.getById(id);
@@ -26,17 +28,19 @@ const create = async (recipes, authorization) => {
 };  
 
 const update = async (id, recipe, authorization) => {
-
-  if (!id) {
-    return {      
-      message: 'jwt malformed'  
-    };
-  }  
   if (!authorization) {
     return {      
       message: 'missing auth token'   
     };
   }  
+  try {
+    jwt.verify(authorization, secret);
+  } catch (error) {
+    return {      
+      message: 'jwt malformed'  
+    };
+  }
+
   return model.update(id, recipe, authorization);
 };
 
