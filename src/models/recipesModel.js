@@ -56,4 +56,6 @@ const deleteRecipeById = async (id) => {
 
 
 
-module.exports = { getAllTheRecipes, getRecipeById, addRecipeToDb, updateRecipeById, deleteRecipeById };
+module.exports = {
+  getAllTheRecipes, getRecipeById, addRecipeToDb, updateRecipeById, deleteRecipeById
+};

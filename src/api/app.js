@@ -2,14 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const userModel = require('../models/usersModel');
-const recipesModel = require('../models/recipesModel');
+// const userModel = require('../models/usersModel');
+// const recipesModel = require('../models/recipesModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
+const { checkLoginRequest } = require('../services/usersValidations');
 const {
-  validateUserCreation,
-  checkLoginRequest } = require('../services/usersValidations');
-const {
-  listRecipes, searchRecipe, addRecipe, updateRecipe, deleteRecipe } = require('../controllers/recipesController');
+  listRecipes, searchRecipe, addRecipe,
+  updateRecipe, deleteRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
 app.use(bodyParser.json());
 // ...
@@ -35,18 +34,18 @@ app.put('/recipes/:id', validateToken, checkIdSearch, updateRecipe);
 app.delete('/recipes/:id', validateToken, checkIdSearch, deleteRecipe);
 
 // routes for testing
-app.get('/users', listUsers);
+// app.get('/users', listUsers);
 // app.put('/recipes/:id', async (req, res) => {
 //   const idParams = req.params;
 //   await recipesModel.updateRecipeById(idParams.id, req.body);
 //   const updated = await recipesModel.getRecipeById(idParams.id);
 //   return res.send({ updatedRecipe: updated });
 // });
-app.get('/user', userModel.findUserByName);
+// app.get('/user', userModel.findUserByName);
 
-app.delete('/users', async (req, res) => {
-  await userModel.deleteUserByName(req.body.name);
-  return res.status(200).send({ message: `usuário deletado ${req.body.name}` });
-});
+// app.delete('/users', async (req, res) => {
+//   await userModel.deleteUserByName(req.body.name);
+//   return res.status(200).send({ message: `usuário deletado ${req.body.name}` });
+// });
 
 module.exports = app;
