@@ -4,6 +4,7 @@ const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
 const jwt = require('jsonwebtoken');
+const RecipeModel = require('../../models/recipe');
 
 const app = require('../../api/app');
 const getConnection = require('../getConnection');
@@ -30,7 +31,6 @@ describe('É possível remover uma receita em DELETE /recipes/:id', () => {
     MongoClient.connect.restore();
     connection.close();
   });
-
 
   describe('Quando não for enviado o token', () => {
     let response;
@@ -187,6 +187,56 @@ describe('É possível remover uma receita em DELETE /recipes/:id', () => {
 
     it('retorna status 403', () => {
       expect(response).to.have.status(403);
+    });
+  });
+
+  describe('Quando ocorrer algum erro na remoção da receita', () => {
+    let response;
+
+    beforeEach(async () => {
+      const userId = ObjectId();
+      const recipeId = ObjectId();
+
+      const payloadUser = {
+        _id: userId,
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
+
+      const payloadRecipe = {
+        _id: recipeId,
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
+        userId: userId
+      };
+
+      const db = await conn.db('Cookmaster');
+      await db.collection('recipes').insertOne(payloadRecipe);
+      await db.collection('users').insertOne(payloadUser);
+
+      const { _id, email, role } = payloadUser;
+      const token = jwt.sign({ id: _id, email, role }, secret);
+
+      sinon.stub(RecipeModel, 'remove').resolves(null);
+
+      response = await chai.request(app)
+        .delete(`/recipes/${recipeId}`)
+        .set('Authorization', token)
+        .send()
+        .then((recipe) => recipe);
+    });
+
+    afterEach(() => RecipeModel.remove.restore());
+
+    it('retorna um objeto com a mensagem de erro', () => {
+      expect(response.body.message).to.equal('Deletion failed');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
     });
   });
 });

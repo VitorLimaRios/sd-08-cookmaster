@@ -29,7 +29,6 @@ describe('É possível recuperar todas as receitas em GET /recipes', () => {
     connection.close();
   });
 
-
   describe('Quando encontrar receitas no banco de dados', () => {
     let response;
 

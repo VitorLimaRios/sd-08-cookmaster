@@ -81,4 +81,23 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       expect(response).to.have.status(404);
     });
   });
+
+  describe('Quando o Id for inválido', () => {
+    let response;
+
+    beforeEach(async () => {
+      response = await chai.request(app)
+        .get(`/recipes/invalidId`)
+        .send()
+        .then((response) => response);
+    });
+
+    it('retorna um objeto contendo a mensagem de erro', () => {
+      expect(response.body.message).to.equal('recipe not found');
+    });
+
+    it('retorna status 404', () => {
+      expect(response).to.have.status(404);
+    });
+  });
 });
