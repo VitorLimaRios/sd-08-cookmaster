@@ -6,7 +6,7 @@ const path = require('path');
 const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
 const url = 'http://localhost:3000';
 
-xdescribe('3 - Crie um endpoint para o cadastro de receitas', () => {
+describe('3 - Crie um endpoint para o cadastro de receitas', () => {
   let connection;
   let db;
 
@@ -188,7 +188,7 @@ xdescribe('3 - Crie um endpoint para o cadastro de receitas', () => {
   });
 });
 
-xdescribe('4 - Crie um endpoint para a listagem de receitas', () => {
+describe('4 - Crie um endpoint para a listagem de receitas', () => {
   let connection;
   let db;
 
@@ -304,7 +304,7 @@ xdescribe('4 - Crie um endpoint para a listagem de receitas', () => {
   });
 });
 
-xdescribe('5 - Crie um endpoint para visualizar uma receita específica', () => {
+describe('5 - Crie um endpoint para visualizar uma receita específica', () => {
   let connection;
   let db;
 
@@ -507,7 +507,7 @@ xdescribe('5 - Crie um endpoint para visualizar uma receita específica', () => 
   });
 });
 
-xdescribe('7 - Crie um endpoint para a edição de uma receita', () => {
+describe('7 - Crie um endpoint para a edição de uma receita', () => {
   let connection;
   let db;
 
@@ -780,7 +780,7 @@ xdescribe('7 - Crie um endpoint para a edição de uma receita', () => {
   });
 });
 
-xdescribe('8 - Crie um endpoint para a exclusão de uma receita', () => {
+describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
   let connection;
   let db;
 

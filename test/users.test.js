@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
 const url = 'http://localhost:3000';
 
-xdescribe('1 - Crie um endpoint para o cadastro de usuários', () => {
+describe('1 - Crie um endpoint para o cadastro de usuários', () => {
   let connection;
   let db;
 
@@ -152,7 +152,7 @@ xdescribe('1 - Crie um endpoint para o cadastro de usuários', () => {
   });
 });
 
-xdescribe('2 - Crie um endpoint para o login de usuários', () => {
+describe('2 - Crie um endpoint para o login de usuários', () => {
   let connection;
   let db;
 
