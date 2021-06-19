@@ -29,9 +29,28 @@ const editRecipe = async (recipeId, updates, user) => {
   return RecipeModel.editRecipe(recipeId, { ...updates, userId: user.userId });
 };
 
+const deleteRecipe = async (recipeId, user) => {
+  const recipe = await RecipeModel.getRecipeById(recipeId);
+
+  if (!recipe) {
+    return customError('Recipe not found');
+  }
+
+  if (!await getAccess(recipe, user)) {
+    return customError('Forbidden', 'forbidden');
+  }
+
+  const result = await RecipeModel.deletRecipe(recipeId);
+
+  if (!result) return customError('Deletion failed');
+
+  return result;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
-  editRecipe
+  editRecipe,
+  deleteRecipe
 };

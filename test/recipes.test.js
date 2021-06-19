@@ -507,7 +507,7 @@ xdescribe('5 - Crie um endpoint para visualizar uma receita específica', () => 
   });
 });
 
-describe('7 - Crie um endpoint para a edição de uma receita', () => {
+xdescribe('7 - Crie um endpoint para a edição de uma receita', () => {
   let connection;
   let db;
 
@@ -780,7 +780,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
   });
 });
 
-xdescribe('8 - Crie um endpoint para a exclusão de uma receita', () => {
+describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
   let connection;
   let db;
 
