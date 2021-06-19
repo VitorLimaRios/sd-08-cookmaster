@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const usersModels = require('../models/users');
-const { Error400, Error401, Error409 } = require('../errors/');
+const { Error400, Error401, Error409, Error403 } = require('../errors/');
 
 const secret = 'umaSenhaMuitoDoida';
 const validEmailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -33,6 +33,26 @@ const add = async (user) => {
   return userInfo;
 };
 
+const addAdmin = async (newUser, creatorUser) => {
+  const { error } = createUserSchema.validate(newUser);
+
+  if (error) {
+    throw new Error400('Invalid entries. Try again.');
+  }
+
+  if (creatorUser.role !== 'admin') {
+    throw new Error403('Only admins can register new admins');
+  }
+
+  if (!newUser.role) {
+    newUser = { ...newUser, role: 'admin' };
+  }
+
+  const { password, ...userInfo } = await usersModels.add(newUser);
+
+  return userInfo;
+};
+
 const login = async (userLogin) => {
   if (!userLogin.email || !userLogin.password) {
     throw new Error401('All fields must be filled');
@@ -58,5 +78,6 @@ const login = async (userLogin) => {
 
 module.exports = {
   add,
+  addAdmin,
   login,
 };

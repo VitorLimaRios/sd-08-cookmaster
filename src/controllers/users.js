@@ -11,6 +11,14 @@ const add = async (req, res) => {
   return res.status(CREATED).json({ user: result });
 };
 
+const addAdmin = async (req, res) => {
+  const { body, user } = req;
+
+  const result = await usersServices.addAdmin(body, user);
+
+  return res.status(CREATED).json({ user: result });
+};
+
 const login = async (req, res) => {
   const { body } = req;
 
@@ -21,5 +29,6 @@ const login = async (req, res) => {
 
 module.exports = {
   add,
+  addAdmin,
   login,
 };

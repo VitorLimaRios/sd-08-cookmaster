@@ -31,6 +31,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', rescue(Users.add));
+app.post('/users/admin', validateJWT, rescue(Users.addAdmin));
 app.post('/login', rescue(Users.login));
 
 app.post('/recipes', validateJWT, rescue(Recipes.add));
