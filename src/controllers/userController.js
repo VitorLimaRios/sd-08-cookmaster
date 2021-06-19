@@ -5,7 +5,7 @@ const addUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const result = await userService.addUser(name, email, password);
-    console.log(result);
+    // console.log(result);
     if (result !== null) {
       return res.status(status.CREATE).json({ user: result });
     }
