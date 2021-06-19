@@ -6,7 +6,7 @@ const getAll = async () => {
   const allRecipes = await Recipes.getAll();
 
   if (allRecipes.length === zeroRecipes) {
-    return { message: 'Recipes not found' };
+    return null;
   }
   return allRecipes;
 };
