@@ -10,6 +10,7 @@ const createUserSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().pattern(validEmailRegex).required(),
   password: Joi.string().required(),
+  role: Joi.string(),
 });
 
 const add = async (user) => {
@@ -24,10 +25,10 @@ const add = async (user) => {
   }
 
   if (!user.role) {
-    user = { ...user, role: 'user'};
+    user = { ...user, role: 'user' };
   }
 
-  const {password, ...userInfo} = await usersModels.add(user);
+  const { password, ...userInfo } = await usersModels.add(user);
 
   return userInfo;
 };

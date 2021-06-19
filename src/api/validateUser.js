@@ -9,11 +9,11 @@ const validateUser = async (req, res, next) => {
   const { user } = req;
 
   if (!ObjectId.isValid(id)) {
-    return res.status(BAD_REQUEST).json({message: 'invalid id'});
+    return res.status(BAD_REQUEST).json({ message: 'invalid id' });
   }
   const getRecipe = await recipesModels.getById(id);
   if (!getRecipe) {
-    return res.status(NOT_FOUND).json({message: 'recipe not found'});
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
   }
 
   const recipeCreatorId = ObjectId(getRecipe.userId).toString();
