@@ -65,6 +65,21 @@ const deleteRecipeBank = async (idRecipe) => {
   return response.deletedCount;
 };
 
+const addImageRecipeBank = async (idRecipe, image) => {
+  try {
+    await connection().then((db) => db.collection('recipes')
+      .updateOne({_id: ObjectID(idRecipe)}, {$set: { image }}));
+    
+    const responseFind = await connection()
+      .then((db) => ObjectID(idRecipe) ? db.collection('recipes')
+        .find({_id: ObjectID(idRecipe)}).toArray(): false);
+    return responseFind[0];
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   finUserEmail,
   insertRecipe,
@@ -72,4 +87,5 @@ module.exports = {
   getRecipeID,
   editRecipe,
   deleteRecipeBank,
+  addImageRecipeBank,
 };

@@ -4,6 +4,7 @@ const HTT_SATATUS_OK = 200;
 const CODE_HTTP_CREATE = 201;
 const NO_CONTENT = 204;
 
+
 const insertRecipe = async (req, resp) => {
   const { name, ingredients, preparation } = req.body;
   const { _id } = req.user;
@@ -58,10 +59,22 @@ const deleteRecipe = async (req, resp) => {
   resp.status(NO_CONTENT).end();
 };
 
+const addImageRecipe = async (req, resp) => {
+  const { id: idRecipe } = req.params;
+  const {_id: idUserLogin, role: typeUser} = req.user;
+
+  const response =  await RecipesSerices.addImageRecipe(idUserLogin, idRecipe, typeUser);
+
+  if(response.code) return resp.status(response.code).json(response.message);
+
+  resp.status(HTT_SATATUS_OK).json(response);
+};
+
 module.exports = {
   insertRecipe,
   getRecipes,
   getRecipeID,
   editRecipe,
-  deleteRecipe
+  deleteRecipe,
+  addImageRecipe,
 };

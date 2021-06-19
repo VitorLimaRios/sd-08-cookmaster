@@ -54,10 +54,24 @@ const deleteRecipe = async (idUserLogin, idRecipe, typeUser) => {
   return false;
 };
 
+const addImageRecipe = async (idUserLogin, idRecipe, typeUser) => {
+
+  const response = await RecipesSchemas
+    .verifiUserAndRecipe(idUserLogin, idRecipe, typeUser);
+  if(response.code) return response;
+
+  const imageRecipe = RecipesSchemas.AddKeyRecipeId(idRecipe);
+  const { image } = imageRecipe;
+
+  const bank = RecipesModel.addImageRecipeBank(idRecipe, image);
+  return bank;
+};
+
 module.exports = {
   insertRecipe,
   getRecipes,
   getRecipeID,
   editRecipe,
-  deleteRecipe
+  deleteRecipe,
+  addImageRecipe
 };

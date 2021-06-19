@@ -2,6 +2,8 @@ const { validateEntries, recipeNotFound, UserNotExists } = require('./ErrosMensa
 const RecipesModel = require('../models/RecipesModel');
 const ZERO = 0;
 
+const multer = require('multer');
+
 const NewObjectRecipe = (obj) => {
   const { name, ingredients, preparation, _id } = obj;
 
@@ -56,10 +58,33 @@ const verifiUserAndRecipe = async (ObjectValues) => {
   return true;
 };
 
+const multerUpload = () => {
+
+  const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, 'src/uploads/');
+    },
+    filename: (req, file, callback) => {
+      callback(null, file.filename = `${req.params.id}.jpeg`);
+    },
+  });
+
+  const upload = multer({ storage });
+  return upload;
+};
+
+const AddKeyRecipeId = (idRecipe) => {
+  return {
+    image : `localhost:3000/src/uploads/${idRecipe}.jpeg`
+  };
+};
+
 module.exports = {
   NewObjectRecipe,
   AddNewKeyRecipe,
   inputValidation,
   recipeExists,
   verifiUserAndRecipe,
+  multerUpload,
+  AddKeyRecipeId
 };
