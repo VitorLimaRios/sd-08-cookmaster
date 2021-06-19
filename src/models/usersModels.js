@@ -9,8 +9,12 @@ const create = async (data) => {
 };
 
 const find = async (field, data) => {
+  let value = data;
+  if( field === '_id'){
+    value = ObjectId(data);
+  }
   const result = await connection().then(db => 
-    db.collection('users').findOne({ [field]: data }));
+    db.collection('users').findOne({ [field]: value }));
   return result;
 };
 

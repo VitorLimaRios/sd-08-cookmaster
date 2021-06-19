@@ -5,6 +5,7 @@ module.exports = {
   'CREATED' : 201,
   'UNAUTHORIZED' : 401,
   'NOTFOUND' : 404,
+  'NOTFOUND_M' : 'recipe not found',
   'ERRO' : 500,
   'NOTUNIQUE': 409,
   'NOTUNIQUE_M': 'Email already registered',
@@ -12,4 +13,7 @@ module.exports = {
   'FILLFIELDS_M': 'All fields must be filled',
   'INCORRECT': 401,
   'INCORRECT_M': 'Incorrect username or password',
+  'DELETE': 204,
+  'MISSING': 'missing auth token',
+  'MALFORMED': 'jwt malformed',
 };
