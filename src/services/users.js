@@ -6,7 +6,7 @@ const getAll = async () => {
   const allUsers = await Users.getAll();
 
   if (allUsers.length === zeroUsers) {
-    return { message: 'Users not found' }
+    return { message: 'Users not found' };
   }
   return allUsers;
 };
