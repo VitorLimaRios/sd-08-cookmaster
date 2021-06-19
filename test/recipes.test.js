@@ -188,7 +188,7 @@ xdescribe('3 - Crie um endpoint para o cadastro de receitas', () => {
   });
 });
 
-describe('4 - Crie um endpoint para a listagem de receitas', () => {
+xdescribe('4 - Crie um endpoint para a listagem de receitas', () => {
   let connection;
   let db;
 
@@ -304,7 +304,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
   });
 });
 
-xdescribe('5 - Crie um endpoint para visualizar uma receita específica', () => {
+describe('5 - Crie um endpoint para visualizar uma receita específica', () => {
   let connection;
   let db;
 
