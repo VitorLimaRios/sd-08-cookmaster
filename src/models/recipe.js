@@ -20,6 +20,12 @@ const createRecipe = errorHandling(async ({ name, ingredients, preparation, user
   };
 });
 
+const getAllRecipes = errorHandling(async () => {
+  const db = await connection();
+  return db.collection('recipes').find().toArray();
+});
+
 module.exports = {
-  createRecipe
+  createRecipe,
+  getAllRecipes
 };
