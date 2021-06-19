@@ -44,7 +44,7 @@ const updateRecipeById = async (id, theUpdate) => {
   const updatingRecipe = await connection().then(db => db.collection('recipes')
     .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { userId, _id, ...theUpdate } },
       { returnDocument: 'after' }));
-  return updatingRecipe.value;
+  return updatingRecipe;
 };
 
 const deleteRecipeById = async (id) => {
@@ -53,9 +53,19 @@ const deleteRecipeById = async (id) => {
   return deleting;
 };
 
+const addTheImageToDb = async (id, theImageUrl) => {
+  const oldInfo = await getRecipeById(id);
+  const { _id, userId } = oldInfo;
+  const addingTheImage = await connection()
+    .then(db => db.collection('recipes').findOneAndUpdate({ _id: ObjectId(id) },
+      { $set: { userId, _id, image: theImageUrl } }, { returnOriginal: false })); //returnDocument:'after' não funcionando;
+  return addingTheImage.value;
+};
+
 
 
 
 module.exports = {
-  getAllTheRecipes, getRecipeById, addRecipeToDb, updateRecipeById, deleteRecipeById
+  getAllTheRecipes, getRecipeById, addRecipeToDb, updateRecipeById, deleteRecipeById,
+  addTheImageToDb
 };

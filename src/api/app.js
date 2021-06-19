@@ -4,12 +4,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 // const userModel = require('../models/usersModel');
-// const recipesModel = require('../models/recipesModel');
+const recipesModel = require('../models/recipesModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
 const { checkLoginRequest } = require('../services/usersValidations');
 const {
   listRecipes, searchRecipe, addRecipe,
-  updateRecipe, deleteRecipe } = require('../controllers/recipesController');
+  updateRecipe, deleteRecipe, addImage } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
 app.use(bodyParser.json());
 // ...
@@ -17,9 +17,9 @@ const storage = multer.diskStorage({
   destination: (_req, _file, callback) => {
     callback(null, path.resolve('src', 'uploads'));
   },
-  filename: (req, file, callback) => {
+  filename: (req, _file, callback) => {
     callback(null, `${req.params.id}.jpeg`);
-    // callback(null, `${req.params.id}.${file.mimetype.split('/')[1]}`); aqui é o jeito mais certo né
+    // callback(null, `${req.params.id}.${file.mimetype.split('/')[1]}`); // aqui seria para a imagem original, sem conversão
   }
 });
 const upload = multer({ storage });
@@ -39,11 +39,8 @@ app.post('/users', createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
 app.post('/recipes', validateToken, addRecipe);
-app.put('/recipes/:id/image', validateToken, checkIdSearch, upload.single('image'),
-  (req, res) => {
-    const OK = 200;
-    return res.status(OK).send();
-  });
+app.put('/recipes/:id/image',
+  validateToken, checkIdSearch, upload.single('image'), addImage);
 app.get('/image/:id', searchRecipe);
 app.get('/recipes/:id', checkIdSearch, searchRecipe);
 app.put('/recipes/:id', validateToken, checkIdSearch, updateRecipe);
@@ -53,21 +50,11 @@ app.delete('/recipes/:id', validateToken, checkIdSearch, deleteRecipe);
 
 // routes for testing, none vinculated with project
 app.get('/users', listUsers);
-app.post('/images', upload.single('image'), (req, res) => {
-  console.log(req.file);
-  return res.send({ message: req.file });
-});
-// app.put('/recipes/:id', async (req, res) => {
-//   const idParams = req.params;
-//   await recipesModel.updateRecipeById(idParams.id, req.body);
-//   const updated = await recipesModel.getRecipeById(idParams.id);
-//   return res.send({ updatedRecipe: updated });
+// app.post('/images', upload.single('image'), (req, res) => {
+//   console.log(req.url);
+//   return res.send({ message: [req.protocol, req.get('host'), req.hostname, req.originalUrl, req.baseUrl] });
 // });
-// app.get('/user', userModel.findUserByName);
+app.post('/images/:id', upload.single('image'), addImage);
 
-// app.delete('/users', async (req, res) => {
-//   await userModel.deleteUserByName(req.body.name);
-//   return res.status(200).send({ message: `usuário deletado ${req.body.name}` });
-// });
 
 module.exports = app;

@@ -15,6 +15,14 @@ const addRecipe = async (req, res) => {
   }
 };
 
+const addImage = async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+  const imgUrl = `${req.get('host')}/src/uploads/${filename}`;
+  const addingTheImgUrl = await recipeServices.addTheImage(id, imgUrl);
+  return res.status(OK.status).send(addingTheImgUrl);
+};
+
 const listRecipes = async (_req, res) => {
   const listAllRecipes = await recipeServices.getAllRecipes();
   return res.status(OK.status).send(listAllRecipes);
@@ -44,4 +52,4 @@ const deleteRecipe = async (req, res) => {
   return res.status(NO_CONTENT.status).send();
 };
 
-module.exports = { listRecipes, searchRecipe, addRecipe, updateRecipe, deleteRecipe };
+module.exports = { listRecipes, searchRecipe, addRecipe, addImage, updateRecipe, deleteRecipe };

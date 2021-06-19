@@ -13,6 +13,11 @@ const addTheRecipe = async (theRecipe, theToken) => {
   return addingRecipe;
 };
 
+const addTheImage = async (id, theUrl) => {
+  const addingTheImg = await recipesModel.addTheImageToDb(id, theUrl);
+  return addingTheImg;
+};
+
 const getAllRecipes = async () => {
   const allRecipes = await recipesModel.getAllTheRecipes();
   return allRecipes;
@@ -33,4 +38,4 @@ const deleteRcpById = async (id) => {
   return deletingRcp;
 };
 
-module.exports = { getAllRecipes, getById, addTheRecipe, updateRcpById, deleteRcpById };
+module.exports = { getAllRecipes, getById, addTheRecipe, addTheImage, updateRcpById, deleteRcpById };
