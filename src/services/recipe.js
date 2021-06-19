@@ -47,10 +47,25 @@ const deleteRecipe = async (recipeId, user) => {
   return result;
 };
 
+const uploadImage = async (recipeId, image, user) => {
+  const recipe = await RecipeModel.getRecipeById(recipeId);
+
+  if (!recipe) {
+    return customError('Recipe not found');
+  }
+
+  if (!await getAccess(recipe, user)) {
+    return customError('Acesso negado', 'access_denied');
+  }
+
+  return editRecipe(recipeId, { ...recipe, image }, user);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
-  deleteRecipe
+  deleteRecipe,
+  uploadImage
 };

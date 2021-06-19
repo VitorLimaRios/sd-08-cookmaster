@@ -40,6 +40,7 @@ const editRecipe = errorHandling(async (id, {
   ingredients,
   preparation,
   userId,
+  image=''
 }) => {
   if (!ObjectId.isValid(id)) return null;
 
@@ -47,12 +48,12 @@ const editRecipe = errorHandling(async (id, {
 
   const { modifiedCount } = await db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
-    { $set: { name, ingredients, preparation, userId } }
+    { $set: { name, ingredients, preparation, userId, image } }
   );
 
   if (!modifiedCount) return null;
 
-  return { _id: id, name, ingredients, preparation, userId };
+  return { _id: id, name, ingredients, preparation, userId, image };
 });
 
 const deletRecipe = errorHandling(async (id) => {
