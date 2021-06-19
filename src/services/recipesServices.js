@@ -2,7 +2,7 @@ const recipesModel = require('../models/recipesModel');
 const { errors: {
   Recipes: {
     mustHaveName, mustHaveIngredients,
-    mustHavePreparation, notFound, invalidToken } } } = require('../utils/errorsNCodes');
+    mustHavePreparation } } } = require('../utils/errorsNCodes');
 
 const addTheRecipe = async (theRecipe, theToken) => {
   const { name, ingredients, preparation } = theRecipe;
@@ -23,4 +23,9 @@ const getById = async (id) => {
   return searchById;
 };
 
-module.exports = { getAllRecipes, getById, addTheRecipe };
+const updateRcpById = async (id, updateData) => {
+  const updatingTheRecipe = await recipesModel.updateRecipeById(id, updateData);
+  return updatingTheRecipe;
+};
+
+module.exports = { getAllRecipes, getById, addTheRecipe, updateRcpById };

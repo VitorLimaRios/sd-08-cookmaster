@@ -63,7 +63,12 @@ const errors = {
     mustHaveName: BAD_REQUEST,
     mustHaveIngredients: BAD_REQUEST,
     mustHavePreparation: BAD_REQUEST,
-    notFound: NOT_FOUND,
+    notFound: {
+      status: 404,
+      send: {
+        message: 'recipe not found'
+      }
+    },
     invalidToken: {
       status: 401,
       send: {

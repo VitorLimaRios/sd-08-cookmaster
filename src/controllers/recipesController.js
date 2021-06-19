@@ -10,7 +10,6 @@ const addRecipe = async (req, res) => {
     return res.status(CREATED.status).send(addedRecipe);
   } catch (error) {
     const objMessage = JSON.parse(error.message);
-    console.log(objMessage.status, objMessage.send);
     if (objMessage) return res.status(objMessage.status).send(objMessage.send);
     // return res.status(500).send({ message: error.message });
   }
@@ -22,9 +21,21 @@ const listRecipes = async (_req, res) => {
 };
 
 const searchRecipe = async (req, res) => {
-  const idParams = req.params;
-  const searching = await recipeServices.getById(idParams.id);
-  return res.status(OK.status).send(searching);
+  try {
+    const idParams = req.params;
+    const searching = await recipeServices.getById(idParams.id);
+    return res.status(OK.status).send(searching);
+  } catch (error) {
+    const objMessage = JSON.parse(error.message);
+    if (objMessage) return res.status(objMessage.status).send(objMessage.send);
+  }
 };
 
-module.exports = { listRecipes, searchRecipe, addRecipe };
+const updateRecipe = async (req, res) => {
+  const idParams = req.params;
+  await recipeServices.updateRcpById(idParams.id, req.body);
+  const updated = await recipeServices.getById(idParams.id);
+  return res.status(OK.status).send(updated);
+};
+
+module.exports = { listRecipes, searchRecipe, addRecipe, updateRecipe };

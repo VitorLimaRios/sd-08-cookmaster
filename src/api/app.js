@@ -3,14 +3,14 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const userModel = require('../models/usersModel');
+const recipesModel = require('../models/recipesModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
 const {
   validateUserCreation,
   checkLoginRequest } = require('../services/usersValidations');
 const {
-  listRecipes, searchRecipe, addRecipe } = require('../controllers/recipesController');
+  listRecipes, searchRecipe, addRecipe, updateRecipe } = require('../controllers/recipesController');
 const { checkIdSearch, validateToken } = require('../services/recipesValidations');
-const { getAllTheRecipes, addRecipeToDb } = require('../models/recipesModel');
 app.use(bodyParser.json());
 // ...
 
@@ -30,11 +30,17 @@ app.post('/users', createUser);
 app.post('/login', checkLoginRequest, login);
 app.get('/recipes', listRecipes);
 app.post('/recipes', validateToken, addRecipe);
-app.get('/recipes:id', checkIdSearch, searchRecipe);
+app.get('/recipes/:id', checkIdSearch, searchRecipe);
+app.put('/recipes/:id', validateToken, checkIdSearch, updateRecipe);
 
 // routes for testing
-app.get('/all', listUsers);
-app.post('/test', validateToken, addRecipe); // ué
+app.get('/users', listUsers);
+// app.put('/recipes/:id', async (req, res) => {
+//   const idParams = req.params;
+//   await recipesModel.updateRecipeById(idParams.id, req.body);
+//   const updated = await recipesModel.getRecipeById(idParams.id);
+//   return res.send({ updatedRecipe: updated });
+// });
 app.get('/user', userModel.findUserByName);
 
 app.delete('/users', async (req, res) => {

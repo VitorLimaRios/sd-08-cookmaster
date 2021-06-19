@@ -4,27 +4,26 @@ const { tokenDecodation } = require('../utils/tokenation');
 const { findUserByEmail } = require('./usersModel');
 
 const addRecipeToDb = async (newRecipe, tokenToDecode) => {
-  const addingTheRecipe = await connection()
-    .then((db => db.collection('recipes').insertOne(newRecipe)))
-    .then(result => result.ops[0]);
+
   const { data: userEmail } = await tokenDecodation(tokenToDecode);
   if (!userEmail) return null;
   const { _id: userId } = await findUserByEmail(userEmail);
+  const addingTheRecipe = await connection()
+    .then((db => db.collection('recipes').insertOne({ userId, ...newRecipe })))
+    .then(result => result.ops[0]);
   const {
     name: recipeName,
     ingredients: recipeIng,
     preparation: recipePrep,
     _id: recipeInsertId } = addingTheRecipe;
-  return {
-    recipe:
-    {
-      name: recipeName,
-      ingredients: recipeIng,
-      preparation: recipePrep,
-      userId,
-      _id: recipeInsertId
-    }
+  const recipe = {
+    name: recipeName,
+    ingredients: recipeIng,
+    preparation: recipePrep,
+    userId,
+    _id: recipeInsertId
   };
+  return { recipe };
 };
 const getAllTheRecipes = async () => {
   const gotAllRecipes = await connection()
@@ -39,5 +38,14 @@ const getRecipeById = async (id) => {
   return gettingById;
 };
 
+const updateRecipeById = async (id, theUpdate) => {
+  const oldInfo = await getRecipeById(id);
+  const { _id, userId } = oldInfo;
+  const updatingRecipe = await connection().then(db => db.collection('recipes')
+    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { userId, _id, ...theUpdate } },
+      { returnDocument: 'after' }));
+  return updatingRecipe.value;
+};
 
-module.exports = { getAllTheRecipes, getRecipeById, addRecipeToDb };
+
+module.exports = { getAllTheRecipes, getRecipeById, addRecipeToDb, updateRecipeById };
