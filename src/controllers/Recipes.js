@@ -5,6 +5,7 @@ const userSchemas = require('../schemas');
 const Created = '201';
 const Unauthorized = '401';
 const OK = '200';
+const Not_Found = '404';
 
 
 
@@ -26,6 +27,13 @@ recipesController.post('/', checkRecipesData(userSchemas), async (req, res) => {
 recipesController.get('/', async (_req, res) => {
   const recipes = await models.getAll();
   res.status(OK).send(recipes);
+});
+
+recipesController.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await models.getById(id);
+  if (!product) return res.status(Not_Found).json({ message: 'recipe not found' });
+  res.status(OK).json(product);
 });
 
 module.exports = recipesController;
