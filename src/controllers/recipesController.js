@@ -1,5 +1,5 @@
 const recipeServices = require('../services/recipesServices');
-const { responsesNCodes, errors } = require('../utils/errorsNCodes');
+const { responsesNCodes } = require('../utils/errorsNCodes');
 const { OK, CREATED, NO_CONTENT } = responsesNCodes;
 
 const addRecipe = async (req, res) => {
@@ -52,4 +52,7 @@ const deleteRecipe = async (req, res) => {
   return res.status(NO_CONTENT.status).send();
 };
 
-module.exports = { listRecipes, searchRecipe, addRecipe, addImage, updateRecipe, deleteRecipe };
+module.exports = {
+  listRecipes,
+  searchRecipe, addRecipe, addImage, updateRecipe, deleteRecipe
+};

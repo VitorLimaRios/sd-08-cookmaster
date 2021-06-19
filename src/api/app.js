@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 // const userModel = require('../models/usersModel');
-const recipesModel = require('../models/recipesModel');
+// const recipesModel = require('../models/recipesModel');
 const { createUser, listUsers, login } = require('../controllers/userController');
 const { checkLoginRequest } = require('../services/usersValidations');
 const {

@@ -38,4 +38,7 @@ const deleteRcpById = async (id) => {
   return deletingRcp;
 };
 
-module.exports = { getAllRecipes, getById, addTheRecipe, addTheImage, updateRcpById, deleteRcpById };
+module.exports = {
+  getAllRecipes,
+  getById, addTheRecipe, addTheImage, updateRcpById, deleteRcpById
+};
