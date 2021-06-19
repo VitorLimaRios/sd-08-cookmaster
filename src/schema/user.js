@@ -17,7 +17,3 @@ module.exports = joi.object({
     .string()
     .valid('user', 'admin')
 });
-// .messages({
-//   'any.required': ERROR_MESSAGE,
-//   'string.email': ERROR_MESSAGE
-// });

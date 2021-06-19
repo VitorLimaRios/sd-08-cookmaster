@@ -21,8 +21,9 @@ module.exports = (err, _req, res, _next) => {
     .json({ message: 'Internal error' });
 
   const { err: error } = err;
-  console.log('error linha 11', error.code);
-  console.log('error linha 12', ERRORS[error.code]);
+  // console.log('error linha 11', error.code);
+  // console.log('error linha 12', ERRORS[error.code]);
   const statusCode = ERRORS[error.code] || INTERNAL_ERROR;
+
   res.status(statusCode).json({ message: error.message });
 };

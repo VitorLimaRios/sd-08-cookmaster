@@ -13,8 +13,11 @@ const createUser = errorHandling(async ({ name, email, password, role = 'user'})
 
 const getUserByEmail = errorHandling(async (email) => {
   const db = await connection();
+
   const result = await db.collection('users').findOne({ email });
+
   if (!result) return null;
+  
   return result;
 });
 
