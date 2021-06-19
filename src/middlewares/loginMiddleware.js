@@ -14,7 +14,7 @@ const validateFields = (req, res, next) => {
   next();
 };
 
-const validateEmailFormat = async (req, res, next) => {
+const validateEntriesFormat = async (req, res, next) => {
   const { email, password } = req.body;
   const getUser = await UsersModel.getUserByEmail(email);
   if (!getUser) {
@@ -28,5 +28,5 @@ const validateEmailFormat = async (req, res, next) => {
 
 module.exports = {
   validateFields,
-  validateEmailFormat,
+  validateEntriesFormat,
 };

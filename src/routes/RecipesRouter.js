@@ -5,6 +5,8 @@ const {
   validateEntries,
   validateMalformedToken,
   verifyId,
+  validateTokenAuthentication,
+  validateMissingToken
 } = require('../middlewares/recipesMiddleware');
 
 const RecipesController = require('../controllers/RecipesController');
@@ -17,5 +19,11 @@ router.post('/',
 
 router.get('/', RecipesController.getAllRecipes);
 router.get('/:id', verifyId, RecipesController.getRecipeById);
+router.put('/:id',
+  validateMissingToken,
+  validateMalformedToken,
+  validateTokenAuthentication,
+  RecipesController.updateRecipeById
+);
 
 module.exports = router;
