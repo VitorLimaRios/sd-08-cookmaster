@@ -1,5 +1,4 @@
 const model = require('../models/recipeModel');
-
 const getAll = async () => model.getAll();
 
 const getById = async (id) => {
@@ -27,16 +26,12 @@ const create = async (recipes, authorization) => {
 };  
 
 const update = async (id, recipe, authorization) => {
-  // if (!recipe) {
-  //   return {      
-  //     message: 'missing auth token'   
-  //   };
-  // }  
-  // if (!authorization) {
-  //   return {      
-  //     message: 'jwt malformed'   
-  //   };    
-  // }
+
+  if (!id) {
+    return {      
+      message: 'jwt malformed'  
+    };
+  }  
   if (!authorization) {
     return {      
       message: 'missing auth token'   
@@ -53,7 +48,7 @@ const exclude = async (id, authorization) => {
   }
   return model.exclude(id);
 }; 
-  
+
 module.exports = {
   getAll,
   getById,

@@ -17,7 +17,7 @@ const create = async (recipe, authorization) => {
   return { _id: result.insertdId, recipe };
 };  
 
-const update = async (id, recipe) => {
+const update = async (id, recipe, authorization) => {
   if (!ObjectId.isValid(id)) return;
 
   await getCollections('recipes').then((db) => 

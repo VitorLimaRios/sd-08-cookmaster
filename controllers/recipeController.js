@@ -2,6 +2,15 @@ const { Router } = require('express');
 const service = require('../services/recipeService');
 const serviceLogin = require('../services/loginService');
 
+const secret = require('../utils/crypto');
+
+const jwt = require('jsonwebtoken');
+
+const jwtConfig = { 
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
+
 const rescue = require('express-rescue');
 const router = Router();
 
@@ -49,17 +58,16 @@ router.post('/', rescue(async (req, res) => {
   }  
 }));
 
-router.put('/:id', async (req, res) => {  
+router.put('/:id', rescue (async (req, res) => {  
   const { authorization } = req.headers; 
   const { id } = req.params;
+  const recipe = await service.update(id, req.body, authorization);
+  const update = { ...recipe, userId: id };
+  if (recipe.message === 'jwt malformed') return res.status(STATUS_401).json(recipe);
+  if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
 
-  const {recipe} = await service.update(id, req.body, authorization);
-
-  // if (recipe.message === 'jwt malformed') return res.status(STATUS_401).json(recipe);
-  // if (recipe.message === 'missing auth token') return res.status(STATUS_401).json(recipe);
-
-  res.status(STATUS_200).json(recipe); 
-});
+  res.status(STATUS_200).json(update); 
+}));
 
 
 router.delete('/:id', async (req, res) => {
@@ -88,7 +96,6 @@ router.put('/:id/image', rescue (async (req, res) => {
   }  
 
   res.status(STATUS_200).json(updatedRecipe); 
-}));
-  
+}));  
 
 module.exports = router;
