@@ -52,6 +52,95 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
     });
   });
 
+  describe('Se o não houver o campo name', () => {
+    let response;
+
+    beforeEach(async () => {
+      response = await chai.request(app)
+        .post('/users')
+        .send({
+          email: 'teste@gmail.com',
+          password: '12345678'
+        })
+        .then((response) => response);
+    });
+
+    it('retorna um objeto com uma mensagem de error', () => {
+      expect(response.body.message).to.equal('Invalid entries. Try again.');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+  });
+
+  describe('Se o não houver o campo email', () => {
+    let response;
+
+    beforeEach(async () => {
+      response = await chai.request(app)
+        .post('/users')
+        .send({
+          name: 'Teste',
+          password: '12345678'
+        })
+        .then((response) => response);
+    });
+
+    it('retorna um objeto com uma mensagem de error', () => {
+      expect(response.body.message).to.equal('Invalid entries. Try again.');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+  });
+
+  describe('Se o não houver o campo password', () => {
+    let response;
+
+    beforeEach(async () => {
+      response = await chai.request(app)
+        .post('/users')
+        .send({
+          name: 'Teste',
+          email: 'teste@gmail.com',
+        })
+        .then((response) => response);
+    });
+
+    it('retorna um objeto com uma mensagem de error', () => {
+      expect(response.body.message).to.equal('Invalid entries. Try again.');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+  });
+
+  describe('Se o email for inválido', () => {
+    let response;
+
+    beforeEach(async () => {
+      response = await chai.request(app)
+        .post('/users')
+        .send({
+          name: 'Teste',
+          email: 'emailInválido',
+          password: '12345678'
+        })
+        .then((response) => response);
+    });
+
+    it('retorna um objeto com uma mensagem de error', () => {
+      expect(response.body.message).to.equal('Invalid entries. Try again.');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+  });
+
   describe('Não é possível criar um usuário com um email já cadastrado', () => {
     let response;
 

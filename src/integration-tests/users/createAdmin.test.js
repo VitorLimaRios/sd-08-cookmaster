@@ -164,4 +164,42 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
       expect(response).to.have.status(201);
     });
   });
+
+  describe('Somente admins podem criar outros admins', () => {
+    let response;
+
+    beforeEach(async () => {
+      const db = await conn.db('Cookmaster');
+
+      const payloadUser = {
+        _id: ObjectId(),
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
+
+      await db.collection('users').insertOne(payloadUser);
+      const { _id, email, role } = payloadUser;
+      const token = jwt.sign({ _id, email, role }, secret);
+
+      response = await chai.request(app)
+        .post('/users/admin')
+        .set('Authorization', token)
+        .send({
+          name: 'admin',
+          email: 'admin@gmail.com',
+          password: 'aiaiaiuiui',
+        })
+        .then((response) => response);
+    });
+
+    it('retorna um objeto com a mensagem de erro', () => {
+      expect(response.body.message).to.equal('Only admins can register new admins');
+    });
+
+    it('retorna status 403', () => {
+      expect(response).to.have.status(403);
+    });
+  });
 });

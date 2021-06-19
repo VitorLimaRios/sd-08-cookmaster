@@ -3,16 +3,18 @@ const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
+const fs = require('fs');
+const path = require('path');
 const jwt = require('jsonwebtoken');
+const secret = require('../../data/secret');
 
 const app = require('../../api/app');
 const getConnection = require('../getConnection');
 const connection = require('../../models/connection');
-const secret = require('../../data/secret');
 
 chai.use(chaiHttp);
 
-describe('É possível editar uma receita em PUT /recipes/:id', () => {
+describe('É possível adicionar uma image para a receita PUT /recipes/:id/image', () => {
   let conn;
 
   before(async () => {
@@ -42,19 +44,16 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         name: 'Frango',
         ingredients: 'Frango, sazon',
         preparation: '10 minutos no forno',
-        userId: ObjectId()
+        userId: ObjectId(),
+        image: undefined
       };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
       
       response = await chai.request(app)
-        .put(`/recipes/${recipeId}`)
-        .send({
-          name: 'Nome alterado',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno',
-        })
+        .put(`/recipes/${recipeId}/image`)
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
         .then((response) => response);
     });
 
@@ -78,40 +77,85 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         name: 'Frango',
         ingredients: 'Frango, sazon',
         preparation: '10 minutos no forno',
-        userId: ObjectId()
+        userId: ObjectId(),
+        image: undefined
       };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
       
-      const invalidToken = jwt.sign({}, secret);
-
       response = await chai.request(app)
-        .put(`/recipes/${recipeId}`)
-        .set('Authorization', invalidToken)
-        .send({
-          name: 'Nome alterado',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno',
-        })
+        .put(`/recipes/${recipeId}/image`)
+        .set('Authorization', 'invalidToken')
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
         .then((response) => response);
     });
-
+    
     it('retorna um objeto com a mensagem de error', () => {
-      expect(response.body.message).to.equal('Acesso negado');
+      expect(response.body.message).to.equal('jwt malformed');
     });
-
+    
     it('retorna status 401', () => {
       expect(response).to.have.status(401);
     });
   });
 
-  describe('Não é possível editar e receita de outro usuário sem ser admin', () => {
-    let response;
+  describe('É possível alterar a imagem de uma receita se ela pertencer àquele usuário', () => {
+    let response, recipeId;
+  
+    beforeEach(async () => {
+      const userId = ObjectId();
+      recipeId = ObjectId();
+  
+      const payloadUser = {
+        _id: userId,
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
+  
+      const payloadRecipe = {
+        _id: recipeId,
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
+        userId,
+        image: undefined
+      };
+  
+      const db = await conn.db('Cookmaster');
+      await db.collection('recipes').insertOne(payloadRecipe);
+      await db.collection('users').insertOne(payloadUser);
+  
+      const { _id: id, email, role } = payloadUser;
+      const token = jwt.sign({ id, email, role }, secret);
+  
+      response = await chai.request(app)
+        .put(`/recipes/${recipeId}/image`)
+        .set('Authorization', token)
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
+        .then((response) => response);
+    });
+  
+    it('retorna um objeto com a receita tendo a imagem alterada', () => {
+      expect(response.body).to.have.all.keys([
+        '_id', 'name', 'ingredients', 'preparation', 'userId', 'image'
+      ]);
+      expect(response.body.image).to.equal(`localhost:3000/src/uploads/${recipeId}.jpeg`);
+    });
+  
+    it('retorna status 200', () => {
+      expect(response).to.have.status(200);
+    });
+  });
 
+  describe('Não é possível alterar a imagem de uma receita de outro usuário sem ser admin', () => {
+    let response;
+    
     beforeEach(async () => {
       const recipeId = ObjectId();
-
+      
       const payloadUser = {
         _id: ObjectId(),
         name: 'Teste',
@@ -119,182 +163,119 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         password: '12345678',
         role: 'user'
       };
-
+      
       const payloadRecipe = {
         _id: recipeId,
         name: 'Frango',
         ingredients: 'Frango, sazon',
         preparation: '10 minutos no forno',
-        userId: ObjectId()
+        userId: ObjectId(),
+        image: undefined
       };
-
+      
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
       await db.collection('users').insertOne(payloadUser);
-
-      const { _id, email, role } = payloadUser;
-      const token = jwt.sign({ id: _id, email, role }, secret);
-
+      
+      const { _id: id, email, role } = payloadUser;
+      const token = jwt.sign({ id, email, role }, secret);
+      
       response = await chai.request(app)
-        .put(`/recipes/${recipeId}`)
+        .put(`/recipes/${recipeId}/image`)
         .set('Authorization', token)
-        .send({
-          name: 'Receita editada',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno'
-        })
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
         .then((response) => response);
     });
-
+    
     it('retorna um objeto com a mensagem de error', () => {
       expect(response.body.message).to.equal('Acesso negado');
     });
-
+    
     it('retorna status 401', () => {
       expect(response).to.have.status(401);
     });
   });
-
-  describe('É possível editar a receita de outro usuário se você for admin', () => {
-    let response;
-
+  
+  describe('É possível alterar a imagem de uma receita de outro usuário se você for admin', () => {
+    let response, recipeId;
+    
     beforeEach(async () => {
-      const recipeId = ObjectId();
-
+      const userId = ObjectId();
+      recipeId = ObjectId();
+      
       const payloadUser = {
-        _id: ObjectId(),
+        _id: userId,
         name: 'Teste',
         email: 'teste@gmail.com',
         password: '12345678',
         role: 'admin'
       };
-
+      
       const payloadRecipe = {
         _id: recipeId,
         name: 'Frango',
         ingredients: 'Frango, sazon',
         preparation: '10 minutos no forno',
-        userId: ObjectId()
+        userId: ObjectId(),
+        image: undefined
       };
-
+      
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
       await db.collection('users').insertOne(payloadUser);
-
-      const { _id, email, role } = payloadUser;
-      const token = jwt.sign({ id: _id, email, role }, secret);
-
+      
+      const { _id: id, email, role } = payloadUser;
+      const token = jwt.sign({ id, email, role }, secret);
+      
       response = await chai.request(app)
-        .put(`/recipes/${recipeId}`)
+        .put(`/recipes/${recipeId}/image`)
         .set('Authorization', token)
-        .send({
-          name: 'Receita editada',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno'
-        })
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
         .then((response) => response);
     });
-
-    it('retorna um objeto com a receita editada', () => {
-      expect(response.body).to.be.have.all.keys([
+    
+    it('retorna um objeto com a receita tendo a imagem alterada', () => {
+      expect(response.body).to.have.all.keys([
         '_id', 'name', 'ingredients', 'preparation', 'userId', 'image'
       ]);
-      expect(response.body.name).to.equal('Receita editada');
+      expect(response.body.image).to.equal(`localhost:3000/src/uploads/${recipeId}.jpeg`);
     });
-
+    
     it('retorna status 200', () => {
       expect(response).to.have.status(200);
     });
   });
 
-  describe('É possível editar receitas que pertencem àquele usuário', () => {
+  describe('Quando não existir uma receita com o Id', () => {
     let response;
-
-    beforeEach(async () => {
-      const recipeId = ObjectId();
-      const userId = ObjectId();
-
+    
+    beforeEach(async () => {      
       const payloadUser = {
-        _id: userId,
+        _id: ObjectId(),
         name: 'Teste',
         email: 'teste@gmail.com',
         password: '12345678',
-        role: 'user'
+        role: 'admin',
+        image: undefined
       };
-
-      const payloadRecipe = {
-        _id: recipeId,
-        name: 'Frango',
-        ingredients: 'Frango, sazon',
-        preparation: '10 minutos no forno',
-        userId: userId
-      };
-
-      const db = await conn.db('Cookmaster');
-      await db.collection('recipes').insertOne(payloadRecipe);
-      await db.collection('users').insertOne(payloadUser);
-
-      const { _id, email, role } = payloadUser;
-      const token = jwt.sign({ id: _id, email, role }, secret);
-
-      response = await chai.request(app)
-        .put(`/recipes/${recipeId}`)
-        .set('Authorization', token)
-        .send({
-          name: 'Receita editada',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno'
-        })
-        .then((response) => response);
-    });
-
-    it('retorna um objeto com a receita editada', () => {
-      expect(response.body).to.be.have.all.keys([
-        '_id', 'name', 'ingredients', 'preparation', 'userId', 'image'
-      ]);
-      expect(response.body.name).to.equal('Receita editada');
-    });
-
-    it('retorna status 200', () => {
-      expect(response).to.have.status(200);
-    });
-  });
-
-  describe('Quando não houver receita com aquele id', () => {
-    let response;
-
-    beforeEach(async () => {
-      const userId = ObjectId();
-
-      const payloadUser = {
-        _id: userId,
-        name: 'Teste',
-        email: 'teste@gmail.com',
-        password: '12345678',
-        role: 'user'
-      };
-
+            
       const db = await conn.db('Cookmaster');
       await db.collection('users').insertOne(payloadUser);
-
-      const { _id, email, role } = payloadUser;
-      const token = jwt.sign({ id: _id, email, role }, secret);
-
+      
+      const { _id: id, email, role } = payloadUser;
+      const token = jwt.sign({ id, email, role }, secret);
+      
       response = await chai.request(app)
-        .put(`/recipes/${ObjectId()}`)
+        .put(`/recipes/${ObjectId()}/image`)
         .set('Authorization', token)
-        .send({
-          name: 'Receita editada',
-          ingredients: 'Frango, sazon',
-          preparation: '10 minutos no forno'
-        })
+        .attach('image', fs.readFileSync(path.join(__dirname, 'imageMock.jpg')))
         .then((response) => response);
     });
-
+    
     it('retorna um objeto com a mensagem de error', () => {
       expect(response.body.message).to.equal('Recipe not found');
     });
-
+    
     it('retorna status 400', () => {
       expect(response).to.have.status(400);
     });
