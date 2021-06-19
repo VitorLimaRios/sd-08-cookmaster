@@ -1,6 +1,20 @@
 const express = require('express');
-
+const path = require('path');
+const bodyParser = require('body-parser');
 const app = express();
+const errorMiddleware = require('../controllers/errorMiddleware');
+const usersRoutes = require('../routes/usersRoutes'); 
+const recipesRoutes = require('../routes/recipesRoutes'); 
+const loginRoutes= require('../routes/loginRoutes');
+
+app.use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/users', usersRoutes);
+app.use('/recipes', recipesRoutes);
+app.use('/login', loginRoutes);
+
+app.use(errorMiddleware);
+
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
