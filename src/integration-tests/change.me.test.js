@@ -1,2 +1,2 @@
-describe('', () => {
+describe('Ow', () => {
 });
