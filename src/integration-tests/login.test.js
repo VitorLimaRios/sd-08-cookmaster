@@ -1,14 +1,12 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
-const jwt = require('jsonwebtoken');
 
 const app = require('../api/app');
 const getConnection = require('./getConnection');
 const connection = require('../models/connection');
-const secret = require('../data/secret');
 
 chai.use(chaiHttp);
 
@@ -18,12 +16,12 @@ describe('É possível fazer login em POST /login', () => {
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = await conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
-  })
+  });
 
   after(() => {
     connection.close();
@@ -37,18 +35,20 @@ describe('É possível fazer login em POST /login', () => {
       response = await chai.request(app)
         .post('/login')
         .send({
-          email: "emailInválido",
-          password: "12345678"
+          email: 'emailInválido',
+          password: '12345678'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('Retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('Incorrect username or password');
-    })
-  })
+      expect(response.body.message).to.equal('Incorrect username or password');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Quando o password for inválido', () => {
     let response;
@@ -58,29 +58,31 @@ describe('É possível fazer login em POST /login', () => {
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
         role: 'admin'
-      }
+      };
 
       await db.collection('users').insertOne(payloadUser);
 
       response = await chai.request(app)
         .post('/login')
         .send({
-          email: "teste@gmail.com",
-          password: "senhaErrada"
+          email: 'teste@gmail.com',
+          password: 'senhaErrada'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('Retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('Incorrect username or password');
-    })
-  })
+      expect(response.body.message).to.equal('Incorrect username or password');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Quando o login for efetuado com sucesso', () => {
     let response;
@@ -90,26 +92,29 @@ describe('É possível fazer login em POST /login', () => {
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
         role: 'admin'
-      }
+      };
 
       await db.collection('users').insertOne(payloadUser);
 
       response = await chai.request(app)
         .post('/login')
         .send({
-          email: "teste@gmail.com",
-          password: "12345678"
+          email: 'teste@gmail.com',
+          password: '12345678'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('Retorna um objeto contendo o token', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('token');
-    })
-  })
+      expect(response.body).to.have.property('token');
+    });
+
+    it('retorna status 200', () => {
+      expect(response).to.have.status(200);
+    });
+  });
 });

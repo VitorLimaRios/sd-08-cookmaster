@@ -1,5 +1,5 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
@@ -18,13 +18,13 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = await conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
-  })
+  });
 
   after(() => {
     connection.close();
@@ -38,19 +38,21 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
       response = await chai.request(app)
         .post('/recipes')
         .send({
-          name: "Frango",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Frango',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('Retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('missing auth token');
-    })
-  })
+      expect(response.body.message).to.equal('missing auth token');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Quando o token for inválido', () => {
     let response;
@@ -60,19 +62,21 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
         .post('/recipes')
         .set('Authorization', 'invalidToken')
         .send({
-          name: "Frango",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Frango',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('Retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('jwt malformed');
-    })
-  })
+      expect(response.body.message).to.equal('jwt malformed');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Quando for criada com sucesso', () => {
     let response, userId;
@@ -82,11 +86,11 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
 
       const payloadUser = {
         _id: userId,
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
-        role: "user"
-      }
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('users').insertOne(payloadUser);
@@ -98,23 +102,27 @@ describe('É possível criar uma receita no endpoint POST /recipes', () => {
         .post('/recipes')
         .set('Authorization', token)
         .send({
-          name: "Frango",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Frango',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body.recipe);
-    })
+        .then((response) => response);
+    });
 
     it('Deverá retornar um objeto com a receita criada', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.all.keys([
+      expect(response.body.recipe).to.be.a('object');
+      expect(response.body.recipe).to.have.all.keys([
         '_id', 'name', 'ingredients', 'preparation', 'userId'
       ]);
-    })
+    });
 
     it('Deverá ter o userId do usuário que a criou', () => {
-      expect(response).to.have.property('userId');
-      expect(response.userId).to.equal(userId.toString());
-    })
-  })
+      expect(response.body.recipe).to.have.property('userId');
+      expect(response.body.recipe.userId).to.equal(userId.toString());
+    });
+
+    it('retorna status 201', () => {
+      expect(response).to.have.status(201);
+    });
+  });
 });

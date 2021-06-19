@@ -1,14 +1,12 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
-const jwt = require('jsonwebtoken');
 
 const app = require('../../api/app');
 const getConnection = require('../getConnection');
 const connection = require('../../models/connection');
-const secret = require('../../data/secret');
 
 chai.use(chaiHttp);
 
@@ -18,13 +16,13 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = await conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
-  })
+  });
 
   after(() => {
     MongoClient.connect.restore();
@@ -39,11 +37,11 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: ObjectId()
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -51,16 +49,19 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       response = await chai.request(app)
         .get(`/recipes/${recipeId}`)
         .send()
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto contendo a receita', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.all.keys([
+      expect(response.body).to.have.all.keys([
         '_id', 'name', 'ingredients', 'preparation', 'userId'
       ]);
-    })
-  })
+    });
+
+    it('retorna status 200', () => {
+      expect(response).to.have.status(200);
+    });
+  });
 
   describe('Quando a receita não for encontrada', () => {
     let response;
@@ -69,12 +70,15 @@ describe('É possível recuperar uma receita pelo ID em GET /recipes/:id', () =>
       response = await chai.request(app)
         .get(`/recipes/${ObjectId()}`)
         .send()
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto contendo a mensagem de erro', () => {
-      expect(response).to.be.a('object');
-      expect(response.message).to.equal('recipe not found');
-    })
-  })
-})
+      expect(response.body.message).to.equal('recipe not found');
+    });
+
+    it('retorna status 404', () => {
+      expect(response).to.have.status(404);
+    });
+  });
+});

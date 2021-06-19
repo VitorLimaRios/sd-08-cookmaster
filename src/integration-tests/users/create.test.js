@@ -1,5 +1,5 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
@@ -16,12 +16,12 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
-  })
+  });
 
   after(() => {
     connection.close();
@@ -35,19 +35,22 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
       response = await chai.request(app)
         .post('/users')
         .send({
-          name: "Teste",
-          email: "teste@gmail.com",
-          password: "12345678"
+          name: 'Teste',
+          email: 'teste@gmail.com',
+          password: '12345678'
         })
-        .then(({ body }) => body.user)
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('role');
-      expect(response.role).to.equal('user');
-    })
-  })
+      expect(response.body.user).to.have.all.keys(['_id', 'name', 'email', 'role']);
+      expect(response.body.user.role).to.equal('user');
+    });
+
+    it('retorna status 201', () => {
+      expect(response).to.have.status(201);
+    });
+  });
 
   describe('Não é possível criar um usuário com um email já cadastrado', () => {
     let response;
@@ -56,24 +59,28 @@ describe('É possível criar um usuário comum no endpoint POST /users', () => {
       const db = await conn.db('Cookmaster');
       await db.collection('users').insertOne({
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
         role: 'user'
-      })
+      });
 
       response = await chai.request(app)
         .post('/users')
         .send({
-          name: "Teste",
-          email: "teste@gmail.com",
-          password: "12345678"
+          name: 'Teste',
+          email: 'teste@gmail.com',
+          password: '12345678'
         })
-        .then(({ body }) => body.message)
-    })
+        .then((res) => res);
+    });
 
     it('retorna um objeto', () => {
-      expect(response).to.equal('Email already registered');
-    })
-  })
-})
+      expect(response.body.message).to.equal('Email already registered');
+    });
+
+    it('retorna status 409', () => {
+      expect(response).to.have.status(409);
+    });
+  });
+});

@@ -1,5 +1,5 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
@@ -18,12 +18,12 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
-  })
+  });
 
   after(() => {
     connection.close();
@@ -37,16 +37,23 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
       response = await chai.request(app)
         .post('/users/admin')
         .send({
-          name: "Teste",
-          email: "teste@gmail.com",
-          password: "12345678"
+          name: 'Teste',
+          email: 'teste@gmail.com',
+          password: '12345678'
         })
-        .then(({ body }) => body.message)
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto contendo a mensagem de error', () => {
-      expect(response).to.equal('missing auth token');
-    })
+      const { body } = response;
+      expect(body).to.be.a('object');
+      expect(body).to.have.property('message');
+      expect(body.message).to.equal('missing auth token');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
   });
 
   describe('Se o token for inválido', () => {
@@ -57,17 +64,21 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
         .post('/users/admin')
         .set('Authorization', 'tokenInvalido')
         .send({
-          name: "Teste",
-          email: "teste@gmail.com",
-          password: "12345678"
+          name: 'Teste',
+          email: 'teste@gmail.com',
+          password: '12345678'
         })
-        .then(({ body }) => body.message)
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto contendo a mensagem de error', () => {
-      expect(response).to.equal('jwt malformed');
-    })
-  })
+      expect(response.body.message).to.equal('jwt malformed');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Se o email já tiver sido cadastrado', () => {
     let response;
@@ -77,19 +88,19 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
         role: 'admin'
-      }
+      };
 
       const payloadUser2 = {
         _id: ObjectId(),
-        name: "admin",
-        email: "admin@gmail.com",
-        password: "aiaiaiuiui",
+        name: 'admin',
+        email: 'admin@gmail.com',
+        password: 'aiaiaiuiui',
         role: 'admin'
-      }
+      };
       
       await db.collection('users').insertMany([ payloadUser, payloadUser2 ]);
       const { _id, email, role } = payloadUser;
@@ -103,13 +114,17 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
           email: payloadUser2.email,
           password: payloadUser2.password
         })
-        .then(({ body }) => body.message)
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto contendo a mensagem de error', () => {
-      expect(response).to.equal('Email already registered');
-    })
-  })
+      expect(response.body.message).to.equal('Email already registered');
+    });
+
+    it('retorna status 409', () => {
+      expect(response).to.have.status(409);
+    });
+  });
 
   describe('Se o token existir, for válido e o email estiver disponível', () => {
     let response;
@@ -119,11 +134,11 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
         role: 'admin'
-      }
+      };
 
       await db.collection('users').insertOne(payloadUser);
       const { _id, email, role } = payloadUser;
@@ -133,16 +148,20 @@ describe('É possível criar um usuário adm no endpoint POST /users/admin', () 
         .post('/users/admin')
         .set('Authorization', token)
         .send({
-          name: "admin",
-          email: "admin@gmail.com",
-          password: "aiaiaiuiui",
+          name: 'admin',
+          email: 'admin@gmail.com',
+          password: 'aiaiaiuiui',
         })
-        .then(({ body }) => body.user)
-    })
+        .then((response) => response);
+    });
 
-    it('cadastra um usuário adimn', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.all.keys(['_id', 'name', 'email', 'role'])
-    })
+    it('retorna um objeto com os dados do usuário admin cadastrado', () => {
+      expect(response.body.user).to.have.all.keys(['_id', 'name', 'email', 'role']);
+      expect(response.body.user.role).to.equal('admin');
+    });
+
+    it('retorna status 201', () => {
+      expect(response).to.have.status(201);
+    });
   });
-})
+});

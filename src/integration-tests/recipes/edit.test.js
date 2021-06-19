@@ -1,5 +1,5 @@
 const chai = require('chai');
-const sinon = require('sinon')
+const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const { MongoClient, ObjectId } = require('mongodb');
 const { expect } = require('chai');
@@ -18,13 +18,13 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
   before(async () => {
     conn = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(conn);
-  })
+  });
 
   beforeEach(async () => {
     const db = await conn.db('Cookmaster');
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
-  })
+  });
 
   after(() => {
     MongoClient.connect.restore();
@@ -40,11 +40,11 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: ObjectId()
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -52,18 +52,21 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
       response = await chai.request(app)
         .put(`/recipes/${recipeId}`)
         .send({
-          name: "Nome alterado",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno",
+          name: 'Nome alterado',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno',
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response.message).to.equal('missing auth token');
-    })
-  })
+      expect(response.body.message).to.equal('missing auth token');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Quando o token enviado for inválido', () => {
     let response;
@@ -73,11 +76,11 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: ObjectId()
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -88,19 +91,21 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         .put(`/recipes/${recipeId}`)
         .set('Authorization', invalidToken)
         .send({
-          name: "Nome alterado",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno",
+          name: 'Nome alterado',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno',
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('Acesso negado');
-    })
-  })
+      expect(response.body.message).to.equal('Acesso negado');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
 
   describe('Não é possível editar e receita de outro usuário sem ser admin', () => {
     let response;
@@ -110,19 +115,19 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
-        role: "user"
-      }
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: ObjectId()
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -135,21 +140,23 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         .put(`/recipes/${recipeId}`)
         .set('Authorization', token)
         .send({
-          name: "Receita editada",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Receita editada',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('Acesso negado');
-    })
-  })
+      expect(response.body.message).to.equal('Acesso negado');
+    });
 
-  describe('É possível editar e receita de outro usuário se você for admin', () => {
+    it('retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+  });
+
+  describe('É possível editar a receita de outro usuário se você for admin', () => {
     let response;
 
     beforeEach(async () => {
@@ -157,19 +164,19 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadUser = {
         _id: ObjectId(),
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
-        role: "admin"
-      }
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'admin'
+      };
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: ObjectId()
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -182,21 +189,24 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         .put(`/recipes/${recipeId}`)
         .set('Authorization', token)
         .send({
-          name: "Receita editada",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Receita editada',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
-    it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.be.have.all.keys([
+    it('retorna um objeto com a receita editada', () => {
+      expect(response.body).to.be.have.all.keys([
         '_id', 'name', 'ingredients', 'preparation', 'userId', 'image'
       ]);
-      expect(response.name).to.equal('Receita editada');
-    })
-  })
+      expect(response.body.name).to.equal('Receita editada');
+    });
+
+    it('retorna status 200', () => {
+      expect(response).to.have.status(200);
+    });
+  });
 
   describe('É possível editar receitas que pertencem àquele usuário', () => {
     let response;
@@ -207,19 +217,19 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadUser = {
         _id: userId,
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
-        role: "user"
-      }
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
 
       const payloadRecipe = {
         _id: recipeId,
-        name: "Frango",
-        ingredients: "Frango, sazon",
-        preparation: "10 minutos no forno",
+        name: 'Frango',
+        ingredients: 'Frango, sazon',
+        preparation: '10 minutos no forno',
         userId: userId
-      }
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('recipes').insertOne(payloadRecipe);
@@ -232,21 +242,24 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         .put(`/recipes/${recipeId}`)
         .set('Authorization', token)
         .send({
-          name: "Receita editada",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Receita editada',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
-    it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.be.have.all.keys([
+    it('retorna um objeto com a receita editada', () => {
+      expect(response.body).to.be.have.all.keys([
         '_id', 'name', 'ingredients', 'preparation', 'userId', 'image'
       ]);
-      expect(response.name).to.equal('Receita editada');
-    })
-  })
+      expect(response.body.name).to.equal('Receita editada');
+    });
+
+    it('retorna status 200', () => {
+      expect(response).to.have.status(200);
+    });
+  });
 
   describe('Quando não houver receita com aquele id', () => {
     let response;
@@ -256,11 +269,11 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
 
       const payloadUser = {
         _id: userId,
-        name: "Teste",
-        email: "teste@gmail.com",
-        password: "12345678",
-        role: "user"
-      }
+        name: 'Teste',
+        email: 'teste@gmail.com',
+        password: '12345678',
+        role: 'user'
+      };
 
       const db = await conn.db('Cookmaster');
       await db.collection('users').insertOne(payloadUser);
@@ -272,17 +285,19 @@ describe('É possível editar uma receita em PUT /recipes/:id', () => {
         .put(`/recipes/${ObjectId()}`)
         .set('Authorization', token)
         .send({
-          name: "Receita editada",
-          ingredients: "Frango, sazon",
-          preparation: "10 minutos no forno"
+          name: 'Receita editada',
+          ingredients: 'Frango, sazon',
+          preparation: '10 minutos no forno'
         })
-        .then(({ body }) => body);
-    })
+        .then((response) => response);
+    });
 
     it('retorna um objeto com a mensagem de error', () => {
-      expect(response).to.be.a('object');
-      expect(response).to.have.property('message');
-      expect(response.message).to.equal('Recipe not found');
-    })
-  })
-})
+      expect(response.body.message).to.equal('Recipe not found');
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+  });
+});
