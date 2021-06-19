@@ -189,7 +189,7 @@ describe("2 - Crie um endpoint para o login de usuários", () => {
       });
   });
 
-  it.skip('Será validado que o campo "password" é obrigatório', async () => {
+  it('Será validado que o campo "password" é obrigatório', async () => {
     await frisby
       .post(`${url}/login/`, {
         email: "erickjaquin@gmail.com",

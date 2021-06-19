@@ -48,4 +48,28 @@ const loginSchemas = Joi.object({
     .required(),
 });
 
-module.exports = { userSchemas, loginSchemas };
+const recipesSchemas = Joi.object({
+  name: Joi.string()
+    .messages({
+      'string.base': msg,
+      'string.empty': msg,
+      'any.required': msg,
+    })
+    .required(),
+  ingredients: Joi.string()
+    .messages({
+      'string.base': msg,
+      'string.empty': msg,
+      'any.required': msg,
+    })
+    .required(),
+  preparation: Joi.string()
+    .messages({
+      'string.base': msg,
+      'string.empty': msg,
+      'any.required': msg,
+    })
+    .required()
+});
+
+module.exports = { userSchemas, loginSchemas, recipesSchemas };
