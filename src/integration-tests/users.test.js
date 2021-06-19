@@ -15,6 +15,13 @@ const VALID_USER = {
   password: 'mockuserpassword',
 };
 
+const ADMIN_USER = {
+  name: 'Mock Admin',
+  email: 'mockadminemail@email.com',
+  password: 'mockadminpassword',
+  role: 'admin',
+};
+
 const INVALID_USER_NAME = {
   name: 123,
   email: 'mockuseremail@email.com',
@@ -39,7 +46,7 @@ describe('Testa o caminho "/users"', () => {
     MongoClient.connect.restore();
   });
 
-  describe('1 - Testa um login válido', () => {
+  describe('1 - Testa a adição de um usuário', () => {
     let response;
 
     before(async () => {
@@ -160,6 +167,112 @@ describe('Testa o caminho "/users"', () => {
 
     it('4 - a propriedade "message" tem o valor "Email already registered"', () => {
       expect(response.body.message).to.be.equal('Email already registered');
+    });
+  });
+
+  describe('5 - Testa a adição de um admin por um admin', () => {
+    let response;
+
+    before(async () => {
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.deleteMany({});
+
+      await chai.request(server).post('/users').send(ADMIN_USER);
+
+      const token = await chai
+        .request(server)
+        .post('/login')
+        .send({ email: 'mockadminemail@email.com', password: 'mockadminpassword' })
+        .then((response) => response.body.token);
+
+      response = await chai
+        .request(server)
+        .post('/users/admin')
+        .set('authorization', token)
+        .send({
+          name: 'Mock User',
+          email: 'mockuseremail@email.com',
+          password: 'mockuserpassword',
+        });
+    });
+
+    it('1 - retorna com código de estatus "201"', () => {
+      expect(response).to.have.status(201);
+    });
+
+    it('2 - retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('3 - retorna um body com a propriedade "user"', () => {
+      expect(response.body).to.have.property('user');
+    });
+
+    it('4 - a propriedade "user" deve ter a propriedade "name"', () => {
+      expect(response.body.user).to.have.property('name');
+    });
+
+    it('5 - a propriedade "user" deve ter a propriedade "email"', () => {
+      expect(response.body.user).to.have.property('email');
+    });
+
+    it('6 - a propriedade "user" deve ter a propriedade "role"', () => {
+      expect(response.body.user).to.have.property('role');
+    });
+
+    it('7 - a propriedade "user" deve ter a propriedade "role" com valor "admin"', () => {
+      expect(response.body.user.role).to.be.equal('admin');
+    });
+
+    it('8 - a propriedade "user" deve ter a propriedade "_id"', () => {
+      expect(response.body.user).to.have.property('_id');
+    });
+  });
+
+  describe('6 - Testa se dá erro ao adicionar um usuário admin sem ser um admin', () => {
+    let response;
+
+    before(async () => {
+      const usersCollection = connectionMock.db('Cookmaster').collection('users');
+      await usersCollection.deleteMany({});
+
+      await chai.request(server).post('/users').send({
+        name: 'Mock User',
+        email: 'mockuseremail@email.com',
+        password: 'mockuserpassword',
+      });
+
+      const token = await chai
+        .request(server)
+        .post('/login')
+        .send({ email: 'mockuseremail@email.com', password: 'mockuserpassword' })
+        .then((response) => response.body.token);
+
+      response = await chai
+        .request(server)
+        .post('/users/admin')
+        .set('authorization', token)
+        .send({
+          name: 'Mock User 2',
+          email: 'mockuseremail2@email.com',
+          password: 'mockuserpassword2',
+        });
+    });
+
+    it('1 - retorna com código de estatus "403"', () => {
+      expect(response).to.have.status(403);
+    });
+
+    it('2 - retorna um objeto no campo "body"', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('3 - tem a propriedade "message" no campo "body"', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('4 - a propriedade "message" no campo "body" tem valor "Only admins can register new admins', () => {
+      expect(response.body.message).to.be.equal('Only admins can register new admins');
     });
   });
 });
