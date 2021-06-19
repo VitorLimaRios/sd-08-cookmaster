@@ -11,6 +11,12 @@ const getAll = async () => {
   return allRecipes;
 };
 
+const getById = async (id) => {
+  const recipeID = await Recipes.getById(id);
+
+  return recipeID;
+};
+
 const create = async (name, ingredients, preparation, userId) => {
   const newRecipe = await Recipes.create(name, ingredients, preparation, userId);
   return newRecipe;
@@ -18,5 +24,6 @@ const create = async (name, ingredients, preparation, userId) => {
 
 module.exports = {
   getAll,
+  getById,
   create
 };

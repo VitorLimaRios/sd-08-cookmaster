@@ -1,9 +1,16 @@
 const connection = require('../models/connection');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const getAll = async () => {
-  return await connection()
+  return connection()
     .then(db => db.collection('recipes').find().toArray());
+};
+
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+    .then((db) => db.collection('recipes').findOne(new ObjectId(id)));
 };
 
 const create = async (name, ingredients, preparation, userId) => connection()
@@ -13,5 +20,6 @@ const create = async (name, ingredients, preparation, userId) => connection()
 
 module.exports = {
   getAll,
+  getById,
   create
 };

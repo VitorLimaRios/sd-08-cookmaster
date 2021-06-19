@@ -1,7 +1,7 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-  return await connection()
+  return connection()
     .then(db => db.collection('users').find().toArray())
     .then((users) => ({ users }));
 };
