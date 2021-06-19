@@ -1,6 +1,6 @@
 // o controller aplica as requisições e responses às funções refinadas do services
 const usersServices = require('../services/usersServices');
-const { errors: { Users: mustHaveEmail, mustHaveName, mustHavePassword } } = require('../utils/errorsNCodes');
+// const { errors: { Users: mustHaveEmail, mustHaveName, mustHavePassword } } = require('../utils/errorsNCodes');
 
 const { responsesNCodes: { OK, CREATED } } = require('../utils/errorsNCodes');
 
