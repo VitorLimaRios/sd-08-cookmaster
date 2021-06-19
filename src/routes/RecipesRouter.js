@@ -25,5 +25,9 @@ router.put('/:id',
   validateTokenAuthentication,
   RecipesController.updateRecipeById
 );
+router.delete('/:id',
+  validateMissingToken,
+  RecipesController.deleteRecipe
+);
 
 module.exports = router;
