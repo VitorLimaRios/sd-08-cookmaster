@@ -1,9 +1,8 @@
 const recipesModel = require('../models/recipesModels');
+const userModel = require('../models/usersModels');
 const { ObjectId } = require('mongodb');
-const { validateEmail } = require('../middlewares/userMiddleware');
 
 async function createRecipes(recipes) {
-
   const { name, ingredients, preparation  } = recipes;
 
   if(!name || !ingredients || !preparation ) {
@@ -13,14 +12,13 @@ async function createRecipes(recipes) {
   const recipe = await recipesModel.createRecipes(recipes);
 
   return {code: 201, message: { recipe }};
-
-}
+};
 
 async function getAllRecipes() {
 
   const recipes = await recipesModel.getAllRecipes();
   return recipes;
-}
+};
 
 async function getRecipeById(id) {
 
@@ -29,8 +27,22 @@ async function getRecipeById(id) {
   }
 
   const recipe = await recipesModel.getRecipeById(id);
-  console.log(recipe);
   return {code: 200, message: recipe };
+};
+
+async function updateRecipe(id, recipe,  user) {
+  const { email } = user;
+
+  const userConsult = await userModel.findByEmail(email);
+  const emailConsult = userConsult.email;
+  const emailRequest = user.email;
+
+  if( emailConsult === emailRequest ) {
+    console.log('pode editar');
+    await recipesModel.updateRecipe(id, recipe);
+    const recipeUpdated = await recipesModel.getRecipeById(id);
+    return {code: 200, message: recipeUpdated };
+  }
 }
 
-module.exports = { createRecipes, getAllRecipes, getRecipeById };
+module.exports = { createRecipes, getAllRecipes, getRecipeById, updateRecipe };

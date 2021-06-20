@@ -7,7 +7,6 @@ router.use(bodyParser.json());
 
 router.post('/', async (req, res) => {
   const  credentials  = req.body;
-  console.log('credentials', credentials);
 
   const result = await service.loginUser(credentials);
 

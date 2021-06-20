@@ -43,6 +43,20 @@ async function getRecipeById(id) {
   }
 }
 
+async function updateRecipe( id, recipe ) {
+  const { name, ingredients, preparation } = recipe;
+  try {
+    const result = connection()
+      .then((db) => db.collection('recipes')
+        .updateOne(
+          {_id: ObjectId(id)},
+          {$set: {'name': name, 'ingredients': ingredients, 'preparation': preparation }})
+      ).then((result) => result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 
 // async function findByEmail(email) {
@@ -57,4 +71,4 @@ async function getRecipeById(id) {
 //   }
 // };
 
-module.exports = { createRecipes, getAllRecipes, getRecipeById };
+module.exports = { createRecipes, getAllRecipes, getRecipeById, updateRecipe };
