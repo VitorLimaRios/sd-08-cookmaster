@@ -4,6 +4,8 @@ const Joi = require('joi');
 
 const { ObjectId } = require('mongodb');
 
+const recipeNotFound = 'recipe not found';
+
 const create = async ({name, ingredients, preparation, userId}) => {
   const schema = Joi.object({
     recipeName: Joi.string()
@@ -38,7 +40,7 @@ const getById = async (id) => {
 
   if(!ObjectId.isValid(id)) {
     throw new Error(JSON.stringify({
-      message: 'recipe not found',
+      message: recipeNotFound,
       status: 404
     }));
   }
@@ -46,7 +48,7 @@ const getById = async (id) => {
   const result = await Model.getById(id);
   if(!result) {
     throw new Error(JSON.stringify({
-      message: 'recipe not found',
+      message: recipeNotFound,
       status: 404
     }));
   }
@@ -57,7 +59,7 @@ const getById = async (id) => {
 const updateById = async (id, name, ingredients, preparation) => {
   if(!ObjectId.isValid(id)) {
     throw new Error(JSON.stringify({
-      message: 'recipe not found',
+      message: recipeNotFound,
       status: 404
     }));
   }
@@ -68,7 +70,7 @@ const updateById = async (id, name, ingredients, preparation) => {
 const deleteById = async( id ) => {
   if(!ObjectId.isValid(id)) {
     throw new Error(JSON.stringify({
-      message: 'recipe not found',
+      message: recipeNotFound,
       status: 404
     }));
   }
@@ -76,10 +78,22 @@ const deleteById = async( id ) => {
   return Model.deleteById(id);
 };
 
+const updateURL = async (id, image) => {
+  if(!ObjectId.isValid(id)) {
+    throw new Error(JSON.stringify({
+      message: recipeNotFound,
+      status: 404
+    }));
+  }
+
+  return Model.updateURL(id, image);
+};
+
 module.exports = {
   create,
   getAllRecipes,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  updateURL
 };

@@ -6,16 +6,32 @@ const validateUser = require('../api/auth/validateUser');
 
 const bodyParser = require('body-parser');
 
+const multer = require('multer');
+
 const router = express.Router();
 
 router.use(bodyParser.json());
 
 const controllers = require('../controllers/RecipeController');
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+
+  }});
+
+const upload = multer({ storage });
+
 router.post('/', validateJWT, controllers.create);
 router.get('/', controllers.getAll);
 router.get('/:id', controllers.getById);
 router.put('/:id',validateJWT, validateUser, controllers.updateById);
 router.delete('/:id', validateJWT,validateUser, controllers.deleteById);
+router.put('/:id/image',validateJWT, validateUser,
+  upload.single('image'), controllers.updateURL);
 
 module.exports = router;

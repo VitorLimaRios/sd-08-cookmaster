@@ -70,10 +70,25 @@ const deleteById = async (req, res) => {
   }
 };
 
+const updateURL = async (req, res) => {
+  console.log(req.file);
+  const urlImage = 'localhost:3000/src/uploads/' + req.file.filename;
+  try {
+    const { id } = req.params;
+
+    await Service.updateURL(id, urlImage);
+    const result = await Service.getById(id);
+    res.status(httpSuccess).json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  updateURL
 };

@@ -30,11 +30,18 @@ const deleteById = async (id) =>
   connection()
     .then((db) => db.collection('recipes').deleteOne({_id: ObjectId(id)}));
 
+const updateURL = async (id, image) =>
+  connection()
+    .then((db) => db.collection('recipes')
+      .updateOne({_id: ObjectId(id)}, {$set: {image: image}}));
+
+
 
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  updateURL
 };
