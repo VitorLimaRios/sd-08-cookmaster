@@ -10,6 +10,7 @@ router.post('/users', UserController.store);
 
 router.post('/login', UserController.login);
 
+router.get('/recipes/:id', RecipeController.index);
 router.get('/recipes', RecipeController.index);
 router.post('/recipes', ValidateToken, RecipeController.store);
 
