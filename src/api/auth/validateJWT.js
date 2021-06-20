@@ -2,6 +2,8 @@
 const jwt = require('jsonwebtoken');
 const model = require('../../models/user');
 
+
+const cdi = 401;
 /* Mesma chave privada que usamos para criptografar o token.
    Agora, vamos usá-la para descriptografá-lo.
    Numa aplicação real, essa chave jamais ficaria hardcoded no código assim,
@@ -18,7 +20,7 @@ module.exports = async (req, res, next) => {
   /* Caso o token não seja informado, simplesmente retornamos
      o código de status 401 - não autorizado. */
   if (!token) {
-    return res.status(401).json({ error: 'Token não encontrado' });
+    return res.status(cdi).json({ error: 'Token não encontrado' });
   }
 
   try {
@@ -45,7 +47,7 @@ module.exports = async (req, res, next) => {
     /* Não existe um usuário na nossa base com o id informado no token. */
     if (!user) {
       return res
-        .status(401)
+        .status(cdi)
         .json({ message: 'Erro ao procurar usuário do token.' });
     }
 
@@ -58,6 +60,6 @@ module.exports = async (req, res, next) => {
        é a própria callback da rota. */
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(cdi).json({ message: err.message });
   }
 };
