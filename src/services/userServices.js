@@ -1,28 +1,26 @@
-const UsersModel = require('../models/userModel');
+const usersModel = require('../models/userModel');
 
-const createUser = async (dataUsers) => {
-
-  const getAll = await UsersModel.getAll();
-
+const createUser = async (dataUser) => {
+  const getAll = await usersModel.getAll();
   const emailExist = getAll.some((data) => 
-    data.email === dataUsers.email
+    data.email === dataUser.email
   );
 
   if(emailExist) return { message: 'Email already registered'};
 
-  let objDataUsers;
-  if(dataUsers.role) {
-    objDataUsers = dataUsers;
+  let objDataUser;
+  if(dataUser.role) {
+    objDataUser = dataUser;
   } else {
-    objDataUsers = {
-      name: dataUsers.name,
-      email: dataUsers.email,
-      password: dataUsers.password,
+    objDataUser = {
+      name: dataUser.name,
+      email: dataUser.email,
+      password: dataUser.password,
       role: 'user',
     };
   };
 
-  const { name, email, password, role } = objDataUsers;
+  const { name, email, password, role } = objDataUser;
   const insertUser = await UsersModel
     .addUser(name, email, password, role);
 
