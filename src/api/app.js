@@ -10,4 +10,6 @@ app.get('/', (_request, response) => {
 
 app.post('/users', users.createUser);
 
+app.post('/login', users.login);
+
 module.exports = app;

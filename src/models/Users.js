@@ -20,7 +20,16 @@ const isEmailRegistered = async (email) => {
   return Boolean(result);
 };
 
+const login = async (user) => {
+  const db = await connection();
+  const result = await db
+    .collection('users')
+    .findOne({ email: user.email, password: user.password });
+  return result;
+};
+
 module.exports = {
   createUser,
   isEmailRegistered,
+  login,
 };

@@ -1,8 +1,16 @@
+const jwt = require('jsonwebtoken');
+
 const model = require('../models/Users');
 const { userSchema } = require('./validation');
 
 const HTTP = require('../utils/httpStatusCodes');
 const generateError = require('../utils/generateError');
+
+const { SECRET } = require('../utils/doNotLook');
+const jwtConfig = {
+  expiresIn: '10m',
+  algorithm: 'HS256',
+};
 
 const createUser = async (user) => {
   try {
@@ -24,4 +32,27 @@ const createUser = async (user) => {
   }
 };
 
-module.exports = { createUser };
+const login = async (loginData) => {
+  try {
+    const { email, password } = loginData;
+    if (!email || !password) {
+      throw generateError(HTTP.UNAUTHORIZED, 'All fields must be filled');
+    }
+
+    const result = await model.login(loginData);
+    if (!result) {
+      throw generateError(HTTP.UNAUTHORIZED, 'Incorrect username or password');
+    }
+
+    const token = jwt.sign({ email }, SECRET, jwtConfig);
+
+    return {
+      status: HTTP.OK,
+      result: { token },
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { createUser, login };
