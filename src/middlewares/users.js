@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const HTTP_Bad_Request = 400;
-const invalidEntries = { 'message': 'Invalid entries. Try again.' };
+const invalidEntries = { message: 'Invalid entries. Try again.' };
 
 /* Referência: https://app.betrybe.com/course/back-end/nodejs/jwt/solutions */
 const validateBody = (body) =>
@@ -14,10 +14,12 @@ const validateBody = (body) =>
 const validateNewUser = async (req, res, next) => {
   const { error } = validateBody(req.body);
 
-  if(error) res.status(HTTP_Bad_Request).json(invalidEntries);
-  next(error);
+  if (error) {
+    return res.status(HTTP_Bad_Request).json(invalidEntries);
+  }
+  next();
 };
 
 module.exports = {
-  validateNewUser
+  validateNewUser,
 };

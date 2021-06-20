@@ -23,7 +23,7 @@ const create = async (req, res) => {
   const newUser = await Users.create(name, email, password);
   
   if (newUser) {
-    res.status(HTTP_Created).json(newUser);
+    return res.status(HTTP_Created).json(newUser);
   } else {
     res.status(HTTP_Conflict).json(emailAlreadyRegistered);
   }

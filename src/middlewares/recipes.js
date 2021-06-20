@@ -29,7 +29,7 @@ const auth = async (req, res, next) => {
 
       return next();
     }
-  } catch (error) {
+  } catch (err) {
     return res.status(HTTP_Unauthorized).json(JWTmalformed);
   }
 };
