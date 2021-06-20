@@ -15,6 +15,17 @@ const getById = async (id) => {
 
 const getAll = async () => 
   connection() 
-    .then ((db) => db.collection('recipes').find().toArray());
+    .then((db) => db.collection('recipes').find().toArray());
+    
+const update = async (id, name, ingredients, preparation) =>
+  connection().then((db) =>
+    db
+      .collection('recipes')
+      .updateOne(
+        { _id: ObjectId(id) },
+        { $set: { name, ingredients, preparation } }
+      )
+  );
 
-module.exports = { create, getById, getAll };   
+
+module.exports = { create, getById, getAll, update };   

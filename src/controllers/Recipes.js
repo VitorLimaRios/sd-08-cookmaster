@@ -1,4 +1,5 @@
-const models = require('../models/Recipes');
+const modelsRecipes = require('../models/Recipes');
+const modelsUsers = require('../models/Users');
 const { validateToken } = require('../services/tokenValidate');
 const { checkRecipesData } = require('../middlewares');
 const userSchemas = require('../schemas');
@@ -20,20 +21,37 @@ recipesController.post('/', checkRecipesData(userSchemas), async (req, res) => {
   if (!token) return res.status(Unauthorized).json({ message: 'jwt malformed' });
   const valid = validateToken(token);
   if (!valid) return res.status(Unauthorized).json({ message: 'jwt malformed' });
-  const recipe = await models.create(name, ingredients, preparation, valid._id);
+  const recipe = await modelsRecipes.create(name, ingredients, preparation, valid._id);
   res.status(Created).json({ recipe: recipe.ops[0] });
 });
 
 recipesController.get('/', async (_req, res) => {
-  const recipes = await models.getAll();
+  const recipes = await modelsRecipes.getAll();
   res.status(OK).send(recipes);
 });
 
 recipesController.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const product = await models.getById(id);
-  if (!product) return res.status(Not_Found).json({ message: 'recipe not found' });
-  res.status(OK).json(product);
+  const recipe = await modelsRecipes.getById(id);
+  if (!recipe) return res.status(Not_Found).json({ message: 'recipe not found' });
+  res.status(OK).json(recipe);
+});
+
+
+recipesController.put('/:id', checkRecipesData(userSchemas), async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const token = req.headers.authorization;
+  if (!token)
+    return res.status(Unauthorized).json({ message: 'missing auth token'});
+  const valid = validateToken(token);
+  if (!valid)
+    return res.status(Unauthorized).json({ message: 'jwt malformed' });
+  if (valid._id || valid.role === 'admin') {
+    const recipe = await modelsRecipes.update(id, name, ingredients, preparation);
+    recipe.result.ok ? (result = await modelsRecipes.getById(id)) : '';
+  }
+  res.status(OK).json(result);
 });
 
 module.exports = recipesController;

@@ -11,6 +11,12 @@ const findEmail = async (email) => {
     .then ((db) => db.collection('users').findOne({ email: email }));
 };
     
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connection().then((db) =>
+    db.collection('users').findOne(new ObjectId(id))
+  );
+};
 
 // const del = async (id) => {
 //   if (!ObjectId.isValid(id)) return null;
@@ -38,4 +44,4 @@ const findEmail = async (email) => {
 //     .then((db) => db.collection('products')
 //       .updateOne({_id: ObjectId(id)}, {$set: {name: name, quantity: quantity}}));
 
-module.exports  = { create, findEmail };   
+module.exports  = { create, findEmail, getById };   
