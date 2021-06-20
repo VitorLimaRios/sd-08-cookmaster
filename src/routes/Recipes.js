@@ -11,5 +11,6 @@ router.use(bodyParser.json());
 const controllers = require('../controllers/RecipeController');
 
 router.post('/', validateJWT, controllers.create);
+router.get('/', controllers.getAll);
 
 module.exports = router;

@@ -8,6 +8,13 @@ const create = async (name, ingredients, preparation) =>
       return result;
     });
 
+const getAll = async () =>
+  connection()
+    .then((db) => db.collection('recipes').find().toArray());
+
+
+
 module.exports = {
   create,
+  getAll
 };
