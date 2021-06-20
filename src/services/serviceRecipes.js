@@ -15,4 +15,10 @@ async function createRecipes(recipes) {
 
 }
 
-module.exports = { createRecipes };
+async function getAllRecipes() {
+
+  const recipes = await recipesModel.getAllRecipes();
+  return recipes;
+}
+
+module.exports = { createRecipes, getAllRecipes };

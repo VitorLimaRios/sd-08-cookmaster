@@ -14,6 +14,20 @@ async function createRecipes(recipes) {
   }
 }
 
+async function getAllRecipes() {
+  // const { name, email, password } = user;
+  try {
+    const result = await connection()
+      .then((db) => db.collection('recipes').find().toArray())
+      .then((result) => result);
+    // const ops2 =  await result;
+    // console.log(ops2);
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 // async function findByEmail(email) {
 //   try {
 //     const IsEmail = connection()
@@ -26,4 +40,4 @@ async function createRecipes(recipes) {
 //   }
 // };
 
-module.exports = { createRecipes };
+module.exports = { createRecipes, getAllRecipes };
