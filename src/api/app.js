@@ -1,5 +1,6 @@
 const express = require('express');
 const Users = require('../routes/Users');
+const Login = require('../controllers/Login');
 const errorMiddleware = require('../middlewares/error');
 
 const app = express();
@@ -13,6 +14,8 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.use('/users', Users);
+
+app.post('/login', Login);
 
 app.use(errorMiddleware);
 
