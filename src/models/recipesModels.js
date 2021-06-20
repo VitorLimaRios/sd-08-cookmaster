@@ -44,13 +44,13 @@ async function getRecipeById(id) {
 }
 
 async function updateRecipe( id, recipe ) {
-  const { name, ingredients, preparation } = recipe;
+  // const { name, ingredients, preparation } = recipe;
   try {
     const result = connection()
       .then((db) => db.collection('recipes')
         .updateOne(
           {_id: ObjectId(id)},
-          {$set: {'name': name, 'ingredients': ingredients, 'preparation': preparation }})
+          {$set: recipe})
       ).then((result) => result);
     return result;
   } catch (err) {

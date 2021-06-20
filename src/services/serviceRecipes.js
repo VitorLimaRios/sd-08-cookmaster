@@ -38,7 +38,6 @@ async function updateRecipe(id, recipe,  user) {
   const emailRequest = user.email;
 
   if( emailConsult === emailRequest ) {
-    console.log('pode editar');
     await recipesModel.updateRecipe(id, recipe);
     const recipeUpdated = await recipesModel.getRecipeById(id);
     return {code: 200, message: recipeUpdated };

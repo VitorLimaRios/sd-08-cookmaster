@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+
 
 const users = require('../controllers/usersController');
 const login = require('../controllers/loginController');
@@ -17,6 +19,6 @@ app.get('/', (request, response) => {
 app.use('/users', users);
 app.use('/login', login);
 app.use('/recipes', recipes);
-
+app.use('/imagens/', express.static(path.join(__dirname, '..', 'uploads')));
 
 module.exports = app;
