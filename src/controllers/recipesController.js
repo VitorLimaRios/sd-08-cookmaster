@@ -36,4 +36,12 @@ router.put('/:id', auth, async (req, res) => {
   res.status(result.code).send(result.message);
 });
 
+router.delete('/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  // console.log(id);
+  const result = await serviceRecipes.deleteRecipe(id);
+  res.status(result.code).send(result.message);
+
+});
+
 module.exports = router;

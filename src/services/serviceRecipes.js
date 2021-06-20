@@ -45,4 +45,16 @@ async function updateRecipe(id, recipe,  user) {
   }
 }
 
-module.exports = { createRecipes, getAllRecipes, getRecipeById, updateRecipe };
+async function deleteRecipe(id) {
+  const result = await recipesModel.deleteRecipe(id);
+  // console.log(result);
+  return {code: 204, message: undefined};
+}
+
+module.exports = {
+  createRecipes,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe
+};

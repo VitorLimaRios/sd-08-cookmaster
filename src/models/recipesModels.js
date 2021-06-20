@@ -58,6 +58,14 @@ async function updateRecipe( id, recipe ) {
   }
 };
 
+async function deleteRecipe(id) {
+  const deletedRecipe = await connection()
+    .then((db) => db.collection('recipes')
+      .deleteOne({_id: ObjectId(id)}));
+  return deletedRecipe;
+};
+
+
 
 // async function findByEmail(email) {
 //   try {
@@ -71,4 +79,10 @@ async function updateRecipe( id, recipe ) {
 //   }
 // };
 
-module.exports = { createRecipes, getAllRecipes, getRecipeById, updateRecipe };
+module.exports = {
+  createRecipes,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe
+};
