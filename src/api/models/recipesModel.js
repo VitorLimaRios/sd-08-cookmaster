@@ -20,26 +20,26 @@ const findByName = async (nameNewRecipe) =>
 // const findById = async (id) => {
 //   try {
 //     const db = await connection();
-//     return await db.collection('users')
+//     return await db.collection('recipes')
 //       .findOne(new ObjectId(id));
 //   } catch (error) {
 //     return null;
 //   }
 // };
 
-// const getAll = async () => {
-//   try {
-//     const db = await connection();
-//     return await db.collection('users').find().toArray();
-//   } catch (error) {
-//     return null;
-//   }
-// };
+const getAll = async () => {
+  try {
+    const db = await connection();
+    return await db.collection('recipes').find().toArray();
+  } catch (error) {
+    return null;
+  }
+};
 
 // const updateByID = async (id, name, quantity) =>{
 //   try {
 //     const db = await connection();
-//     return await db.collection('users')
+//     return await db.collection('recipes')
 //       .updateOne(
 //         { '_id': ObjectId(id) },
 //         { $set: { 'name': name, 'quantity': quantity },
@@ -52,7 +52,7 @@ const findByName = async (nameNewRecipe) =>
 // const deleteByID = async (id) =>{
 //   try {
 //     const db = await connection();
-//     return await db.collection('users')
+//     return await db.collection('recipes')
 //       .deleteOne({ '_id': ObjectId(id) });
 //   } catch (error) {
 //     return null;
@@ -62,4 +62,5 @@ const findByName = async (nameNewRecipe) =>
 module.exports = {
   insertRecipe,
   findByName,
+  getAll,
 };

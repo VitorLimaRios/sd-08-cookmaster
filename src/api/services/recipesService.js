@@ -12,32 +12,32 @@ const insertRecipe = async (name, ingredients, preparation, _id) => {
 };
 
 // const findById = async (id) => {
-//   const data = await productsModel.findById(id);
+//   const data = await recipesModel.findById(id);
 
 //   if(!data) return null;
 
 //   return { status: 200, data };
 // };
 
-// const getAll = async () => {
-//   const products = await productsModel.getAll();
-//   if(!products) return null;
+const getAll = async () => {
+  const recipes = await recipesModel.getAll();
+  if(!recipes) return null;
 
-//   return { status: 200, products };
-// };
+  return { status: 200, recipes };
+};
 
 // const updateByID = async (id, name, quantity) => {
 //   const validations = await recipesModel.validate(name, quantity);
 //   if (validations) return validations;
 
-//   const data = await productsModel.updateByID(id, name, quantity);
+//   const data = await recipesModel.updateByID(id, name, quantity);
 //   if(data.nModified === ZERO_MODIFIED) return null;
 
 //   return { status: 200, message: { id, name, quantity } };
 // };
 
 // const deleteByID = async (id) => {
-//   const data = await productsModel.deleteByID(id);
+//   const data = await recipesModel.deleteByID(id);
 
 //   if(data && data.deletedCount && data.deletedCount === 1) return { status: 200, data };
 
@@ -46,4 +46,5 @@ const insertRecipe = async (name, ingredients, preparation, _id) => {
 
 module.exports = {
   insertRecipe,
+  getAll,
 };
