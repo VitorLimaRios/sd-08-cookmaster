@@ -3,23 +3,22 @@ const conn = require('./conn');
 
 
 const adduser = async(body)=>{
-  return conn().then(
-    async (db) => 
-    {
-      const result = await db.collection('users').insertOne( {...body, role:'user'});
-      const {name, email, role,_id} = result.ops[0];
-      const envolucro = {user: {name, email,role,_id}};
-      return (envolucro);
-    }
-
-  );
-
+  const result = await  conn().then(async (db) =>   
+    db.collection('users').insertOne( body));
+  return (result.ops[0]);
 };
 
-
+const getbyemail = async(email)=>{
+  const emailcheck = await conn().then(
+    async (db) => db.collection('users').findOne({email})
+  );
+  console.log('usermodel13', emailcheck);
+  return (emailcheck);
+};
 
 
 
 module.exports ={
   adduser,
+  getbyemail,
 };

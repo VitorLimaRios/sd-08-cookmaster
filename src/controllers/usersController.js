@@ -17,6 +17,8 @@ const {
 
 } = require('../services/usersService');
 
+const invalideEnties = 'Invalid entries. Try again.';
+const alreadRegistered = 'Email already registered';
 
 
 
@@ -24,10 +26,10 @@ const {
 
 router.post('/', async(req, res) => {
   const result = await createUser(req.body);
-  if (result.message){
+  if (!result || result.message == invalideEnties){
     return res.status(cd).json(result);  
-  }
-  res.status(cci).json(result);
+  }else if(result.message == alreadRegistered){return res.status(cdix).json(result); }
+  else{return res.status(cci).json(result);}
 });
 
 
