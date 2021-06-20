@@ -29,4 +29,10 @@ router.get('/', async (req, res) => {
   return res.status(STATUS_200).send(recipes);
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await serviceRecipes.getRecipeById(id);
+  res.status(result.code).send(result.message);
+});
+
 module.exports = router;

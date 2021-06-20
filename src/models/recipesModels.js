@@ -28,6 +28,23 @@ async function getAllRecipes() {
   }
 }
 
+async function getRecipeById(id) {
+  // const { name, email, password } = user;
+  try {
+    const result = await connection()
+      .then((db) => db.collection('recipes')
+        .findOne( ObjectId(id) ))
+      .then((result) => result);
+    // const ops2 =  await result;
+    // console.log(ops2);
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+
+
 // async function findByEmail(email) {
 //   try {
 //     const IsEmail = connection()
@@ -40,4 +57,4 @@ async function getAllRecipes() {
 //   }
 // };
 
-module.exports = { createRecipes, getAllRecipes };
+module.exports = { createRecipes, getAllRecipes, getRecipeById };
