@@ -37,9 +37,18 @@ const update = async (id, fields, userId) => {
   return upRecipe;
 };
 
+const exclude = async (id) => {
+  const recipeID = await Recipes.getById(id);
+
+  await Recipes.exclude(id);
+
+  return recipeID;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-  update
+  update,
+  exclude
 };

@@ -21,5 +21,5 @@ const validateNewUser = async (req, res, next) => {
 };
 
 module.exports = {
-  validateNewUser,
+  validateNewUser
 };

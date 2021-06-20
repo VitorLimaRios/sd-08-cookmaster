@@ -2,13 +2,12 @@ const Recipes = require('../services/recipes');
 
 const HTTP_OK = 200;
 const HTTP_Created = 201;
+const HTTP_No_Content = 204;
 const HTTP_Bad_Request = 400;
-// const HTTP_Unauthorized = 401;
 const HTTP_Not_Found = 404;
 
 const invalidEntries = { 'message': 'Invalid entries. Try again.' };
 const notFound = { 'message': 'recipe not found' };
-// const unauthorized = { 'message': 'You cant edit this recipe' };
 
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -56,9 +55,18 @@ const update = async (req, res) => {
   res.status(HTTP_OK).json(updateRecipe);
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+
+  const excludeRecipe = await Recipes.exclude(id);
+
+  res.status(HTTP_No_Content).json(excludeRecipe);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-  update
+  update,
+  exclude
 };
