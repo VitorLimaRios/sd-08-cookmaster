@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
   const JWT_SECRET = 'meuSegredoSuperSecreto';
 
   if (!token) {
-    res.status(HTTP_Unauthorized).json(missingAuthToken);
+    return res.status(HTTP_Unauthorized).json(missingAuthToken);
   } 
   
   try {
