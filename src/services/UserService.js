@@ -2,7 +2,6 @@ const Model = require('../models/UserModel');
 
 // Após a visualização do plantão em que o Franco falou sobre o joi, dei uma olhada na documentação e ajudou mt
 //https://joi.dev/api/?v=17.4.0#example
-const numberZero = 0;
 
 const Joi = require('joi');
 
@@ -70,7 +69,7 @@ const login = async ({email, password}) => {
     }));
   }
   
-  return {status: 200};
+  return {status: 200, user:result};
 };
 
 module.exports = {

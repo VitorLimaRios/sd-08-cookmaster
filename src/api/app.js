@@ -4,9 +4,11 @@ const app = express();
 
 const userRouter = require('../routes/User');
 const loginRouter = require('../routes/Login');
+const recipesRouter = require('../routes/Recipes');
 
-app.use('/users', userRouter);
 app.use('/login', loginRouter);
+app.use('/users', userRouter);
+app.use('/recipes', recipesRouter);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
