@@ -7,8 +7,7 @@ const NOT_FOUND = 404;
 
 const createRecipe = async (req, res) => {
   try {
-    const { name, ingredients, preparation } = req.body;
-    const userId = req.user.id;
+    const { name, ingredients, preparation, userId } = req.body;
     const newRecipe = await services.createRecipe(
       name,
       ingredients,
@@ -41,8 +40,21 @@ const getById = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const form = req.body;
+    const { id } = form.userId;
+    console.log('form: ', form);
+    const result = await services.update({ id, ...form });
+    return res.status(OK).json(result);
+  } catch (error) {
+    res.status(BAD).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
+  update,
 }; 

@@ -28,6 +28,8 @@ app.post('/recipes', validateJWT, validateRecipeForm, recipes.createRecipe);
 app.get('/recipes', recipes.getAll);
 //Pegar receitas pelo ID
 app.get('/recipes/:id', recipes.getById);
+//Atualizar receitas
+app.put('/recipes/:id', validateJWT, validateRecipeForm, recipes.update);
 
 
 // //Atualizar produtos
