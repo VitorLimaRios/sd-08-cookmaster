@@ -15,6 +15,7 @@ class App {
     this.express = app;
 
     this.database();
+    this.middlewares();
     this.routes();
 
     this.express.listen(PORT, () => console.log(`API REST funcionando na porta ${PORT}`));
@@ -22,6 +23,10 @@ class App {
 
   database() {
     mongoose.connect(db.uri, OPTIONS);
+  }
+
+  middlewares() {
+    this.express.use(require('express').json());
   }
 
   routes() {

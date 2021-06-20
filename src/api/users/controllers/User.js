@@ -1,5 +1,6 @@
 const User = require('../services/User');
 const jwt = require('jsonwebtoken');
+const jwtConfig = require('../../auth/config');
 
 const STATUS_OK = 200;
 const STATUS_SUBMIT = 201;
@@ -26,11 +27,6 @@ class UserController {
           message: 'Incorrect username or password'
         });
       }
-
-      const jwtConfig = {
-        expiresIn: '7d',
-        algorithm: 'HS256',
-      };
 
       const token = jwt.sign({ data: user[0] }, secret, jwtConfig);
 
