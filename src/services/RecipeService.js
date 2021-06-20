@@ -4,7 +4,7 @@ const Joi = require('joi');
 
 const { ObjectId } = require('mongodb');
 
-const create = async ({name, ingredients, preparation}) => {
+const create = async ({name, ingredients, preparation, userId}) => {
   const schema = Joi.object({
     recipeName: Joi.string()
       .required(),
@@ -26,7 +26,7 @@ const create = async ({name, ingredients, preparation}) => {
     }));
   }
 
-  return Model.create(name, ingredients, preparation);
+  return Model.create(name, ingredients, preparation, userId);
 };
 
 const getAllRecipes = async () => {
@@ -54,8 +54,20 @@ const getById = async (id) => {
   return result;
 };
 
+const updateById = async (id, name, ingredients, preparation) => {
+  if(!ObjectId.isValid(id)) {
+    throw new Error(JSON.stringify({
+      message: 'recipe not found',
+      status: 404
+    }));
+  }
+
+  return Model.updateById(id, name, ingredients, preparation);
+};
+
 module.exports = {
   create,
   getAllRecipes,
-  getById
+  getById,
+  updateById
 };

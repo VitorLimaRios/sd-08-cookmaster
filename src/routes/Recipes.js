@@ -13,5 +13,6 @@ const controllers = require('../controllers/RecipeController');
 router.post('/', validateJWT, controllers.create);
 router.get('/', controllers.getAll);
 router.get('/:id', controllers.getById);
+router.put('/:id',validateJWT, controllers.updateById);
 
 module.exports = router;
