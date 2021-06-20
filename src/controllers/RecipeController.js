@@ -3,8 +3,6 @@ const Service = require('../services/RecipeService');
 const httpCreateSuccess = 201;
 const httpSuccess = 200;
 
-
-
 const create = async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
@@ -27,7 +25,19 @@ const getAll = async (req, res) => {
   res.status(httpSuccess).json(result);
 };
 
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Service.getById(id);
+    res.status(httpSuccess).json(result);
+  } catch (error) {
+    const data = JSON.parse(error.message);
+    res.status(data.status).send({message: data.message});  
+  }
+};
+
 module.exports = {
   create,
-  getAll
+  getAll,
+  getById
 };
