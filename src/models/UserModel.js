@@ -1,0 +1,21 @@
+const connection = require('./connection');
+
+const { ObjectId } = require('mongodb');
+
+
+const create = async (name, email, password, role) => 
+  connection()
+    .then((db) => db.collection('users').insertOne({name, email, password, role}))
+    .then((data) => {
+      const [result] = data.ops;
+      return result;
+    });
+
+const getAll = () => 
+  connection()
+    .then((db) => db.collection('users').find().toArray());
+
+module.exports = {
+  create,
+  getAll
+};
