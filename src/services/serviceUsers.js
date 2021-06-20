@@ -37,24 +37,24 @@ async function loginUser(credentials) {
   const { email, password } = credentials;
 
   if ( !email || !password){
-    return {code: 401, message :{message: 'All fields must be filled'}};
+    return {code: 401, message: {message: 'All fields must be filled'}};
   };
 
   if(!validateEmail(email)) {
-    return {code: 401, message :{message: 'Incorrect username or password'}};
+    return {code: 401, message: {message: 'Incorrect username or password'}};
   };
 
   const user = await model.findByEmail(email);
 
   if (!user || password !== user.password){
-    return {code: 401, message :{message: 'Incorrect username or password'}};
+    return {code: 401, message: {message: 'Incorrect username or password'}};
   };
 
   user.name = undefined;
   user.password = undefined;
 
   const token = jwt.sign({user}, secret, jwtConfig);
-  return {code: 200, message : { token }};
+  return {code: 200, message: { token }};
 }
 
 module.exports = { createUser, loginUser };
