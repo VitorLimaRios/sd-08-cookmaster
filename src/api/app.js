@@ -25,6 +25,6 @@ app.post('/login', Users.login);
 app.post('/recipes', auth, Recipes.create);
 app.get('/recipes', Recipes.getAll);
 app.get('/recipes/:id', Recipes.getById);
-app.put('/recipes/:id', auth, Recipes.update);
+// app.put('/recipes/:id', auth, Recipes.update);
 
 module.exports = app;
