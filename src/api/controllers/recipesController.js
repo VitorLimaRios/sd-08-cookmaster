@@ -66,16 +66,16 @@ router.put('/:id', validateJWT, async (req, res) => {
     .json({ _id: id, name, ingredients, preparation, userId: _id   });
 });
 
-// router.delete('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const product = await recipesService.findById(id);
-//   const data = await recipesService.deleteByID(id);
+router.delete('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const product = await recipesService.findById(id);
+  const data = await recipesService.deleteByID(id);
 
-//   if(!data) return res
-//     .status(ERROR_CODE)
-//     .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
+  if(!data) return res
+    .status(ERROR_CODE)
+    .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
 
-//   return res.status(data.status).json(product.data);
-// });
+  return res.status(data.status).json(product.data);
+});
 
 module.exports = router;

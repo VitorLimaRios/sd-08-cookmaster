@@ -53,15 +53,15 @@ const updateByID = async (id, name, ingredients, preparation) =>{
   }
 };
 
-// const deleteByID = async (id) =>{
-//   try {
-//     const db = await connection();
-//     return await db.collection('recipes')
-//       .deleteOne({ '_id': ObjectId(id) });
-//   } catch (error) {
-//     return null;
-//   }
-// };
+const deleteByID = async (id) =>{
+  try {
+    const db = await connection();
+    return await db.collection('recipes')
+      .deleteOne({ '_id': ObjectId(id) });
+  } catch (error) {
+    return null;
+  }
+};
 
 module.exports = {
   insertRecipe,
@@ -69,4 +69,5 @@ module.exports = {
   getAll,
   findById,
   updateByID,
+  deleteByID,
 };

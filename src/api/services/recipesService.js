@@ -38,17 +38,18 @@ const updateByID = async (id, name, ingredients, preparation) => {
   return { status: 200 };
 };
 
-// const deleteByID = async (id) => {
-//   const data = await recipesModel.deleteByID(id);
+const deleteByID = async (id) => {
+  const data = await recipesModel.deleteByID(id);
 
-//   if(data && data.deletedCount && data.deletedCount === 1) return { status: 200, data };
+  if(data && data.deletedCount && data.deletedCount === 1) return { status: 204, data };
 
-//   return null;
-// };
+  return null;
+};
 
 module.exports = {
   insertRecipe,
   getAll,
   findById,
   updateByID,
+  deleteByID,
 };
