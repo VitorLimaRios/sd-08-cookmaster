@@ -1,6 +1,12 @@
 const connection = require('../models/connection');
 const { ObjectId } = require('mongodb');
 
+const create = async (name, ingredients, preparation, userId) => connection()
+  .then((db) => db.collection('recipes').insertOne(
+    { name, ingredients, preparation, userId }
+  ))
+  .then((result) => ({ recipe: result.ops[0] }));
+
 const getAll = async () => {
   return connection()
     .then(db => db.collection('recipes').find().toArray());
@@ -12,12 +18,6 @@ const getById = async (id) => {
   return connection()
     .then((db) => db.collection('recipes').findOne(new ObjectId(id)));
 };
-
-const create = async (name, ingredients, preparation, userId) => connection()
-  .then((db) => db.collection('recipes').insertOne(
-    { name, ingredients, preparation, userId }
-  ))
-  .then((result) => ({ recipe: result.ops[0] }));
 
 const update = async ( id, fields, userId ) => {
   if (!ObjectId.isValid(id)) return null;
@@ -34,8 +34,8 @@ const update = async ( id, fields, userId ) => {
 };
 
 module.exports = {
+  create,
   getAll,
   getById,
-  create,
-  update
+  // update
 };

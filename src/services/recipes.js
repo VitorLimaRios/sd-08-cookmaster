@@ -1,7 +1,12 @@
 const Recipes = require('../models/recipes');
-const Users = require('../models/users');
+// const Users = require('../models/users');
 
 const zeroRecipes = 0;
+
+const create = async (name, ingredients, preparation, userId) => {
+  const newRecipe = await Recipes.create(name, ingredients, preparation, userId);
+  return newRecipe;
+};
 
 const getAll = async () => {
   const allRecipes = await Recipes.getAll();
@@ -16,11 +21,6 @@ const getById = async (id) => {
   const recipeID = await Recipes.getById(id);
 
   return recipeID;
-};
-
-const create = async (name, ingredients, preparation, userId) => {
-  const newRecipe = await Recipes.create(name, ingredients, preparation, userId);
-  return newRecipe;
 };
 
 const update = async (id, fields, userId) => {
@@ -38,8 +38,8 @@ const update = async (id, fields, userId) => {
 };
 
 module.exports = {
+  create,
   getAll,
   getById,
-  create,
-  update
+  // update
 };

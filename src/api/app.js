@@ -17,14 +17,14 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.get('/users', Users.getAll);
+// app.get('/users', Users.getAll);
 app.post('/users', validateNewUser, Users.create);
 
 app.post('/login', Users.login);
 
+app.post('/recipes', auth, Recipes.create);
 app.get('/recipes', Recipes.getAll);
 app.get('/recipes/:id', Recipes.getById);
-app.post('/recipes', auth, Recipes.create);
-app.put('/recipes/:id', auth, Recipes.update);
+// app.put('/recipes/:id', auth, Recipes.update);
 
 module.exports = app;
