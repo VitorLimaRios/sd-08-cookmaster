@@ -11,13 +11,13 @@ const insertRecipe = async (name, ingredients, preparation, _id) => {
   return { status: 201, data };
 };
 
-// const findById = async (id) => {
-//   const data = await recipesModel.findById(id);
+const findById = async (id) => {
+  const data = await recipesModel.findById(id);
 
-//   if(!data) return null;
+  if(!data) return null;
 
-//   return { status: 200, data };
-// };
+  return { status: 200, data };
+};
 
 const getAll = async () => {
   const recipes = await recipesModel.getAll();
@@ -47,4 +47,5 @@ const getAll = async () => {
 module.exports = {
   insertRecipe,
   getAll,
+  findById,
 };

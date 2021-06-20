@@ -3,7 +3,7 @@ const router = express.Router();
 const validateJWT = require('../auth/validateJWT');
 
 const recipesService = require('../services/recipesService');
-const ERROR_CODE = 422;
+const ERROR_CODE = 404;
 const STATUS_OK = 200;
 
 router.post('/', validateJWT, async (req, res) => {
@@ -17,16 +17,16 @@ router.post('/', validateJWT, async (req, res) => {
   return res.status(body.status).json(body.data);
 });
 
-// router.get('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const product = await recipesService.findById(id);
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await recipesService.findById(id);
 
-//   if(!product) return res
-//     .status(ERROR_CODE)
-//     .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
+  if(!product) return res
+    .status(ERROR_CODE)
+    .json({ message: 'recipe not found' });
 
-//   return res.status(product.status).json(product.data);
-// });
+  return res.status(product.status).json(product.data);
+});
 
 router.get('/', async (_req, res) => {
   const data = await recipesService.getAll();

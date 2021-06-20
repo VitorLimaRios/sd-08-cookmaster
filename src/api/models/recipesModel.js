@@ -17,15 +17,15 @@ const findByName = async (nameNewRecipe) =>
     .then(response => response)
     .catch(err => console.log(err));
 
-// const findById = async (id) => {
-//   try {
-//     const db = await connection();
-//     return await db.collection('recipes')
-//       .findOne(new ObjectId(id));
-//   } catch (error) {
-//     return null;
-//   }
-// };
+const findById = async (id) => {
+  try {
+    const db = await connection();
+    return await db.collection('recipes')
+      .findOne(new ObjectId(id));
+  } catch (error) {
+    return null;
+  }
+};
 
 const getAll = async () => {
   try {
@@ -63,4 +63,5 @@ module.exports = {
   insertRecipe,
   findByName,
   getAll,
+  findById,
 };
