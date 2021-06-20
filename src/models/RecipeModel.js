@@ -26,10 +26,15 @@ const updateById = async (id, name, ingredients, preparation ) =>
       .updateOne({_id: ObjectId(id)}, {$set: {
         name: name, ingredients: ingredients, preparation}}));
 
+const deleteById = async (id) => 
+  connection()
+    .then((db) => db.collection('recipes').deleteOne({_id: ObjectId(id)}));
+
 
 module.exports = {
   create,
   getAll,
   getById,
-  updateById
+  updateById,
+  deleteById
 };

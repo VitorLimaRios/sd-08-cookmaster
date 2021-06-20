@@ -2,6 +2,8 @@ const express = require('express');
 
 const validateJWT = require('../api//auth/validateJWT');
 
+const validateUser = require('../api/auth/validateUser');
+
 const bodyParser = require('body-parser');
 
 const router = express.Router();
@@ -13,6 +15,7 @@ const controllers = require('../controllers/RecipeController');
 router.post('/', validateJWT, controllers.create);
 router.get('/', controllers.getAll);
 router.get('/:id', controllers.getById);
-router.put('/:id',validateJWT, controllers.updateById);
+router.put('/:id',validateJWT, validateUser, controllers.updateById);
+router.delete('/:id', validateJWT,validateUser, controllers.deleteById);
 
 module.exports = router;

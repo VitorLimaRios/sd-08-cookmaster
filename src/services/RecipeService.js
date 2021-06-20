@@ -65,9 +65,21 @@ const updateById = async (id, name, ingredients, preparation) => {
   return Model.updateById(id, name, ingredients, preparation);
 };
 
+const deleteById = async( id ) => {
+  if(!ObjectId.isValid(id)) {
+    throw new Error(JSON.stringify({
+      message: 'recipe not found',
+      status: 404
+    }));
+  }
+
+  return Model.deleteById(id);
+};
+
 module.exports = {
   create,
   getAllRecipes,
   getById,
-  updateById
+  updateById,
+  deleteById
 };
