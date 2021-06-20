@@ -1,9 +1,17 @@
 const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
 const getAll = async () => {
   return connection()
     .then(db => db.collection('users').find().toArray())
     .then((users) => ({ users }));
+};
+
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+    .then((db) => db.collection('users').findOne(new ObjectId(id)));
 };
 
 const getEmail = async (email) => {
@@ -18,6 +26,7 @@ const create = async (name, email, password) => connection()
 
 module.exports = {
   getAll,
+  getById,
   getEmail,
   create
 };

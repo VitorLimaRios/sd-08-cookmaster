@@ -26,7 +26,8 @@ const auth = async (req, res, next) => {
       // console.log(authenticated_user);
       // req.user = authenticated_user;
       req.user = payload;
-      next();
+
+      return next();
     }
   } catch (error) {
     return res.status(HTTP_Unauthorized).json(JWTmalformed);
