@@ -14,12 +14,12 @@ router.post('/', async (req, res) => {
   const validation = await userValidation
     .controlValidation(name, email, password);
 
-  if (validation.message)
+  if (validation.message) 
     return res.status(code.BAD_REQUEST).json(validation);
-
+  
   const addUser = await UsersServices.createUser(req.body);
-
-  if (addUser.message)
+  
+  if (addUser.message) 
     return res.status(code.CONFLICT).json(addUser);
 
   return res.status(code.CREATED).json({ user: addUser });

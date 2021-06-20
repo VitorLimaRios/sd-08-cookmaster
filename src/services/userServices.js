@@ -3,6 +3,7 @@ const UsersModel = require('../models/userModel');
 const createUser = async (dataUsers) => {
 
   const getAll = await UsersModel.getAll();
+
   const emailExist = getAll.some((data) => 
     data.email === dataUsers.email
   );
@@ -23,7 +24,7 @@ const createUser = async (dataUsers) => {
 
   const { name, email, password, role } = objDataUsers;
   const insertUser = await UsersModel
-    .addUsers(name, email, password, role);
+    .addUser(name, email, password, role);
 
   return {
     name,
