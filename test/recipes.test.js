@@ -968,7 +968,7 @@ describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
   });
 });
 
-describe.skip('9 - Crie um endpoint para a adição de uma imagem a uma receita', () => {
+describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () => {
   let connection;
   let db;
 
@@ -1112,6 +1112,7 @@ describe.skip('9 - Crie um endpoint para a adição de uma imagem a uma receita'
       .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200)
       .then((response) => {
+        console.log(response);
         const { body } = response;
         result = JSON.parse(body);
         expect(result.image).toBe(`localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`);

@@ -38,6 +38,13 @@ const updateByID = async (id, name, ingredients, preparation) => {
   return { status: 200 };
 };
 
+const updateImage = async (id, image) => {
+  const data = await recipesModel.updateImage(id, image);
+  if(data.nModified === ZERO_MODIFIED) return null;
+
+  return { status: 200 };
+};
+
 const deleteByID = async (id) => {
   const data = await recipesModel.deleteByID(id);
 
@@ -52,4 +59,5 @@ module.exports = {
   findById,
   updateByID,
   deleteByID,
+  updateImage,
 };

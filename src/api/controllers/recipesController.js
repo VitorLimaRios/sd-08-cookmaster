@@ -1,6 +1,20 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const validateJWT = require('../auth/validateJWT');
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads/');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    req.image = `localhost:3000/src/uploads/${id}.jpeg`;
+    callback(null, `${id}.jpeg`);
+  } 
+});
+
+const upload = multer({ storage });
 
 const recipesService = require('../services/recipesService');
 const ERROR_CODE = 404;
@@ -36,6 +50,27 @@ router.get('/', async (_req, res) => {
     .json({err: { code: 'invalid_data', message: 'Something went wrong' } });
 
   return res.status(STATUS_OK).json(data.recipes);
+});
+
+router.put('/:id/image', validateJWT, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const { image } = req;
+  
+  const recipeUpdated = await recipesService
+    .updateImage(id, image);
+  if(recipeUpdated.err) return res.status(recipeUpdated.status).json(recipeUpdated);
+  
+  if (!recipeUpdated) return res
+    .status(ERROR_CODE)
+    .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
+
+  const recipe = await recipesService.findById(id);
+  if (!recipe) return res.status(ERROR_CODE)
+    .json({ message: 'Digite um id de receita válido' });
+  
+  return res
+    .status(recipeUpdated.status)
+    .json(recipe.data);
 });
 
 router.put('/:id', validateJWT, async (req, res) => {
