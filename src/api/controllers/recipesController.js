@@ -38,26 +38,33 @@ router.get('/', async (_req, res) => {
   return res.status(STATUS_OK).json(data.recipes);
 });
 
-// router.put('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
+router.put('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id, role } = req.user;
 
-//   const product = await recipesService.findById(id);
+  const recipe = await recipesService.findById(id);
+  if (!recipe) return res.status(ERROR_CODE)
+    .json({ message: 'Digite um id de receita válido' });
 
-//   const correctName = name? name : product.data.name;
-//   const correctQuantity = quantity !== undefined ? quantity : product.data.quantity;
+  const correctName = name? name : recipe.data.name;
+  const correctIngredients = ingredients
+    ? ingredients : recipe.data.ingredients;
+  const correctPreparation = preparation
+    ? preparation : recipe.data.preparation;
 
-//   const data = await recipesService.updateByID(id, correctName, correctQuantity);
+  const recipeUpdated = await recipesService
+    .updateByID(id, correctName, correctIngredients, correctPreparation);
+  if(recipeUpdated.err) return res.status(recipeUpdated.status).json(recipeUpdated);
 
-//   if(data.err) return res.status(data.status).json(data);
-
-//   if (!data) return res
-//     .status(ERROR_CODE)
-//     .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
-
-
-//   return res.status(data.status).json(data.message);
-// });
+  if (!recipeUpdated) return res
+    .status(ERROR_CODE)
+    .json({err: { code: 'invalid_data', message: 'Wrong id format' } });
+  
+  return res
+    .status(recipeUpdated.status)
+    .json({ _id: id, name, ingredients, preparation, userId: _id   });
+});
 
 // router.delete('/:id', async (req, res) => {
 //   const { id } = req.params;

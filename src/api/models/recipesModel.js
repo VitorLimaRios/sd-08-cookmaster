@@ -36,18 +36,22 @@ const getAll = async () => {
   }
 };
 
-// const updateByID = async (id, name, quantity) =>{
-//   try {
-//     const db = await connection();
-//     return await db.collection('recipes')
-//       .updateOne(
-//         { '_id': ObjectId(id) },
-//         { $set: { 'name': name, 'quantity': quantity },
-//         });
-//   } catch (error) {
-//     return null;
-//   }
-// };
+const updateByID = async (id, name, ingredients, preparation) =>{
+  try {
+    const db = await connection();
+    return await db.collection('recipes')
+      .updateOne(
+        { '_id': ObjectId(id) },
+        { $set:
+          {
+            'name': name,
+            'ingredients': ingredients,
+            'preparation': preparation },
+        });
+  } catch (error) {
+    return null;
+  }
+};
 
 // const deleteByID = async (id) =>{
 //   try {
@@ -64,4 +68,5 @@ module.exports = {
   findByName,
   getAll,
   findById,
+  updateByID,
 };

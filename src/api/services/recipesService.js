@@ -1,6 +1,8 @@
 const recipesModel = require('../models/recipesModel');
 const recipesSchema = require ('../schema/recipesSchema');
 
+const ZERO_MODIFIED = 0;
+
 const insertRecipe = async (name, ingredients, preparation, _id) => {
   const validations = await recipesSchema.validate(name, ingredients, preparation);
 
@@ -26,15 +28,15 @@ const getAll = async () => {
   return { status: 200, recipes };
 };
 
-// const updateByID = async (id, name, quantity) => {
-//   const validations = await recipesModel.validate(name, quantity);
-//   if (validations) return validations;
+const updateByID = async (id, name, ingredients, preparation) => {
+  const validations = await recipesSchema.validate(name, ingredients, preparation);
+  if (validations) return validations;
 
-//   const data = await recipesModel.updateByID(id, name, quantity);
-//   if(data.nModified === ZERO_MODIFIED) return null;
+  const data = await recipesModel.updateByID(id, name, ingredients, preparation);
+  if(data.nModified === ZERO_MODIFIED) return null;
 
-//   return { status: 200, message: { id, name, quantity } };
-// };
+  return { status: 200 };
+};
 
 // const deleteByID = async (id) => {
 //   const data = await recipesModel.deleteByID(id);
@@ -48,4 +50,5 @@ module.exports = {
   insertRecipe,
   getAll,
   findById,
+  updateByID,
 };
