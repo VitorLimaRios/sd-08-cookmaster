@@ -29,8 +29,8 @@ const create = async (name, ingredients, preparation, token) => {
   const isUserValid = isValid(name, ingredients, preparation);
   if (isUserValid) throw new Error(JSON.stringify({ message: isUserValid, code: 400 }));
   
-  const { _id } = await recipesModel.create(name, ingredients, preparation);
   const { data: userId } = jwt.verify(token, secret);
+  const { _id } = await recipesModel.create(name, ingredients, preparation, userId);
 
   return {
     _id,
@@ -69,6 +69,16 @@ const update = async (id, reqBody, token) => {
 
 const erase = async (id) => await recipesModel.erase(id);
 
+const addImage = async (id, image) => {
+  const dir = `localhost:3000/src/uploads/${image}`;
+
+  await recipesModel.addImage(id, dir);
+
+  const recipe = await recipesModel.getById(id);
+
+  return recipe;
+};
+
 module.exports = {
   verifyToken,
   create,
@@ -76,4 +86,5 @@ module.exports = {
   getById,
   update,
   erase,
+  addImage,
 };

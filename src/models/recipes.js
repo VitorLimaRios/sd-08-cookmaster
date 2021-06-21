@@ -1,12 +1,12 @@
 const connect = require('./connection');
 const { ObjectId } = require('mongodb');
 
-const create = async (name, ingredients, preparation) => {
+const create = async (name, ingredients, preparation, userId) => {
   const recipesCollection = await connect()
     .then((db) => db.collection('recipes'));
 
   const { insertedId: _id } = await recipesCollection
-    .insertOne({ name, ingredients, preparation });
+    .insertOne({ name, ingredients, preparation, userId });
 
   return { _id };
 };
@@ -32,10 +32,19 @@ const erase = async (id) => {
   await recipesCollection.deleteOne({ _id: ObjectId(id) });
 };
 
+const addImage = async (id, image) => {
+  const recipesCollection = await connect()
+    .then((db) => db.collection('recipes'));
+
+  await recipesCollection.updateOne({ _id: ObjectId(id) },
+    { $set: { image }});
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   erase,
+  addImage,
 };

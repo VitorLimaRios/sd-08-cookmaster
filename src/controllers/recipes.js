@@ -60,10 +60,25 @@ const erase = async (req, res) => {
   }
 };
 
+const addImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const token = req.headers['authorization'];
+    recipesService.verifyToken(token);
+    const recipe = await recipesService.addImage(id, filename);
+    res.status(OK).json(recipe);
+  } catch (e) {
+    const { code, message } = JSON.parse(e.message);
+    return res.status(code).json({ message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   erase,
+  addImage,
 };
