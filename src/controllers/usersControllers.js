@@ -11,7 +11,7 @@ const createUser = rescue(async(req, res, next) => {
   if(resp.verifyError) {
     console.log(resp);
     status = resp.status;
-    next(resp);
+    return next(resp);
   }
 
   res.status(status).json(resp);
@@ -24,7 +24,7 @@ const login = rescue(async(req, res, next) => {
   if(resp.verifyError) {
     console.log(resp);
     status = resp.status;
-    next(resp);
+    return next(resp);
   }
 
   res.status(status).json(resp);

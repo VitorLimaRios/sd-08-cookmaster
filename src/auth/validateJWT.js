@@ -8,7 +8,13 @@ const opt = {
 
 const getToken = (data) => jwt.sign({ data }, secret, opt);
 
-const verifyToken = (token) => jwt.verify(token, secret);
+const verifyToken = async(token) => {
+  try {
+    return jwt.verify(token, secret);
+  } catch (error) {
+    return null;
+  }
+};
 
 module.exports = {
   getToken,
