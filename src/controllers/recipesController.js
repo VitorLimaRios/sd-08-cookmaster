@@ -4,7 +4,8 @@ const recipesValidation = require('../middlewares/recipesValidation');
 const { verifyJwt } = require('../middlewares/jwtValidation');
 const recipesServices = require('../services/recipesServices');
 
-const code = {  
+const code = {
+  OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
   CONFLICT: 409,
@@ -28,6 +29,12 @@ const recipesController = async (req, res) => {
 
 };
 
+const getAllRecipes = async (req, res) => {
+  const getAll = await recipesServices.getAllRecipes();
+  return res.status(code.OK).json(getAll);
+};
+
 router.post('/', verifyJwt, recipesController);
+router.get('/', getAllRecipes);
 
 module.exports = router;
