@@ -13,12 +13,11 @@ const createRecipe = async (req, res) => {
       name,
       ingredients,
       preparation,
-      userId
+      userId,
     );
-    return res.status(CREATED).json(newRecipe);
+    res.status(CREATED).json(newRecipe);
   } catch (error) {
-    (newRecipe.error === 'Invalid entries. Try again.') && res
-      .status(BAD).json({ message: error.message });
+    return res.status(BAD).json(error.message);
   }
 };
 
@@ -45,7 +44,7 @@ const update = async (req, res) => {
   try {
     const form = req.body;
     const { id } = form.userId;
-    console.log('form: ', form);
+    // console.log('form: ', form);
     const result = await services.update({ id, ...form });
     return res.status(OK).json(result);
   } catch (error) {

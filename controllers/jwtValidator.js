@@ -14,7 +14,7 @@ const validateJWT = async (req, res, next) => {
     if (!token) throw new Error('missing auth token');
     const tokenDecoded = jwt.verify(token, secret);
     const user = await model.getByEmail(tokenDecoded.email);
-    console.log('user', user);
+    // console.log('user', user);
     !user && res.status(UNAUTH).json(ERROR_JWT);
     req.body.userId = user._id;
     next();
