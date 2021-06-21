@@ -20,6 +20,7 @@ app.post('/login', users.login);
 // RECIPES
 app.post('/recipes', recipes.createRecipe);
 app.get('/recipes', recipes.getAllRecipes);
+app.get('/recipes/:id', recipes.getById);
 
 app.use((error, _req, res, _next) => {
   console.log('-----------------------------------------------------');

@@ -1,11 +1,15 @@
 const joi = require('joi');
 const model = require('../models/recipesModel');
 const jwt = require('../auth/validateJWT');
+const { ObjectID } = require('mongodb');
 
 const INVALID_ENTRIES = 'Invalid entries. Try again.';
 const JWT_MALFORMED = 'jwt malformed';
+const NOT_FOUND = 'recipe not found';
+
 const BAD = 400;
 const UNAUTHORIZED = 401;
+const NOT = 404;
 
 const recipeSchema = joi.object({
   name: joi
@@ -44,7 +48,19 @@ const create = async(recipe, token) => {
 
 const getAll = async() => model.getAll();
 
+const readById = async(id) => {
+  const resp = await model.readById(id);
+
+  return resp
+    || {
+      verifyError: true,
+      error: { message: NOT_FOUND },
+      status: NOT,
+    };
+};
+
 module.exports = {
   create,
   getAll,
+  readById,
 };
