@@ -5,8 +5,8 @@ const validateJWT = require('../api/auth/validateJWT');
 
 const app = express();
 
-app.get('/:id', recipes.getRecipeById);
 app.get('/', recipes.getRecipes);
+app.get('/:id', recipes.getRecipeById);
 
 app.use(validateJWT);
 app.post('/', recipes.createRecipe);
