@@ -12,7 +12,7 @@ const code = {
 router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
   const validation = await userValidation
-    .bodyValidation(name, email, password);
+    .controlValidation(name, email, password);
 
   if (validation.message) 
     return res.status(code.BAD_REQUEST).json(validation);

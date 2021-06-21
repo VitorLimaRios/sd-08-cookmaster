@@ -5,15 +5,18 @@ const validBody = (name, email, password) => {
   if (!name || !email || !emailValid || !password) return false;
   
   return true;
+
 };
 
-const bodyValidation = (name, email, password) => {
+const controlValidation = (name, email, password) => {
+
   const bodyValid = validBody(name, email, password);
   if(!bodyValid) return { message: 'Invalid entries. Try again.'};
 
   return bodyValid;
+
 };
 
 module.exports = {
-  bodyValidation,
+  controlValidation,
 };
