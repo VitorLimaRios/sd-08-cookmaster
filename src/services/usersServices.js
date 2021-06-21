@@ -1,8 +1,12 @@
 const joi = require('joi');
 const model = require('../models/usersModel');
+const jwt = require('../auth/validateJWT');
 
 const INVALID_ENTRIES = 'Invalid entries. Try again.';
+const ALL_FIELDS = 'All fields must be filled';
+const INCORRECT = 'Incorrect username or password';
 const BAD = 400;
+const UNAUTHORIZED = 401;
 const CONFLICT = 409;
 
 const addUserSchema = joi.object({
@@ -47,6 +51,35 @@ const create = async (user) => {
   return { user: data };
 };
 
+const login = async (user) => {
+  const { email, password } = user;
+  if (!password || !email) {
+    return {
+      verifyError: true,
+      error: { message: ALL_FIELDS },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const userInDB = await model.readByEmail(email);
+  if (!userInDB || userInDB.password !== password) {
+    return {
+      verifyError: true,
+      error: { message: INCORRECT },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const data = {
+    id: userInDB._id,
+    email,
+    role: userInDB.role,
+  };
+  const token = jwt.getToken(data);
+  return { token };
+};
+
 module.exports = {
   create,
+  login,
 };

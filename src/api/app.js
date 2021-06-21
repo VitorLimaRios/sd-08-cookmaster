@@ -14,6 +14,7 @@ app.get('/', (request, response) => {
 
 // USERS
 app.post('/users', users.createUser);
+app.post('/login', users.login);
 
 app.use((error, _req, res, _next) => {
   console.log('-----------------------------------------------------');
