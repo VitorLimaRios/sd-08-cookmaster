@@ -13,5 +13,6 @@ router.post('/login', UserController.login);
 router.get('/recipes/:id', RecipeController.index);
 router.get('/recipes', RecipeController.index);
 router.post('/recipes', ValidateToken, RecipeController.store);
+router.put('/recipes/:id', ValidateToken, RecipeController.update);
 
 module.exports = router;

@@ -26,6 +26,24 @@ class RecipeController {
     }
   }
 
+  async update(req, res) {
+    try {
+      const { name, ingredients, preparation } = req.body;
+      const { id } = req.params;
+      const token = req.headers['authorization'];
+
+      const decoded = jwt.verify(token, secret);
+
+      await Recipe.updateOne({ _id: id}, { name, ingredients, preparation });
+
+      return res.status(STATUS_OK).json({
+        _id: id, name, ingredients, preparation, userId: decoded.data['_id']
+      });    
+    } catch (err) {
+      return res.status(STATUS_ERROR).json({ message: 'Invalid entries. Try again.' });
+    }
+  }
+
   async index(req, res) {
     const { id } = req.params;
     
