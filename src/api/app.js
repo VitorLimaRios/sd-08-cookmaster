@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParses = require('body-parser');
 
 const userController = require('../controllers/userController');
-//const loginController = require('../controllers/loginController');
+const loginController = require('../controllers/loginController');
 
 const app = express();
 app.use(bodyParses.json());
