@@ -3,6 +3,7 @@ const recipeService = require('../services/recipeService');
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
 const NOT_FOUND = 404;
@@ -75,9 +76,22 @@ const updateRecipe = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipeService.exclude(id);
+  if (recipe !== null) {
+    return res.status(NO_CONTENT).send();
+  } else {
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'erro ao solicitar requisição' });
+  }
+};
+
 module.exports = {
   addRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

@@ -42,10 +42,18 @@ const update = async (recipeToUpdate) => {
   return { _id: id, name, ingredients, preparation, userId };
 };
 
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) })); 
+};
+
+
 module.exports = {
   getByEmail,
   add,
   getAll,
   getById,
   update,
+  exclude
 };
