@@ -20,4 +20,6 @@ app.get('/recipes/:id?', recipes.searchRecipes);
 
 app.put('/recipes/:id', validateToken, recipes.updateRecipe);
 
+app.delete('/recipes/:id', validateToken, recipes.deleteRecipe);
+
 module.exports = app;
