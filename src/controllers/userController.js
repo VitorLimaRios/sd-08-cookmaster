@@ -19,6 +19,7 @@ const addUser = async (req, res) => {
       message: 'Email already registered',
     });
   }
+  
   if (newUser !== null && newUser !== undefined) {
     const { password: pass, ...user } = newUser;
     return res.status(CREATED).json({ user });
