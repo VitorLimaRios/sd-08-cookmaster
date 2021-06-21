@@ -57,10 +57,18 @@ const excludeRecipe = async (id) => {
   return {};
 };
 
+const saveImageById = async (id, urlImage) => {
+  const imageSaved = await recipesModel.saveImage(id, urlImage);
+  const recipesById = await recipesModel.getById(id);
+
+  return recipesById;
+};
+
 module.exports = {
   addRecipes,
   getAllRecipes,
   getById,
   updateRecipes,
   excludeRecipe,
+  saveImageById,
 };

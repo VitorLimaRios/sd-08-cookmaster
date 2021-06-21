@@ -3,6 +3,7 @@ const router = express.Router();
 const recipesValidation = require('../middlewares/recipesValidation');
 const { verifyJwt } = require('../middlewares/jwtValidation');
 const recipesServices = require('../services/recipesServices');
+const multer = require('multer');
 
 const code = {
   OK: 200,
@@ -64,10 +65,31 @@ const deleteRecipe = async (req, res) => {
   return res.status(code.NO_CONTENT).json();
 };
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  }
+});
+
+const upload = multer({storage});
+
+const saveImage = async (req, res) => {
+  const { id } = req.params;
+  const urlImage = `localhost:3000/src/uploads/${id}.jpeg`;
+  const saveImage = await recipesServices.saveImageById(id, urlImage);
+
+  res.status(code.OK).json(saveImage);
+};
+
 router.post('/', verifyJwt, recipesController);
 router.get('/', getAllRecipes);
 router.get('/:id', getRecipesByID);
 router.put('/:id', verifyJwt, recipeUpdate);
 router.delete('/:id', verifyJwt, deleteRecipe );
+router.put('/:id/image', verifyJwt, upload.single('image'), saveImage);
 
 module.exports = router;
