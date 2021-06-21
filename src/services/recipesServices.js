@@ -78,10 +78,6 @@ const update = async(recipe, token, id) => {
     };
   }
 
-  console.log('********* DATA *********');
-  console.log(data);
-  console.log('************************');
-
   const recipeInDB = await model.readById(id);
   if (!recipeInDB)
   {
@@ -92,13 +88,35 @@ const update = async(recipe, token, id) => {
     };
   }
 
-  console.log('********* RECIPE *********');
-  console.log(recipeInDB);
-  console.log('**************************');
-
   if (recipeInDB.userId === data.data.id || data.data.role === 'admin') {
     const resp = await model.update(id, { ...recipe, userId: data.data.id });
     return resp;
+  }
+};
+
+const exclude = async (token, id) => {
+  if (!token)  {
+    return {
+      verifyError: true,
+      error: { message: MISSING },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const data = await jwt.verifyToken(token);
+  if (!data) {
+    return {
+      verifyError: true,
+      error: { message: JWT_MALFORMED },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const recipeInDB = await model.readById(id);
+
+  if (recipeInDB.userId === data.data.id || data.data.role === 'admin') {
+    const resp = await model.exclude(id);
+    return null;
   }
 };
 
@@ -107,4 +125,5 @@ module.exports = {
   getAll,
   readById,
   update,
+  exclude,
 };

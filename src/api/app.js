@@ -22,11 +22,12 @@ app.post('/recipes', recipes.createRecipe);
 app.get('/recipes', recipes.getAllRecipes);
 app.get('/recipes/:id', recipes.getById);
 app.put('/recipes/:id', recipes.update);
+app.delete('/recipes/:id', recipes.excludeRecipe);
 
 app.use((error, _req, res, _next) => {
-  // console.log('-----------------------------------------------------');
-  // console.log(error);
-  // console.log('-----------------------------------------------------');
+  console.log('-----------------------------------------------------');
+  console.log(error);
+  console.log('-----------------------------------------------------');
   const resp = { message: error.error.message };
   res.status(error.status).json(resp);
 });

@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 const createRecipe = rescue(async(req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -42,9 +43,6 @@ const update = rescue(async(req, res, next) => {
   const token = req.headers.authorization;
   let status = OK;
   const resp = await services.update({ name, ingredients, preparation }, token, id);
-  console.log('******************');
-  console.log(resp);
-  console.log('******************');
   if (resp.verifyError) {
     status = resp.status;
     return next(resp);
@@ -53,9 +51,29 @@ const update = rescue(async(req, res, next) => {
   res.status(status).json(resp);
 });
 
+const excludeRecipe = rescue(async(req, res, next) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  let status = NO_CONTENT;
+  const resp = await services.exclude(token, id);
+  
+
+  console.log('RESP ***********************');
+  console.log(resp);
+  console.log('****************************');
+  if (resp) {
+    console.log(resp);
+    status = resp.status;
+    return next(resp);
+  }
+
+  res.status(status).json();
+});
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getById,
   update,
+  excludeRecipe,
 };

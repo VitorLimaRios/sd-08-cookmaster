@@ -23,9 +23,19 @@ const update = async (id, recipe) => {
     .then(() => ({ _id: id, ...recipe }));
 };
 
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return conn()
+    .then((db) => ObjectId.isValid(id) 
+      ? db.collection(table).deleteOne({ _id: ObjectID(id) })
+      : null
+    );
+};
+
 module.exports = {
   create,
   getAll,
   readById,
   update,
+  exclude,
 };
