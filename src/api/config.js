@@ -1,1 +1,1 @@
-module.exports = { uri: 'mongodb://localhost/Cookmaster' };
+module.exports = { uri: 'mongodb://mongodb/Cookmaster' };
