@@ -1,4 +1,5 @@
 const connect = require('./connection');
+const { ObjectId } = require('mongodb');
 
 const getByEmail = async (email) => {
   return connect().then((db) =>
@@ -21,8 +22,30 @@ const add = async (name, ingredients, preparation, userId) =>
 const getAll = async () =>
   connect().then((db) => db.collection('recipes').find().toArray());
 
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connect().then((db) => db.collection('recipes').findOne(ObjectId(id)));
+};
+
+const update = async (recipeToUpdate) => {
+  const { id, name, ingredients, preparation, userId } = recipeToUpdate;
+  if (!ObjectId.isValid(id)) return null;
+  connect().then((db) =>
+    db
+      .collection('recipes')
+      .updateOne(
+        { _id: ObjectId(id) },
+        { $set: { name, ingredients, preparation, userId } }
+      )
+  );
+  // return id;
+  return { _id: id, name, ingredients, preparation, userId };
+};
+
 module.exports = {
   getByEmail,
   add,
   getAll,
+  getById,
+  update,
 };

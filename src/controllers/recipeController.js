@@ -5,6 +5,7 @@ const CONFLICT = 409;
 const CREATED = 201;
 const OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
+const NOT_FOUND = 404;
 
 const addRecipe = async (req, res) => {
   const userId = req.user._id;
@@ -39,7 +40,44 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipeService.getById(id);
+
+  if (recipe !== null) {
+    return res.status(OK).send(recipe);
+  } else {
+    res.status(NOT_FOUND).json({
+      message: 'recipe not found',
+    });
+  }
+};
+
+const updateRecipe = async (req, res) => {
+  try {
+    const { name, ingredients, preparation } = req.body;
+    const { id } = req.params;
+    const userId = req.user._id;
+    const recipeToUpdate = {
+      id,
+      name,
+      ingredients,
+      preparation,
+      userId,
+    };
+    const recipe = await recipeService.update(recipeToUpdate);
+    res.status(OK).send(recipe);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'erro ao solicitar requisição' });
+  }
+};
+
 module.exports = {
   addRecipe,
   getAllRecipes,
+  getRecipeById,
+  updateRecipe,
 };
