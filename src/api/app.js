@@ -18,4 +18,6 @@ app.post('/recipes', validateToken, recipes.createRecipe);
 
 app.get('/recipes/:id?', recipes.searchRecipes);
 
+app.put('/recipes/:id', validateToken, recipes.updateRecipe);
+
 module.exports = app;

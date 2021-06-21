@@ -37,4 +37,33 @@ const searchRecipes = async (id) => {
   }
 };
 
-module.exports = { createRecipe, searchRecipes };
+const updateRecipe = async (id, newData, token) => {
+  try {
+    if (recipeSchema.validate(newData).error) {
+      throw generateError(HTTP.BAD_REQUEST, 'Invalid entries. Try again.');
+    }
+
+    const recipe = await searchRecipes(id);
+
+    if (recipe.status !== HTTP.OK) {
+      throw recipe;
+    }
+
+    const { user } = jwt.verify(token, SECRET);
+    const { userId } = recipe.result;
+
+    if (user.role !== 'admin' && user._id !== userId) {
+      throw generateError(HTTP.UNAUTHORIZED, 'not unauthorized to edit recipe');
+    }
+
+    return {
+      status: HTTP.OK,
+      result: await model.updateRecipe(id, { ...newData, userId }),
+    };
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { createRecipe, searchRecipes, updateRecipe };

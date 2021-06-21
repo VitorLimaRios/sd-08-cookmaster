@@ -13,4 +13,12 @@ const searchRecipes = async (req, res) => {
   return res.status(status).json(result);
 };
 
-module.exports = { createRecipe, searchRecipes };
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const newData = req.body;
+  const token = req.headers.authorization;
+  const { status, result } = await service.updateRecipe(id, newData, token);
+  return res.status(status).json(result);
+};
+
+module.exports = { createRecipe, searchRecipes, updateRecipe };
