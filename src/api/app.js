@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 // const recipesRouter = require('./controllers/recipesRouter');
 const userRouter = require('../controllers/userRouter');
 const loginRouter = require('../controllers/loginRouter');
+const recipesRouter = require('../controllers/recipesRouter');
 require('dotenv');
 
 const app = express();
@@ -16,7 +17,7 @@ app.get('/', (_request, response) => {
 
 app.use('/users', userRouter );
 app.use('/login', loginRouter );
-// app.use('/recipes', recipesRouter );
+app.use('/recipes', recipesRouter );
 
 
 module.exports = app;

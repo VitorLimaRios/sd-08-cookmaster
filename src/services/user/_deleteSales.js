@@ -1,6 +1,6 @@
 const deleteDB = require('../../models/delete');
 const readDB = require('../../models/read');
-const makeSale = require('./makeSaleDelete');
+const makeSale = require('./_makeSaleDelete');
 const validateId = require('../../validate/validateId');
 const HTTP_OK_STATUS = 200;
 const ERRO = 422;

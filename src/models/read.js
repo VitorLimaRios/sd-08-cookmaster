@@ -21,5 +21,12 @@ const listByValue = async (collection, value) =>{
     
   return result;
 };
+const findByValue = async ( collection , key,value) => {
+  const result = await  connection()
+    .then((db) =>  db.collection(collection).find({[key]: value}).toArray());
+  if (!result) return null;
+    
+  return result;
+};
 // https://stackoverflow.com/questions/32845280/mongodb-return-array-of-values-into-a-variable
-module.exports = {getAll , findById , listByValue};
+module.exports = {getAll , findById , listByValue, findByValue};
