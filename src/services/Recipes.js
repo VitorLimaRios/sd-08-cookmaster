@@ -92,4 +92,37 @@ const deleteRecipe = async (id, token) => {
   }
 };
 
-module.exports = { createRecipe, searchRecipes, updateRecipe, deleteRecipe };
+const addImage = async (id, token, imagePath) => {
+  try {
+    const recipe = await searchRecipes(id);
+
+    if (recipe.status !== HTTP.OK) {
+      throw recipe;
+    }
+
+    const { user } = jwt.verify(token, SECRET);
+    const { userId } = recipe.result;
+
+    if (user.role !== 'admin' && user._id !== userId) {
+      throw generateError(HTTP.UNAUTHORIZED, 'not authorized to edit recipe');
+    }
+
+    recipe.image = imagePath;
+
+    return {
+      status: HTTP.OK,
+      result: await model.updateRecipe(id, recipe),
+    };
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = {
+  createRecipe,
+  searchRecipes,
+  updateRecipe,
+  deleteRecipe,
+  addImage,
+};
