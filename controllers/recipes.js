@@ -63,10 +63,25 @@ const remove = async (req, res) => {
   }
 };
 
+const uploadImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+    const imagePath = `localhost:3000/${path}`;
+  
+    const result = await services.uploadImage(id, imagePath);
+    return res.status(OK).json(result);
+    
+  } catch (error) {
+    res.status(BAD).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   update,
   remove,
+  uploadImage,
 }; 

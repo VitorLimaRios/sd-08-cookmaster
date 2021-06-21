@@ -7,6 +7,7 @@ const recipes = require('../../controllers/recipes');
 const errorMiddleware = require('../../controllers/error');
 const validateJWT = require('../../controllers/jwtValidator');
 const validateRecipeForm = require('../../controllers/formValidator');
+const multer = require('../../controllers/multer');
 
 const app = express();
 
@@ -32,6 +33,8 @@ app.get('/recipes/:id', recipes.getById);
 app.put('/recipes/:id', validateJWT, validateRecipeForm, recipes.update);
 //Deletar receitas
 app.delete('/recipes/:id', validateJWT, recipes.remove);
+//Upar imagens
+app.put('/recipes/:id/image', validateJWT, multer(), recipes.uploadImage);
 
 app.use(errorMiddleware);
 

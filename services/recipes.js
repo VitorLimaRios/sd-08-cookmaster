@@ -51,10 +51,17 @@ const remove = async (id) => {
   return removeRecipe;
 };
 
+const uploadImage = async (id, path) => {
+  const updateImage = await model.uploadImage(id, path);
+  !updateImage && null;
+  return updateImage;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   update,
   remove,
+  uploadImage,
 }; 
