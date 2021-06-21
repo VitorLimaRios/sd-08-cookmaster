@@ -25,4 +25,15 @@ const createRecipe = async (recipe, token) => {
   }
 };
 
-module.exports = { createRecipe };
+const searchRecipes = async () => {
+  try {
+    return {
+      status: HTTP.OK,
+      result: await model.getAllRecipes(),
+    };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+module.exports = { createRecipe, searchRecipes };
