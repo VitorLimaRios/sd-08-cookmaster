@@ -16,9 +16,17 @@ const getbyemail = async(email)=>{
   return (emailcheck);
 };
 
+const findUserbyname = async(name)=>{
+  const user = await conn().then(
+    async (db) => db.collection('users').findOne({name})
+  );
+  //console.log('usermodel23', user);
+  return (user);
+};
 
 
 module.exports ={
   adduser,
   getbyemail,
+  findUserbyname,
 };
