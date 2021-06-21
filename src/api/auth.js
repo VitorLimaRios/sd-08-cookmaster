@@ -19,6 +19,7 @@ const authRec = async (req, res, next) => {
     req.user = user;
 
     next();
+
   } catch(e) {
     return res.status(CODE_401).json({ 'message': 'jwt malformed' });
   }
