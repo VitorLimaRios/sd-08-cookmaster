@@ -16,4 +16,6 @@ router.post('/recipes', ValidateToken, RecipeController.store);
 router.put('/recipes/:id', ValidateToken, RecipeController.update);
 router.delete('/recipes/:id', ValidateToken, RecipeController.remove);
 
+router.put('/recipes/:id/image', ValidateToken, RecipeController.upload);
+
 module.exports = router;

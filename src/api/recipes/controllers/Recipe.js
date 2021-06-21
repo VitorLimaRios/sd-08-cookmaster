@@ -35,7 +35,7 @@ class RecipeController {
 
       const decoded = jwt.verify(token, secret);
 
-      await Recipe.updateOne({ _id: id}, { name, ingredients, preparation });
+      await Recipe.updateOne({ _id: id }, { name, ingredients, preparation });
 
       return res.status(STATUS_OK).json({
         _id: id, name, ingredients, preparation, userId: decoded.data['_id']
@@ -48,16 +48,29 @@ class RecipeController {
   async remove(req, res) {
     try {
       const { id } = req.params;
-      const token = req.headers['authorization'];
 
-      const decoded = jwt.verify(token, secret);
-
-      await Recipe.deleteOne({ _id: id});
+      await Recipe.deleteOne({ _id: id });
 
       return res.status(STATUS_DELETE).end();    
     } catch (err) {
-      return res.status(STATUS_ERROR).json({ message: 'Invalid entries. Try again.' });
+      return res.status(STATUS_ERROR).json({ message: err.message });
     }
+  }
+
+  async upload(req, res) {
+    const { id } = req.params;
+    const token = req.headers['authorization'];
+    const nameImg = `localhost:3000/src/uploads/${id}.jpeg`;
+
+    const decoded = jwt.verify(token, secret);
+    const { name, _id } = decoded.data;
+
+    const { ingredients, preparation } = await Recipe.findByIdAndUpdate({ _id: id },
+      { $set: { image: nameImg } });
+
+    res.status(STATUS_OK).json({
+      _id: id, name, ingredients, preparation, userId: _id, image: nameImg
+    });
   }
 
   async index(req, res) {

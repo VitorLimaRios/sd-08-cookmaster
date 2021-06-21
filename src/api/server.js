@@ -1,8 +1,11 @@
 const app = require('./app');
+const e = require('express');
 const db = require('./config');
 const mongoose = require('mongoose');
+const multer = require('multer');
 
 const PORT = 3000;
+const upload = multer({ dest: 'uploads' });
 const OPTIONS = { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -26,7 +29,8 @@ class App {
   }
 
   middlewares() {
-    this.express.use(require('express').json());
+    this.express.use(e.json());
+    this.express.use(e.static(__dirname + '/uploads'), upload.single('image'));
   }
 
   routes() {
