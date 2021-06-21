@@ -46,8 +46,19 @@ const getRecipesByID = async (req, res) => {
   return res.status(code.OK).json(filterIdRecipes);
 };
 
+const recipeUpdate = async (req, res) => {
+  const {id} = req.params;
+  const updateRecipes = await recipesServices.updateRecipes(req.body, id);
+
+  if(updateRecipes.message) 
+    return res.status(code.CONFLICT).json(updateRecipes);
+
+  return res.status(code.OK).json(updateRecipes);
+};
+
 router.post('/', verifyJwt, recipesController);
 router.get('/', getAllRecipes);
 router.get('/:id', getRecipesByID);
+router.put('/:id', verifyJwt, recipeUpdate);
 
 module.exports = router;

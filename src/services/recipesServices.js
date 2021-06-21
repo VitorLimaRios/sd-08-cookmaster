@@ -31,8 +31,28 @@ const getById = async (id) => {
   return recipesById;
 };
 
+const updateRecipes = async (dataRecipes, IdRecipe) => {
+  const { name, ingredients, preparation } = dataRecipes;
+  const getAll = await recipesModel.getAllRecipes();
+
+  const getUserId = getAll.find((data) => 
+    data._id == IdRecipe
+  );
+
+  await recipesModel.update(name, ingredients, preparation, IdRecipe);
+
+  return {
+    _id: IdRecipe,
+    name,
+    ingredients,
+    preparation,
+    userId: getUserId.userId,
+  };
+};
+
 module.exports = {
   addRecipes,
   getAllRecipes,
   getById,
+  updateRecipes,
 };
