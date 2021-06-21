@@ -2,13 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { ObjectId } = require('mongodb');
 const validatejwt =require('../api/auth/validateJWT');
-const {validarecipies} = require('../services/recipesService');
+const {
+  validarecipies,
+  getAllrecipies,
+  getOneRecipe,
+} = require('../services/recipesService');
 
-const cd = 400;
-const cdi = 401;
 const cc = 200;
 const cci=201;
-
+const cd = 400;
+const cdi = 401;
+const cdiv=404;
 
 router.post('/', validatejwt,async(req, res) => {
  
@@ -16,12 +20,23 @@ router.post('/', validatejwt,async(req, res) => {
   let dinamic = result.message ? cd : cdi;
   if(result.recipe){dinamic = cci;};  
   res.status(dinamic).send(result);
+  return;
 });
 
 router.get('/', async(req, res) => {
-  const recipiesList = getAllrecipies();
-  res.send('get');
+  const recipiesList = await getAllrecipies(); //all
+  //dinamic = recipiesList?cc:cdi;
+  res.status(cc).send(recipiesList);
 });
+
+
+router.get('/:id', async(req, res) => {
+  const recipe = await getOneRecipe(req.params.id);
+  dinamic = recipe.message?cdiv:cc;
+  return res.status(dinamic).send(recipe);
+});
+
+
 router.put('/', async(req, res) => {
   res.send('put');
 });

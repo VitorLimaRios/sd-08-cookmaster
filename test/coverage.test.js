@@ -1,4 +1,4 @@
-/* const { promisify } = require('util');
+const { promisify } = require('util');
 const { readFile } = require("fs").promises;
 const { resolve } = require("path");
 
@@ -48,4 +48,3 @@ describe
       )
     }
   );
- */

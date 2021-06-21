@@ -1,4 +1,4 @@
-/* const frisby = require('frisby');
+const frisby = require('frisby');
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 
@@ -145,4 +145,3 @@ describe('12 - Crie um endpoint para cadastro de pessoas administradoras', () =>
       });
   });
 });
- */
