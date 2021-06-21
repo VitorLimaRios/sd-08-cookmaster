@@ -30,6 +30,7 @@ const createAdmin = async (name, email, password) => {
     .then((db) => db.collection('users')
       .insertOne({ name, email, password, role: 'admin' }))
     .then(result => result.ops[0]);
+  // console.log(newAdmin);
   return { user: { 
     name,
     email,

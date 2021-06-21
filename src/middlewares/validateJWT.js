@@ -13,6 +13,7 @@ const validateJWT = async (req, res, next) => {
     if (!user) throw new Error('jwt malformed');
     req.body.userId = user._id;
     req.body.role = user.role;
+    // console.log(req.body.role);
     next();
   } catch (error) {
     return res.status(code.UNAUTHORIZED).json({ message: error.message });

@@ -16,7 +16,8 @@ const getAllUsers = async () => {
 };
 
 const createAdmin = async (name, email, password, role) => {
-  if (!role !== 'admin') throw new Error('Only admins can register new admins');
+  //console.log(name, email, password, role);
+  if (role !== 'admin') throw new Error('Only admins can register new admins');
   const newAdmin = await usersModel.createAdmin(name, email, password);
   return newAdmin;
 };
