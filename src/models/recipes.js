@@ -14,7 +14,7 @@ const getRecipeById = async (id) => getDbCollection()
   .then((collection) => collection.findOne(ObjectId(id)));
 
 const updateRecipe = async (_id, name, ingredients, preparation) => {
-  getDbCollection()
+  await getDbCollection()
     .then((collection) => collection.updateOne(
       { _id: ObjectId(_id) },
       { $set: { name, ingredients, preparation } },
