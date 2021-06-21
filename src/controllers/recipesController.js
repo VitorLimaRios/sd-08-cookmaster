@@ -8,6 +8,7 @@ const code = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
+  NOT_FOUND: 404,
   CONFLICT: 409,
 };
 
@@ -34,7 +35,19 @@ const getAllRecipes = async (req, res) => {
   return res.status(code.OK).json(getAll);
 };
 
+const getRecipesByID = async (req, res) => {
+  const { id } = req.params;
+  const filterIdRecipes = await recipesServices.getById(id);
+
+  if(filterIdRecipes.message) {
+    return res.status(code.NOT_FOUND).json(filterIdRecipes);
+  }
+
+  return res.status(code.OK).json(filterIdRecipes);
+};
+
 router.post('/', verifyJwt, recipesController);
 router.get('/', getAllRecipes);
+router.get('/:id', getRecipesByID);
 
 module.exports = router;
