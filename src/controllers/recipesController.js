@@ -7,6 +7,7 @@ const recipesServices = require('../services/recipesServices');
 const code = {
   OK: 200,
   CREATED: 201,
+  NO_CONTENT: 204,
   BAD_REQUEST: 400,
   NOT_FOUND: 404,
   CONFLICT: 409,
@@ -56,9 +57,17 @@ const recipeUpdate = async (req, res) => {
   return res.status(code.OK).json(updateRecipes);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  const deleteRecipes = await recipesServices.excludeRecipe(id);
+
+  return res.status(code.NO_CONTENT).json();
+};
+
 router.post('/', verifyJwt, recipesController);
 router.get('/', getAllRecipes);
 router.get('/:id', getRecipesByID);
 router.put('/:id', verifyJwt, recipeUpdate);
+router.delete('/:id', verifyJwt, deleteRecipe );
 
 module.exports = router;
