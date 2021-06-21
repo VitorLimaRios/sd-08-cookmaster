@@ -3,7 +3,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, callback) => {
-    callback(null, 'uploads/');
+    callback(null, './uploads/');
   },      
   filename: (req, _file, callback) => {
     const { id } = req.params;
@@ -71,7 +71,7 @@ routes.delete('/:id', validateJWT, async (req, res) => {
 // Adicionar uma imagem na receita pelo ID
 routes.put('/:id/image/', validateJWT, upload.single('image'), async (req, res) => {
   const { id } = req.params;
-  const image = `localhost:3000/images/${id}.jpeg`;
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
 
   const recipe = await RecipeModel.addImageRecipe(id, image);
 

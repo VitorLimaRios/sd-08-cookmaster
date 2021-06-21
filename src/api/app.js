@@ -20,6 +20,6 @@ app.use('/login', loginController);
 
 app.use('/recipes', recipeController);
 
-app.use('/images', express.static(`${__dirname}/uploads`));
+app.use('/images', express.static(`${__dirname}/`));
 
 module.exports = app;
