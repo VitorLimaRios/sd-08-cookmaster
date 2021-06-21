@@ -16,8 +16,16 @@ const readById = async (id) => conn()
     : null
   );
 
+const update = async (id, recipe) => {
+  if (!ObjectId.isValid(id)) return null;
+  return conn()
+    .then((db) => db.collection(table).updateOne({ _id: ObjectID(id) }, { $set: recipe }))
+    .then(() => ({ _id: id, ...recipe }));
+};
+
 module.exports = {
   create,
   getAll,
   readById,
+  update,
 };

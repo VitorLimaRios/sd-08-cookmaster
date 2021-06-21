@@ -22,12 +22,30 @@ const getAllRecipes = rescue(async(_req, res, _next) => {
   const resp = await services.getAll();
   res.status(OK).json(resp);
 });
+
 const getById = rescue(async(req, res, next) => {
   const { id } = req.params;
   let status = OK;
   const resp = await services.readById(id);
-  if(resp.verifyError) {
+  if (resp.verifyError) {
     console.log(resp);
+    status = resp.status;
+    return next(resp);
+  }
+
+  res.status(status).json(resp);
+});
+
+const update = rescue(async(req, res, next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const token = req.headers.authorization;
+  let status = OK;
+  const resp = await services.update({ name, ingredients, preparation }, token, id);
+  console.log('******************');
+  console.log(resp);
+  console.log('******************');
+  if (resp.verifyError) {
     status = resp.status;
     return next(resp);
   }
@@ -39,4 +57,5 @@ module.exports = {
   createRecipe,
   getAllRecipes,
   getById,
+  update,
 };
