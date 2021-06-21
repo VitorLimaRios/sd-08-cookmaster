@@ -43,9 +43,28 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return success(updatedRecipe);
 };
 
+const deleteRecipe = async (id) => {
+
+  if (!id) return error(notFound);
+
+  if (id.length !== TWELVE && id.length !== TWENTYFOUR) {
+    return error(notFound);
+  }
+
+  const recipe = await recipes.getRecipeById(id);
+
+  if (!recipe) return error(notFound);
+  
+  const { deletedCount } = await recipes.deleteRecipe(id);
+  if (!deletedCount) return error('recipe not deleted');
+  return success(recipe);
+};
+  
+
 module.exports = {
   createRecipe,   
   getRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
