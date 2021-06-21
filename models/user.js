@@ -17,42 +17,9 @@ const getByEmail = async (email) => {
 
   return userEmail;
 };
-// const getById = async (id) => {
-//   if (!ObjectId.isValid(id)) return null;
-
-//   const productId = await connection()
-//     .then((db) => db.collection('products').findOne({ _id: ObjectID(id)}));
-
-//   !productId && null;
-
-//   return productId;
-// };
-
-// const update = async ( id, name, quantity ) => {
-//   if (!ObjectId.isValid(id)) return null;
-
-//   const product = await connection()
-//     .then(
-//       (db) =>	db
-//         .collection('products')
-//         .updateOne({_id: ObjectId(id) }, { $set: { name, quantity }
-//         })
-//         .then((result) => ({ _id: result.insertedId, name, quantity }))
-//     );
-
-//   !product && null;
-
-//   return product;
-// };
-
-// const deleteProduct = async (id) => await connection()
-//   .then(db => db.collection('products').deleteOne({_id: ObjectId (id)}));
 
 module.exports = {
   getAll,
   add,
   getByEmail,
-  // getById,
-  // update,
-  // deleteProduct,
 };

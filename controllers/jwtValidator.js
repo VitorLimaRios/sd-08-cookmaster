@@ -3,9 +3,7 @@ const model = require('../models/user');
 
 const secret = 'trybe';
 const UNAUTH = 401;
-const ERROR_TOKEN = {
-  message: 'Erro na requisição do token do usuario'
-};
+
 const ERROR_JWT = {
   message: 'jwt malformed'
 };

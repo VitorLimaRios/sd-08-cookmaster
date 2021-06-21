@@ -2,6 +2,7 @@ const services = require('../services/recipes');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const BAD = 400;
 const NOT_FOUND = 404;
 
@@ -52,9 +53,20 @@ const update = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const recipe = await services.remove(id);
+    res.status(NO_CONTENT).json(recipe);
+  } catch (error) {
+    res.status(BAD).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   update,
+  remove,
 }; 

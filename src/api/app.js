@@ -30,23 +30,8 @@ app.get('/recipes', recipes.getAll);
 app.get('/recipes/:id', recipes.getById);
 //Atualizar receitas
 app.put('/recipes/:id', validateJWT, validateRecipeForm, recipes.update);
-
-
-// //Atualizar produtos
-// app.put('/products/:id', products.updateProduct);
-// //Deletando produtos
-// app.delete('/products/:id', products.deleteProduct);
-
-// //Listar todas as vendas
-// app.get('/sales', sales.getAllSales );
-// //Procurar por ID
-// app.get('/sales/:id', sales.getById);
-// // Criar vendas
-// app.post('/sales', sales.createSales);
-// //Atualizar vendas
-// app.put('/sales/:id', sales.updateSale);
-// //Deletando produtos
-// app.delete('/sales/:id', sales.deleteSale);
+//Deletar receitas
+app.delete('/recipes/:id', validateJWT, recipes.remove);
 
 app.use(errorMiddleware);
 
