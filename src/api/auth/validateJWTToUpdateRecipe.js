@@ -10,10 +10,13 @@ module.exports = async (req, res, next) => {
   // if (!token) {
   //   return res.status(UNAUTHORIZED).json({ error: 'jwt malformed' });
   // }
+  // if (token === '') {
+    // return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+  // }
   try {
     const decoded = jwt.verify(token, secret);
     const user = await userModel.getByEmail(decoded.data.email);
-
+    
     if (user) {
       const { password, ...authenticatedUser } = user;
       req.user = authenticatedUser;
@@ -21,9 +24,8 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (err) {
-    if (err.message === 'jwt must be provided') {
-      return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
-    }
-    return res.status(UNAUTHORIZED).json({ message: err.message });
+    err.message === 'jwt must be provided' 
+      ?res.status(UNAUTHORIZED).json({ message: 'missing auth token' })
+      :res.status(UNAUTHORIZED).json({ message: err.message });
   }
 };
