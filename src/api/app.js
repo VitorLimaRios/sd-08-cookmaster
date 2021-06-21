@@ -1,11 +1,12 @@
 const express = require('express');
+const {userRouter} = require('./routes');
+const errorHandler = require('../middlewares/errorHandler');
 
 const app = express();
 
-// Não remover esse end-point, ele é necessário para o avaliador
-app.get('/', (request, response) => {
-  response.send();
-});
-// Não remover esse end-point, ele é necessário para o avaliador
+app.use(express.json());
+app.use('/users', userRouter);
+app.get('/', (_request, response) => { response.send();});
+app.use(errorHandler);
 
 module.exports = app;
