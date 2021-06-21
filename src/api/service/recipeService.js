@@ -20,7 +20,14 @@ const getAll = async () => {
   return allRecipes;
 };
 
+const getById = async (id) => {
+  const recipeId = await recipes.getById(id);
+  if(!recipeId) throw new Error('recipe not found');
+  return recipeId;
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  getById,
 };
