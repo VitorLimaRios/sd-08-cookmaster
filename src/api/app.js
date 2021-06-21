@@ -11,6 +11,7 @@ app.use(apiRoutes);
 
 apiRoutes.post('/users', routes.createUsers);
 apiRoutes.post('/login', routes.login);
+apiRoutes.post('/recipes', routes.createRecipes);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

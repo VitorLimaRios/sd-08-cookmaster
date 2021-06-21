@@ -1,22 +1,19 @@
-const { validateCredentials } = require('./utils/validateCredentials');
-const Model = require('../models/users');
-const jwt = require('jsonwebtoken');
+const Utils = require('../utils');
+const Model = require('../models');
 
 const invalidEntries = 'Invalid entries. Try again.';
 const emailRegistered = 'Email already registered';
 const allFields = 'All fields must be filled';
 const incorrectCredentional = 'Incorrect username or password';
 
-JWT_SECRET = 'At the end of Game of Thrones John Snow kills Daenerys Targaryen';
-
 const createUser = async (name, email, password) => {
   // console.log('SERVICE createUser req.body', name, email, password);
 
-  const { error } = validateCredentials({ name, email, password });
-  if (error) return { message: invalidEntries };
+  const { error } = Utils.validateCredentialsData({ name, email, password });
+  if (error) throw Error(invalidEntries);
 
   const userAlreadyExist = await Model.findUser(email);
-  if (userAlreadyExist) return { message: emailRegistered };
+  if (userAlreadyExist) throw Error(emailRegistered);
 
   return await Model.createUser(name, email, password);
 };
@@ -24,20 +21,19 @@ const createUser = async (name, email, password) => {
 const login = async (email, password) => {
   // console.log('SERVICE login req.body', email, password);
 
-  const { error } = validateCredentials({ name: 'name', email, password });
-  if (error) return { message: allFields };
+  const { error } = Utils.validateCredentialsData({ name: 'name', email, password });
+  // console.log('SERVICE login error', error);
+  if (error) throw Error(allFields);
 
   const user  = await Model.findUser(email);
-  if (!user || user.password !== password) return { message: incorrectCredentional };
+  // console.log('SERVICE login user', user);
+  if (!user || user.password !== password) throw Error(incorrectCredentional);
 
   // console.log('SERVICE login user', user);
   const { _id, role } = user;
-  const token = jwt.sign({ _id, email, role }, JWT_SECRET, {
-    expiresIn: '1d',
-  });
+  const token = Utils.tokenEncrypt({ _id, email, role });
 
   return token;
-
 };
   
 module.exports = {
