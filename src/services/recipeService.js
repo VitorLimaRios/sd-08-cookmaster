@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-const userModel = require('../models/userModel');
 const recipeModel = require('../models/recipeModel');
 const { ObjectId } = require('mongodb');
 const fs = require('fs/promises');
@@ -74,10 +72,25 @@ const deleteRecipe = async (recipeId) => {
   return { code: exclude, message: '' };
 };
 
+const updateImage = async (recipeId, file) => {
+  const url = `localhost:3000/${file.path}`;
+  await recipeModel.updateRecipe(recipeId, { image: url });
+  const response = await recipeModel.getRecipeById(recipeId);
+  return { code: ok, message: { ...response, image: url } };
+};
+
+const getImage = async (recipeId) => {
+  const recipe = await recipeModel.getRecipeById(recipeId);
+  console.log(recipe);
+  return { code: ok, message: recipe.image };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  updateImage,
+  getImage
 };

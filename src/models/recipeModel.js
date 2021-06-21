@@ -52,11 +52,19 @@ const updateRecipe = async (recipeId, changes) => {
 const deleteRecipe = async (recipeId) => {
   try {
     const db = await connection();
-    const response = await db.collection('recipes').removeOne({ _id: ObjectId(recipeId) });
+    const response = await db.collection('recipes')
+      .removeOne({ _id: ObjectId(recipeId) });
     return response;
   } catch (error) {
     return { error: error.message };
   }
+};
+
+const updateImage = async (recipeId, image) => {
+  const db = await connection();
+  const response = await db.collection('recipes')
+    .updateOne({ _id: ObjectId(recipeId) }, { $set: { image } });
+  return response;
 };
 
 module.exports = {
@@ -64,5 +72,6 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  updateImage
 };
