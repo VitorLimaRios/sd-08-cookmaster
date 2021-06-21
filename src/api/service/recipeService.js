@@ -7,12 +7,12 @@ const validateRecipe = (name, ingredients, preparation) => {
   return undefined;
 };
 
-const createRecipe = async (name, ingredients, preparation, userId) => {
+const createRecipe = async (name, ingredients, preparation) => {
   const invalid = validateRecipe(name, ingredients, preparation);
   if(invalid) {
     throw new Error(invalid);
   }
-  return await recipes.create(name, ingredients, preparation, userId);
+  return await recipes.create(name, ingredients, preparation);
 };
 
 const getAll = async () => {
@@ -26,8 +26,28 @@ const getById = async (id) => {
   return recipeId;
 };
 
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  const invalid = validateRecipe(name, ingredients, preparation);
+  if(invalid) throw new Error(invalid);
+  const updateRec = await recipes.updateRecipe(id, name, ingredients, preparation);
+  return updateRec;
+};
+
+const deleteRecipe = async (id) => {
+  const deleteRec = await recipes.deleteRecipe(id);
+  return deleteRec;
+};
+
+const sendImage = async (id, path) => {
+  const recipeImage = await recipes.sendImage(id, path);
+  return recipeImage;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
+  deleteRecipe,
+  updateRecipe,
+  sendImage,
 };
