@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/users', userController.createUser);
 app.post('/login', Authentication.getToken);
 app.post('/recipes', Token.tokenValidation, recipeController.createRecipe);
+app.get('/recipes', recipeController.getRecipe);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

@@ -5,6 +5,12 @@ const createRecipe = async (req, res) => {
   res.status(response.code).json(response.message);
 };
 
+const getRecipe = async (req, res) => {
+  const response = await recipeService.getRecipe();
+  res.status(response.code).json(response.message);
+};
+
 module.exports = {
-  createRecipe
+  createRecipe,
+  getRecipe
 };

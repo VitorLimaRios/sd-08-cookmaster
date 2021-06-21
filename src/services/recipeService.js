@@ -37,6 +37,12 @@ const createRecipe = async (recipe) => {
   };
 };
 
+const getRecipe = async () => {
+  const response = await recipeModel.getRecipe();
+  return { code: ok, message: response };
+};
+
 module.exports = {
-  createRecipe
+  createRecipe,
+  getRecipe
 };
