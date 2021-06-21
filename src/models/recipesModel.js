@@ -3,9 +3,12 @@ const conn = require('./modelConnection');
 
 const table = 'recipes';
 
-const create = async (recipe) => conn()
+const create = async(recipe) => conn()
   .then((db) => db.collection(table).insertOne(recipe))
   .then((res) => res.ops[0]);
+
+const getAll = async() => conn()
+  .then((db) => db.collection(table).find().toArray());
 
 // const readById = async (table, id) => conn()
 //   .then((db) => ObjectId.isValid(id) 
@@ -15,4 +18,5 @@ const create = async (recipe) => conn()
 
 module.exports = {
   create,
+  getAll,
 };

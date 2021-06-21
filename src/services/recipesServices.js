@@ -42,6 +42,9 @@ const create = async(recipe, token) => {
   return { recipe: resp };
 };
 
+const getAll = async() => model.getAll();
+
 module.exports = {
   create,
+  getAll,
 };
