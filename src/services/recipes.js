@@ -17,6 +17,12 @@ const createRecipe = async (name, ingredients, preparation) => {
   });
 };
 
+const getRecipes = async () => {
+  const result = await recipes.getRecipes();
+  return result;
+};
+
 module.exports = {
   createRecipe,   
+  getRecipes,
 };
