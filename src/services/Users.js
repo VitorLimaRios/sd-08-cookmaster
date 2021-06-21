@@ -8,7 +8,7 @@ const generateError = require('../utils/generateError');
 
 const { SECRET } = require('../utils/doNotLook');
 const jwtConfig = {
-  expiresIn: '10m',
+  expiresIn: '1d',
   algorithm: 'HS256',
 };
 
@@ -44,7 +44,9 @@ const login = async (loginData) => {
       throw generateError(HTTP.UNAUTHORIZED, 'Incorrect username or password');
     }
 
-    const token = jwt.sign({ email }, SECRET, jwtConfig);
+    delete result.password;
+
+    const token = jwt.sign({ user: result }, SECRET, jwtConfig);
 
     return {
       status: HTTP.OK,

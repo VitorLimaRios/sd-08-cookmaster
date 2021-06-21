@@ -8,4 +8,10 @@ const userSchema = joi.object({
   password: joi.string().required(),
 });
 
-module.exports = { userSchema };
+const recipeSchema = joi.object({
+  name: joi.string().required(),
+  ingredients: joi.string().required(),
+  preparation: joi.string().required(),
+});
+
+module.exports = { userSchema, recipeSchema };
