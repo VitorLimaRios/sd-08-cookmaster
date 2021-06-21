@@ -25,14 +25,16 @@ const createRecipe = async (recipe, token) => {
   }
 };
 
-const searchRecipes = async () => {
+const searchRecipes = async (id) => {
   try {
     return {
       status: HTTP.OK,
-      result: await model.getAllRecipes(),
+      result: id ? await model.getRecipeById(id) : await model.getAllRecipes(),
     };
   } catch (err) {
-    console.error(err);
+    console.log(err);
+    if (id) return generateError(HTTP.NOT_FOUND, 'recipe not found');
+    return generateError(HTTP.BAD_REQUEST, err.message);
   }
 };
 

@@ -16,6 +16,6 @@ app.post('/login', users.login);
 
 app.post('/recipes', validateToken, recipes.createRecipe);
 
-app.get('/recipes', recipes.searchAllRecipes);
+app.get('/recipes/:id?', recipes.searchRecipes);
 
 module.exports = app;

@@ -7,9 +7,10 @@ const createRecipe = async (req, res) => {
   return res.status(status).json(result);
 };
 
-const searchAllRecipes = async (_req, res) => {
-  const { status, result } = await service.searchRecipes();
+const searchRecipes = async (req, res) => {
+  const { id } = req.params;
+  const { status, result } = await service.searchRecipes(id);
   return res.status(status).json(result);
 };
 
-module.exports = { createRecipe, searchAllRecipes };
+module.exports = { createRecipe, searchRecipes };
