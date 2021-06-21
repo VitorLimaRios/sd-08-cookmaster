@@ -34,7 +34,11 @@ const updateRecipe = async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
 
+  console.log(id);
+
   const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
+
+  console.log(updatedRecipe);
 
   return res.status(OK).json(updatedRecipe.data);
 };

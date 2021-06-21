@@ -43,12 +43,8 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async (id, name, ingredients, preparation) => {
   const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
-  return success({
-    _id: updatedRecipe.insertedId,
-    name,
-    ingredients,
-    preparation,
-  });
+  console.log(id);
+  return success(updatedRecipe);
 };
 
 module.exports = {
