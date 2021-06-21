@@ -12,7 +12,7 @@ const getAllUsers = rescue(async (_req, res) => {
 const createUsers = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
   const createdUser = await service.add(name, email, password);
-  createdUser.error && next(createdUser);
+  if (createdUser.error) return next(createdUser);
   return res.status(CREATED).json(createdUser);
 });
 
