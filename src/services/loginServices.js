@@ -12,7 +12,9 @@ const getAll = async (dataUsers) => {
 
   if(!emailExist || !passwordExist) return { message: 'Incorrect username or password'};
 
-  return getAll;
+  const findUser = await getAll.find((data) => data.email === dataUsers.email);
+
+  return findUser;
 };
 
 module.exports = {
