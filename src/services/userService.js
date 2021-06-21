@@ -1,4 +1,12 @@
 const userModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
+const secret = 'issoesegredo';
+
+const jwtConfig = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const add = async (name, email, password) => {
   const findEmailUser = await userModel.getByEmail(email);
@@ -19,6 +27,25 @@ const add = async (name, email, password) => {
   return addedUser;
 };
 
+const login = async (mail, pass) => {
+  const findEmailUser = await userModel.getByEmail(mail);
+  if ([!mail, !pass].includes(true)) {
+    return undefined;
+  }
+
+  if (findEmailUser !== null) {
+    const { email, password } = findEmailUser;
+    if (password === pass) {
+      const token = jwt.sign({ data: { email, password } }, secret, jwtConfig);
+      return token;
+    }
+  } else {
+    return 'not';
+  }
+
+};
+
 module.exports = {
   add,
+  login,
 };
