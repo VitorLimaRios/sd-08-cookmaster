@@ -17,7 +17,7 @@ const createRecipe = async (recipe) => {
   }
 };
 
-const getRecipe = async () => {
+const getAllRecipes = async () => {
   try {
     const db = await connection();
     const response = await db.collection('recipes').find().toArray();
@@ -27,7 +27,18 @@ const getRecipe = async () => {
   }
 };
 
+const getRecipeById = async (recipeId) => {
+  try {
+    const db = await connection();
+    const response = await db.collection('recipes').findOne({ _id: ObjectId(recipeId) });
+    return response;
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 module.exports = {
   createRecipe,
-  getRecipe
+  getAllRecipes,
+  getRecipeById
 };

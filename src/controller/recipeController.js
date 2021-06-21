@@ -5,12 +5,19 @@ const createRecipe = async (req, res) => {
   res.status(response.code).json(response.message);
 };
 
-const getRecipe = async (req, res) => {
-  const response = await recipeService.getRecipe();
+const getAllRecipes = async (req, res) => {
+  const response = await recipeService.getAllRecipes();
+  res.status(response.code).json(response.message);
+};
+
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+  const response = await recipeService.getRecipeById(id);
   res.status(response.code).json(response.message);
 };
 
 module.exports = {
   createRecipe,
-  getRecipe
+  getAllRecipes,
+  getRecipeById
 };

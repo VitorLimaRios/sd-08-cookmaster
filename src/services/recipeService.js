@@ -37,12 +37,26 @@ const createRecipe = async (recipe) => {
   };
 };
 
-const getRecipe = async () => {
-  const response = await recipeModel.getRecipe();
+const getAllRecipes = async () => {
+  const response = await recipeModel.getAllRecipes();
+  return { code: ok, message: response };
+};
+
+const getRecipeById = async (recipeId) => {
+  const response = await recipeModel.getRecipeById(recipeId);
+  if (!response || response.error) {
+    return {
+      code: notfound,
+      message: {
+        message: 'recipe not found'
+      }
+    };
+  }
   return { code: ok, message: response };
 };
 
 module.exports = {
   createRecipe,
-  getRecipe
+  getAllRecipes,
+  getRecipeById
 };
