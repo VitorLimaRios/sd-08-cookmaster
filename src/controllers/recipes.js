@@ -30,8 +30,18 @@ const getRecipeById = async (req, res) => {
   return res.status(OK).json(recipeById.data);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
+
+  return res.status(OK).json(updatedRecipe.data);
+};
+
 module.exports = {
   createRecipe,  
   getRecipes,
   getRecipeById,
+  updateRecipe
 };
