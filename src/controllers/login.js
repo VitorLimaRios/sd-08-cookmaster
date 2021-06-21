@@ -12,6 +12,7 @@ const loginUser = async (req, res) => {
     return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
   }
   const getUser = await user.findEmail(email);
+  console.log('getUser',getUser);
   if (!getUser || getUser.password !== password) {
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
   }
@@ -19,7 +20,7 @@ const loginUser = async (req, res) => {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
-  const token = jwt.sign({ data: user }, secret, jwtConfig);
+  const token = jwt.sign({ data: getUser }, secret, jwtConfig);
   return res.status(OK).json({ token });
 };
 

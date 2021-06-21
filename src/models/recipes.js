@@ -4,8 +4,8 @@ const connection = require('./connection');
 const getDbCollection = async () => connection()
   .then((db) => db.collection('recipes'));
 
-const createRecipe = async (name, ingredients, preparation) => getDbCollection()
-  .then((collection) => collection.insertOne({ name, ingredients, preparation }));
+const createRecipe = async (name, ingredients, preparation, userId) => getDbCollection()
+  .then((collection) => collection.insertOne({ name, ingredients, preparation, userId }));
 
 const getRecipes = async () => getDbCollection()
   .then((collection) => collection.find().toArray());

@@ -8,8 +8,9 @@ const OK = 200;
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
+  const { userId } = req;  
 
-  const newRecipe = await recipes.createRecipe(name, ingredients, preparation);
+  const newRecipe = await recipes.createRecipe(name, ingredients, preparation, userId);
   if (newRecipe.err) return res.status(BAD_REQUEST).json({ message: newRecipe.err });
 
   return res.status(CREATE).json(newRecipe.data);
@@ -33,12 +34,11 @@ const getRecipeById = async (req, res) => {
 const updateRecipe = async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
+  const { userId } = req;
 
-  console.log(id);
+  console.log('user update', userId);
 
   const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
-
-  console.log(updatedRecipe);
 
   return res.status(OK).json(updatedRecipe.data);
 };

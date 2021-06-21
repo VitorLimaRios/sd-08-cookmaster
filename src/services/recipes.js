@@ -7,15 +7,16 @@ const TWELVE = 12;
 const TWENTYFOUR = 24;
 const notFound = 'recipe not found';
 
-const createRecipe = async (name, ingredients, preparation) => {
+const createRecipe = async (name, ingredients, preparation, userId) => {
   if (!name || !ingredients || !preparation) return error('Invalid entries. Try again.');
-  const newRecipe = await recipes.createRecipe(name, ingredients, preparation);
+  const newRecipe = await recipes.createRecipe(name, ingredients, preparation, userId);
   return success({
     recipe: {
       name,
       ingredients,
       preparation,
       _id: newRecipe.insertedId,
+      userId,
     },
   });
 };
@@ -43,7 +44,7 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async (id, name, ingredients, preparation) => {
   const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
-  console.log(id);
+  
   return success(updatedRecipe);
 };
 
