@@ -3,10 +3,11 @@ const bodyParser = require('body-parser');
 const usersControllers = require('../controllers/users');
 const recipesControllers = require('../controllers/recipes');
 const multer = require('multer');
-const { resolve } = require('path');
+const path = require('path');
 
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => callback(null, 'uploads'),
+  destination: (req, file, callback) => 
+    callback(null, path.join(__dirname, '..', 'uploads')),
   filename: (req, file, callback) => callback(null, `${req.params.id}.jpeg`),
 });
 
@@ -16,7 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/images', express.static('uploads'));
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
