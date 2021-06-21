@@ -33,10 +33,13 @@ const getRecipeById = async (req, res) => {
 
 const updateRecipe = async (req, res) => {
   const { id } = req.params;
-  const { name, ingredients, preparation } = req.body;
-  const { userId } = req;
+  const { name, ingredients, preparation } = req.body;  
+  const { role, userId } = req;
 
-  console.log('user update', userId);
+  const recipeById = await recipes.getRecipeById(id);
+
+  if (String(userId) != String(recipeById.data.userId) && role != 'admin')
+    return res.status(NOT_FOUND).json({ message: 'unidentified user' });
 
   const updatedRecipe = await recipes.updateRecipe(id, name, ingredients, preparation);
 

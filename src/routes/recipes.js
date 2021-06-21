@@ -8,9 +8,9 @@ const app = express();
 app.get('/', recipes.getRecipes);
 app.get('/:id', recipes.getRecipeById);
 
-app.use(validateJWT);
-app.post('/', recipes.createRecipe);
-app.put('/:id', recipes.updateRecipe);
+
+app.post('/', validateJWT, recipes.createRecipe);
+app.put('/:id', validateJWT, recipes.updateRecipe);
 
 module.exports = app;
 

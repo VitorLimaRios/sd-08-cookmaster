@@ -33,13 +33,8 @@ const getRecipeById = async (id) => {
   }
   const recipeId = await recipes.getRecipeById(id);
   if (!recipeId) return error(notFound);
-  const { name, ingredients, preparation } = recipeId;
-  return success({
-    _id: id,
-    name,
-    ingredients,
-    preparation,
-  });
+  //   const { name, ingredients, preparation } = recipeId;
+  return success(recipeId);
 };
 
 const updateRecipe = async (id, name, ingredients, preparation) => {
