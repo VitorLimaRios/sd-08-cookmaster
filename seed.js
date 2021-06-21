@@ -1,1 +1,2 @@
-// colocar query do MongoDB
+// prettier-ignore
+db.users.insertOne({ name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' });

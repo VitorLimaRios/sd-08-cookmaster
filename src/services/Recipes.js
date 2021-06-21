@@ -32,7 +32,6 @@ const searchRecipes = async (id) => {
       result: id ? await model.getRecipeById(id) : await model.getAllRecipes(),
     };
   } catch (err) {
-    console.log(err);
     if (id) return generateError(HTTP.NOT_FOUND, 'recipe not found');
     return generateError(HTTP.BAD_REQUEST, err.message);
   }
