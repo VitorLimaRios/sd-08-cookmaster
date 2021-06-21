@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(apiRoutes);
 
 apiRoutes.post('/users', routes.createUsers);
+apiRoutes.post('/login', routes.login);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
