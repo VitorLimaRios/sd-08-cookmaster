@@ -50,5 +50,6 @@ module.exports = {
   getAll,
   getById,
   update,
-  exclude
+  exclude,
+  // addImage
 };

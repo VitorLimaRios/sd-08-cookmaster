@@ -63,10 +63,17 @@ const exclude = async (req, res) => {
   res.status(HTTP_No_Content).json(excludeRecipe);
 };
 
+const addImage = async (req, res) => {
+  const { path } = req.file;
+
+  return res.status(HTTP_OK).send(`localhost:3000/${path}`);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  exclude
+  exclude,
+  addImage
 };
