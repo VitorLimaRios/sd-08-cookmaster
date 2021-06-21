@@ -28,7 +28,9 @@ const getById = async (id) => {
 
 const updateRecipe = async (id, name, ingredients, preparation) => {
   const invalid = validateRecipe(name, ingredients, preparation);
-  if(invalid) throw new Error(invalid);
+  if(invalid) {
+    throw new Error(invalid);
+  };
   const updateRec = await recipes.updateRecipe(id, name, ingredients, preparation);
   return updateRec;
 };

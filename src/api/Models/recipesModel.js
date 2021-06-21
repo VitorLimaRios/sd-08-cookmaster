@@ -19,14 +19,16 @@ const create = async(name, ingredients, preparation, userId) => {
 const getAll = async () => {
   const db = await connection();
   const recipes = await db.collection('recipes').find().toArray();
-
   if(recipes) return recipes;
+
 };
 
 const getById = async (id) => {
   if(!ObjectId.isValid(id)) return null;
   const db = await connection();
+
   const recipe = await db.collection('recipes').findOne(ObjectId(id));
+
   return recipe;
 };
 
@@ -48,7 +50,7 @@ const deleteRecipe = async (id) => {
 const sendImage = async (id, image) => {
   const db = await connection();
   await db.collection('recipes')
-    .updateOne({ _id: ObjectId(id) }, { $set: { image } } );
+    .updateOne({_id: ObjectId(id)}, {$set: {image}} );
   const recImage = await getById(id);
   return recImage;
 };

@@ -40,7 +40,7 @@ const updateRec = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, ingredients, preparation } = req.body;
-    const updateRecipes = await service.update(id, name, ingredients, preparation);
+    const updateRecipes = await service.updateRecipe(id, name, ingredients, preparation);
     res.status(CODE_200).json(updateRecipes);
   } catch (e) {
     res.status(CODE_401).json({ message: e.message });
