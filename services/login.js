@@ -33,7 +33,7 @@ const loginService = async (req, res) => {
   };
 
   const token = jwt.sign(login, secret, jwtConfig);
-  return res.status(OK).json({token});  
+  return token;
 };
 
 module.exports = loginService;
