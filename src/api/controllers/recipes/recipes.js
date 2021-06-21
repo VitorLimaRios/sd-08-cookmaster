@@ -14,19 +14,23 @@ const DOQ = 204;
 
 const registerRec = rescue(async (req, res, next) => {
   const { _id: userId } = req.users;
-  const { name, ingredients,preparation } = req.body;
+  const { name, ingredients, preparation } = req.body;
+
   const recipe = await registerRecipes({ userId, name, ingredients, preparation });
   if (recipe.status) return next(recipe);
+
   res.status(DOU).json({ recipe });
 });
 
 const allRec = rescue(async (_req, res) => {
   const result = await allRecipes();
+
   res.status(DOO).json(result);
 });
 
 const idRec = rescue(async (req, res, next) => {
   const { id } = req.params;
+
   const result = await idRecipes(id);
   if (result.status) return next(result);
   res.status(DOO).json(result);
@@ -35,6 +39,7 @@ const idRec = rescue(async (req, res, next) => {
 const editRec = rescue(async (req, res, next) => {
   const { id } = req.params;
   const body = req.body;
+
   const result = await editRecipes(id, body);
   if (result.status) return next(result);
   const show = { ...result, userId: id };
@@ -43,9 +48,22 @@ const editRec = rescue(async (req, res, next) => {
 
 const deleteRec = rescue(async (req, res, next) => {
   const { id } = req.params;
+
   const result = await deleteRecipes(id);
   if (result.status) return next(result);
   res.status(DOQ).json(result);
+});
+
+const setImageRec = rescue(async (req, _res, next) => {
+  const { id } = req.params;
+  const { id: userId, role } = req.user;
+
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+  const result = await setImageRec(id, image, { userId, role });
+
+  if (result.status) return next(result);
+  res.status(DOQ).json(result);
+
 });
 
 module.exports = {
@@ -54,4 +72,5 @@ module.exports = {
   idRec,
   editRec,
   deleteRec,
+  setImageRec,
 };
