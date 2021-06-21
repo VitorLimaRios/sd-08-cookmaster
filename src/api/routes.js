@@ -14,5 +14,6 @@ router.get('/recipes/:id', RecipeController.index);
 router.get('/recipes', RecipeController.index);
 router.post('/recipes', ValidateToken, RecipeController.store);
 router.put('/recipes/:id', ValidateToken, RecipeController.update);
+router.delete('/recipes/:id', ValidateToken, RecipeController.remove);
 
 module.exports = router;
