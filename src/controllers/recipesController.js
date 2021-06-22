@@ -6,6 +6,7 @@ const {
   validarecipies,
   getAllrecipies,
   getOneRecipe,
+  editvlidation,
 } = require('../services/recipesService');
 
 const cc = 200;
@@ -37,9 +38,13 @@ router.get('/:id', async(req, res) => {
 });
 
 
-router.put('/', async(req, res) => {
-  res.send('put');
+router.put('/:id',validatejwt, async(req, res) => {
+  const editRecipe = await editvlidation(req.params.id,req.body);
+  res.status(cc).send(editRecipe);
 });
+
+
+
 router.delete('/', async(req, res) => {
   res.send('delete');
 });

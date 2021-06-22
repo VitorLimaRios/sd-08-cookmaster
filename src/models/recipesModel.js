@@ -32,9 +32,27 @@ const getone = async(_id)=>{
   return result;
 };
 
+const editrecipe = async(id,body) => {
+  await  conn().then(async (db) => 
+    db.collection('recipes').findOneAndUpdate(
+      {_id: ObjectId(id)}, {$set:body}, {returnDocument:'after'}
+    )
+  );
+  const result = await  conn().then(
+    async (db) => db.collection('recipes').findOne({_id: ObjectId(id)})
+  );
+ 
+  return result;
+};
+
+
+
+
 
 module.exports = {
   addrecipie,
   getone,
   getall,
+  editrecipe,
 };
+//returnDocument:'after'

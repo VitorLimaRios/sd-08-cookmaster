@@ -1,8 +1,11 @@
-const { addrecipie, getall, getone } = require('../models/recipesModel');
+const { addrecipie, getall, getone, editrecipe } = require('../models/recipesModel');
 const { ObjectId } = require('mongodb');
 
 // mensagens a retornar em caso de falha
 const notfound = {message: 'recipe not found'};
+//const notToken = {message: 'missing auth token'};
+
+
 
 // sem numeros magicos eslint
 const z = 0;
@@ -37,11 +40,18 @@ const getOneRecipe = async(_id)=>{
   
 };
 
+const editvlidation = async(id, body)=>{
+  
+  const result = await Promise.all([editrecipe(id,body)]);
+  return result[0];
+
+};
+
 
 module.exports ={
   
   validarecipies,
   getAllrecipies,
   getOneRecipe,
-
+  editvlidation,
 };

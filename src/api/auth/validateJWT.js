@@ -17,6 +17,11 @@ const cd = 400;
 const secret = 'cookMaster';
 
 module.exports = async (req, res, next) => {
+  
+  if (!req.headers.authorization) {
+    return res.status(cdi).json({ message: 'missing auth token' });
+  }
+   
   /* Aquele token gerado anteriormente virá na requisição através do
      header Authorization em todas as rotas que queremos que
      sejam autenticadas. */
