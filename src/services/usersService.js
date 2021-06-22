@@ -1,9 +1,9 @@
 const usersModel = require('../models/usersModel');
-const usersSchema = require('../schema/userCreate');
+const userSchema = require('../schema/userSchema');
 const { errorGenerator } = require('../utils');
 
 const createUser = async(objDataForCreate) =>{
-  const msgError =  usersSchema.validateCreateUser(objDataForCreate);
+  const msgError =  userSchema.validateCreateUser(objDataForCreate);
   if(msgError){
     return errorGenerator.badRequest(msgError);
   }

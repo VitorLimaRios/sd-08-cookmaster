@@ -13,6 +13,12 @@ const createUser = rescue(async (req,res, next)=>{
 
 });
 
+const loginUser = rescue(async (req,res, next) =>{
+  console.log('eu fui chamada');
+  res.status(STATUS_CREATE).json({ user: 'Deu bom'});
+});
+
 module.exports ={
-  createUser
+  createUser,
+  loginUser
 };

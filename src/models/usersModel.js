@@ -20,19 +20,9 @@ const getByEmail = async (email) => {
   return result;
 };
 
-/* const user = {
-  name: 'Erick Jacquin',
-  email : 'erickjacquin@gmail.com',
-  password : '12345678',
-  role: 'user'
-};
- */
-// createUser(user).then(console.log);
-//getAll().then(console.log);
-// getByEmail('erickjacquin@gmail.com').then(console.log);
-
 module.exports ={
   createUser,
   getAll,
   getByEmail
 };
+
