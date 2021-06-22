@@ -9,7 +9,7 @@ const mensagem = {
 };
 const mensagemNoToken = {
   message: 'missing auth token',
-}
+};
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers['authorization'];
