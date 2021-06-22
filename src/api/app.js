@@ -1,4 +1,6 @@
 const express = require('express');
+const { resolve } = require('path');
+
 const users = require('../routes/users');
 const login = require('../routes/login');
 const recipes = require('../routes/recipes');
@@ -13,6 +15,7 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+app.use('/images', express.static(resolve(__dirname, '..', 'uploads')));
 app.use('/users', users);
 app.use('/login', login);
 app.use('/recipes', recipes);

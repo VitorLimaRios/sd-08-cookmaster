@@ -28,6 +28,21 @@ const updateRecipe = async (_id, name, ingredients, preparation) => {
 const deleteRecipe = async (id) => getDbCollection()
   .then((collection) => collection.deleteOne({ _id: ObjectId(id) }));
 
+const insertImage = async (id, imageUrl) => {
+  const recipeWithImage = await getDbCollection()
+    .then((collection) => collection.findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { image: imageUrl } },
+      { returnOriginal: false },
+    ));
+  return recipeWithImage.value;
+};
+
+const getImage = async (id) => getDbCollection()
+  .then((collection) => collection.findOne(
+    { _id: ObjectId(id) }, { _id: 0, image: 1 },
+  ));
+
 
 module.exports = {
   createRecipe,   
@@ -35,4 +50,6 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  insertImage,
+  getImage,
 };

@@ -59,10 +59,33 @@ const deleteRecipe = async (req, res) => {
   return res.status(NO_CONTENT).json(deletedRecipe.data);
 };
 
+const insertImage = async (req, res) => {
+  const { id } = req.params;
+  const { role, userId } = req;
+
+  const recipeById = await recipes.getRecipeById(id);
+
+  if (String(userId) != String(recipeById.data.userId) && role != 'admin')
+    return res.status(NOT_FOUND).json({ message: 'unidentified user' });
+
+  const imageUrl = `localhost:3000/src/uploads/${id}.jpeg`;
+  const insertedImage = await recipes.insertImage(id, imageUrl, userId);
+  return res.status(OK).json(insertedImage.data);
+};
+
+const getImage = async (req, res) => {
+  const { id } = req.params;
+  const image = await recipes.getImage(id);
+  console.log('controller', image);
+  return res.status(OK).json(image.data);
+};
+
 module.exports = {
   createRecipe,  
   getRecipes,
   getRecipeById,
   updateRecipe, 
   deleteRecipe,
+  insertImage,
+  getImage,
 };

@@ -58,6 +58,30 @@ const deleteRecipe = async (id) => {
   if (!deletedCount) return error('recipe not deleted');
   return success(recipe);
 };
+
+const insertImage = async (id, image, userId) => {
+  const imageUrl = await recipes.insertImage(id, image, userId);
+  if (!imageUrl) return error('Ops, something go wrong');
+  console.log('image', image);
+  const { name, ingredients, preparation } = imageUrl;
+  return success({
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    image,
+    userId,
+  });
+};
+
+const getImage = async (id) => {
+  if (!id) return error(notFound);
+  if (id.length !== TWELVE && id.length !== TWENTYFOUR) {
+    return error(notFound);
+  }
+  const image = await recipes.getImage(id);
+  return success(image.image);
+};
   
 
 module.exports = {
@@ -66,4 +90,6 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  insertImage,
+  getImage,
 };
