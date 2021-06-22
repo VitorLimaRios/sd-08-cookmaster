@@ -5,7 +5,6 @@ const UsersModel = require('../models/userModels');
 const validateall = (req, res, next) => {
   const { name, password, email } = req.body;
   if (!name || !password || !email) {
-    console.log('primeira validação');
     // return undefined;
     return res.status(status.BAD_REQUEST).json({ message: status.INVALID_ENTRIES });
   }
@@ -23,12 +22,10 @@ const validateEmail = async (req, res, next) => {
   
   
   if (!emailRegex()) {
-    console.log('segunda validação');
     return res.status(status.BAD_REQUEST).json({ message: status.INVALID_ENTRIES });
   }
 
   if (getByEmail) {
-    console.log('3 validação');
     return res.status(status.CONFLICT).json({ message: 'Email already registered' });
   }
 
