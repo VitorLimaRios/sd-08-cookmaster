@@ -42,11 +42,17 @@ const exclude = async (id) => {
   return deletedRecipe;
 };
 
+const updateWithImage = async (recipeToUpdate, path ) => {
+  const recipe = await recipeModel.updateWithImage(recipeToUpdate, path);
+  return recipe;
+};
+
 
 module.exports = {
   add,
   getAll,
   getById,
   update,
-  exclude
+  exclude,
+  updateWithImage
 };
