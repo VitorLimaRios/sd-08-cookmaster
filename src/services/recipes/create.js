@@ -33,7 +33,7 @@ const create = async (data, res,token , next)=>{
       next();
     }
   } 
-  if( res.statusCode!==ERRO_00 && userData!=='') {
+  if( res.statusCode!==ERRO_00 && userData!==[]) {
     const {_id}=  userData[0];
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
