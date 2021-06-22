@@ -37,7 +37,7 @@ const create = async (data, res,token , next)=>{
     const idAutor = userData[0]._id;
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
-    result =  await createDB('recipe', 
+    result =  await createDB('recipes', 
       { name,
         ingredients, 
         preparation, 
