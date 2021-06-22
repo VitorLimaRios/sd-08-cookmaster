@@ -39,9 +39,14 @@ const roleType = async (body, id) => {
   return { message: updated, code: 200 };
 };
 
+const deleteRecipe = async (id) => {
+  await recipeModel.deleteOneRecipes(id);
+};
+
 module.exports = {
   addRecipe,
   findAllRecipes,
   findByIdRecipe,
   roleType,
+  deleteRecipe,
 };

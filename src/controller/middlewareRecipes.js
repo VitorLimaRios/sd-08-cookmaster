@@ -56,6 +56,14 @@ router.put('/:id', validateJwt, rescue ( async (req, res, next) => {
   return res.status(code).json(message);
 }));
 
+router.delete('/:id', validateJwt, rescue ( async (req, res, _next) => {
+  const idRecipes = req.params.id;
+
+  await userService.deleteRecipe(idRecipes);  
+  
+  return res.status(204).send();
+}));
+
 router.use((err, _req, res, _next) => {
   const { message, code } = err;
 

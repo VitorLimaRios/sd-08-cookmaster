@@ -45,11 +45,19 @@ const updateRecipeId = async (params, body) => {
   return findById;
 };
 
+const deleteOneRecipes = async (params) => {
+  await connect()
+    .then((db) => db.collection(TABLE_RECIPES)
+      .deleteOne({ _id: ObjectId(params) }))
+    .catch((_err) => console.log('Ops, não consegui deletar'));
+};
+
 module.exports = {
   addRecipes,
   findOneRecipes,
   getAll,
   findById,
   updateRecipeId,
+  deleteOneRecipes,
 };
   
