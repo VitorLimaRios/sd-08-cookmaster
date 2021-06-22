@@ -78,7 +78,10 @@ router.delete('/:id', validateJwt, rescue ( async (req, res, _next) => {
   return res.status(code).send();
 }));
 
-router.put('/:id/image',validateJwt, uploading.single('image'), async (req, res, next) => {
+router.put('/:id/image',
+  validateJwt,
+  uploading.single('image'),
+  async (req, res, _next) => {
   const fileName = req.file.filename;
   const { id } = req.params;
   
