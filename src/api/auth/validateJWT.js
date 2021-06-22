@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/Users');
+const { code } = require('../utils/errorCode');
 
 const secret = 'something'; 
 
@@ -7,7 +8,7 @@ module.exports = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
-    return res.status(401).json({ message: 'missing auth token' });
+    return res.status(code.unauthorized).json({ message: 'missing auth token' });
   }
 
   try {
@@ -15,13 +16,13 @@ module.exports = async (req, res, next) => {
     const user = await Users.findById(decoded._id);
     
     if (!user) {
-      return res.status(401)
+      return res.status(code.unauthorized)
         .json({ message: 'Erro ao procurar usuário do token.' });
     }
     req.user = user;
 
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(code.unauthorized).json({ message: err.message });
   }
 };
