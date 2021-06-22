@@ -1,5 +1,12 @@
-const { addrecipie, getall, getone, editrecipe } = require('../models/recipesModel');
 const { ObjectId } = require('mongodb');
+
+const {
+  addrecipie,
+  getall,
+  getone,
+  editrecipe,
+  delrecipe } = require('../models/recipesModel');
+
 
 // mensagens a retornar em caso de falha
 const notfound = {message: 'recipe not found'};
@@ -47,6 +54,15 @@ const editvlidation = async(id, body)=>{
 
 };
 
+const deletevalidation = async(id)=>{
+  
+  const result = await delrecipe(id);
+  return result;
+
+};
+
+
+
 
 module.exports ={
   
@@ -54,4 +70,5 @@ module.exports ={
   getAllrecipies,
   getOneRecipe,
   editvlidation,
+  deletevalidation,
 };

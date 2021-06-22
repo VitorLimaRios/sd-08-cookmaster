@@ -7,10 +7,12 @@ const {
   getAllrecipies,
   getOneRecipe,
   editvlidation,
+  deletevalidation
 } = require('../services/recipesService');
 
 const cc = 200;
 const cci=201;
+const cciv=204;
 const cd = 400;
 const cdi = 401;
 const cdiv=404;
@@ -45,8 +47,10 @@ router.put('/:id',validatejwt, async(req, res) => {
 
 
 
-router.delete('/', async(req, res) => {
-  res.send('delete');
+router.delete('/:id', validatejwt, async(req, res) => {
+
+  const deleteRecipe = await deletevalidation(req.params.id);
+  res.status(cciv).send(deleteRecipe);
 });
 
 

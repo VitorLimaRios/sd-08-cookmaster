@@ -46,7 +46,13 @@ const editrecipe = async(id,body) => {
 };
 
 
-
+const delrecipe = async(id)=>{
+  console.log(id);
+  const result = await  conn().then(async (db) => 
+    db.collection('recipes').deleteOne({_id:ObjectId(id)})
+  );
+  return result;
+};
 
 
 module.exports = {
@@ -54,5 +60,6 @@ module.exports = {
   getone,
   getall,
   editrecipe,
+  delrecipe
 };
 //returnDocument:'after'
