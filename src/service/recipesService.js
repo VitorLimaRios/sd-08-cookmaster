@@ -8,8 +8,9 @@ const addRecipe = async (infor, id) => {
 
   await recipeModel.addRecipes(infor, id);
   const findRecipesAdd = await recipeModel.findOneRecipes(id);
+  const tamanho = findRecipesAdd.length;
 
-  return { message: findRecipesAdd, code: 201 };
+  return { message: findRecipesAdd[tamanho - 1], code: 201 };
 };
 
 const findAllRecipes = async () => {
@@ -18,7 +19,18 @@ const findAllRecipes = async () => {
   return { message: getAllRecipes, code: 200 };
 };
 
+const findByIdRecipe = async (id) => {
+  const paramsIsValid = await validations.idIsValid(id);
+
+  if (paramsIsValid) return paramsIsValid;
+
+  const getById = await recipeModel.findById(id);
+
+  return { message: getById, code: 200 };
+};
+
 module.exports = {
   addRecipe,
   findAllRecipes,
+  findByIdRecipe,
 };

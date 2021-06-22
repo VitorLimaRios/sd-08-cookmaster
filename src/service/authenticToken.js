@@ -25,7 +25,7 @@ const validateJWT = async (req, res, next) => {
         .status(CODE_STATUS_UNAUTHORIZED)
         .json({ message: 'Erro ao procurar usuário do token.' });
     };
-    console.log(id._id);
+
     req.id = id._id;
   
     next();

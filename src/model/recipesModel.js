@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connect = require('./connect');
 
 const TABLE_RECIPES = 'recipes';
@@ -14,7 +15,15 @@ const addRecipes = async (data, id) => {
 const findOneRecipes = async (id) => {
   const findById = await connect()
     .then((db) => db.collection(TABLE_RECIPES)
-      .findOne({ userId: id }))
+      .find({ userId: id }).toArray())
+    .catch((_err) => console.log('Ops, não encontrei a receita'));
+  return findById;
+};
+
+const findById = async (params) => {
+  const findById = await connect()
+    .then((db) => db.collection(TABLE_RECIPES)
+      .findOne({ _id: ObjectId(params) }))
     .catch((_err) => console.log('Ops, não encontrei a receita'));
   return findById;
 };
@@ -31,5 +40,6 @@ module.exports = {
   addRecipes,
   findOneRecipes,
   getAll,
+  findById,
 };
   

@@ -30,6 +30,18 @@ router.get('/', async (_req, res) => {
   return res.status(code).json(message);
 });
 
+router.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  const getOneById = await userService.findByIdRecipe(id);
+  
+  const { message, code, erro } = getOneById;
+
+  if (erro) return next(erro);
+  
+  return res.status(code).json(message);
+});
+
 router.use((err, _req, res, _next) => {
   const { message, code } = err;
 

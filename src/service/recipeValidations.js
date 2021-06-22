@@ -1,3 +1,5 @@
+const recipesModel = require('../model/recipesModel');
+
 const nameIsValid = (data) => {
   const { name } = data;
 
@@ -41,6 +43,20 @@ const bodyIsValid = (data) => {
   if (preparationValid) return { erro: preparationValid };
 };
 
+const idIsValid = async (params) => {
+  const getById = await recipesModel.findById(params);
+
+  if (!getById) {
+    return {
+      erro: {
+        message: 'recipe not found',
+        code: 404,
+      },
+    };
+  };
+};
+
 module.exports = {
   bodyIsValid,
+  idIsValid,
 };
