@@ -30,7 +30,22 @@ const login = rescue(async(req, res, next) => {
   res.status(status).json(resp);
 });
 
+const createAdmin = rescue(async(req, res, next) => {
+  const { name, email, password } = req.body;
+  const token = req.headers.authorization;
+  let status = CREATED;
+  const resp = await services.createAdmin({ name, email, password }, token);
+  if(resp.verifyError) {
+    console.log(resp);
+    status = resp.status;
+    return next(resp);
+  }
+
+  res.status(status).json(resp);
+});
+
 module.exports = {
   createUser,
   login,
+  createAdmin,
 };
