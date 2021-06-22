@@ -11,9 +11,9 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, segredo);
-    const user = await Users.findUser(decoded.data.name);
-
+    const decoded = jwt.verify(token, secret);
+    const user = await Users.findById(decoded._id);
+    
     if (!user) {
       return res.status(401)
         .json({ message: 'Erro ao procurar usuário do token.' });
@@ -22,6 +22,7 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (err) {
+    console.log(err.message);
     return res.status(401).json({ message: err.message });
   }
 };

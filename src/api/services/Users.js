@@ -16,6 +16,8 @@ const newUser = async (name, email, password) => {
   return addUser;
 };
 
+const findById = async (id) => Users.findById(id);
+
 const login = async (email, password) => {
   const login = await Users.login(email, password);
   if (!login) return { err: {
@@ -27,5 +29,6 @@ const login = async (email, password) => {
 module.exports = {
   getAll,
   newUser,
+  findById,
   login,
 };

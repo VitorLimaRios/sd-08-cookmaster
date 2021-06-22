@@ -1,11 +1,10 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-  email: Joi.string().email().message('Incorrect username or password').required(),
+  email: Joi.string().email().required(),
   password: Joi.string().required(),
 }).messages({
   'any.required': 'All fields must be filled',
-  'string.empty': 'Incorrect username or password',
 });
 
 const validateLogin = (req, res, next) => {

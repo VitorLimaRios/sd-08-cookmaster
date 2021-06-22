@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const Users = require('./controllers/Users');
+const Recipes = require('./controllers/Recipes');
 
 const { validateUser } = require('./schemas/UserSchema');
 const { validateLogin } = require('./schemas/LoginSchema');
+const { validateRecipe } = require('./schemas/RecipeSchema');
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
@@ -19,5 +21,7 @@ app.get('/', (request, response) => {
 app.get('/users', Users.getAll);
 app.post('/users', validateUser, Users.newUser);
 app.post('/login', validateLogin, Users.login);
+
+app.post('/recipes', validateRecipe, validateJWT, Recipes.newRecipe);
 
 module.exports = app;

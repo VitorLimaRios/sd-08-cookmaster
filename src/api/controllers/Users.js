@@ -24,9 +24,8 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const login = await Users.login(email, password);
-  console.log(login);
   if (login.err) return res.status(401).json(login.err);
-
+  
   const token = jwt.sign(login, secret, jwtConfig);
   res.status(200).json({ token });
 };
