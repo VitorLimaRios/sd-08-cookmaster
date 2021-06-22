@@ -20,7 +20,7 @@ const createRecipe = async (token, name, ingredients, preparation) => {
   // console.log('SERVICE createRecipe error', error);
   if (error) throw Error(invalidEntries);
 
-  const recipe = await Models.createRecipe(name, ingredients, preparation);
+  const recipe = await Models.createRecipe(user._id, name, ingredients, preparation);
   // console.log('SERVICE createRecipe recipe', recipe);
   return recipe;
 };
@@ -46,7 +46,8 @@ const editRecipeById = async (token, id, recipeData) => {
   // console.log('SERVICE editRecipeById user', user);
   if (!user) throw Error(missingToken);
   await Models.editRecipeById(id, recipeData);
-  return user._id;
+  const recipe = await Models.getRecipeById(id);
+  return recipe;
 };
 
 const deleteRecipeById = async (token, id) => {
@@ -68,7 +69,7 @@ const uploadFile = async (token, id, path) => {
   await Models.uploadFile(id, path);
   const recipe = await Models.getRecipeById(id);
   // console.log('SERVICE uploadFile recipe', recipe);
-  return { ...recipe, userId: user._id };
+  return recipe;
 };
 
 module.exports = {
