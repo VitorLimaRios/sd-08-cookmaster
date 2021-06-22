@@ -56,7 +56,6 @@ const deleteRecipe = async (req, res) => {
     const recipe = await recipesServices.deleteRecipe(id);
     res.status(code.NO_CONTENT).json(recipe);
   } catch (error) {
-    console.error(error);
     res.status(code.SERVER_ERROR).json({ message: error.message });
   }
 };
