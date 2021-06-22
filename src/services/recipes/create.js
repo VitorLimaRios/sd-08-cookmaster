@@ -10,7 +10,7 @@ const create = async (data, res,token , next)=>{
   const {name,ingredients,preparation} = data;
   let result = {};
   let decoded = {};
-  let userData = '';
+  let userData = [];
   if(!name|| !ingredients||!preparation){
     res = res.status(ERRO_00).json({message: 'Invalid entries. Try again.'});
     next();
@@ -34,14 +34,17 @@ const create = async (data, res,token , next)=>{
     }
   } 
   if( res.statusCode!==ERRO_00 && userData!=='') {
-    // const idAutor = userData[0]._id || 'error';
+    let idAutor =  'error';
+    if(userData!==[]){
+      idAutor =  userData[0]._id;
+    }
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
     result =  await createDB('recipes', 
       { name,
         ingredients, 
         preparation, 
-        userId: userData[0]._id}
+        userId: idAutor}
     );
     res = res.status(HTTP_OK_STATUS).json({recipe: result[0]});
     // console.log(result);
