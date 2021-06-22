@@ -30,7 +30,7 @@ apiRoutes.get('/recipes', routes.getRecipes);
 apiRoutes.get('/recipes/:id', routes.getRecipeById);
 apiRoutes.put('/recipes/:id', routes.editRecipeById);
 apiRoutes.delete('/recipes/:id', routes.deleteRecipeById);
-apiRoutes.put('/recipes/:id/image/', upload.single('image'), routes.uploadFile);
+apiRoutes.put('/recipes/:id/image', upload.single('image'), routes.uploadFile);
 apiRoutes.get('/images/:id', routes.getImage);
 
 app.use(Error);
