@@ -19,7 +19,16 @@ const updateRecipe = async (id, info, userId) => {
   return update;
 };
 
-const deleteRecipe = async (id) => Recipes.deleteRecipe(id);
+const deleteRecipe = async (id, user) => {
+  const { role } = user;
+  const userId = user.id;
+
+  const recipe = await Recipes.findById(id);
+
+  if (recipe.userId === userId || role === 'admin') {
+    await Recipes.deleteRecipe(id);
+  }
+};
 
 module.exports = {
   getAll,

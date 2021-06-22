@@ -33,9 +33,10 @@ const updateRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user._id;
-  await Recipes.deleteRecipe(id, userId);
-  res.status(code.no_content);
+  const user = req.user;
+
+  await Recipes.deleteRecipe(id, user);
+  res.status(code.no_content).json();
 };
 
 module.exports = {
