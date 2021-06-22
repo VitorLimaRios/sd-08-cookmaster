@@ -3,7 +3,8 @@ const {
   createRecipe,
   getRecipes,
   getRecipeById,
-  editRecipeById
+  editRecipeById,
+  deleteRecipeById
 } = require('./recipe');
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
   getRecipes,
   getRecipeById,
   editRecipeById,
+  deleteRecipeById,
 };

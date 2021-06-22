@@ -23,6 +23,7 @@ apiRoutes.post('/recipes', routes.createRecipes);
 apiRoutes.get('/recipes', routes.getRecipes);
 apiRoutes.get('/recipes/:id', routes.getRecipeById);
 apiRoutes.put('/recipes/:id', routes.editRecipeById);
+apiRoutes.delete('/recipes/:id', routes.deleteRecipeById);
 
 app.use(Error);
 

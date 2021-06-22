@@ -49,9 +49,19 @@ const editRecipeById = async (token, id, recipeData) => {
   return user._id;
 };
 
+const deleteRecipeById = async (token, id) => {
+  const decoded = Utils.tokenDecrypt(token);
+  // console.log('SERVICE deleteRecipeById decoded', decoded);
+  const user = await Models.findUser(decoded.email);
+  // console.log('SERVICE deleteRecipeById user', user);
+  if (!user) throw Error(missingToken);
+  await Models.deleteRecipeById(id);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipeById,
+  deleteRecipeById,
 };
