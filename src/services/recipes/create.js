@@ -10,7 +10,7 @@ const create = async (data, res,token , next)=>{
   const {name,ingredients,preparation} = data;
   let result = {};
   let decoded = {};
-  let userData = [];
+  let userData = [{_id:'error'},'g'];
   if(!name|| !ingredients||!preparation){
     res = res.status(ERRO_00).json({message: 'Invalid entries. Try again.'});
     next();
