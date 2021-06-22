@@ -2,7 +2,7 @@ const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const INTERNAL_SERVER_ERROR = 500;
 
-const error = (err, _req, res, _next) => {
+module.exports = (err, _req, res, _next) => {
   let code;
 
   if (err.isJoi) {
@@ -29,5 +29,3 @@ const error = (err, _req, res, _next) => {
   return res.status(err.code  || INTERNAL_SERVER_ERROR)
     .json({ message: err.message });;
 };
-
-module.exports = error;
