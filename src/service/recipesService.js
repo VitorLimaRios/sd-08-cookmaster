@@ -45,10 +45,20 @@ const deleteRecipe = async (id) => {
   return { code: 204 };
 };
 
+const addImage = async (id, fileName) => {
+  const imageUrl = `localhost:3000/src/uploads/${ fileName }`;
+  await recipeModel.updateImage(id, imageUrl);
+
+  const findRecipes = await recipeModel.findById(id);
+
+  return { message: findRecipes, code: 200 };
+};
+
 module.exports = {
   addRecipe,
   findAllRecipes,
   findByIdRecipe,
   roleType,
   deleteRecipe,
+  addImage,
 };

@@ -52,6 +52,14 @@ const deleteOneRecipes = async (params) => {
     .catch((_err) => console.log('Ops, não consegui deletar'));
 };
 
+const updateImage = async (params, image) => {
+  const findById = await connect()
+    .then((db) => db.collection(TABLE_RECIPES)
+      .updateOne({ _id: ObjectId(params) }, { $set: { image } }))
+    .catch((_err) => console.log('Ops, não encontrei a receita'));
+  return findById;
+};
+
 module.exports = {
   addRecipes,
   findOneRecipes,
@@ -59,5 +67,6 @@ module.exports = {
   findById,
   updateRecipeId,
   deleteOneRecipes,
+  updateImage,
 };
   
