@@ -34,7 +34,7 @@ const create = async (data, res,token , next)=>{
     }
   } 
   if( res.statusCode!==ERRO_00 && userData!=='') {
-    const idAutor = userData[0]._id;
+    const idAutor = userData[0]._id || 'error';
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
     result =  await createDB('recipes', 
