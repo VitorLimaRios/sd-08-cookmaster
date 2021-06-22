@@ -1,9 +1,13 @@
 const services = require('../services/recipesServices');
 const rescue = require('express-rescue');
+const model = require('../models/usersModel');
+const jwt = require('../auth/validateJWT');
 
+const JWT_MALFORMED = 'jwt malformed';
 const OK = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
+const UNAUTHORIZED = 401;
 
 const createRecipe = rescue(async(req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -72,29 +76,30 @@ const excludeRecipe = rescue(async(req, res, next) => {
 
 const tokenMiddleware = rescue(async(req, res, next) => {
   const token = req.headers.authorization;
-  const data = await services.tokenMiddleware(token);
-  if (data.verifyError) {
-    status = resp.status;
-    return next(resp);
+  try {
+    if (!token) throw new Error('missing auth token');
+    const data = jwt.verify(token, secret);
+    const user = await model.getByEmail(data.email);
+    !user && res.status(UNAUTHORIZED).json(JWT_MALFORMED);
+    req.body.userId = user._id;
+    next();
+  } catch (error) {
+    return res.status(UNAUTHORIZED).json({ message: error.message });
   }
-
-  req.dataToken = data;
-  next();
 });
 
 const sendImage = rescue(async(req, res, next) => {
-  const { id } = req.params;
-  const { path } = req.file;
-  const imagePath = `localhost:3000/${path}`;
-  let status = OK;
-
-  const resp = await services.sendImage(id, imagePath);
-  if (resp.verifyError) {
-    status = resp.status;
-    return next(resp);
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+    const imagePath = `localhost:3000/${path}`;
+  
+    const result = await services.sendImage(id, imagePath);
+    return res.status(OK).json(result);
+    
+  } catch (error) {
+    return res.status(BAD).json({ message: error.message });
   }
-
-  res.status(status).json(resp);
 });
 
 module.exports = {

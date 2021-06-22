@@ -141,7 +141,8 @@ const tokenMiddleware = async(token) => {
 };
 
 const sendImage = async(id, image) => {
-  const resp = await model.sendImage(id, image);
+  const resp = await model.sendImage(id, path);
+  !resp && null;
   return resp;
 };
 
