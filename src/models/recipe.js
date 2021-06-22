@@ -39,10 +39,17 @@ const deleteRecipeById = async (id) => {
   // console.log('MODEL deleteRecipeById recipe', recipe);
 };
 
-module.exports = { 
+const uploadFile = async (id, image) => {
+  const db = await connect();
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { image } });
+};
+
+module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipeById,
   deleteRecipeById,
+  uploadFile,
 };

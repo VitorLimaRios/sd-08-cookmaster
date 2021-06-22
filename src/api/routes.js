@@ -6,4 +6,5 @@ module.exports = {
   getRecipeById: require('../controllers/getRecipeById'),
   editRecipeById: require('../controllers/editRecipeById'),
   deleteRecipeById: require('../controllers/deleteRecipeById.js'),
+  uploadFile: require('../controllers/uploadFile'),
 };

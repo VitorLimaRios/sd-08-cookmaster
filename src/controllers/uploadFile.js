@@ -2,11 +2,13 @@ const rescue = require('express-rescue');
 
 const Services = require('../services/recipe');
 
-const NOCONTENT = 204;
+const SUCCEEDED = 200;
 
 module.exports = rescue(async (req, res) => {
   const token = req.headers.authorization;
   const { id } = req.params;
-  await Services.deleteRecipeById(token, id);
-  res.status(NOCONTENT).send();
+  const path = `localhost:3000/${req.file.path}`;
+  const recipe = await Services.uploadFile(token, id, path);
+  if (!recipe._id) throw Error;
+  res.status(SUCCEEDED).json(recipe);
 });

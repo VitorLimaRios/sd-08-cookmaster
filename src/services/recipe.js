@@ -58,10 +58,24 @@ const deleteRecipeById = async (token, id) => {
   await Models.deleteRecipeById(id);
 };
 
+const uploadFile = async (token, id, path) => {
+  const decoded = Utils.tokenDecrypt(token);
+  // console.log('SERVICE uploadFile decoded', decoded);
+  const user = await Models.findUser(decoded.email);
+  // console.log('SERVICE uploadFile user', user);
+  if (!user) throw Error(missingToken);
+  // console.log('SERVICE uploadFile path', path);
+  await Models.uploadFile(id, path);
+  const recipe = await Models.getRecipeById(id);
+  // console.log('SERVICE uploadFile recipe', recipe);
+  return { ...recipe, userId: user._id };
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipeById,
   deleteRecipeById,
+  uploadFile,
 };
