@@ -23,6 +23,7 @@ app.post('/users', validateUser, Users.newUser);
 app.post('/login', validateLogin, Users.login);
 
 app.get('/recipes', Recipes.getAll);
+app.get('/recipes/:id', Recipes.findById);
 app.post('/recipes', validateRecipe, validateJWT, Recipes.newRecipe);
 
 module.exports = app;

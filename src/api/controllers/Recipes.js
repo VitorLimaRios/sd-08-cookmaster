@@ -5,6 +5,13 @@ const getAll = async (_req, res) => {
   res.status(200).json(recipeList);
 };
 
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const findRecipe = await Recipes.findById(id);
+  if (findRecipe.err) return res.status(404).json(findRecipe.err);
+  res.status(200).json(findRecipe);
+};
+
 const newRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const userId = req.user;
@@ -15,5 +22,6 @@ const newRecipe = async (req, res) => {
 
 module.exports = {
   getAll,
+  findById,
   newRecipe,
 };
