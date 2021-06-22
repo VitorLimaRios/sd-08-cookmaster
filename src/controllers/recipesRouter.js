@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const create = require('../services/recipes/create');
-// const readProductById = require('../services/readProductById');
+const readById = require('../services/recipes/readById');
 const read = require('../services/recipes/readAll');
 // const updateProduct = require('../services/updateProduct');
 // const deleteProduct = require('../services/deleteProduct');
 router.get('/:id', async (req, res, next)=>{
   const id = (req.params.id);
-  await readProductById(id ,res,next);
+  await readById(id ,res,next);
 });
 // router.put('/:id', async (req, res, next) => {
 //   const data = req.body;
