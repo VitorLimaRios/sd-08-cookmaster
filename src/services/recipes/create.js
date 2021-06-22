@@ -34,17 +34,14 @@ const create = async (data, res,token , next)=>{
     }
   } 
   if( res.statusCode!==ERRO_00 && userData!=='') {
-    let idAutor =  'error';
-    if(userData!==[]){
-      idAutor =  userData[0]._id;
-    }
+    const {_id}=  userData[0];
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
     result =  await createDB('recipes', 
       { name,
         ingredients, 
         preparation, 
-        userId: idAutor}
+        userId: _id}
     );
     res = res.status(HTTP_OK_STATUS).json({recipe: result[0]});
     // console.log(result);
