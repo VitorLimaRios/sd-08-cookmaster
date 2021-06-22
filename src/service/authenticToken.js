@@ -22,15 +22,15 @@ const validateJWT = async (req, res, next) => {
 
     if (!id) {
       return res
-      .status(401)
-      .json({ message: 'Erro ao procurar usuário do token.' });
+        .status(CODE_STATUS_UNAUTHORIZED)
+        .json({ message: 'Erro ao procurar usuário do token.' });
     };
     console.log(id._id);
     req.id = id._id;
   
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(CODE_STATUS_UNAUTHORIZED).json({ message: err.message });
   }
 };
 
