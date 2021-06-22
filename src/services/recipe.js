@@ -1,8 +1,10 @@
+const { ObjectId } = require('mongodb');
+
 const Utils = require('../utils');
 const Models = require('../models');
 
 const invalidEntries = 'Invalid entries. Try again.';
-const jwtMalformed = 'jwt malformed';
+const notFound = 'recipe not found';
 
 const createRecipe = async (token, name, ingredients, preparation) => {
   // console.log('SERVICE createRecipe req.body', { token, name, ingredients, preparation });
@@ -28,7 +30,16 @@ const getRecipes = async () => {
   return recipes;
 };
 
+const getRecipeById = async (id) => {
+  if (!ObjectId.isValid(id)) throw Error(notFound);
+  const recipe = await Models.getRecipeById(id);
+  console.log('SERVICE getRecipeById recipe', recipe);
+  if (!recipe) throw Error(notFound);
+  return recipe;
+};  
+
 module.exports = {
   createRecipe,
   getRecipes,
+  getRecipeById,
 };
