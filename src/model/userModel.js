@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connect = require('./connect');
 
 const TABLE_USERS = 'users';
@@ -19,7 +20,16 @@ const getOneUser = async (email) => {
   return find;
 };
 
+const getUserId = async (id) => {
+  const find = await connect()
+    .then((db) => db.collection(TABLE_USERS)
+      .findOne({ _id: ObjectId(id) }))
+    .catch((_err) => console.log('Não foi possível encontar'));
+  return find;
+};
+
 module.exports = {
   addUser,
   getOneUser,
+  getUserId,
 };

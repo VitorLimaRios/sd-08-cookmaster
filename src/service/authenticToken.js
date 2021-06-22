@@ -7,13 +7,16 @@ const CODE_STATUS_UNAUTHORIZED = 401;
 const mensagem = {
   message: 'jwt malformed',
 };
+const mensagemNoToken = {
+  message: 'missing auth token',
+}
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
     return res.status(CODE_STATUS_UNAUTHORIZED)
-      .json(mensagem);
+      .json(mensagemNoToken);
   };
 
   try {
@@ -23,7 +26,7 @@ const validateJWT = async (req, res, next) => {
     if (!id) {
       return res
         .status(CODE_STATUS_UNAUTHORIZED)
-        .json({ message: 'Erro ao procurar usuário do token.' });
+        .json(mensagem);
     };
 
     req.id = id._id;

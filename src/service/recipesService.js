@@ -1,4 +1,5 @@
 const recipeModel =  require('../model/recipesModel');
+const userModel = require('../model/userModel');
 const validations = require('./recipeValidations');
 
 const addRecipe = async (infor, id) => {
@@ -29,8 +30,18 @@ const findByIdRecipe = async (id) => {
   return { message: getById, code: 200 };
 };
 
+
+const roleType = async (body, id) => {
+  await recipeModel.updateRecipeId(id, body);
+
+  const updated = await recipeModel.findById(id);
+
+  return { message: updated, code: 200 };
+};
+
 module.exports = {
   addRecipe,
   findAllRecipes,
   findByIdRecipe,
+  roleType,
 };

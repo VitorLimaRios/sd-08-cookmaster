@@ -42,6 +42,20 @@ router.get('/:id', async (req, res, next) => {
   return res.status(code).json(message);
 });
 
+router.put('/:id', validateJwt, rescue ( async (req, res, next) => {
+  const data = req.body;
+  const { id } = req.headers;
+  const idRecipes = req.params.id;
+
+  const update = await userService.roleType(data, idRecipes);  
+
+  const { message, code, erro } = update;
+
+  if (erro) return next(erro);
+  
+  return res.status(code).json(message);
+}));
+
 router.use((err, _req, res, _next) => {
   const { message, code } = err;
 
