@@ -1,5 +1,10 @@
 const Recipes = require('../services/Recipes');
 
+const getAll = async (_req, res) => {
+  const recipeList = await Recipes.getAll();
+  res.status(200).json(recipeList);
+};
+
 const newRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const userId = req.user;
@@ -9,5 +14,6 @@ const newRecipe = async (req, res) => {
 };
 
 module.exports = {
+  getAll,
   newRecipe,
 };
