@@ -23,5 +23,8 @@ module.exports = (err, _req, res, _next) => {
   if (err.message === 'recipe not found') {
     return res.status(NOTFOUND).json({ message: err.message });
   }
+  if (err.message === 'missing auth token') {
+    return res.status(UNAUTHORIZED).json({ message: err.message });
+  }
   res.status(INTERNALSERVERERROR).json({ message: 'Erro interno', error: err.message });
 };

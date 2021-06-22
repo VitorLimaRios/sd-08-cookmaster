@@ -4,4 +4,5 @@ module.exports = {
   createRecipes: require('../controllers/createRecipe'),
   getRecipes: require('../controllers/getRecipe'),
   getRecipeById: require('../controllers/getRecipeById'),
+  editRecipeById: require('../controllers/editRecipeById')
 };

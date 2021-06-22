@@ -14,19 +14,27 @@ const createRecipe = async (name, ingredients, preparation) => {
 const getRecipes = async () => {
   const db = await connect();
   const recipes = await db.collection('recipes').find().toArray();
-  console.log('MODEL getRecipes recipes', recipes);
+  // console.log('MODEL getRecipes recipes', recipes);
   return recipes;
 };
 
 const getRecipeById = async (id) => {
   const db = await connect();
   const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-  console.log('MODEL getRecipeById recipe', recipe);
+  // console.log('MODEL getRecipeById recipe', recipe);
   return recipe;
+};
+
+const editRecipeById = async (id, { name, ingredients, preparation }) => {
+  const db = await connect();
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation} });
+  // console.log('MODEL getRecipeById recipe', recipe);
 };
 
 module.exports = { 
   createRecipe,
   getRecipes,
   getRecipeById,
+  editRecipeById,
 };

@@ -20,8 +20,9 @@ app.get('/', (request, response) => {
 apiRoutes.post('/users', routes.createUsers);
 apiRoutes.post('/login', routes.login);
 apiRoutes.post('/recipes', routes.createRecipes);
-apiRoutes.get('/recipes/:id', routes.getRecipeById);
 apiRoutes.get('/recipes', routes.getRecipes);
+apiRoutes.get('/recipes/:id', routes.getRecipeById);
+apiRoutes.put('/recipes/:id', routes.editRecipeById);
 
 app.use(Error);
 
