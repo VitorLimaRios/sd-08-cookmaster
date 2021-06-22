@@ -23,12 +23,12 @@ router.post('/', validateJwt, rescue ( async (req, res, next) => {
 }));
 
 router.get('/', async (_req, res) => {
-    const getAll = await userService.findAllRecipes();
-  
-    const { message, code } = getAll;
-  
-    return res.status(code).json(message);
-  });
+  const getAll = await userService.findAllRecipes();
+
+  const { message, code } = getAll;
+
+  return res.status(code).json(message);
+});
 
 router.use((err, _req, res, _next) => {
   const { message, code } = err;
