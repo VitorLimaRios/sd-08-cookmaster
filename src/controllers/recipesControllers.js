@@ -3,10 +3,14 @@ const rescue = require('express-rescue');
 const model = require('../models/usersModel');
 const jwt = require('../auth/validateJWT');
 
-const JWT_MALFORMED = 'jwt malformed';
 const OK = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
+
+const JWT_MALFORMED = 'jwt malformed';
+const INCORRECT = 'Incorrect username or password';
+const MISSING = 'missing auth token';
+const BAD = 400;
 const UNAUTHORIZED = 401;
 
 const createRecipe = rescue(async(req, res, next) => {
@@ -76,16 +80,46 @@ const excludeRecipe = rescue(async(req, res, next) => {
 
 const tokenMiddleware = rescue(async(req, res, next) => {
   const token = req.headers.authorization;
-  try {
-    if (!token) throw new Error('missing auth token');
-    const data = jwt.verify(token, secret);
-    const user = await model.getByEmail(data.email);
-    !user && res.status(UNAUTHORIZED).json(JWT_MALFORMED);
-    req.body.userId = user._id;
-    next();
-  } catch (error) {
-    return res.status(UNAUTHORIZED).json({ message: error.message });
+  // try {
+  if (!token) {
+    return next({
+      verifyError: true,
+      error: { message: MISSING },
+      status: UNAUTHORIZED,
+    });
   }
+  // throw new Error('missing auth token');
+  const data = await jwt.verifyToken(token);
+  // console.log('DATA ******************************');
+  // console.log(data);
+  // console.log('***********************************');
+  if (!data) {
+    return {
+      verifyError: true,
+      error: { message: JWT_MALFORMED },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const user = await model.readByEmail(data.data.email);
+  // console.log('USER ******************************');
+  // console.log(user);
+  // console.log('***********************************');
+  if (!user) {
+    return next({
+      verifyError: true,
+      error: { message: INCORRECT },
+      status: UNAUTHORIZED,
+    });
+  }
+  req.body.userId = user._id;
+  next();
+  // } catch (error) {
+  //   console.log('***********************************');
+  //   console.log(error);
+  //   console.log('***********************************');
+  //   return res.status(UNAUTHORIZED).json({ message: error.message });
+  // }
 });
 
 const sendImage = rescue(async(req, res, next) => {
@@ -95,6 +129,9 @@ const sendImage = rescue(async(req, res, next) => {
     const imagePath = `localhost:3000/${path}`;
   
     const result = await services.sendImage(id, imagePath);
+    console.log('RESULT ******************************');
+    console.log(result);
+    console.log('***********************************');
     return res.status(OK).json(result);
     
   } catch (error) {

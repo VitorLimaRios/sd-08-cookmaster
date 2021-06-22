@@ -9,7 +9,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use(express.static(resolve(__dirname, 'uploads')));
+app.use(express.static(resolve(__dirname, '..', 'uploads')));
 
 const uploadImage = () => {
   const storage = multer.diskStorage({
