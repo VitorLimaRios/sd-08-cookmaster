@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const connect = require('./mongoConnection');
 
 const COLLECTION = 'users';
@@ -11,7 +12,12 @@ const getUser = async (email) => {
   return connect().then((db) => db.collection(COLLECTION).findOne({ email }));
 };
 
+const getUserById = async (id) => {
+  return connect().then((db) => db.collection(COLLECTION).findOne({ _id: ObjectId(id)}));
+};
+
 module.exports = {
   createUser,
   getUser,
+  getUserById
 };
