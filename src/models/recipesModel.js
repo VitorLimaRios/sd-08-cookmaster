@@ -32,10 +32,20 @@ const exclude = async (id) => {
     );
 };
 
+const sendImage = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+  return conn()
+    .then((db) => db
+      .collection('recipes')
+      .updateOne({ _id: ObjectId(id) }, { $set: { image }}))
+    .then(() => readById(id));
+};
+
 module.exports = {
   create,
   getAll,
   readById,
   update,
   exclude,
+  sendImage,
 };

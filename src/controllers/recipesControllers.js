@@ -70,10 +70,39 @@ const excludeRecipe = rescue(async(req, res, next) => {
   res.status(status).json();
 });
 
+const tokenMiddleware = rescue(async(req, res, next) => {
+  const token = req.headers.authorization;
+  const data = await services.tokenMiddleware(token);
+  if (data.verifyError) {
+    status = resp.status;
+    return next(resp);
+  }
+
+  req.dataToken = data;
+  next();
+});
+
+const sendImage = rescue(async(req, res, next) => {
+  const { id } = req.params;
+  const { path } = req.file;
+  const imagePath = `localhost:3000/${path}`;
+  let status = OK;
+
+  const resp = await services.sendImage(id, imagePath);
+  if (resp.verifyError) {
+    status = resp.status;
+    return next(resp);
+  }
+
+  res.status(status).json(resp);
+});
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getById,
   update,
   excludeRecipe,
+  tokenMiddleware,
+  sendImage,
 };

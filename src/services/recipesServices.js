@@ -120,10 +120,37 @@ const exclude = async (token, id) => {
   }
 };
 
+const tokenMiddleware = async(token) => {
+  if (!token)  {
+    return {
+      verifyError: true,
+      error: { message: MISSING },
+      status: UNAUTHORIZED,
+    };
+  }
+
+  const data = await jwt.verifyToken(token);
+  if (!data) {
+    return {
+      verifyError: true,
+      error: { message: JWT_MALFORMED },
+      status: UNAUTHORIZED,
+    };
+  }
+  return data;
+};
+
+const sendImage = async(id, image) => {
+  const resp = await model.sendImage(id, image);
+  return resp;
+};
+
 module.exports = {
   create,
   getAll,
   readById,
   update,
   exclude,
+  tokenMiddleware,
+  sendImage,
 };
