@@ -59,9 +59,11 @@ router.put('/:id', validateJwt, rescue ( async (req, res, next) => {
 router.delete('/:id', validateJwt, rescue ( async (req, res, _next) => {
   const idRecipes = req.params.id;
 
-  await userService.deleteRecipe(idRecipes);  
+  const deleteOne = await userService.deleteRecipe(idRecipes);  
+
+  const { code } = deleteOne;
   
-  return res.status(204).send();
+  return res.status(code).send();
 }));
 
 router.use((err, _req, res, _next) => {

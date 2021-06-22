@@ -41,6 +41,8 @@ const roleType = async (body, id) => {
 
 const deleteRecipe = async (id) => {
   await recipeModel.deleteOneRecipes(id);
+
+  return { code: 204 };
 };
 
 module.exports = {
