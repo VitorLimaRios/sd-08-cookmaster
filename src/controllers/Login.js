@@ -1,3 +1,5 @@
+const rescue = require('express-rescue');
+const service = require('../services/Login');
 const jwt = require('jsonwebtoken');
 const loginSchema = require('../schemas/LoginSchema');
 
@@ -6,7 +8,7 @@ const OK = 200;
 module.exports = rescue(async (req, res, next) => {
 
   const { error } = loginSchema.validate(req.body);
-
+  
   if (error) return next(error);
 
   const { email, password } = req.body;

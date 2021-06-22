@@ -5,7 +5,7 @@ const login = async (credentials) => {
 
   const user = await Users.findByEmail(email);
 
-  if (!user || (!user.password !== password)) {
+  if (!user || (user.password !== password)) {
     return {
       error: {
         code: 401,
@@ -13,6 +13,8 @@ const login = async (credentials) => {
       }
     };
   }
+
+  return user;
 };
 
 module.exports = {
