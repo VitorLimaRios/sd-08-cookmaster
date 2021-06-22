@@ -3,6 +3,7 @@ const read = require('../../models/read');
 const HTTP_OK_STATUS = 201;
 const ERRO_00 = 400;
 const ERRO_01 = 401;
+const ZERO= 0;
 const jwt = require('jsonwebtoken');
 const secret = 'seusecretdetoken';
 
@@ -33,7 +34,7 @@ const create = async (data, res,token , next)=>{
       next();
     }
   } 
-  if( res.statusCode!==ERRO_00 && userData.length>0) {
+  if( res.statusCode!==ERRO_00 && userData.length>ZERO) {
     const {_id}=  userData[0];
     // console.table(userData);
     // console.log( 'datauser',decoded.email, idAutor);
