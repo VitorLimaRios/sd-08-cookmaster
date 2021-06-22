@@ -12,14 +12,17 @@ const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/../uploads'));
+app.use(express.static(__dirname + '/uploads'));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'uploads');
+    callback(null, 'src/uploads');
   },
   filename: (req, file, callback) => {
-    callback(null, req.params.id);
+    callback(null, `${req.params.id}.jpeg`);
+  },
+  path: (req, file, callback) => {
+    callback(null, );
   },
 });
 const uploads = multer({ storage });
@@ -40,5 +43,6 @@ app.post('/recipes', validateRecipe, validateJWT, Recipes.newRecipe);
 app.put('/recipes/:id', validateRecipe, validateJWT, Recipes.updateRecipe);
 app.delete('/recipes/:id', validateJWT, Recipes.deleteRecipe);
 app.put('/recipes/:id/image', validateJWT, uploads.single('image'), Recipes.uploadImage);
+// app.get('/images/<id-da-receita>.jpeg');
 
 module.exports = app;

@@ -41,8 +41,10 @@ const deleteRecipe = async (req, res) => {
 
 const uploadImage = async (req, res) => {
   const { id } = req.params;
+  const { path } = req.file;
+  const { host } = req.headers;
 
-  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+  const image = `${host}/${path}`;
   await Recipes.uploadImage(id, image);
 
   const recipe = await Recipes.findById(id);
