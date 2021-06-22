@@ -14,8 +14,7 @@ const findById = async (req, res) => {
 
 const newRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-  const user = req.user;
-  const userId = user._id;
+  const userId = req.user._id;
 
   const addNewRecipe = await Recipes.newRecipe(name, ingredients, preparation, userId);
   res.status(201).json(addNewRecipe);
@@ -24,12 +23,18 @@ const newRecipe = async (req, res) => {
 const updateRecipe = async (req, res) => {
   const { id } = req.params;
   const info = req.body;
-  const user = req.user;
-  const userId = user._id;
+  const userId = req.user._id;
   
   const updatedRecipe = await Recipes.updateRecipe(id, info, userId);
-  console.log(updatedRecipe);
+
   res.status(200).json(updatedRecipe);
+};
+
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user._id;
+  await Recipes.deleteRecipe(id, userId);
+  res.status(204);
 };
 
 module.exports = {
@@ -37,4 +42,5 @@ module.exports = {
   findById,
   newRecipe,
   updateRecipe,
+  deleteRecipe,
 };
