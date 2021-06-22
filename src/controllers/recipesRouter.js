@@ -5,10 +5,10 @@ const create = require('../services/recipes/create');
 const read = require('../services/recipes/readAll');
 // const updateProduct = require('../services/updateProduct');
 // const deleteProduct = require('../services/deleteProduct');
-// router.get('/:id', async (req, res, next)=>{
-//   const id = (req.params.id);
-//   await readProductById(id ,res,next);
-// });
+router.get('/:id', async (req, res, next)=>{
+  const id = (req.params.id);
+  await readProductById(id ,res,next);
+});
 // router.put('/:id', async (req, res, next) => {
 //   const data = req.body;
 //   const id = (req.params.id);
