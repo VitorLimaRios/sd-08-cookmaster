@@ -35,8 +35,8 @@ const create = async (data, res,token , next)=>{
   } 
   if( res.statusCode!==ERRO_00 && userData!=='') {
     const idAutor = userData[0]._id;
-    console.table(userData);
-    console.log( 'datauser',decoded.email, idAutor);
+    // console.table(userData);
+    // console.log( 'datauser',decoded.email, idAutor);
     result =  await createDB('recipe', 
       { name,
         ingredients, 
@@ -44,7 +44,7 @@ const create = async (data, res,token , next)=>{
         userId: idAutor}
     );
     res = res.status(HTTP_OK_STATUS).json({recipe: result[0]});
-    console.log(result);
+    // console.log(result);
     next();
   }
 };
