@@ -82,15 +82,15 @@ router.put('/:id/image',
   validateJwt,
   uploading.single('image'),
   async (req, res, _next) => {
-  const fileName = req.file.filename;
-  const { id } = req.params;
+    const fileName = req.file.filename;
+    const { id } = req.params;
   
-  const updateImage = await userService.addImage(id, fileName);
+    const updateImage = await userService.addImage(id, fileName);
 
-  const { message, code } = updateImage;
+    const { message, code } = updateImage;
   
-  return res.status(code).json(message);
-});
+    return res.status(code).json(message);
+  });
 
 router.use((err, _req, res, _next) => {
   const { message, code } = err;
