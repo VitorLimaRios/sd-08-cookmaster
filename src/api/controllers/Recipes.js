@@ -8,7 +8,7 @@ const getAll = async (_req, res) => {
 const findById = async (req, res) => {
   const { id } = req.params;
   const findRecipe = await Recipes.findById(id);
-  if (findRecipe.err) return res.status(404).json(findRecipe.err);
+  if (findRecipe.message) return res.status(404).json(findRecipe);
   res.status(200).json(findRecipe);
 };
 

@@ -16,7 +16,7 @@ const newUser = async (req, res) => {
   const { name, email, password } = req.body;
   
   const addUser = await Users.newUser(name, email, password);
-  if (addUser.err) return res.status(409).json(addUser.err);
+  if (addUser.message) return res.status(409).json(addUser);
   res.status(201).json(addUser);
 };
 
@@ -24,7 +24,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const login = await Users.login(email, password);
-  if (login.err) return res.status(401).json(login.err);
+  if (login.message) return res.status(401).json(login);
   
   const token = jwt.sign(login, secret, jwtConfig);
   res.status(200).json({ token });
