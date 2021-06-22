@@ -1,7 +1,9 @@
+const { ObjectId, ObjectID } = require('bson');
 const connect = require('./mongoConnection');
 
 const COLLECTION = 'recipes';
 
+const validateId = (id) => ObjectID.isValid(id);
 const addRecipe = async (recipe) => {
   return connect()
     .then((db) => db.collection(COLLECTION).insertOne(recipe))
@@ -13,7 +15,15 @@ const getRecipes = async () => {
     .then((db) => db.collection(COLLECTION).find().toArray());
 };
 
+const getRecipeById = async(id) => {
+  if(!validateId(id)) return;
+  return connect()
+    .then((db) => db.collection(COLLECTION).findOne({ _id: ObjectId(id) }));
+};
+
+
 module.exports = {
   addRecipe,
   getRecipes,
+  getRecipeById,
 };
