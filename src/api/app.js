@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const userRouter = require('../controllers/userRouter');
 const loginRouter = require('../controllers/loginRouter');
 const recipesRouter = require('../controllers/recipesRouter');
-require('dotenv');
 
 const app = express();
 app.use(bodyParser.json());
