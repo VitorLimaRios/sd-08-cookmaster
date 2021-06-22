@@ -39,10 +39,21 @@ const deleteRecipe = async (req, res) => {
   res.status(code.no_content).json();
 };
 
+const uploadImage = async (req, res) => {
+  const { id } = req.params;
+
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+  await Recipes.uploadImage(id, image);
+
+  const recipe = await Recipes.findById(id);
+  res.status(code.OK).json(recipe);
+};
+
 module.exports = {
   getAll,
   findById,
   newRecipe,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };

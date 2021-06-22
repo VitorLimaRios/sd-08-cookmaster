@@ -23,7 +23,7 @@ const findById = async (id) => {
 
 const login = async (email, password) => {
   return connection()
-    .then((db) => db.collection('users').findOne({ email: email, password: password }))
+    .then((db) => db.collection('users').findOne({ email, password }))
     .then((user) => (user));
 };
 
