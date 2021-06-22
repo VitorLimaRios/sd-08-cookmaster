@@ -19,13 +19,19 @@ const getAll = async () =>
     
 const update = async (id, name, ingredients, preparation) =>
   connection().then((db) =>
-    db
-      .collection('recipes')
+    db.collection('recipes')
       .updateOne(
         { _id: ObjectId(id) },
         { $set: { name, ingredients, preparation } }
       )
   );
 
+const del = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  return connection().then((db) =>
+    db.collection('recipes').deleteOne({ _id: ObjectId(id) })
+  );
+};
 
-module.exports = { create, getById, getAll, update };   
+
+module.exports = { create, getById, getAll, update, del };   
