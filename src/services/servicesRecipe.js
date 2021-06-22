@@ -160,21 +160,21 @@ class ServicesRecipe {
     try {
       const authDelete = await this._authorizationToDelete({ _id:idRecipe }, userData);
 
-      // if (authDelete.notFound) {
-      //   throw new CustomErro(
-      //     'Delete recipe not found',
-      //     'delete',
-      //     authDelete.notFound
-      //   );
-      // }
+      if (authDelete.notFound) {
+        throw new CustomErro(
+          'Delete recipe not found',
+          'delete',
+          authDelete.notFound
+        );
+      }
 
-      // if (authDelete.unauthorized) {
-      //   throw new CustomErro(
-      //     'Delete unauthorized',
-      //     'delete',
-      //     authDelete.unauthorized
-      //   );
-      // }
+      if (authDelete.unauthorized) {
+        throw new CustomErro(
+          'Delete unauthorized',
+          'delete',
+          authDelete.unauthorized
+        );
+      }
 
       await this._modelRecipe.updateRecipe(
         this._idFormatted({ _id: idRecipe })._id,
@@ -185,7 +185,6 @@ class ServicesRecipe {
         this._idFormatted({ _id: idRecipe })
       );
 
-      
       return { recipe: result };
 
     } catch (err) {
@@ -198,8 +197,3 @@ class ServicesRecipe {
 }
 
 module.exports = ServicesRecipe;
-
-
-// "name": "Banana",
-//     "ingredients": "banana",
-//     "preparation": "cortar a banana",
