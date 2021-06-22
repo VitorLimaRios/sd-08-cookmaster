@@ -12,6 +12,13 @@ const addRecipe = async (infor, id) => {
   return { message: findRecipesAdd, code: 201 };
 };
 
+const findAllRecipes = async () => {
+  const getAllRecipes = await recipeModel.getAll();
+
+  return { message: getAllRecipes, code: 200 };
+}
+
 module.exports = {
   addRecipe,
+  findAllRecipes,
 };

@@ -19,8 +19,17 @@ const findOneRecipes = async (id) => {
   return findById;
 };
 
+const getAll = async () => {
+  const findAll = await connect()
+    .then((db) => db.collection(TABLE_RECIPES)
+      .find().toArray())
+    .catch((_err) => console.log('Ops, não encontrei todas as receitas'));
+  return findAll;
+};
+
 module.exports = {
   addRecipes,
   findOneRecipes,
+  getAll,
 };
   
