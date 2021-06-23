@@ -13,7 +13,9 @@ const validateAllRecipes = (req, res, next) => {
       return res.status(status.BAD_REQUEST).json({ message: status.INVALID_ENTRIES });
     }
   } catch (err) {
-    return res.status(status.INTERNAL_SERVER_ERROR).json({ message: 'erro na validação' });
+    return res.status(status.INTERNAL_SERVER_ERROR).json({
+      message: 'erro na validação'
+    });
   }
   next();
 };
@@ -46,7 +48,7 @@ const validateJWT = async (req, res, next) => {
 
     // }
   } catch (err) {
-    return res.status(status.UNAUTHORIZED).json( {message: status.MALFORMED});
+    return res.status(status.UNAUTHORIZED).json({ message: status.MALFORMED });
   }
 
 };
