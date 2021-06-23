@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const jwt = require('jsonwebtoken');
 
 const HTTP_FORBIDDEN_STATUS = 403;

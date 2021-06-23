@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const jwt = require('jsonwebtoken');
 
 const HTTP_UNAUTHORIZED_STATUS = 401;
