@@ -23,13 +23,25 @@ const create = rescue(async (req, res, next) => {
 });
 
 
-const get = rescue(async (_req, res) => {
+const get = rescue(async (_, res) => {
   const recipes = await service.get();
 
   res.status(OK).json(recipes);
 });
 
+
+const getById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const recipe = await service.getById(id);
+
+  if (recipe.error) return next(recipe.error);
+
+  res.status(OK).json(recipe);
+});
+
 module.exports = {
   create,
-  get
+  get,
+  getById
 };
