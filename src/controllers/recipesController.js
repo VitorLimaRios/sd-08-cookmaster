@@ -65,13 +65,13 @@ const storage = multer.diskStorage({
   
   filename: (req, file, callback)=>{
     const split = file.originalname.split('.');   
-    callback(null, `${req.params.id}.${split[1]}`);
+    callback(null, `${req.params.id}.`+ split[1].replace('jpg','jpeg'));
   }
 });
 const upload = multer({storage});
 
 router.put('/:id/image', validatejwt, upload.single('image'), async(req, res) => {
-  console.log(req.file);
+  
   const uploadimg = await imagvalidation(req.params.id, req.file.path); 
   res.status(cc).send(uploadimg);
 });
