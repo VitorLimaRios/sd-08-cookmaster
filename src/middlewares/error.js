@@ -1,5 +1,6 @@
 const BADREQUEST = 400;
 const UNAUTHORIZED = 401;
+const FORBIDDEN = 403;
 const NOTFOUND = 404;
 const CONFLICT = 409;
 const INTERNALSERVERERROR = 500;
@@ -25,6 +26,9 @@ module.exports = (err, _req, res, _next) => {
   }
   if (err.message === 'missing auth token') {
     return res.status(UNAUTHORIZED).json({ message: err.message });
+  }
+  if (err.message === 'Only admins can register new admins') {
+    return res.status(FORBIDDEN).json({ message: err.message });
   }
   res.status(INTERNALSERVERERROR).json({ message: 'Erro interno', error: err.message });
 };

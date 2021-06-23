@@ -184,7 +184,7 @@ describe('GET /recipes/:id', () => {
         .collection('recipes')
         .insertOne(recipeData);
       
-      const { body: { token }} = await chai.request(server)
+      const { body: { token } } = await chai.request(server)
         .post('/login')
         .send(userDataToToken);
 

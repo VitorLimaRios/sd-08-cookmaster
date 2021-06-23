@@ -5,6 +5,7 @@ const invalidEntries = 'Invalid entries. Try again.';
 const emailRegistered = 'Email already registered';
 const allFields = 'All fields must be filled';
 const incorrectCredentional = 'Incorrect username or password';
+const onlyAdmin = 'Only admins can register new admins';
 
 const createUser = async (name, email, password) => {
   // console.log('SERVICE createUser req.body', name, email, password);
@@ -35,8 +36,16 @@ const login = async (email, password) => {
 
   return token;
 };
+
+const createAdmin = async (token, name, email, password) => {
+  // console.log('SERVICE createAdmin req.body', name, email, password);
+  const decoded = Utils.tokenDecrypt(token);
+  if (decoded.role !== 'admin') throw Error(onlyAdmin);
+  return await Model.createAdmin(name, email, password);
+};
   
 module.exports = {
   createUser,
   login,
+  createAdmin,
 };

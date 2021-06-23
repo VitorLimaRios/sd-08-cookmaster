@@ -1,4 +1,4 @@
-const { createUser, findUser } = require('./user');
+const { createUser, findUser, createAdmin } = require('./user');
 const {
   createRecipe,
   getRecipes,
@@ -17,4 +17,5 @@ module.exports = {
   editRecipeById,
   deleteRecipeById,
   uploadFile,
+  createAdmin,
 };

@@ -8,4 +8,5 @@ module.exports = {
   deleteRecipeById: require('../controllers/deleteRecipeById.js'),
   uploadFile: require('../controllers/uploadFile'),
   getImage: require('../controllers/getImage'),
+  createAdmin: require('../controllers/createAdmin'),
 };

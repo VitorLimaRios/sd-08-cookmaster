@@ -132,7 +132,7 @@ describe('GET /images/:id', () => {
       response = await chai.request(server)
         .get(`/images/${RECIPE_ID_VALID}.jpeg`);
 
-      console.log(response.path);
+      // console.log(response.path);
     });
 
     after(async () => {
