@@ -28,9 +28,7 @@ const loginUser = async(objDataForLogin) =>{
   return { user: 'deu bom'};
 };
 
-const getAll =  async()=>{
-  return usersModel.getAll();
-};
+const getAll =  () => usersModel.getAll();
 
 module.exports ={
   createUser,

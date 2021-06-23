@@ -12,7 +12,7 @@ loginRouter.post('/', userController.loginUser);
 
 const recipesRouter = express.Router();
 recipesRouter.post('/', verifyAuthorization, recipeController.createRecipe);
-
+recipesRouter.get('/',/*  verifyAuthorization, */ recipeController.getAll);
 
 module.exports = {
   userRouter, 

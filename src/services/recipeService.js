@@ -5,15 +5,16 @@ const { errorGenerator } = require('../utils');
 
 const createRecipe = async(objDataForCreate) =>{
   const msgError =  recipeSchema.validateCreate(objDataForCreate);
-  if(msgError){
-    return errorGenerator.badRequest(msgError);
-  }
-
-  const {_id} = await recipesModel.createRecipe(objDataForCreate);// você pode or o ID aqui
+  if(msgError)  return errorGenerator.badRequest(msgError);
+  
+  const {_id} = await recipesModel.createRecipe(objDataForCreate);
 
   return { recipe: {...objDataForCreate, _id}};
 };
- 
+
+const getAll = () =>  recipesModel.getAll();
+
 module.exports = {
-  createRecipe
+  createRecipe,
+  getAll
 };

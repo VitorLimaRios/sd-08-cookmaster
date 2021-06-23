@@ -13,8 +13,6 @@ const getAll = async () => {
   return result;
 };
 
-// getAll().then(console.log);
-
 module.exports = {
   createRecipe,
   getAll,
