@@ -19,8 +19,26 @@ const getById = async (id) => {
   return recipe;
 };
 
+const update = async (updatedRecipe, recipeId, user) => {
+  const { userId: ownerId } = await Recipes.getById(recipeId);
+
+  const userId = user._id;
+
+  if (!(ownerId.equals(userId)) && user.role !== 'admin') {
+    return {
+      error: {
+        code: 403,
+        message: 'Forbidden'
+      }
+    };
+  }
+
+  return Recipes.update(updatedRecipe, recipeId, userId);
+};
+
 module.exports = {
   create,
   get,
-  getById
+  getById,
+  update
 };

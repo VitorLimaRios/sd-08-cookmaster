@@ -5,6 +5,7 @@ const validateJWT = require('../middlewares/validateJWT');
 const router = express.Router();
 
 router.get('/:id', Recipes.getById);
+router.put('/:id', validateJWT, Recipes.update);
 router.get('/', Recipes.get);
 router.post('/', validateJWT, Recipes.create);
 

@@ -7,15 +7,17 @@ module.exports = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
-    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   };
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
 
-    const { _id } = await Users.findByEmail(decoded.email);
+    const user = await Users.findByEmail(decoded.email);
 
-    req.user = { _id };
+    delete user.password;
+
+    req.user = user;
 
     next();
   } catch (err) {

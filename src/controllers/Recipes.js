@@ -40,8 +40,24 @@ const getById = rescue(async (req, res, next) => {
   res.status(OK).json(recipe);
 });
 
+
+const update = rescue(async (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+
+  const { id: recipeId } = req.params;
+
+  const user = req.user;
+
+  const recipe = await service.update({ name, ingredients, preparation }, recipeId, user);
+
+  if (recipe.error) return next(recipe.error);
+
+  res.status(OK).json(recipe);
+});
+
 module.exports = {
   create,
   get,
-  getById
+  getById,
+  update
 };
