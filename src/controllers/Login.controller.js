@@ -1,4 +1,4 @@
-const { create } = require('../services/Login.services');
+const { create } = require('../services/Login.service');
 
 const HTTP_OK_STATUS = 200;
 const HTTP_BAD_REQUEST_STATUS = 400;

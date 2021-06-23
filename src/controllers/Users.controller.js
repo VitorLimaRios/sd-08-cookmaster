@@ -1,4 +1,4 @@
-const { create } = require('../services/Users.services');
+const { create } = require('../services/Users.service');
 const REG_EXP = require('../helpers/RegExp.helper');
 
 const HTTP_CREATED_STATUS = 201;

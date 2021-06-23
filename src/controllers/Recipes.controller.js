@@ -1,4 +1,11 @@
-const { index, show, create, update, remove } = require('../services/Recipes.services');
+const {
+  index,
+  show,
+  create,
+  update,
+  image,
+  remove
+} = require('../services/Recipes.service');
 
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
@@ -72,6 +79,20 @@ module.exports = {
 
       return response.status(HTTP_OK_STATUS).send(recipe);
     } catch (err) {
+      return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
+    }
+  },
+
+  upload: async (request, response) => {
+    const { id } = request.params;
+    const { filename } = request.file;
+
+    try {
+      const upload = await image(id, filename);
+
+      return response.status(HTTP_OK_STATUS).send(upload);
+    } catch (err) {
+      console.log(err);
       return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
     }
   },

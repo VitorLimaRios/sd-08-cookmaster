@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken');
 const HTTP_UNAUTHORIZED_STATUS = 401;
 
 module.exports = (request, response, next) => {
-  const { Authorization } = request.headers;
+  const { authorization } = request.headers;
 
-  if (!Authorization) {
+  if (!authorization) {
     return response
       .status(HTTP_UNAUTHORIZED_STATUS)
       .send({ message: 'missing auth token' });
   }
 
-  jwt.verify(Authorization, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(authorization, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       return response
         .status(HTTP_UNAUTHORIZED_STATUS)

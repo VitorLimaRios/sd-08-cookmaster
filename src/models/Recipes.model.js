@@ -16,6 +16,9 @@ const RecipesSchema = new mongoose.Schema([{
   userId: {
     type: String,
     require: true
+  },
+  image: {
+    type: String
   }
 }]);
 
