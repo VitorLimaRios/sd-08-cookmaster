@@ -12,6 +12,13 @@ const errorGenerator ={
       error: 'Conflict',
       message,
     };
+  },
+  unauthorized: (message)=>{
+    return {
+      statusCode: 401,
+      error: 'Unauthorized',
+      message 
+    };   
   }
 };
 

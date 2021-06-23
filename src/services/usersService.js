@@ -3,7 +3,7 @@ const userSchema = require('../schema/userSchema');
 const { errorGenerator } = require('../utils');
 
 const createUser = async(objDataForCreate) =>{
-  const msgError =  userSchema.validateCreateUser(objDataForCreate);
+  const msgError =  userSchema.validateCreate(objDataForCreate);
   if(msgError){
     return errorGenerator.badRequest(msgError);
   }
@@ -19,11 +19,21 @@ const createUser = async(objDataForCreate) =>{
   return { user: result};
 };
 
+const loginUser = async(objDataForLogin) =>{
+  const msgError =  userSchema.validateLogin(objDataForLogin);
+  console.log(msgError);
+  if(msgError){
+    return errorGenerator.unauthorized(msgError);
+  }
+  return { user: 'deu bom'};
+};
+
 const getAll =  async()=>{
   return usersModel.getAll();
 };
 
 module.exports ={
   createUser,
+  loginUser,
   getAll,
 };
