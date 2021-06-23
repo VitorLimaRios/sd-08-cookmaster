@@ -9,6 +9,6 @@ module.exports = {
 
     const { password: user_password, ...user_auth } = user._doc;
 
-    return jwt.sign(user_auth, 'teste');
+    return jwt.sign(user_auth, process.env.JWT_SECRET);
   }
 };

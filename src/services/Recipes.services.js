@@ -1,7 +1,5 @@
 const Recipe = require('../models/Recipes.model');
 
-const HTTP_BAD_REQUEST_STATUS = 400;
-
 module.exports = {
   index: async () => {
     const recipes = await Recipe.find();

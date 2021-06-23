@@ -9,6 +9,7 @@ const router = express.Router();
 router.post('/login', Login);
 
 router.post('/users', Users);
+router.post('/users/admin', Users);
 
 router.get('/recipes', Recipes);
 router.get('/recipes/:id', Recipes);

@@ -1,4 +1,4 @@
-const { create } = require('../services/Users.services');
+const { create } = require('../services/Admins.service');
 const REG_EXP = require('../helpers/RegExp.helper');
 
 const HTTP_CREATED_STATUS = 201;
@@ -26,6 +26,7 @@ module.exports = {
 
       return response.status(HTTP_CREATED_STATUS).send({ user });
     } catch (err) {
+      console.log(err);
       return response.status(HTTP_BAD_REQUEST_STATUS).send(err);
     }
   }
