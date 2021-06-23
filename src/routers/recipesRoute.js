@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.post('/recipes',
   validate.validateAllRecipes,
-  recipesController.createRecipes
+  validate.validateJWT,
+  recipesController.createRecipes,
 );
 
 module.exports = router;

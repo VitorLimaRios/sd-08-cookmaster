@@ -6,7 +6,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const result = await loginService.login(email, password);
 
-  console.log(result);
+  // console.log(result);
 
   if (result === undefined) {
     res.status(status.UNAUTHORIZED).json({ message: status.ERR_ALL });
