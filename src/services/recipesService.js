@@ -5,7 +5,9 @@ const {
   getall,
   getone,
   editrecipe,
-  delrecipe } = require('../models/recipesModel');
+  delrecipe,
+  insertimag, 
+} = require('../models/recipesModel');
 
 
 // mensagens a retornar em caso de falha
@@ -61,6 +63,13 @@ const deletevalidation = async(id)=>{
 
 };
 
+const imagvalidation = async(id, path)=>{
+  
+  const result = await Promise.all([insertimag(id,path)]);
+  return result[0];
+
+};
+
 
 
 
@@ -71,4 +80,5 @@ module.exports ={
   getOneRecipe,
   editvlidation,
   deletevalidation,
+  imagvalidation
 };

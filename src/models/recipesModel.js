@@ -47,10 +47,21 @@ const editrecipe = async(id,body) => {
 
 
 const delrecipe = async(id)=>{
-  console.log(id);
+  // console.log(id);
   const result = await  conn().then(async (db) => 
     db.collection('recipes').deleteOne({_id:ObjectId(id)})
   );
+  return result;
+};
+
+const insertimag = async(id, path) => {
+  await  conn().then(async (db) => 
+    db.collection('recipes').updateOne(
+      {_id: ObjectId(id)}, {$set:{'image':`localhost:3000/${path}`}})
+  );
+  const result = await  conn().then(
+    async (db) => db.collection('recipes').findOne({_id: ObjectId(id)}));
+ 
   return result;
 };
 
@@ -60,6 +71,7 @@ module.exports = {
   getone,
   getall,
   editrecipe,
-  delrecipe
+  delrecipe,
+  insertimag
 };
 //returnDocument:'after'
