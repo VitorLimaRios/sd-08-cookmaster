@@ -8,6 +8,13 @@ const INTERNAL_SERVER_ERROR = 500;
 const INVALID_ENTRIES = 'Invalid entries. Try again.';
 const ERR_ALL = 'All fields must be filled';
 const ERR_INCORRECT = 'Incorrect username or password';
+
+// recipes
+const MALFORMED = 'jwt malformed';
+const MESSAGE = 'recipe not found';
+const MISSING = 'missing auth token';
+
+
 module.exports={
   OK,
   CREATE,
@@ -19,4 +26,7 @@ module.exports={
   INVALID_ENTRIES,
   ERR_ALL,
   ERR_INCORRECT,
+  MALFORMED,
+  MESSAGE,
+  MISSING,
 };

@@ -4,6 +4,7 @@ app.use(express.json());
 
 const usersRoute = require('../routers/usersRoute');
 const loginRoute = require('../routers/loginRoute');
+const recipesRoute = require('../routers/recipesRoute');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -13,5 +14,6 @@ app.get('/', (request, response) => {
 
 app.use(usersRoute);
 app.use(loginRoute);
+app.use(recipesRoute);
 
 module.exports = app;
