@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'nosso segrego do jwt';
+const secret = 'Klift, Kloft, Still! A porta se abriu!';
 
 const validateToken = (token)=>{
   try{

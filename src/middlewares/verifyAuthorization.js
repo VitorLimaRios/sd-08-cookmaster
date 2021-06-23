@@ -1,12 +1,17 @@
 const validateToken = require('../auth/validateToken');
 
-const NOT_AUTHORIZED = 500;
-const verifyAuthorization = (req, res, next) =>{
+const { errorGenerator } = require('../utils');
+
+const verifyAuthorization = (req, _res, next) =>{
   const  { authorization: token } = req.headers;
+  console.log(token);
   
   const payload = validateToken(token);
+  console.log(payload);
 
-  if(!payload) return res.status(NOT_AUTHORIZED).json({message: 'Não Autorizado'});
+  if(!payload){
+    next(errorGenerator.unauthorized('jwt malformed'));
+  };
 
   next();
 };

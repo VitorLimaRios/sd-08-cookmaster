@@ -1,13 +1,13 @@
 const rescue = require('express-rescue');
-const recipesService
+const recipesService = require('../services/recipeService');
 
 const STATUS_CREATE = 201;
-/* const STATUS_OK = 200; */
 
-const createRecipes = rescue(async (req,res, next)=>{
-  const { name, email, password } = req.body;
+const createRecipe = rescue(async (req,res, next)=>{
+  const { name, ingredients,preparation } = req.body;
 
-  const result = await recipesService.createRecipes({ name, email, password });
+  const result = await recipesService.createRecipe({ name, ingredients,preparation });
+
   if(result.error) return next(result);
 
   res.status(STATUS_CREATE).json(result);
@@ -16,5 +16,5 @@ const createRecipes = rescue(async (req,res, next)=>{
 
 
 module.exports ={
-  createRecipes,
+  createRecipe,
 };
