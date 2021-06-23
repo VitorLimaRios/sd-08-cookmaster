@@ -19,14 +19,12 @@ const loginUser = rescue(async (req,res, next) =>{
 
   const { email, password } = req.body;
   
-  const objDataLogin = { email, password };
+  const objDataForLogin = { email, password };
 
-  const result = await usersService.loginUser(objDataLogin);
+  const result = await usersService.loginUser(objDataForLogin);
   if(result.error) return next(result);
 
-  const token = createToken(objDataLogin);
-
-  console.log(token);
+  const token = createToken(objDataForLogin);
 
   res.status(STATUS_OK).json({ token });
 });
