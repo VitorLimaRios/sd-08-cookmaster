@@ -15,6 +15,7 @@ app.get('/', (request, response) => {
 app.use('/users', require('../controllers/usersController'));
 app.use('/recipes', require('../controllers/recipesController'));
 app.use('/login', require('../controllers/loginController.js'));
+app.use('/images', require('../controllers/imagesController'));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 
