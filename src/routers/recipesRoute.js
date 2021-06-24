@@ -4,6 +4,8 @@ const validate = require('../middlewares/validateRecipesMiddleware');
 
 const router = express.Router();
 
+router.get('/recipes', recipesController.getAllRecipes);
+
 router.post('/recipes',
   validate.validateAllRecipes,
   validate.validateJWT,

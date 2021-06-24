@@ -20,6 +20,18 @@ const createRecipes = async (req, res) => {
   // console.log(req.user._id);
 };
 
+const getAllRecipes = async (req, res) => {
+  try {
+    const result = await recipesServices.getAllRecipes();
+    res.status(status.OK).json(result);
+    
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({ message: err.message });
+    console.log(result);
+  }
+};
+
 module.exports = {
   createRecipes,
+  getAllRecipes,
 };
