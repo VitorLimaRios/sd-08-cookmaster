@@ -17,13 +17,16 @@ const create = async (data, token )=>{
   }
   const decoded = jwt.decode(token);
   console.log(token);
-  jwt.verify(token, secret, function(err, decoded) {
-    return { code: ERRO_01, message: 'jwt malformed'};
+  const resultado = jwt.verify(token, secret, function(err, decoded) {
     if (err) {
-
+      console.log('errooouuuuuuu!  ------------------------');
+      return { code: ERRO_01, message: 'jwt malformed'};
     }
   });
-  
+  if(resultado){
+    console.log(resultado);
+    return resultado;
+  }
   // const decoded = jwt.verify(token, secret);
   // if(decoded){
   //   return { code: ERRO_01, message: 'jwt malformed'};
