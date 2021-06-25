@@ -3,51 +3,50 @@ const read = require('../../models/read');
 const HTTP_OK_STATUS = 201;
 const ERRO_00 = 400;
 const ERRO_01 = 401;
-const ZERO= 0;
+// const ZERO= 0;
 const jwt = require('jsonwebtoken');
 const secret = 'seusecretdetoken';
 
-const create = async (data, res,token , next)=>{
+const create = async (data, token )=>{
   const {name,ingredients,preparation} = data;
   let result = {};
-  let decoded = {};
   let userData = [];
   if(!name|| !ingredients||!preparation){
-    res = res.status(ERRO_00).json({message: 'Invalid entries. Try again.'});
-    next();
+    // console.log(name, ingredients, preparation);
+    return { code: ERRO_00, message: 'Invalid entries. Try again.'};
   }
-  if( res.statusCode!==ERRO_00){
-    
-    try {
-      decoded = jwt.verify(token, secret);
-    } catch(err){
-      res = res.status(ERRO_01).json({message: 'jwt malformed'});
-      next();
+  const decoded = jwt.decode(token);
+  console.log(token);
+  jwt.verify(token, secret, function(err, decoded) {
+    return { code: ERRO_01, message: 'jwt malformed'};
+    if (err) {
+
     }
+  });
+  
+  // const decoded = jwt.verify(token, secret);
+  // if(decoded){
+  //   return { code: ERRO_01, message: 'jwt malformed'};
+  // }
+  
+  
+ 
+  try {
+    userData = await read.findByValue('users','email',decoded.email);
+  } catch(err){
+    return { code: ERRO_00, message: 'Invalid entries. Try again.'};
   }
-  // console.table(decoded);
-  if ( res.statusCode!==ERRO_00){
-    try {
-      userData = await read.findByValue('users','email',decoded.email);
-    } catch(err){
-      res = res.status(ERRO_00).json({message: 'Invalid entries. Try again.'});
-      next();
-    }
-  } 
-  if( res.statusCode!==ERRO_00 && userData.length>ZERO) {
-    const {_id}=  userData[0];
-    // console.table(userData);
-    // console.log( 'datauser',decoded.email, idAutor);
-    result =  await createDB('recipes', 
-      { name,
-        ingredients, 
-        preparation, 
-        userId: _id}
-    );
-    res = res.status(HTTP_OK_STATUS).json({recipe: result[0]});
-    // console.log(result);
-    next();
-  }
+  // console.log(decoded);
+  const {_id}=  userData[0];
+  // console.table(userData);
+  // console.log( 'datauser',decoded.email, idAutor);
+  result =  await createDB('recipes', 
+    { name,
+      ingredients, 
+      preparation, 
+      userId: _id}
+  );
+  return { code: HTTP_OK_STATUS, message: result[0]};
 };
 
 module.exports = create;

@@ -1,20 +1,22 @@
 const ERRO_INVALID_DATA = 422;
+const doze =23;
 const {ObjectId} = require('mongodb');
-const  validateId = (id, res , msgError, erroCode) => {
-  msgError = msgError || {err:
-    { code: 'invalid_data', 
-      message: 'Wrong id format' },};
+const  validateId = (id, msgError, erroCode) => {
+  msgError = msgError ||   'Wrong id format' ;
   erroCode = erroCode || ERRO_INVALID_DATA;
   // console.log('1 valida ID '+id);
   // console.log(ObjectId.isValid(id));
+  if(id.lenght<doze){
+    return {code: erroCode, message: msgError, isValid: false };
+  }
   try {   
     if (!ObjectId.isValid(id)) {
-      return res.status(erroCode).json(msgError);
+      return {code: erroCode, message: msgError, isValid: false };
     };
   } catch (error) {
     console.log(error);
   }
-  return {};
+  return {isValid: true};
 };
 
 module.exports = validateId;

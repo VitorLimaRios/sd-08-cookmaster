@@ -1,3 +1,4 @@
+const HTTP_OK_STATUS = 201;
 const express = require('express');
 const router = express.Router();
 const createUsers = require('../services/user/createUsers');
@@ -24,7 +25,14 @@ const createUsers = require('../services/user/createUsers');
 router.post('/', async (req, res, next) => {
   const data = req.body;
   console.log('post ');
-  await createUsers(data, res , next);
+  const result = await createUsers(data);
+  const {message , code } = result;
+  if(code ===HTTP_OK_STATUS){
+    res = res.status(code).json({user: message});
+    return;
+  }
+  res = res.status(code).json({message});
+  next();
 });
 // router.get('/', async (_req, res, next)=>{
 //   console.log('get ');
