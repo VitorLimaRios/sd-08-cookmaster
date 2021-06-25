@@ -21,13 +21,13 @@ const createSales = async (data)=>{
   
   if(!name || !password || !email ){
     // console.log('__________________sem nome ou password__________________');
-    return {code: ERRO_04, message:'Invalid entries. Try again.' };
+    return {code: ERRO_04, message:{ message:'Invalid entries. Try again.'} };
     // res = res.status(ERRO_04).json(msgError);  
     // next(); 
   }
   
   // console.log('lista de email',emailList ,email);
-  result = await validateEmail(email,emailList,'Invalid entries. Try again.');
+  result = await validateEmail(email,emailList,{message:'Invalid entries. Try again.'});
   // console.log(result);
   if(!result.isValid){
     return {code: result.code, message: result.message};
@@ -36,7 +36,7 @@ const createSales = async (data)=>{
   result =  await createDB('users',  {name,email, 'role': 'user'});
   // console.log('resultado', result[0]);
   // console.log('fechando');
-  return {code: HTTP_OK_STATUS, message:  result[0] };
+  return {code: HTTP_OK_STATUS, message: {user: result[0] }};
   // res =  res.status(HTTP_OK_STATUS).json({user: result[0]});
   // next();
   

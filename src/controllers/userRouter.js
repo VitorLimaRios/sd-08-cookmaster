@@ -27,11 +27,8 @@ router.post('/', async (req, res, next) => {
   console.log('post ');
   const result = await createUsers(data);
   const {message , code } = result;
-  if(code ===HTTP_OK_STATUS){
-    res = res.status(code).json({user: message});
-    return;
-  }
-  res = res.status(code).json({message});
+  res = res.status(code).json(message);
+  // console.log(message);
   next();
 });
 // router.get('/', async (_req, res, next)=>{

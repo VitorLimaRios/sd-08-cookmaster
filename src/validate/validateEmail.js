@@ -10,7 +10,7 @@ const  validateEmail = async (email,emailList, msgError) => {
     // res = res.status(ERRO_00).json(msgError);  
   }else if(index !== MENUS_ONE ){
     // console.log('###### EMAIL NA LISTA     :   ',index === MENUS_ONE);
-    return {code: ERRO_09, message: 'Email already registered', isValid: false };
+    return {code: ERRO_09, message:{message:'Email already registered'}, isValid: false };
     // res = res.status(ERRO_09).json({message:'Email already registered'});  
   };
   return {isValid: true };

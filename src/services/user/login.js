@@ -13,12 +13,12 @@ const login = (data)=>{
   console.log(email, password);
   if(!email || !password){
     // console.log('###### EXISTENCIA EMAIL E PASSWORD :   ', email, password );
-    return {code: ERRO_01, message:'All fields must be filled' };
+    return {code: ERRO_01, message:{message:'All fields must be filled'} };
     // res = res.status(ERRO_01).json({message:'All fields must be filled'}); 
     // next();
   }  else if( !re.test(email) ||  password.length < MINIMAL_PASS_LENGTH ){
     // console.log('###### VALIDAÇÂO DE EMAIL :   ',re.test(email) ,password);
-    return {code: ERRO_01, message:'Incorrect username or password' };
+    return {code: ERRO_01, message: {message:'Incorrect username or password'} };
     // res = res.status(ERRO_01).json({message:'Incorrect username or password'});  
     // next();
   } 
