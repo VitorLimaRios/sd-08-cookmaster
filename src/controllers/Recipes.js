@@ -4,6 +4,7 @@ const recipeSchema = require('../schemas/RecipeSchema');
 
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 
 const create = rescue(async (req, res, next) => {
 
@@ -55,9 +56,20 @@ const update = rescue(async (req, res, next) => {
   res.status(OK).json(recipe);
 });
 
+const remove = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const recipe = await service.remove(id);
+
+  if (recipe && recipe.error) return next(recipe.error);
+
+  res.status(NO_CONTENT).json({ message: 'ok'});
+});
+
 module.exports = {
   create,
   get,
   getById,
-  update
+  update,
+  remove
 };

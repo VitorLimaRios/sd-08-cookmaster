@@ -36,9 +36,25 @@ const update = async (updatedRecipe, recipeId, user) => {
   return Recipes.update(updatedRecipe, recipeId, userId);
 };
 
+const remove = async (id) => {
+  const recipeExists = await Recipes.getById(id);
+
+  if (!recipeExists) {
+    return {
+      error: {
+        code: 'invalid_data',
+        message: 'Wrong id format'
+      }
+    };
+  }
+
+  return Recipes.remove(id);
+};
+
 module.exports = {
   create,
   get,
   getById,
-  update
+  update,
+  remove
 };
