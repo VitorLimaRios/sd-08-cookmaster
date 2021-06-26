@@ -4,7 +4,7 @@ const router = express.Router();
 const create = require('../services/recipes/create');
 const readById = require('../services/recipes/readById');
 const read = require('../services/recipes/readAll');
-// const updateProduct = require('../services/updateProduct');
+const update = require('../services/recipes/update');
 // const deleteProduct = require('../services/deleteProduct');
 router.get('/:id', async (req, res)=>{
   console.log('Get recipes/:id - read by id');
@@ -14,22 +14,26 @@ router.get('/:id', async (req, res)=>{
   res = res.status(code).json(message);
   return;
 });
-// router.put('/:id', async (req, res, next) => {
-//   const data = req.body;
-//   const id = (req.params.id);
-//   await updateProduct( id, data , res , next);
-// });
+router.put('/:id', async (req, res) => {
+  console.log('PUT recipes/:id - update by id');
+  const data = req.body;
+  const id = (req.params.id);
+  const token = req.headers['authorization'];
+  const result = await update( id, data, token);
+  const {message , code } = result;
+  res = res.status(code).json(message);
+  console.log(message);
+  return;
+});
 // router.delete('/:id', async (req, res, next) => {
 //   const id = (req.params.id);
 //   await deleteProduct( id, res , next);
 // });
 router.post('/', async (req, res) => {
   console.log('post recipes/ liso - create');
-  // console.log(req.body);
   const data = req.body;
   const token = req.headers['authorization'];
   const result =  await create(data, token );
-  // console.log(result);
   const {message , code } = result;
   if(code ===HTTP_OK_STATUS){
     res = res.status(code).json({recipe: message});

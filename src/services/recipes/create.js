@@ -16,23 +16,16 @@ const create = async (data, token )=>{
     return { code: ERRO_00, message: 'Invalid entries. Try again.'};
   }
   const decoded = jwt.decode(token);
-  console.log(token);
+  // console.log(token);
   const resultado = jwt.verify(token, secret, function(err, decoded) {
     if (err) {
-      console.log('errooouuuuuuu!  ------------------------');
       return { code: ERRO_01, message: 'jwt malformed'};
     }
   });
   if(resultado){
-    console.log(resultado);
+    // console.log(resultado);
     return resultado;
   }
-  // const decoded = jwt.verify(token, secret);
-  // if(decoded){
-  //   return { code: ERRO_01, message: 'jwt malformed'};
-  // }
-  
-  
  
   try {
     userData = await read.findByValue('users','email',decoded.email);
