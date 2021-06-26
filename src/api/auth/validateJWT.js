@@ -8,7 +8,6 @@ const validateJWT = async (req, res, next) => {
   const token = req.headers['authorization'];
   
   if (!token) {
-    console.log(token);
     return res.status(StatusCode.UNAUTHORIZED).json({ message: 'missing auth token' });
   }
 
@@ -16,7 +15,9 @@ const validateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
     const user = await usersModel.findById(decoded._id);
     
-    if (!user) return res.status(StatusCode.UNAUTHORIZED).json({ message: 'Erro ao procurar usuário do token.' });
+    if (!user) return res.status(StatusCode.UNAUTHORIZED).json({ 
+      message: 'Erro ao procurar usuário do token.' 
+    });
 
     req.user = user;
 

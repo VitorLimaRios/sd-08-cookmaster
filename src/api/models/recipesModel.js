@@ -9,13 +9,17 @@ const findById = async (id) => connection()
   .then((db) => db.collection('recipes').findOne(new ObjectId(id)))
   .then((item) => (item));
 
-const updateById = async (id, name, ingredients, preparation, userId) => connection()
+const updateById = async (id, recipeData, userId) => connection()
   .then((db) => db.collection('recipes')
     .updateOne(
       { id: ObjectId(id) },
-      { $set: { name, ingredients, preparation } }
+      { $set: { 
+        name: recipeData.name, 
+        ingredients: recipeData.ingredients, 
+        preparation: recipeData.preparation 
+      } }
     ))
-  .then(() => ({ _id: id, name, ingredients, preparation, userId }));
+  .then(() => ({ _id: id, ...recipeData, userId }));
 
 const create = async (name, ingredients, preparation, userId) => connection()
   .then((db) => db.collection('recipes')
@@ -30,12 +34,21 @@ const create = async (name, ingredients, preparation, userId) => connection()
     }
   }));
 
-const deleteById = async (id) => connection().then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+const uploadImage = async (id, image) => connection()
+  .then((db) => db.collection('recipes')
+    .updateOne(
+      { _id: ObjectId(id) },
+      { $set: { image } }
+    ));
+
+const deleteById = async (id) => connection()
+  .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
 module.exports = {
   getAll,
   findById,
   updateById,
   create,
+  uploadImage,
   deleteById
 };

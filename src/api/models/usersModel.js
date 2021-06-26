@@ -11,7 +11,8 @@ const create = async (name, email, password) => connection()
     .insertOne({ name, email, password, role: 'user' }))
   .then((user) => ({ user: { '_id': user.insertedId, name, email, role: 'user' } }));
 
-const findById = async (id) => connection().then((db) => db.collection('users').findOne(new ObjectId(id)))
+const findById = async (id) => connection()
+  .then((db) => db.collection('users').findOne(new ObjectId(id)))
   .then((user) => (user));
 
 const login = async (email, password) => connection()
