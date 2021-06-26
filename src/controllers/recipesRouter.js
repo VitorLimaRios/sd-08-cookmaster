@@ -22,13 +22,19 @@ router.put('/:id', async (req, res) => {
   const result = await update( id, data, token);
   const {message , code } = result;
   res = res.status(code).json(message);
+  return;
+});
+router.delete('/:id', async (req, res, next) => {
+  
+  console.log('DELETE recipes/:id - delete by id');
+  const id = (req.params.id);
+  const token = req.headers['authorization'];
+  const result = await deleteProduct( id, token);
+  const {message , code } = result;
+  res = res.status(code).json(message);
   console.log(message);
   return;
 });
-// router.delete('/:id', async (req, res, next) => {
-//   const id = (req.params.id);
-//   await deleteProduct( id, res , next);
-// });
 router.post('/', async (req, res) => {
   console.log('post recipes/ liso - create');
   const data = req.body;
