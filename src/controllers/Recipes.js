@@ -56,6 +56,22 @@ const update = rescue(async (req, res, next) => {
   res.status(OK).json(recipe);
 });
 
+const upload = rescue(async (req, _, next) => {
+  const { id: recipeId } = req.params;
+
+  const user = req.user;
+
+  const image = `localhost:3000/src/uploads/${recipeId}.jpeg`;
+
+  const recipe = await service.update({ image }, recipeId, user);
+
+  if (recipe.error) return next(recipe.error);
+
+  req.recipe = recipe;
+
+  next();
+});
+
 const remove = rescue(async (req, res, next) => {
   const { id } = req.params;
 
@@ -63,7 +79,7 @@ const remove = rescue(async (req, res, next) => {
 
   if (recipe && recipe.error) return next(recipe.error);
 
-  res.status(NO_CONTENT).json({ message: 'ok'});
+  res.status(NO_CONTENT).json({ message: 'ok' });
 });
 
 module.exports = {
@@ -71,5 +87,6 @@ module.exports = {
   get,
   getById,
   update,
-  remove
+  remove,
+  upload
 };

@@ -28,13 +28,13 @@ const getById = async (id) => {
 };
 
 const update = async (updatedRecipe, recipeId, userId) => {
-  const { modifiedCount } = await connection()
+  const { value } = await connection()
     .then((db) => db.collection('recipes')
-      .updateOne({ _id: ObjectId(recipeId) }, { $set: updatedRecipe }));
+      .findOneAndUpdate({ _id: ObjectId(recipeId) }, { $set: updatedRecipe }));
 
-  if (!modifiedCount) return null;
+  if (!value) return null;
 
-  return { _id: recipeId, ...updatedRecipe, userId };
+  return { _id: recipeId, ...value, ...updatedRecipe, userId };
 };
 
 const remove = async (id) => {
