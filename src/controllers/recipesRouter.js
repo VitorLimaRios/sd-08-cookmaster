@@ -5,7 +5,7 @@ const create = require('../services/recipes/create');
 const readById = require('../services/recipes/readById');
 const read = require('../services/recipes/readAll');
 const update = require('../services/recipes/update');
-// const deleteProduct = require('../services/deleteProduct');
+const deleteRecipe = require('../services/recipes/delete');
 router.get('/:id', async (req, res)=>{
   console.log('Get recipes/:id - read by id');
   const id = (req.params.id);
@@ -29,7 +29,7 @@ router.delete('/:id', async (req, res, next) => {
   console.log('DELETE recipes/:id - delete by id');
   const id = (req.params.id);
   const token = req.headers['authorization'];
-  const result = await deleteProduct( id, token);
+  const result = await deleteRecipe( id, token);
   const {message , code } = result;
   res = res.status(code).json(message);
   console.log(message);
