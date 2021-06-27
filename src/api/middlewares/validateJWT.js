@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { findUser } = require('../models/Users');
+const Users = require('../models/Users');
 
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
@@ -10,11 +10,11 @@ const secret = 'meusegredosupercomlexoqueninguemsabe';
 const validateJWT = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!token) return res.status(UNAUTHORIZED).json({ error: 'Token not found'});
+  if (!authorization) return res.status(UNAUTHORIZED).json({ error: 'Token not found'});
 
   try {
     const decoded = jwt.verify(authorization, secret);
-    const user = await findUser(decoded.id);
+    const user = await Users.findUserById(decoded.id);
 
     if (!user) return res.status(NOT_FOUND).json({ message: 'User not found' });
 
@@ -22,7 +22,7 @@ const validateJWT = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Error', error });
+    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed', });
   }
 };
 

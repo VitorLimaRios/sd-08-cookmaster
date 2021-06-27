@@ -1,5 +1,6 @@
 const express = require('express');
 const UsersController = require('../api/controllers/UsersController');
+const RecipesController = require('../api/controllers/RecipesController');
 const validateJWT = require('./middlewares/validateJWT');
 
 const app = express();
@@ -15,6 +16,6 @@ app.get('/', (request, response) => {
 
 app.post('/users', UsersController.newUser);
 app.post('/login', UsersController.login);
-app.post('/recipes', validateJWT);
+app.post('/recipes', validateJWT, RecipesController.newRecipe);
 
 module.exports = app;
