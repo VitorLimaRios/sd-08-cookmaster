@@ -1,9 +1,11 @@
 const express = require('express');
 const UsersController = require('../api/controllers/UsersController');
+const validateJWT = require('./middlewares/validateJWT');
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded());
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -12,6 +14,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', UsersController.newUser);
-app.get('./login', UsersController.login);
+app.post('/login', UsersController.login);
+app.post('/recipes', validateJWT);
 
 module.exports = app;

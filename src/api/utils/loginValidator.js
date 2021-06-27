@@ -1,5 +1,6 @@
+const Users = require('../models/Users');
+
 const UNAUTHORIZED = 401;
-const OK = 200;
 
 const emailValidate = (email) => {
   const regex = /\S+@\S+\.\S+/;
@@ -7,7 +8,8 @@ const emailValidate = (email) => {
 };
 
 const loginValidator = async (loginData) => {
-  if (!loginData || !loginData.email || !loginData.password) {
+  const userFromDB = await Users.findUser(loginData);
+  if (!loginData.email || !loginData.password) {
     return {
       error: {
         code: UNAUTHORIZED,
@@ -16,14 +18,18 @@ const loginValidator = async (loginData) => {
     };
   }
 
-  if (!emailValidate(loginData.email)) return {
+  if (!userFromDB || !emailValidate(loginData.email) 
+  || loginData.password !== userFromDB.password) return {
     error: {
       code: UNAUTHORIZED,
       message: 'Incorrect username or password'
     }
   };
+
   return {
-    code: OK
+    id: userFromDB._id,
+    email: userFromDB.email,
+    role: userFromDB.role ? 'admin' : 'user'
   };
 };
 
