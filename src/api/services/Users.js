@@ -1,5 +1,6 @@
 const Users = require('../models/Users');
 const userValidator= require('../utils/userValidator');
+const loginValidator= require('../utils/loginValidator');
 
 const newUser = async (user) => {
   const userValidation = await userValidator(user);
@@ -10,6 +11,13 @@ const newUser = async (user) => {
       ...userValidation,
       _id: insertedId
     }
+  };
+};
+
+const login = async (loginData) => {
+  const userFromDB = await Users.findUser(loginData.email);
+  if (!userFromDB) return {
+    
   };
 };
 

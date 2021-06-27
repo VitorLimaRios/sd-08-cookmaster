@@ -12,5 +12,6 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', UsersController.newUser);
+app.get('./login', UsersController.login);
 
 module.exports = app;
