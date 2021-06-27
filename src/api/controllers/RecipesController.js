@@ -1,7 +1,9 @@
 const Recipes = require('../services/Recipes');
 
 const INTERNAL_SERVER_ERROR = 500;
+const NOT_FOUND = 404;
 const CREATED = 201;
+const OK = 200;
 
 const newRecipe = async (req, res) => {
   const recipeFromBody = req.body;
@@ -18,6 +20,13 @@ const newRecipe = async (req, res) => {
   }
 };
 
+const getRecipes = async (_req, res) => {
+  const recipes = await Recipes.getRecipes();
+  return res.status(OK).json(recipes);
+
+};
+
 module.exports = {
   newRecipe,
+  getRecipes
 };
