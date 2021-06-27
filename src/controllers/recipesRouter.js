@@ -1,11 +1,39 @@
 const HTTP_OK_STATUS = 201;
+const HTTP_OK_STATUS0 = 200;
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const create = require('../services/recipes/create');
 const readById = require('../services/recipes/readById');
 const read = require('../services/recipes/readAll');
 const update = require('../services/recipes/update');
+const updateImage = require('../services/recipes/updateImage');
 const deleteRecipe = require('../services/recipes/delete');
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => callback(null, 'uploads/'),
+  filename: (req, file, callback) => {
+    callback(null, `${id}.jpeg`);
+  }
+});
+
+const upload = multer({ storage });
+router.put('/:id/image/',  async (req, res) => {
+  console.log('PUT recipes/:id - update by id');
+  const file = req.file;
+  const id = (req.params.id);
+  const token = req.headers['authorization'];
+  const result = await updateImage( id, file, token);
+  const {message , code } = result;
+  if(code===HTTP_OK_STATUS0){
+    upload.single('file');
+    console.log(file);
+  }
+  res = res.status(code).json(message);
+  return;
+});
+
 router.get('/:id', async (req, res)=>{
   console.log('Get recipes/:id - read by id');
   const id = (req.params.id);
@@ -25,7 +53,6 @@ router.put('/:id', async (req, res) => {
   return;
 });
 router.delete('/:id', async (req, res, next) => {
-  
   console.log('DELETE recipes/:id - delete by id');
   const id = (req.params.id);
   const token = req.headers['authorization'];
