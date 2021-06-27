@@ -23,12 +23,12 @@ const updateImage = async ( id, data, token)=>{
   const idOfUserRecipe =  recipeData.userId.toString();
   const idOfLogged =  userData[0]._id.toString();
   // console.log(userData);
-  console.log('----------------------- regra-------------------');
-  console.log(userData[0].role, '?= admin ou ',recipeData.userId, ' ?= ',idOfLogged);
-  console.log(typeof idOfUserRecipe, idOfUserRecipe);
-  console.log(typeof idOfLogged, idOfLogged);
-  console.log(userData[0].role!=='admin' , ' || ', idOfUserRecipe!==idOfLogged);
-  console.log(userData[0].role!=='admin'&& idOfUserRecipe!==idOfLogged);
+  // console.log('----------------------- regra-------------------');
+  // console.log(userData[0].role, '?= admin ou ',recipeData.userId, ' ?= ',idOfLogged);
+  // console.log(typeof idOfUserRecipe, idOfUserRecipe);
+  // console.log(typeof idOfLogged, idOfLogged);
+  // console.log(userData[0].role!=='admin' , ' || ', idOfUserRecipe!==idOfLogged);
+  // console.log(userData[0].role!=='admin'&& idOfUserRecipe!==idOfLogged);
   if(userData[0].role!=='admin'&& idOfUserRecipe!==idOfLogged){
     return { code: ERRO_01, message: {message: 'missing auth token'}}; 
   }
@@ -66,7 +66,7 @@ const updateImage = async ( id, data, token)=>{
   const result =  await updateDB(id ,'recipes',
     {image: `localhost:3000/src/uploads/${id}.jpeg`,
       userId: userData[0]._id , ...recipeData});
-  console.log(result);
+  // console.log(result);
   // console.log('upload', upload);
   return {code: HTTP_OK_STATUS, message: result};
   // res.status(HTTP_OK_STATUS).json(result);
