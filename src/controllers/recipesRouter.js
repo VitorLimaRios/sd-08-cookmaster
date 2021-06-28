@@ -12,7 +12,7 @@ const deleteRecipe = require('../services/recipes/delete');
 
 
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => callback(null, 'uploads/'),
+  destination: (req, file, callback) => callback(null, 'src/uploads/'),
   filename: (req, file, callback) => {
     callback(null, `${id}.jpeg`);
   }
@@ -27,8 +27,11 @@ router.put('/:id/image/',  async (req, res) => {
   const result = await updateImage( id, file, token);
   const {message , code } = result;
   if(code===HTTP_OK_STATUS0){
+    // setTimeout(function(){                      
     upload.single('file');
-    console.log(file);
+    console.log(message);
+    //do what you need here
+    // }, 2000);
   }
   res = res.status(code).json(message);
   return;

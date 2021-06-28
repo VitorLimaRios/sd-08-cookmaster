@@ -1,7 +1,7 @@
 const updateDB = require('../../models/update');
 const readDB = require('../../models/read');
 const jwt = require('jsonwebtoken');
-var multer  = require('multer');
+// var multer  = require('multer');
 const secret = 'seusecretdetoken';
 const HTTP_OK_STATUS = 200;
 const ERRO_01 = 401;
@@ -64,7 +64,7 @@ const updateImage = async ( id, data, token)=>{
   // upload.ge;
   // upload.single(`${id}.jpeg`);
   const result =  await updateDB(id ,'recipes',
-    {image: `localhost:3000/src/uploads/${id}.jpeg`,
+    {image: `localhost:3000/uploads/${id}.jpeg`,
       userId: userData[0]._id , ...recipeData});
   // console.log(result);
   // console.log('upload', upload);
