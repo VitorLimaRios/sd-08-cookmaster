@@ -1,12 +1,12 @@
 const connection = require('./connection');
 
-const create = async (user, role = 'user') => {
+const create = async (user) => {
   const { insertedId } = await connection()
-    .then((db) => db.collection('users').insertOne({...user, role}));
+    .then((db) => db.collection('users').insertOne({...user}));
   
   delete user.password;
 
-  return { user: {...user, role, _id: insertedId }};
+  return { user: {...user, _id: insertedId }};
 };
 
 const findByEmail = async (email) => {
