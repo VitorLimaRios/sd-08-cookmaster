@@ -20,7 +20,6 @@ const newUser = async (req, res) => {
 
 const login = async (req, res) => {
   const userFromBody = req.body;
-  console.log('controller =>', userFromBody);
   const user = await Users.login(userFromBody);
 
   try {

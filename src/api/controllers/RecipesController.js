@@ -7,8 +7,9 @@ const OK = 200;
 
 const newRecipe = async (req, res) => {
   const recipeFromBody = req.body;
-  const { id } = req.user;
-  const recipe = await Recipes.newRecipe(recipeFromBody, id);
+  const user = req.user;
+  console.log('newRecipe Controller =>', req.user);
+  const recipe = await Recipes.newRecipe(recipeFromBody, user.id);
   
   try {
     if (recipe.error) return res.status(recipe.error.code)
@@ -26,7 +27,31 @@ const getRecipes = async (_req, res) => {
 
 };
 
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.getRecipeById(id);
+  try {
+    if (recipe.error) return res.status(recipe.error.code)
+      .json({ message: recipe.error.message });
+
+    return res.status(OK).json(recipe);
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Error', error });
+  }
+};
+
+const update = async (req, res) => {
+  const { id } = req.params;
+  const newDataRecipe = req.body;
+  const user = req.user;
+  const recipe = await Recipes.update(id, newDataRecipe, user);
+
+  return res.status(OK).json(recipe);
+};
+
 module.exports = {
   newRecipe,
-  getRecipes
+  getRecipes,
+  getRecipeById,
+  update
 };
