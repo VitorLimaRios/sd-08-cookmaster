@@ -1,11 +1,17 @@
 const connection = require('./connection');
 const COLLECTION = 'users';
 
-const createUser = async (data) => {
+const insertOneUser = async (userData) => {
   const db = await connection();
-  return db.collection(COLLECTION).insertOne(data);
+  return db.collection(COLLECTION).insertOne(userData);
+};
+
+const findUserByEmail = async (email) => {
+  const db = await connection();
+  return db.collection(COLLECTION).findOne({ email });
 };
 
 module.exports = {
-  createUser,
+  insertOneUser,
+  findUserByEmail,
 };
