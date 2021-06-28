@@ -20,4 +20,14 @@ router.post('/', async(req, res) =>{
   }
 });
 
+router.get('/', async(req, res) => {
+  try {
+    const result = await userModel.getAll();
+    res.status(STATUS_OK).json({result});
+  } catch (error) {
+    console.error(error.message);
+    res.status(ERROR_SERVER).send(messageErrorServer);
+  }
+});
+
 module.exports = router;
