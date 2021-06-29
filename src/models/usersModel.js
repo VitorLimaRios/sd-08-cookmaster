@@ -8,12 +8,6 @@ const createUser = async (objDataForCreate) => {
   return others;
 };
 
-const getAll = async () => {
-  const db = await connection();
-  const result = await db.collection('users').find().toArray();
-  return result;
-};
-
 const getByEmail = async (email) => {
   const db = await connection();
   const result = await db.collection('users').findOne({email});
@@ -22,7 +16,5 @@ const getByEmail = async (email) => {
 
 module.exports ={
   createUser,
-  getAll,
-  getByEmail
+  getByEmail,
 };
-

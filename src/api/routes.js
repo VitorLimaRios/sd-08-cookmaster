@@ -1,21 +1,22 @@
 const express = require('express');
 
-const userController = require('../controllers/userController');
-const recipeController = require('../controllers/recipeController');
+const usersController = require('../controllers/usersController');
+const loginController = require('../controllers/loginController');
+const recipesController = require('../controllers/recipesController');
 const verifyAuthorization = require('../middlewares/verifyAuthorization');
 
-const userRouter = express.Router();
-userRouter.post('/', userController.createUser);
+const usersRouter = express.Router();
+usersRouter.post('/', usersController.createUser);
 
 const loginRouter = express.Router();
-loginRouter.post('/', userController.loginUser);
+loginRouter.post('/', loginController.loginUser);
 
 const recipesRouter = express.Router();
-recipesRouter.post('/', verifyAuthorization, recipeController.createRecipe);
-recipesRouter.get('/',/*  verifyAuthorization, */ recipeController.getAll);
+recipesRouter.post('/', verifyAuthorization, recipesController.createRecipe);
+recipesRouter.get('/', recipesController.getAll);
 
 module.exports = {
-  userRouter, 
-  loginRouter, 
+  usersRouter,
+  loginRouter,
   recipesRouter
 };

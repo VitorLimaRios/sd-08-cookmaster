@@ -1,14 +1,13 @@
 const express = require('express');
-const {userRouter, loginRouter, recipesRouter } = require('./routes');
-const errorHandler = require('../middlewares/errorHandler');
+const { usersRouter, loginRouter, recipesRouter }  = require('../api/routes');
+const handleErrors = require('../middlewares/errorHandler');
 
 const app = express();
-
 app.use(express.json());
-app.use('/users', userRouter);
+app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/recipes', recipesRouter);
+app.use(handleErrors);
 app.get('/', (_request, response) => { response.send();});
-app.use(errorHandler);
 
 module.exports = app;

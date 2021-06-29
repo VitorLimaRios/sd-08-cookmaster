@@ -1,9 +1,7 @@
 const joi = require('@hapi/joi');
 
 const message = {
-  create: 'Invalid entries. Try again.',
-  // loginAllNeed: 'All fields must be filled',
-  // loginIncorrect: 'Incorrect username or password'
+  invalidEntries: 'Invalid entries. Try again.',
 };
 
 const schemaCreate = joi
@@ -11,23 +9,23 @@ const schemaCreate = joi
     name: joi
       .string()
       .messages({
-        'string.base': message.create,
+        'string.base': message.invalidEntries,
       })
       .required(),
     ingredients: joi
       .string()
       .messages({
-        'string.base': message.create,
+        'string.base': message.invalidEntries,
       })
       .required(),
     preparation: joi
       .string()
       .messages({
-        'string.base': message.create
+        'string.base': message.invalidEntries
       })
       .required()
   }).messages({
-    'any.required': message.create
+    'any.required': message.invalidEntries
   });
 
 const validateCreate = (objForValidate) => {

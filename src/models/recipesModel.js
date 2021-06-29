@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const createRecipe = async (objDataForCreate) => {
   const db = await connection();
-  const { ops} = await db.collection('recipes').insertOne(objDataForCreate);
+  const { ops } = await db.collection('recipes').insertOne(objDataForCreate);
   return ops[0];
 };
 
@@ -15,5 +15,5 @@ const getAll = async () => {
 
 module.exports = {
   createRecipe,
-  getAll,
+  getAll
 };

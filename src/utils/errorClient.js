@@ -1,27 +1,25 @@
-const errorGenerator ={
-  badRequest: (message)=>{
+const errorClient = {
+  badRequest: (message) => {
     return {
-      statusCode:400,
+      statusCode: 400,
       error: 'Bad Request',
-      message
+      message,
     };
   },
-  conflict: (message)=>{
+  conflict: (message) => {
     return {
       statusCode: 409,
       error: 'Conflict',
       message,
     };
   },
-  unauthorized: (message)=>{
+  unauthorized: (message) => {
     return {
       statusCode: 401,
       error: 'Unauthorized',
-      message 
-    };   
-  }
+      message,
+    };
+  },
 };
 
-module.exports = {
-  errorGenerator
-};
+module.exports = errorClient;

@@ -4,7 +4,7 @@ const secret = 'Klift, Kloft, Still! A porta se abriu!';
 
 const headers = {
   algorithm: 'HS256',
-  expiresIn: '7d' 
+  expiresIn: '7d'
 };
 
 const createToken=(payload) =>{
