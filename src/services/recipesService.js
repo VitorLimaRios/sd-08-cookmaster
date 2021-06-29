@@ -24,8 +24,18 @@ const getById = async (id) => {
   return result;
 };
 
+const updateById = async (id, dataForUpdate) =>{
+  await recipesModel.updateById(id, dataForUpdate); // lembrar da questão do erro
+  const recipe = await recipesModel.getById(id);
+  return recipe;
+};
+
+const remove = async (id) => await recipesModel.remove(id);
+
 module.exports = {
   createRecipe,
-  getAll, 
-  getById
+  getAll,
+  getById,
+  updateById,
+  remove
 };

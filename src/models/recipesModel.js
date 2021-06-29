@@ -24,8 +24,28 @@ const getById = async (id) => {
   }
 };
 
+const updateById = async (id, dataForUpdate) => {
+  console.log(id);
+  try{
+    const db = await connection();
+    const result = await db.collection('recipes')
+      .updateOne({ _id: ObjectId(id) }, { $set: dataForUpdate });;
+    return result;
+  }catch (err) {
+    console.error(`ID ${id} invalid id`);
+    return null;
+  }
+};
+
+const remove = async (id) => {
+  const db = await connection();
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   createRecipe,
   getAll, 
   getById,
+  updateById,
+  remove
 };

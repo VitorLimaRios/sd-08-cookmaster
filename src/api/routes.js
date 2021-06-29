@@ -15,6 +15,8 @@ const recipesRouter = express.Router();
 recipesRouter.post('/', verifyAuthorization, recipesController.createRecipe);
 recipesRouter.get('/', recipesController.getAll);
 recipesRouter.get('/:id', recipesController.getById);
+recipesRouter.put('/:id', verifyAuthorization, recipesController.updateById);
+recipesRouter.delete('/:id', verifyAuthorization, recipesController.remove);
 
 module.exports = {
   usersRouter,

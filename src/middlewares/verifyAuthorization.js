@@ -4,7 +4,9 @@ const errorClient = require('../utils/errorClient');
 
 const verifyAuthorization = (req, _res, next) =>{
   const  { authorization: token } = req.headers;
- 
+
+  if(!token) next(errorClient.unauthorized('missing auth token'));
+
   const payload = validateToken(token);
 
   if(!payload){
