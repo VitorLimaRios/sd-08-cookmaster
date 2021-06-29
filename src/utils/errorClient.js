@@ -20,6 +20,13 @@ const errorClient = {
       message,
     };
   },
+  notFound: (message) => {
+    return {
+      statusCode: 404,
+      error: 'NotFound',
+      message,
+    };
+  },
 };
 
 module.exports = errorClient;

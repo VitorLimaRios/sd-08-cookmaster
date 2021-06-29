@@ -2,7 +2,6 @@ const recipesModel = require('../models/recipesModel');
 const usersModel = require('../models/usersModel');
 const { validateCreate } = require('../schema/recipesSchema');
 const errorClient = require('../utils/errorClient');
-const validateToken = require('../auth/validateToken');
 
 const createRecipe = async(objDataForCreate, email) =>{
   const errorMessage = validateCreate(objDataForCreate);
@@ -18,7 +17,15 @@ const createRecipe = async(objDataForCreate, email) =>{
 
 const getAll = () =>  recipesModel.getAll();
 
+const getById = async (id) => {
+  const result = await recipesModel.getById(id);
+  if(!result) return errorClient.notFound('recipe not found');
+
+  return result;
+};
+
 module.exports = {
   createRecipe,
-  getAll
+  getAll, 
+  getById
 };

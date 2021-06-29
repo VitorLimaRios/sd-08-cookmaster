@@ -24,7 +24,15 @@ const getAll  = rescue(async(_req,res, _next)=>{
 
 });
 
+const getById = rescue(async (req,res, next) =>{
+  const { id } = req.params;
+  const result = await recipesService.getById(id);
+  if(result.error) return next(result);
+  res.status(successResponse.OK()).json(result);
+});
+
 module.exports ={
   createRecipe,
-  getAll
+  getAll, 
+  getById
 };

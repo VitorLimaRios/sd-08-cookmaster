@@ -14,6 +14,7 @@ loginRouter.post('/', loginController.loginUser);
 const recipesRouter = express.Router();
 recipesRouter.post('/', verifyAuthorization, recipesController.createRecipe);
 recipesRouter.get('/', recipesController.getAll);
+recipesRouter.get('/:id', recipesController.getById);
 
 module.exports = {
   usersRouter,
