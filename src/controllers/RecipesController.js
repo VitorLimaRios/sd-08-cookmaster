@@ -2,7 +2,10 @@ const RecipesServices = require('../services/RecipesServices');
 
 const SUCCESS = 200;
 const CREATED = 201;
+const OK = 204;
 const BAD_REQ = 400;
+const UN_REQ = 401;
+const NOT_FOUND = 404;
 
 const addNewRecipe = async (req, res) => {
   try {
@@ -40,7 +43,68 @@ const getAllRecipes = async (_req, res) => {
   }
 };
 
+const getAllById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await RecipesServices
+      .getAllById(id);
+
+    res
+      .status(SUCCESS)
+      .json(result);
+
+  } catch (err) {
+
+    res
+      .status(NOT_FOUND)
+      .json({
+        message: err.message,
+      });
+  }
+};
+
+const recipeToUpdate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+
+    const result = await RecipesServices
+      .recipeToUpdate(id, name, ingredients, preparation);
+
+    return res
+      .status(SUCCESS)
+      .json(result);
+
+  } catch (err) {
+    return res
+      .status(UN_REQ)
+      .json({
+        message: err.message,
+      });
+  }
+};
+  
+const recipeToDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedRecipe = await RecipesServices.recipeToDelete(id);
+
+    return res
+      .status(OK)
+      .json(deletedRecipe);
+
+  } catch (err) {
+    return res
+      .status(BAD_REQ)
+      .json({ message: err.message });
+  };
+};
+
 module.exports = {
   addNewRecipe,
   getAllRecipes,
+  getAllById,
+  recipeToUpdate,
+  recipeToDelete,
 };

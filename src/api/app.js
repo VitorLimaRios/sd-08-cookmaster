@@ -17,8 +17,8 @@ const isValidJWT = async (req, res, next) => {
 
   if (!token) {
     return res
-      .status(BAD_REQ)
-      .json({ message: 'Invalid token' });
+      .status(UN_REQ)
+      .json({ message: 'missing auth token' });
   }
 
   try {
@@ -30,7 +30,7 @@ const isValidJWT = async (req, res, next) => {
     if (!user) {
       return res
         .status(UN_REQ)
-        .json({ message: 'Invalid token' });
+        .json({ message: 'missing auth token' });
     }
 
     req.user = user;
@@ -61,5 +61,11 @@ app.post('/login', UsersController.getLogin);
 app.post('/recipes', isValidJWT, RecipesController.addNewRecipe);
 
 app.get('/recipes', RecipesController.getAllRecipes);
+
+app.get('/recipes/:id', RecipesController.getAllById);
+
+app.put('/recipes/:id', isValidJWT, RecipesController.recipeToUpdate);
+
+app.delete('/recipes/:id', isValidJWT, RecipesController.recipeToDelete);
 
 module.exports = app;
