@@ -101,10 +101,29 @@ const recipeToDelete = async (req, res) => {
   };
 };
 
+const addNewRecipeImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { path } = req.file;
+
+    const newImage = 'localhost:3000/' + path;
+    const recipeImageToAdd = await RecipesServices.addNewRecipeImage(id, newImage);
+
+    return res
+      .status(SUCCESS)
+      .json(recipeImageToAdd);
+  } catch (err) {
+    return res
+      .status(BAD_REQ)
+      .json({ message: 'upload failed' });
+  }
+};
+
 module.exports = {
   addNewRecipe,
   getAllRecipes,
   getAllById,
   recipeToUpdate,
   recipeToDelete,
+  addNewRecipeImage,
 };

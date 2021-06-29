@@ -65,6 +65,11 @@ const recipeToDelete = async (id) => {
 
   return result;
 };
+
+const addNewRecipeImage = async (id, image) => {
+  const imageToAdd = await RecipesModels.addNewRecipeImage(id, image);
+  return imageToAdd;
+};
   
 module.exports = {
   addNewRecipe,
@@ -72,4 +77,5 @@ module.exports = {
   getAllById,
   recipeToDelete,
   recipeToUpdate,
+  addNewRecipeImage,
 };
