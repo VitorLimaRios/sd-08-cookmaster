@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-const MIN_LENGTH = 8;
+const MIN_LENGTH = 5;
 
 const message = {
   allRequired: 'All fields must be filled',
