@@ -7,7 +7,6 @@ const { resolve, join } = require('path');
 const app = express();
 
 app.use(express.json());
-app.use('/pizorno', express.static(resolve(join(__dirname, '..'), 'uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -18,6 +17,7 @@ app.get('/', (request, response) => {
 app.use('/users', usersController);
 app.use('/login', loginController);
 app.use('/recipes', recipesController);
-app.use('/images', imagesController);
+// app.use('/images', imagesController);
+app.use('/images', express.static(resolve(join(__dirname, '..'), 'uploads')));
 
 module.exports = app;
