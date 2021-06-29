@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userModel = require('../models/userModel');
-const userService = require('../services/userService');
-const {} = userService;
+// const userService = require('../services/userService');
+// const {} = userService;
 
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
