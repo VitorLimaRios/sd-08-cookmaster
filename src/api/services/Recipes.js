@@ -5,6 +5,11 @@ const createRecipes=async(newRecipe)=>{
   return create;
 };
 
+
+const findAll = async () =>{ 
+  const allRecipe = await RecipesModels.findAll();
+  return allRecipe;};
 module.exports={
-  createRecipes
+  createRecipes,
+  findAll
 };

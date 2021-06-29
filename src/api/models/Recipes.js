@@ -6,6 +6,13 @@ const createRecipes = async (newRecipe) => {
   return { recipe:{...newRecipe, _id: insertedId } };
 };
 
+const findAll = async () => {
+  const allRecipes = await connection()
+    .then((db) => db.collection('recipes').find().toArray());
+
+  return allRecipes;
+};
+
 // const obj={
 //   'name': 'Arroz e feijao',
 //   'ingredients': 'arroz com feijao',
@@ -14,5 +21,6 @@ const createRecipes = async (newRecipe) => {
 // console.log(createRecipes(obj));
 
 module.exports = {
-  createRecipes
+  createRecipes,
+  findAll
 };
