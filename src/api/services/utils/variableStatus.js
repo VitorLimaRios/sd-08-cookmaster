@@ -3,11 +3,12 @@ const CONFLICT = 409;
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const OK = 200;
- 
+const JWT_SECRET = 'FULANO ROUBOU PAO NA CASA DO JOAO';
 module.exports={ 
   CREATED,
   CONFLICT,
   BAD_REQUEST,
   UNAUTHORIZED,
-  OK
+  OK,
+  JWT_SECRET
 };
