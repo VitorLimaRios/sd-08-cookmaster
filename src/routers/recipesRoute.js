@@ -6,6 +6,11 @@ const router = express.Router();
 
 router.get('/recipes', recipesController.getAllRecipes);
 
+router.get('/recipes/:id',
+  // validate.validadeById, 
+  recipesController.getByRecipes
+);
+
 router.post('/recipes',
   validate.validateAllRecipes,
   validate.validateJWT,

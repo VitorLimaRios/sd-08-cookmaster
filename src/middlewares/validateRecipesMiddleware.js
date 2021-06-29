@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const status = require('../statuscode/status');
 
 const userModels = require('../models/userModels');
+const recipesModels = require('../models/recipesModels');
 
 const secret = 'trybe-t8';
 
@@ -52,6 +53,7 @@ const validateJWT = async (req, res, next) => {
   }
 
 };
+
 
 module.exports = {
   validateAllRecipes,
