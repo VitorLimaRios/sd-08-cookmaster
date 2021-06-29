@@ -1,28 +1,11 @@
 const { findUserByEmail } = require('../models/usersModel');
-
-const emailValidation = /^[\w.]+@[\w]+(.[\w]+)+$/;
-
-const message = (message) => ({ message });
-const blank = (value) => !value;
-const invalidEmail = (email) => !email.match(emailValidation);
-const isRegisteredEmail = async (email) => await findUserByEmail(email);
-const wrongPass = (pass, userPass) => pass !== userPass;
-
-const errors = {
-  invalidEntries: message('Invalid entries. Try again.'),
-  emailRegistered: message('Email already registered'),
-  fieldNotFilled: message('All fields must be filled'),
-  wrongPassword: message('Incorrect username or password'),
-};
-
-const statusCode = {
-  badRequest: 400,
-  conflict: 409,
-  unauthorized: 401,
-};
+const validations = require('../helpers/validations');
+const statusCode = require('../helpers/statusCode');
+const errors = require('../helpers/errors');
 
 const validateUserCreation = async (body) => {
   const { name, email, password } = body;
+  const { blank, invalidEmail, isRegisteredEmail } = validations;
   const { badRequest, conflict } = statusCode; 
   const { invalidEntries, emailRegistered } = errors;
 
@@ -43,6 +26,7 @@ const validateUserCreation = async (body) => {
 
 const validateTokenGeneration = async (data) => {
   const { email, password } = data;
+  const { blank, wrongPass } = validations;
   const { unauthorized } = statusCode;
   const { fieldNotFilled, wrongPassword } = errors;
 
