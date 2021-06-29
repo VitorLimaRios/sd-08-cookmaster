@@ -27,8 +27,7 @@ const validateToken = (token) => {
   const { unauthorized } = statusCode;
   const { jwtMalformed } = errors;
   try {
-    const teste = jwt.verify(token, SECRET_KEY);
-    return teste;
+    return jwt.verify(token, SECRET_KEY);
   } catch (err) {
     return responseFormat(unauthorized, jwtMalformed);
   };
