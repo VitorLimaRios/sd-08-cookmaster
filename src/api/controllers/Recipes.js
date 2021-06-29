@@ -23,9 +23,20 @@ const findAll=rescue(async(req,res,next)=>{
  
   const all_recipe = await RecipesService.findAll({});
   return res.status(OK).json(all_recipe);
+});
 
+const findById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const idRecipe = await RecipesService.findById(id);
+
+  if (idRecipe.error) return next(idRecipe.error);
+
+  res.status(OK).json(idRecipe);
 });
 
 module.exports={
   createRecipes,
-  findAll};
+  findAll,
+  findById
+};
