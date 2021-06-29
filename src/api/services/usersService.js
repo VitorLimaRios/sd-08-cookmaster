@@ -1,11 +1,7 @@
 const jwt = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 const usersSchema = require('../schema/usersSchema');
-
-const statusCode = {
-  ok: 200,
-  created: 201,
-};
+const { ok, created } = require('../helpers/statusCode');
 
 const createUser = async (data) => {
   const bodyValidation = await usersSchema.validateUserCreation(data);
@@ -13,7 +9,7 @@ const createUser = async (data) => {
 
   const { ops } = await usersModel.insertOneUser({ ...data, role: 'user' });
   const { password, ...user } = ops[0];
-  return { code: statusCode.created, response: { user } };
+  return { code: created, response: { user } };
 };
 
 const findUserByEmail = (email) => {
@@ -31,7 +27,7 @@ const generateToken = async (data) => {
   const payload = { _id, email, role };
   const token = jwt.sign(payload, SECRET_KEY);
 
-  return { code: statusCode.ok, response: { token }};
+  return { code: ok, response: { token }};
 };
 
 module.exports = {

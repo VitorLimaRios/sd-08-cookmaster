@@ -5,6 +5,7 @@ const errors = {
   emailRegistered: message('Email already registered'),
   fieldNotFilled: message('All fields must be filled'),
   wrongPassword: message('Incorrect username or password'),
+  jwtMalformed: message('jwt malformed'),
 };
 
 module.exports = errors;
