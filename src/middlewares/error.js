@@ -15,6 +15,10 @@ module.exports = (err, _req, res, _next) => {
     case 'All fields must be filled':
       code = UNAUTHORIZED;
       break;
+    
+    case '"password" is not allowed to be empty':
+      code = UNAUTHORIZED;
+      break;
 
     default:
       code = INTERNAL_SERVER_ERROR;
