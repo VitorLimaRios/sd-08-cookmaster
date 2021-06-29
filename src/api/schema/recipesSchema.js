@@ -33,7 +33,26 @@ const validateToken = (token) => {
   };
 };
 
+const validateId = (id) => {
+  const { invalidId } = validations;
+  const { notFound } = statusCode; 
+  const { recipeNotFound } = errors;
+
+  if (invalidId(id)) return responseFormat(notFound, recipeNotFound);
+  return null;
+};
+
+const validateRecipe = (recipe) => {
+  const { notFound } = statusCode; 
+  const { recipeNotFound } = errors;
+
+  if (!recipe) return responseFormat(notFound, recipeNotFound);
+  return null;
+};
+
 module.exports = {
+  validateId,
+  validateRecipe,
   validateRecipeCreation,
   validateToken,
 };

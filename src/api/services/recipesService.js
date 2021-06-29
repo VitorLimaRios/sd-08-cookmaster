@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesModel');
 const recipesSchema = require('../schema/recipesSchema');
 const { created, unauthorized, ok } = require('../helpers/statusCode');
@@ -21,7 +22,21 @@ const getAllRecipes = async () => {
   return { code: ok, response: recipesList };
 };
 
+const getRecipeById = async (id) => {
+  const invalidId = recipesSchema.validateId(id);
+  if (invalidId) return invalidId;
+
+  const recipeId = ObjectId(id);
+  const recipe = await recipesModel.getRecipeById(recipeId);
+
+  const invalidRecipe = recipesSchema.validateRecipe(recipe);
+  if (invalidRecipe) return invalidRecipe;
+
+  return { code: ok, response: recipe };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };

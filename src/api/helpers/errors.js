@@ -6,6 +6,7 @@ const errors = {
   fieldNotFilled: message('All fields must be filled'),
   wrongPassword: message('Incorrect username or password'),
   jwtMalformed: message('jwt malformed'),
+  recipeNotFound: message('recipe not found'),
 };
 
 module.exports = errors;
