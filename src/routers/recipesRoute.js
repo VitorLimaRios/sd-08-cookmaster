@@ -6,8 +6,7 @@ const router = express.Router();
 
 router.get('/recipes', recipesController.getAllRecipes);
 
-router.get('/recipes/:id',
-  // validate.validadeById, 
+router.get('/recipes/:id', 
   recipesController.getByRecipes
 );
 
