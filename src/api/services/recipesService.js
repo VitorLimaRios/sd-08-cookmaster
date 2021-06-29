@@ -1,6 +1,6 @@
 const recipesModel = require('../models/recipesModel');
 const recipesSchema = require('../schema/recipesSchema');
-const { created, unauthorized } = require('../helpers/statusCode');
+const { created, unauthorized, ok } = require('../helpers/statusCode');
 
 const createRecipe = async (recipeData, token) => {
   console.log(recipeData);
@@ -16,6 +16,12 @@ const createRecipe = async (recipeData, token) => {
   return { code: created, response: { recipe: ops[0] } };
 };
 
+const getAllRecipes = async () => {
+  const recipesList = await recipesModel.getAllRecipes();
+  return { code: ok, response: recipesList };
+};
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
