@@ -21,8 +21,9 @@ const getRecipeById = async (req, res) => {
 
 const updateRecipe = async (req, res) => {
   const { id } = req.params;
+  const token = req.headers.authorization;
   const data = req.body;
-  const { code, response } = await recipesService.updateRecipe(data, id);
+  const { code, response } = await recipesService.updateRecipe(data, id, token);
   return res.status(code).json(response); 
 };
 

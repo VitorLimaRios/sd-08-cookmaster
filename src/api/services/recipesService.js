@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesModel');
 const recipesSchema = require('../schema/recipesSchema');
 const { created, unauthorized, ok } = require('../helpers/statusCode');
+const { unauthorizedUser } = require('../helpers/errors');
 
 const createRecipe = async (recipeData, token) => {
   console.log(recipeData);
@@ -35,10 +36,24 @@ const getRecipeById = async (id) => {
   return { code: ok, response: recipe };
 };
 
-const updateRecipe = async (recipeData, id) => {
+const updateRecipe = async (recipeData, id, token) => {
+  const user = recipesSchema.validateRecipeEdition(token);
+  if (user.code) return user;
+
+  const invalidId = recipesSchema.validateId(id);
+  if (invalidId) return invalidId;
+
+  console.log(user);
   const recipeId = ObjectId(id);
-  const updatedRecipe = await recipesModel.updateRecipe(recipeData, recipeId);
-  return { code: ok, response: updatedRecipe };
+  const { userId } = await recipesModel.getRecipeById(recipeId);
+
+  console.log('user id', user['_id'], 'autor', userId);
+  if (user['_id'].toString() === userId.toString() || user.role === 'admin') {
+    const updatedRecipe = await recipesModel.updateRecipe(recipeData, recipeId);
+    return { code: ok, response: updatedRecipe };
+  }
+
+  return { code: unauthorized, response: unauthorizedUser };
 };
 
 module.exports = {

@@ -50,9 +50,20 @@ const validateRecipe = (recipe) => {
   return null;
 };
 
+const validateRecipeEdition = (token) => {
+  const { blank } = validations;
+  const { unauthorized } = statusCode;
+  const { missingToken } = errors;
+
+  if (blank(token)) return responseFormat(unauthorized, missingToken);
+
+  return validateToken(token);
+};
+
 module.exports = {
   validateId,
   validateRecipe,
   validateRecipeCreation,
   validateToken,
+  validateRecipeEdition,
 };
