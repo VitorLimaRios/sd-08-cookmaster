@@ -5,6 +5,7 @@ const path = require('path');
 const userController = require('./controllers/userController');
 const uploadController = require('./controllers/uploadController');
 const loginController = require('./controllers/loginController');
+const authService = require('./services/authService');
 
 app.use(bodyParser.json());
 
@@ -12,7 +13,7 @@ const uploadsPath = `${__dirname}/../uploads`;
 app.use(express.static(path.join(uploadsPath)));
 
 app.use('/images', uploadController);
-app.use('/users', userController);
+app.use('/users', authService, userController);
 app.use('/login', loginController);
 // app.use('/recipes');
 
