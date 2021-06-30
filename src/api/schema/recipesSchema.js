@@ -24,8 +24,12 @@ const validateRecipeCreation = (recipeData) => {
 };
 
 const validateToken = (token) => {
+  const { blank } = validations;
   const { unauthorized } = statusCode;
-  const { jwtMalformed } = errors;
+  const { jwtMalformed, missingToken } = errors;
+
+  if (blank(token)) return responseFormat(unauthorized, missingToken);
+
   try {
     return jwt.verify(token, SECRET_KEY);
   } catch (err) {
@@ -50,20 +54,9 @@ const validateRecipe = (recipe) => {
   return null;
 };
 
-const validateRecipeEdition = (token) => {
-  const { blank } = validations;
-  const { unauthorized } = statusCode;
-  const { missingToken } = errors;
-
-  if (blank(token)) return responseFormat(unauthorized, missingToken);
-
-  return validateToken(token);
-};
-
 module.exports = {
   validateId,
   validateRecipe,
   validateRecipeCreation,
   validateToken,
-  validateRecipeEdition,
 };
