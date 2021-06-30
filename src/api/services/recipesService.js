@@ -5,7 +5,10 @@ const { created, unauthorized, ok, noContent } = require('../helpers/statusCode'
 const { unauthorizedUser } = require('../helpers/errors');
 
 const authorizedUser = (payloadId, userId, role) => {
-  return payloadId.toString() === userId.toString() || role === 'admin';
+  if (userId) {
+    return payloadId.toString() === userId.toString() || role === 'admin';
+  }
+  return false;
 };
 
 const createRecipe = async (recipeData, token) => {
