@@ -35,8 +35,18 @@ const findById = rescue(async (req, res, next) => {
   res.status(OK).json(idRecipe);
 });
 
+const updateById = rescue(async(req,res,next)=>{
+ 
+  const editRecipe = await 
+  RecipesService.updateById({...req.params,...req.body},req.tipeUser);
+
+  res.status(OK).json(editRecipe);
+
+});
+
 module.exports={
   createRecipes,
   findAll,
-  findById
+  findById,
+  updateById
 };
