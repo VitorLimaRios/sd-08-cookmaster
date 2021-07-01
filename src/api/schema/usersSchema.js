@@ -47,7 +47,15 @@ const validateTokenGeneration = async (data) => {
   return null;
 };
 
+const noAdmin = (user) => {
+  const { forbidden } = statusCode;
+  const { onlyAdmin } = errors;
+  if (user.role !== 'admin') return { code: forbidden, response: onlyAdmin };
+  return null;
+};
+
 module.exports = {
+  noAdmin,
   validateUserCreation,
   validateTokenGeneration,
 };

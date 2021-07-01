@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 const usersSchema = require('../schema/usersSchema');
+const recipesSchema = require('../schema/recipesSchema');
 const { ok, created } = require('../helpers/statusCode');
 
 const createUser = async (data) => {
@@ -30,7 +31,24 @@ const generateToken = async (data) => {
   return { code: ok, response: { token }};
 };
 
+const createAdmin = async (data, token) => {
+  const bodyValidation = await usersSchema.validateUserCreation(data);
+  if (bodyValidation) return bodyValidation;
+
+  const payload = recipesSchema.validateToken(token);
+  if (payload.code) return payload;
+
+  const nonAdminUser = usersSchema.noAdmin(payload); 
+  if (nonAdminUser) return nonAdminUser;
+
+  data.role = payload.role;
+  const { ops } = await usersModel.insertOneUser(data);
+  const newAdmin = ops[0];
+  return { code: created, response: { user: newAdmin } };
+};
+
 module.exports = {
+  createAdmin,
   createUser,
   findUserByEmail,
   generateToken,

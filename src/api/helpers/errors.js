@@ -9,6 +9,7 @@ const errors = {
   recipeNotFound: message('recipe not found'),
   missingToken: message('missing auth token'),
   unauthorizedUser: message('unauthorized user'),
+  onlyAdmin: message('Only admins can register new admins'),
 };
 
 module.exports = errors;

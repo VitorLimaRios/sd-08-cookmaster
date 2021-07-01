@@ -4,6 +4,7 @@ const statusCode = {
   noContent: 204,
   unauthorized: 401,
   badRequest: 400,
+  forbidden: 403,
   notFound: 404,
   conflict: 409,
 };
