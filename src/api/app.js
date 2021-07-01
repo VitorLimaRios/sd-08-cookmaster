@@ -13,7 +13,7 @@ const uploadsPath = `${__dirname}/../uploads`;
 app.use(express.static(path.join(uploadsPath)));
 
 app.use('/images', uploadController);
-app.use('/users', authService, userController);
+app.use('/users', userController);
 app.use('/login', loginController);
 // app.use('/recipes');
 

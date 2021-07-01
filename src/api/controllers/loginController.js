@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const loginModel = require('../models/loginModel');
+const userModel = require('../models/userModel');
 const {status, message} = require('../services/statusAndMessages');
+const env = require('../env');
 // const loginService = require('../services/loginService');
 // const {} = loginService;
-
-// const STATUS_OK = 200;
-// const ERROR_LOGIN = 401; 
-// const ERROR_SERVER = 500;
-// const messageErrorServer = {message: 'Sistema Indisponível'};
-// const messageLoginEmpty = {message: 'All fields must be filled'};
-// const messageLoginIncorrect = {message: 'Incorrect username or password'};
 
 router.post('/', async(req, res) => {
   try {
@@ -20,7 +14,7 @@ router.post('/', async(req, res) => {
     if(!bodyemail || !bodyPassword) {
       res.status(status.UNAUTHENTICATED).json(message.loginEmpty);
     }
-    const userFind = await loginModel.findEmail(bodyemail);
+    const userFind = await userModel.findEmail(bodyemail);
     // console.log(userFind);
     if(!userFind) {
       res.status(status.UNAUTHENTICATED).json(message.loginIncorrect);
@@ -30,7 +24,6 @@ router.post('/', async(req, res) => {
       res.status(status.UNAUTHENTICATED).json(message.loginIncorrect);
     }
 
-    const secret = 'RaulSeixas';    
     const jwtConfig= {
       expiresIn: '1h',
       algorithm:'HS256'
@@ -38,7 +31,7 @@ router.post('/', async(req, res) => {
 
     const {_id, email, role} = userFind;
     const token = jwt.sign(
-      {id: _id, email: email, role: role}, secret, jwtConfig);
+      {id: _id, email: email, role: role}, env.secret, jwtConfig);
     
     res.status(status.OK).json({'token': token});
     

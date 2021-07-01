@@ -1,11 +1,11 @@
-// const {ObjectId} = require('mongodb');
-const connect = require('./connection');
+// // const {ObjectId} = require('mongodb');
+// const connect = require('./connection');
 
-const findEmail = async(email) =>
-  connect().then(async(db) => {
-    const result = await db.collection('users').findOne({email});
-    // console.log(result);
-    return result;
-  });
+// const findEmail = async(email) =>
+//   connect().then(async(db) => {
+//     const result = await db.collection('users').findOne({email});
+//     // console.log(result);
+//     return result;
+//   });
 
-module.exports = {findEmail};
+// module.exports = {findEmail};

@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
-const loginModel = require('../models/loginModel');
+const userModel = require('../models/userModel');
 const {status, message} = require('../services/statusAndMessages');
-
-const secret = 'RaulSeixas';
+const env = require('../env');
 
 const authService = async (req, res, next) => {
   const token = req.headers['authorization'];
@@ -11,18 +10,15 @@ const authService = async (req, res, next) => {
     return res.status(status.UNAUTHENTICATED).json(message.tokenError);
   }
   try {
-    const decodedPayload = jwt.verify(token, secret);
+    const decodedPayload = jwt.verify(token, env.secret);
     // console.log(decodedPayload.email);
-
-    const userFindInDb = await loginModel.findEmail(decodedPayload.email);
+    const userFindInDb = await userModel.findEmail(decodedPayload.email);
     // console.log(userFindInDb);
     if(!userFindInDb) {
       res.status(status.UNAUTHENTICATED).json(message.tokenError);
     }
-
     req.user = userFindInDb;
     // console.log(req.user);
-
     next();
 
   } catch (error) {
