@@ -20,5 +20,6 @@ app.post('/recipes', validateJWT, RecipesController.newRecipe);
 app.get('/recipes', RecipesController.getRecipes);
 app.get('/recipes/:id', RecipesController.getRecipeById);
 app.put('/recipes/:id', validateJWT, RecipesController.update);
+app.delete('/recipes/:id', validateJWT, RecipesController.remove);
 
 module.exports = app;

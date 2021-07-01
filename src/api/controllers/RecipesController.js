@@ -4,6 +4,7 @@ const INTERNAL_SERVER_ERROR = 500;
 const NOT_FOUND = 404;
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 
 const newRecipe = async (req, res) => {
   const recipeFromBody = req.body;
@@ -53,9 +54,21 @@ const update = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+  try {
+    await Recipes.remove(id, user);
+    return res.status(NO_CONTENT).json();
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Error', error });
+  }
+};
+
 module.exports = {
   newRecipe,
   getRecipes,
   getRecipeById,
-  update
+  update,
+  remove
 };

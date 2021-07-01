@@ -45,13 +45,27 @@ const update = async (recipeId, recipe, user) => {
   
     return updatedRecipe;
   }
-
   return;
+};
+
+const remove = async (id, user) => {
+  const recipe = await Recipes.getRecipeById(id);
+  if (!recipe || !ObjectId.isValid(id)) return {
+    error: {
+      code: 404,
+      message: 'Recipe not found'
+    }
+  };
+
+  if (user.role === 'admin' || recipe.userId === user.id) {
+    await Recipes.remove(id);
+  }
 };
 
 module.exports = {
   newRecipe,
   getRecipes,
   getRecipeById,
-  update
+  update,
+  remove
 };
