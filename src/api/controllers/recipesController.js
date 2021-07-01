@@ -37,9 +37,9 @@ const deleteRecipe = async (req, res) => {
 const uploadImage = async (req, res) => {
   const { id } = req.params;
   const { filename, destination } = req.file;
-  const { host } = req.headers;
+  const { host, authorization: token } = req.headers;
   const path = `${host}/${destination}${filename}`;
-  const { code, response } = await recipesService.uploadImage(id, path);
+  const { code, response } = await recipesService.uploadImage(id, path, token);
   return res.status(code).json(response);
 };
 
