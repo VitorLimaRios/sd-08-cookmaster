@@ -72,8 +72,10 @@ const deleteRecipe = async (id, token) => {
   if (payload.code) return payload;
   const { _id: payloadId, role } = payload;
 
-  const { userId } = await recipesModel.getRecipeById(recipeId);
+  const recipe = await recipesModel.getRecipeById(recipeId);
+  if (!recipe) return { code: unauthorized, response: unauthorizedUser };
 
+  const { userId } = recipe;
   if (authorizedUser(payloadId, userId, role)) {
     const deletedRecipe = await recipesModel.deleteRecipe(recipeId);
     return { code: noContent, response: deletedRecipe };
@@ -82,10 +84,17 @@ const deleteRecipe = async (id, token) => {
   return { code: unauthorized, response: unauthorizedUser };
 };
 
+const uploadImage = async (id, path) => {
+  const recipeId = ObjectId(id);
+  const recipe = await recipesModel.uploadImage(recipeId, path);
+  return { code: ok, response: recipe };
+};
+
 module.exports = {
   createRecipe,
   deleteRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  uploadImage,
 };
