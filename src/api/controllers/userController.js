@@ -10,7 +10,7 @@ router.post('/', newUserCheck, async(req, res) => {
   try {
     const result = await userModel.addUser(name, email, password);
     delete result.password;
-    console.log(result);
+    // console.log(result);
     res.status(status.CREATED).json({user:result});
   } catch (error) {
     console.error(error.message);
@@ -19,7 +19,7 @@ router.post('/', newUserCheck, async(req, res) => {
 });
 
 router.get('/', async(req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   try {
     const result = await userModel.getAll();
     res.status(status.OK).json({result});

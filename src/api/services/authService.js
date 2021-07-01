@@ -15,7 +15,7 @@ const authService = async (req, res, next) => {
     const userFindInDb = await userModel.findEmail(decodedPayload.email);
     // console.log(userFindInDb);
     if(!userFindInDb) {
-      res.status(status.UNAUTHENTICATED).json(message.tokenError);
+      return res.status(status.UNAUTHENTICATED).json(message.tokenError);
     }
     req.user = userFindInDb;
     // console.log(req.user);
