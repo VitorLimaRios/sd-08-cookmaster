@@ -11,13 +11,11 @@ const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) return res.status(UNAUTHORIZED)
-    .json({ error: 'missing auth token'});
+    .json({ message: 'missing auth token'});
 
   try {
     const decoded = jwt.verify(token, secret);
-    console.log('decoded =>', decoded);
     const user = await Users.findUserById(decoded.id);
-    console.log('validateJWT user => ', user);
     if (!user) return res.status(NOT_FOUND).json({ message: 'User not found' });
 
     req.user = { id: decoded.id, email: decoded.email, role: decoded.role };

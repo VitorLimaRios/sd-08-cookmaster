@@ -45,6 +45,8 @@ const update = async (recipeId, recipe, user) => {
   
     return updatedRecipe;
   }
+
+  return;
 };
 
 module.exports = {
