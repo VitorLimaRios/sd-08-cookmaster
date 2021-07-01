@@ -14,7 +14,15 @@ const findEmail = async (email) => {
   return findedEmail;
 };
 
+const addAdmin = async (name, email, password) => {
+  const db = await connection();
+  const addedAdmin = await db.collection('users')
+    .insertOne({ name, email, password, role: 'admin' });
+  return addedAdmin.ops[0];
+};
+
 module.exports = {
   addUser,
   findEmail,
+  addAdmin,
 };

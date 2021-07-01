@@ -67,11 +67,25 @@ const getLogin = async (email, password) => {
     throw new Error('Incorrect username or password');
   }
 
-  const token = jwt.sign({ email, password}, SECRET, jwtSett);
+  const token = jwt.sign({ email, password, role: findUserByEmail.role}, SECRET, jwtSett);
   return token;
+};
+
+const addAdmin = async (name, email, password, token) => {
+  
+  const decoded = jwt.verify(token, SECRET);
+
+  if (decoded.role !== 'admin') {
+    throw new Error('Only admins can register new admins');
+  }
+
+  let result = await UsersModels
+    .addAdmin(name, email, password);
+  return result;
 };
 
 module.exports = {
   addUser,
   getLogin,
+  addAdmin,
 };

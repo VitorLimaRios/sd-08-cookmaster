@@ -3,6 +3,7 @@ const SUCCESS = 200;
 const CREATED = 201;
 const BAD_REQ = 400;
 const UN_REQ = 401;
+const FORBIDDEN = 403;
 const ERR_CONF = 409;
 
 const addUser = async (req, res) => {
@@ -54,7 +55,28 @@ const getLogin = async (req, res) => {
   }
 };
 
+const addAdmin = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const token = req.headers.authorization;
+    const user = await UsersServices
+      .addAdmin(name, email, password, token);
+
+    return res
+      .status(CREATED)
+      .json({ user });
+  }
+  catch (err) {
+    return res
+      .status(FORBIDDEN)
+      .json({
+        message: err.message,
+      });
+  }
+}; 
+
 module.exports = {
   addUser,
   getLogin,
+  addAdmin,
 };

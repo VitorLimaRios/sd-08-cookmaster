@@ -85,4 +85,6 @@ app.delete('/recipes/:id', isValidJWT, RecipesController.recipeToDelete);
 app.put('/recipes/:id/image', upload.single('image'),
   isValidJWT, RecipesController.addNewRecipeImage);
 
+app.post('/users/admin', UsersController.addAdmin);
+
 module.exports = app;
