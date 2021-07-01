@@ -22,7 +22,6 @@ const findById = async (id) => {
 };
 
 const updateById = async ({ _id, name, ingredients, preparation, userId }) => {
-
   await connection()
     .then((db) => db.collection('recipes')
       .updateOne({ _id: ObjectId(_id) },
@@ -30,7 +29,13 @@ const updateById = async ({ _id, name, ingredients, preparation, userId }) => {
 
   return {
     _id, name, ingredients, preparation, userId
-  };;
+  };
+};
+const deleteRecipe=async(id)=>{
+ 
+  await connection()
+    .then((db) => db.collection('products')
+      .deleteOne({ _id: ObjectId(id) }));
 };
 
 
@@ -38,5 +43,6 @@ module.exports = {
   createRecipes,
   findAll,
   findById,
-  updateById
+  updateById,
+  deleteRecipe
 };

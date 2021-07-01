@@ -2,7 +2,7 @@ const rescue = require('express-rescue');
 const RecipesService = require('../services/Recipes');
 const verifyRecipe = require('../services/utils/RecipeSchema');
 
-const {CREATED ,OK}=require('../services/utils/variableStatus');
+const {CREATED ,OK,NO_CONTENT}=require('../services/utils/variableStatus');
 
 const createRecipes = rescue(async (req, res, next) =>  {
   const {_id}=req.id;
@@ -32,7 +32,7 @@ const findById = rescue(async (req, res, next) => {
 
   if (idRecipe.error) return next(idRecipe.error);
 
-  res.status(OK).json(idRecipe);
+  return res.status(OK).json(idRecipe);
 });
 
 const updateById = rescue(async(req,res,next)=>{
@@ -40,13 +40,19 @@ const updateById = rescue(async(req,res,next)=>{
   const editRecipe = await 
   RecipesService.updateById({...req.params,...req.body},req.tipeUser);
 
-  res.status(OK).json(editRecipe);
+  return  res.status(OK).json(editRecipe);
 
 });
 
+const deleteRecipe =  rescue(async(req,res,next)=>{
+  const { id } = req.params;
+  await RecipesService.deleteRecipe(id);
+  return res.status(NO_CONTENT).json();
+});
 module.exports={
   createRecipes,
   findAll,
   findById,
-  updateById
+  updateById,
+  deleteRecipe
 };

@@ -35,10 +35,17 @@ const updateById = async ({id , name, ingredients, preparation},role) => {
 
 };
 
+const deleteRecipe =async(id)=>{
+  const recipe = await RecipesModels.findById(id);
+  if(!recipe){return ERROR_RECIPE;}
+  
+};
+
 
 module.exports = {
   createRecipes,
   findAll,
   findById,
-  updateById
+  updateById,
+  deleteRecipe
 };

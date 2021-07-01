@@ -4,6 +4,7 @@ const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 const OK = 200;
+const NO_CONTENT = 204;
 const JWT_SECRET = 'FULANO ROUBOU PAO NA CASA DO JOAO';
 module.exports={ 
   CREATED,
@@ -12,5 +13,6 @@ module.exports={
   UNAUTHORIZED,
   OK,
   JWT_SECRET,
-  NOT_FOUND
+  NOT_FOUND,
+  NO_CONTENT
 };
