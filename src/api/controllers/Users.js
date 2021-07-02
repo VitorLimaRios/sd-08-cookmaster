@@ -14,6 +14,13 @@ const createUsers = rescue(async (req, res, next) => {
   res.status(CREATED).json(new_user);
 });
 
+const createAdmin=rescue(async(req,res,next)=>{
+  const { name, email, password } = req.body;
+  const new_admin = await UsersService.createAdmin({ name, email, password });
+  res.status(CREATED).json(new_admin);
+});
+
 module.exports = {
-  createUsers
+  createUsers,
+  createAdmin
 };

@@ -15,6 +15,21 @@ const createUsers = async (newUser)=>{
   return UsersModels.createUsers(newUser);
 };
 
+const createAdmin = async(newAdmin)=>{
+
+  const {email}=newAdmin;
+  const verifyEmail = await UsersModels.findByEmail(email);
+  if(verifyEmail){
+    return ERROR_EMAIL; 
+  } 
+  return UsersModels.createUsers(newAdmin,'admin');
+
+};
+
+
+
 module.exports = {
-  createUsers
+  createUsers,
+  createAdmin
+  
 };
