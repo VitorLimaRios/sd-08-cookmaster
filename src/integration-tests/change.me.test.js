@@ -386,67 +386,67 @@ describe('PUT /recipes/:id', () => {
   });
 });
 
-// describe('DELETE /recipes/:id', () => {
-//   describe('Quando a receita com o id passado não é encontrada', () => {
-//     let response;
-//     const ID = '9999999';
+describe('DELETE /recipes/:id', () => {
+  describe('Quando a receita com o id passado não é encontrada', () => {
+    let response;
+    const ID = '9999999';
 
-//     before(async() => {
-//       response = await chai.request(server)
-//         .delete(`/recipes/${ID}`)
-//         .send({
-//           name: 'name',
-//           ingredients: 'ingredients',
-//           preparation: 'preparation',
-//         });
-//     });
+    before(async() => {
+      response = await chai.request(server)
+        .delete(`/recipes/${ID}`)
+        .send({
+          name: 'name',
+          ingredients: 'ingredients',
+          preparation: 'preparation',
+        });
+    });
 
-//     // after(() => {});
+    // after(() => {});
 
-//     it('retorna o código de status "404"', () => {
-//       expect(response).to.have.status(404);
-//     });
+    it('retorna o código de status "404"', () => {
+      expect(response).to.have.status(404);
+    });
 
-//     it('retorna um objeto no body', () => {
-//       expect(response.body).to.be.an('object');
-//     });
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
 
-//     it('o objeto possui a propriedade "message"', () => {
-//       expect(response.body).to.have.property('message');
-//     });
+    it('o objeto possui a propriedade "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
 
-//     it('a mensagem possui a seguinte frase "All fields must be filled"', () => {
-//       expect(response.body.message).to.be.equals('recipe not found');
-//     });
-//   });
-// });
+    it('a mensagem possui a seguinte frase "All fields must be filled"', () => {
+      expect(response.body.message).to.be.equals('recipe not found');
+    });
+  });
+});
 
-// describe('PUT /recipes/:id/image', () => {
-//   describe('Quando a receita com o id passado não é encontrada', () => {
-//     let response;
-//     const ID = '9999999';
+describe('PUT /recipes/:id/image', () => {
+  describe('Quando a receita com o id passado não é encontrada', () => {
+    let response;
+    const ID = '9999999';
 
-//     before(async() => {
-//       response = await chai.request(server)
-//         .put(`/recipes/${ID}/image`);
-//     });
+    before(async() => {
+      response = await chai.request(server)
+        .put(`/recipes/${ID}/image`);
+    });
 
-//     // after(() => {});
+    // after(() => {});
 
-//     it('retorna o código de status "404"', () => {
-//       expect(response).to.have.status(404);
-//     });
+    it('retorna o código de status "404"', () => {
+      expect(response).to.have.status(404);
+    });
 
-//     it('retorna um objeto no body', () => {
-//       expect(response.body).to.be.an('object');
-//     });
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
 
-//     it('o objeto possui a propriedade "message"', () => {
-//       expect(response.body).to.have.property('message');
-//     });
+    it('o objeto possui a propriedade "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
 
-//     it('a mensagem possui a seguinte frase "All fields must be filled"', () => {
-//       expect(response.body.message).to.be.equals('recipe not found');
-//     });
-//   });
-// });
+    it('a mensagem possui a seguinte frase "All fields must be filled"', () => {
+      expect(response.body.message).to.be.equals('recipe not found');
+    });
+  });
+});
