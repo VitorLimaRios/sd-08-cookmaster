@@ -17,7 +17,17 @@ router.post('/', authService, recipeCheck, async (req, res) => {
     
   } catch (error) {
     console.error(error.message);
-    res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
+    res.status(status.SERVER_ERROR).json(message.serverError);
+  }
+});
+
+router.get('/', async(req, res) => {
+  try {
+    const result = await recipeModel.getAllRecipe();
+    res.status(status.OK).json(result);
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
