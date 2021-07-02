@@ -11,7 +11,7 @@ const deleteOne = require('../models/delete');
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe.only('POST /users', () => {
+describe('POST /users', () => {
   describe('Será validado que o campo "name" é obrigatório', () => {
     let response;
 
@@ -125,7 +125,7 @@ describe.only('POST /users', () => {
           console.log(err)
           done(err)
       });
-
+      console.log('true ', DBServer.getInstanceInfo());
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       connectionMock.db('Cookmaster')
