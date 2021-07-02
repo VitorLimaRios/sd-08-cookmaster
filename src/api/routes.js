@@ -33,12 +33,8 @@ recipesRouter.post('/', verifyAuthorization, recipesController.createRecipe);
 recipesRouter.put('/:id', verifyAuthorization, recipesController.updateById);
 recipesRouter.delete('/:id', verifyAuthorization, recipesController.remove);
 
-recipesRouter.put(
-  '/:id/image', 
-  verifyAuthorization,
-  upload.single('image'), 
-  recipesController.uploadImage
-);
+recipesRouter.put('/:id/image',
+  verifyAuthorization, upload.single('image'), recipesController.uploadImage );
 
 module.exports = {
   usersRouter,
