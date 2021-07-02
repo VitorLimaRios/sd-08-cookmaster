@@ -1,5 +1,4 @@
 const HTTP_OK_STATUS = 201;
-const HTTP_OK_STATUS0 = 200;
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
@@ -23,7 +22,6 @@ const upload = multer({ storage });
 
 router.put('/:id/image/', upload.single('image'),async (req, res ) => {
   console.log('PUT recipes/:id - update by id');
-  const file = req.file;
   const id = (req.params.id);
   const token = req.headers['authorization'];
   const result = await updateImage( id, token);

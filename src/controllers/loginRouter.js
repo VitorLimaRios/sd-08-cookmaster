@@ -9,6 +9,5 @@ router.post('/', async (req, res) => {
   const result = await login(data);
   const {message , code } = result;
   res = res.status(code).json( message);
-  // console.log(message);
 });
 module.exports = router;

@@ -4,7 +4,6 @@ const userRouter = require('../controllers/userRouter');
 const loginRouter = require('../controllers/loginRouter');
 const path = require('path');
 const recipesRouter = require('../controllers/recipesRouter');
-const imageRouter = require('../controllers/imageRouter');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,7 +17,6 @@ app.get('/', (_request, response) => {
 app.use('/users', userRouter );
 app.use('/login', loginRouter );
 app.use('/recipes', recipesRouter );
-// app.use('/images', imageRouter );
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 
