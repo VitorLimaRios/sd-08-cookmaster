@@ -12,7 +12,6 @@ const authorizedUser = (payloadId, userId, role) => {
 };
 
 const createRecipe = async (recipeData, token) => {
-  console.log(recipeData);
   const validateBody = recipesSchema.validateRecipeCreation(recipeData);
   if (validateBody) return validateBody;
 
