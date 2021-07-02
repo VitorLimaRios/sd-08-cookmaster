@@ -1,6 +1,6 @@
 const userModel = require('../models/userModel');
 const {status, message} = require('../services/statusAndMessages');
-const env = require('../env');
+// const env = require('../env');
 
 const loginCheck = async(req, res, next) => {
 

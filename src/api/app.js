@@ -5,7 +5,8 @@ const path = require('path');
 const userController = require('./controllers/userController');
 const uploadController = require('./controllers/uploadController');
 const loginController = require('./controllers/loginController');
-const authService = require('./services/authService');
+const recipeController = require('./controllers/recipeController');
+// const authService = require('./services/authService');
 
 app.use(bodyParser.json());
 
@@ -15,7 +16,7 @@ app.use(express.static(path.join(uploadsPath)));
 app.use('/images', uploadController);
 app.use('/users', userController);
 app.use('/login', loginController);
-// app.use('/recipes');
+app.use('/recipes', recipeController);
 
 
 // Não remover esse end-point, ele é necessário para o avaliador

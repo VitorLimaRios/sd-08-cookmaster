@@ -11,6 +11,9 @@ const authService = async (req, res, next) => {
   }
   try {
     const decodedPayload = jwt.verify(token, env.secret);
+    if(!decodedPayload) {
+      return res.status(status.UNAUTHENTICATED).json(message.tokenError);
+    }
     // console.log(decodedPayload.email);
     const userFindInDb = await userModel.findEmail(decodedPayload.email);
     // console.log(userFindInDb);

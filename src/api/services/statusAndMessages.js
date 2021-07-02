@@ -11,7 +11,7 @@ const message = {
   serverError: {message: 'Sistema Indisponível'},
   loginEmpty: {message: 'All fields must be filled'},
   loginIncorrect: {message: 'Incorrect username or password'},
-  tokenError: {message:'Token not found'},
+  tokenError: {message:'jwt malformed'},
   invalidEntries: {message: 'Invalid entries. Try again.'},
   emailAlreadyRegistered: {message: 'Email already registered'},
 };
