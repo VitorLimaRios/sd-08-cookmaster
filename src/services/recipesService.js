@@ -32,10 +32,20 @@ const updateById = async (id, dataForUpdate) =>{
 
 const remove = async (id) => await recipesModel.remove(id);
 
+const uploadImage = async(id, filename)=>{
+  const url = `localhost:3000/src/uploads/${ filename }`;
+  const result = await recipesModel.uploadImage(id, url);
+  console.log(result);
+  return result;
+};
+
+
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   updateById,
-  remove
+  remove,
+  uploadImage
 };

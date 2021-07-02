@@ -2,6 +2,7 @@ const rescue = require('express-rescue');
 const recipesService = require('../services/recipesService');
 const validateToken = require('../auth/validateToken');
 const successResponse = require('../utils/successResponse');
+const multer = require('multer');
 
 const createRecipe = rescue(async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -48,10 +49,20 @@ const remove = rescue(async (req, res, _next) => {
   res.status(successResponse.noContent()).send();
 });
 
+const uploadImage =rescue(async (req, res, _next) => {
+  const {filename}= req.file;
+  const { id } = req.params;
+  const result = await recipesService.uploadImage( id, filename );
+
+  res.status(successResponse.OK()).json(result);
+});
+
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   updateById,
   remove,
+  uploadImage,
 };

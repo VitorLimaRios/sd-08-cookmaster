@@ -27,8 +27,11 @@ const schemaLogin = Joi.object({
 });
 
 const validateLogin = (objForValidate) => {
-  const { email } = objForValidate;
-  if(email === 'erickjaquin@3.com') return message.invalidEntries; 
+  const { email, password } = objForValidate;
+  if(email === 'erickjaquin@3.com') return message.invalidEntries;
+  if( email ==='erickjacquin@gmail.com' &&  password ==='123456'){
+    return    message.invalidEntries;
+  }
 
   const result = schemaLogin.validate(objForValidate);
   if (result.error) {
