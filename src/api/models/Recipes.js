@@ -10,7 +10,6 @@ const createRecipes = async (newRecipe) => {
 const findAll = async () => {
   const allRecipes = await connection()
     .then((db) => db.collection('recipes').find().toArray());
-
   return allRecipes;
 };
 
@@ -26,23 +25,37 @@ const updateById = async ({ _id, name, ingredients, preparation, userId }) => {
     .then((db) => db.collection('recipes')
       .updateOne({ _id: ObjectId(_id) },
         { $set: { name, ingredients, preparation, userId: ObjectId(userId) } }));
-
   return {
     _id, name, ingredients, preparation, userId
   };
 };
-const deleteRecipe=async(id)=>{
- 
+
+
+const deleteRecipe=async(id)=>{ 
   await connection()
     .then((db) => db.collection('products')
       .deleteOne({ _id: ObjectId(id) }));
 };
 
+const updateImage=async(_id,image)=>{
+  const recipe=await findById(_id);
+  if(!recipe){return null;}
+  await connection()
+    .then((db) => db.collection('recipes')
+      .updateOne({ _id: ObjectId(_id) },
+        { $set: { image: image } }));
+  
+  return {
+    ...recipe ,image
+  };
+};
+//console.log(updateImage('60de96bd6154628c0379eeea','caminho da imagem'));
 
 module.exports = {
   createRecipes,
   findAll,
   findById,
   updateById,
-  deleteRecipe
+  deleteRecipe,
+  updateImage
 };

@@ -3,9 +3,14 @@ const UsersRoutes = require('./routes/Users');
 const LoginRoutes = require('./routes/Login');
 const RecipesRoutes = require('./routes/Recipes');
 const middleware = require('./middlewares/middlewareError');
-
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
+app.use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
+
 app.use(express.json());
 app.use('/users',UsersRoutes);
 app.use('/login',LoginRoutes);

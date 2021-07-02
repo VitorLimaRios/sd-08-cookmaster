@@ -25,20 +25,23 @@ const findById = async (id) => {
   }
   return idRecipe;
 };
-const updateById = async ({id , name, ingredients, preparation},role) => {
-  const {_id} = await RecipesModels.findById(id);//_id da receuta
-  const{_id:userId}=role;
-  
-  const editRecipe =await 
-  RecipesModels.updateById({_id,name,ingredients,preparation,userId});
+const updateById = async ({ id, name, ingredients, preparation }, role) => {
+  const { _id } = await RecipesModels.findById(id);//_id da receuta
+  const { _id: userId } = role;
+  const editRecipe = await
+  RecipesModels.updateById({ _id, name, ingredients, preparation, userId });
   return editRecipe;
-
 };
 
-const deleteRecipe =async(id)=>{
+const deleteRecipe = async (id) => {
   const recipe = await RecipesModels.findById(id);
-  if(!recipe){return ERROR_RECIPE;}
-  
+  if (!recipe) { return ERROR_RECIPE; }
+};
+
+const updateImage = async(_id,image)=>{
+  const recipe = await RecipesModels.updateImage(_id,image);
+  if(!recipe){return ERROR_RECIPE; }
+  return recipe;
 };
 
 
@@ -47,5 +50,7 @@ module.exports = {
   findAll,
   findById,
   updateById,
-  deleteRecipe
+  deleteRecipe,
+  updateImage
+ 
 };
