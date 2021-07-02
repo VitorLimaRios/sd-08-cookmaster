@@ -4,10 +4,12 @@ const  errorClient  = require('../utils/errorClient');
 
 const createUser = async(objDataForCreate) =>{
   const errorMessage = validateCreate(objDataForCreate);
+  
   if(errorMessage) return errorClient.badRequest(errorMessage);
 
   const { email } = objDataForCreate;
   const emailExistDB = await usersModel.getByEmail(email);
+
   if(emailExistDB) return errorClient.conflict('Email already registered');
 
   const result = await usersModel.createUser({...objDataForCreate, role: 'user'});
@@ -15,6 +17,9 @@ const createUser = async(objDataForCreate) =>{
   return { user: result};
 };
 
+const getByEmail = async (userEmail) => usersModel.getByEmail(userEmail);
+
 module.exports ={
   createUser,
+  getByEmail
 };

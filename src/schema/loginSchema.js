@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const MIN_LENGTH = 5;
 
@@ -7,7 +7,7 @@ const message = {
   invalidEntries: 'Incorrect username or password'
 };
 
-const schemaLogin = Joi.object({
+module.exports = Joi.object({
   email: Joi.string()
     .email()
     .messages({
@@ -25,23 +25,3 @@ const schemaLogin = Joi.object({
 }).messages({
   'any.required': message.allRequired,
 });
-
-const validateLogin = (objForValidate) => {
-  const { email, password } = objForValidate;
-  if(email === 'erickjaquin@3.com') return message.invalidEntries;
-  if( email ==='erickjacquin@gmail.com' &&  password ==='123456'){
-    return    message.invalidEntries;
-  }
-
-  const result = schemaLogin.validate(objForValidate);
-  if (result.error) {
-    const message = result.error.details[0].message;
-    return  message ;
-  }
-
-  return null;
-};
-
-module.exports =  validateLogin;
-
-// const emailIsValid = async (email) => { // validação regex visto no site: // https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/ const emailValidRegex = /\S+@\S+\.\S+/; if (!email || !emailValidRegex.test(email)) { return { message: 'Invalid entries. Try again.', code: 400, }; }; 

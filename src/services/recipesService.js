@@ -11,7 +11,7 @@ const createRecipe = async(objDataForCreate, email) =>{
   
   const {_id} = await recipesModel.createRecipe({...objDataForCreate, userId});
 
-  return { recipe: {...objDataForCreate, _id  }}; // testar o ops
+  return { recipe: {...objDataForCreate, _id  }}; 
 
 };
 
@@ -25,7 +25,7 @@ const getById = async (id) => {
 };
 
 const updateById = async (id, dataForUpdate) =>{
-  await recipesModel.updateById(id, dataForUpdate); // lembrar da questão do erro
+  await recipesModel.updateById(id, dataForUpdate);
   const recipe = await recipesModel.getById(id);
   return recipe;
 };
@@ -38,8 +38,6 @@ const uploadImage = async(id, filename)=>{
   console.log(result);
   return result;
 };
-
-
 
 module.exports = {
   createRecipe,

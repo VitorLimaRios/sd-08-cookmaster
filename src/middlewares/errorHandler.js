@@ -1,8 +1,6 @@
+const errorServer  = require('../utils/erroServer');
 
-function handleErrors(err, _req, res, _next) {
-
-  const { statusCode, message } = err;
-
-  return res.status(statusCode).json({ message });
-}
-module.exports = handleErrors;
+module.exports = (err, _req, res, _next) => {
+  const statusCode = err.statusCode || errorServer. internalServerError();
+  return res.status(statusCode).json({ message: err.message });
+};

@@ -2,7 +2,6 @@ const express = require('express');
 const multer = require('multer');
 const { resolve } = require('path');
 
-
 const storage = multer.diskStorage({
   destination: (_req, _file, callback)=> callback(null, 'src/uploads'),
   filename: (req, _file, callback)=>{
@@ -29,9 +28,11 @@ const recipesRouter = express.Router();
 recipesRouter.use(express.static(resolve(__dirname, '..','uploads'))); 
 recipesRouter.get('/', recipesController.getAll);
 recipesRouter.get('/:id', recipesController.getById);
-recipesRouter.post('/', verifyAuthorization, recipesController.createRecipe);
-recipesRouter.put('/:id', verifyAuthorization, recipesController.updateById);
-recipesRouter.delete('/:id', verifyAuthorization, recipesController.remove);
+
+recipesRouter.use(verifyAuthorization);
+recipesRouter.post('/', recipesController.createRecipe);
+recipesRouter.put('/:id', recipesController.updateById);
+recipesRouter.delete('/:id', recipesController.remove);
 
 recipesRouter.put('/:id/image',
   verifyAuthorization, upload.single('image'), recipesController.uploadImage );

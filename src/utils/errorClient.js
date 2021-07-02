@@ -29,4 +29,5 @@ const errorClient = {
   },
 };
 
+
 module.exports = errorClient;

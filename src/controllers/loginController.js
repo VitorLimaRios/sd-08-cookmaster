@@ -1,13 +1,22 @@
 const rescue = require('express-rescue');
-const  loginService= require('../services/loginService');
+const usersService = require('../services/usersService');
 const successResponse = require('../utils/successResponse');
 const createToken = require('../auth/createToken');
+const validateLogin = require('../schema/loginSchema');
+const errorClient = require('../utils/errorClient');
 
-const loginUser = rescue(async (req,res, next) =>{
+const loginUser = rescue(async (req, res, next) =>{
+  const { error } = validateLogin.validate(req.body);
+
+  if (error) throw errorClient.unauthorized('All fields must be filled');
+  
   const { email, password } = req.body;
 
-  const result = await loginService.loginUser({ email, password });
-  if(result.error) return next(result);
+  const user = await usersService.getByEmail(email);
+
+  if (!user || user.password !== password) {
+    throw errorClient.unauthorized('Incorrect username or password'); 
+  }
 
   const token = createToken({ email, password });
 
