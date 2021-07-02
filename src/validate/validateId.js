@@ -9,13 +9,11 @@ const  validateId = (id, msgError, erroCode) => {
   if(id.lenght<doze){
     return {code: erroCode, message: msgError, isValid: false };
   }
-  try {   
-    if (!ObjectId.isValid(id)) {
-      return {code: erroCode, message: msgError, isValid: false };
-    };
-  } catch (error) {
-    console.log(error);
-  }
+  
+  if (!ObjectId.isValid(id)) {
+    return {code: erroCode, message: msgError, isValid: false };
+  };
+
   return {isValid: true};
 };
 

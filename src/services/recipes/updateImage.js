@@ -1,7 +1,6 @@
 const updateDB = require('../../models/update');
 const readDB = require('../../models/read');
 const jwt = require('jsonwebtoken');
-// var multer  = require('multer');
 const secret = 'seusecretdetoken';
 const HTTP_OK_STATUS = 200;
 const ERRO_01 = 401;
@@ -28,7 +27,6 @@ const updateImage = async ( id, token ,next)=>{
   const result =  await updateDB(id ,'recipes',
     {image: `localhost:3000/src/uploads/${id}.jpeg`,
       userId: userData[0]._id , ...recipeData});
-  // next();
   return {code: HTTP_OK_STATUS, message: result} ;
 };
 module.exports = updateImage;

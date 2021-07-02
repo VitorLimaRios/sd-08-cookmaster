@@ -6,7 +6,5 @@ const readById = async () => {
   result = await read.getAll('recipes');
   console.log(result);
   return { code: HTTP_OK_STATUS, message: result};
-  // res.status(HTTP_OK_STATUS).json( result);
-  // next();
 };
 module.exports = readById;
