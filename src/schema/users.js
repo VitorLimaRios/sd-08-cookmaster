@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const PASS_LENGTH = 6;
+const PASS_LENGTH = 4;
 
 const create = joi.object({
   name: joi.string().required(),
