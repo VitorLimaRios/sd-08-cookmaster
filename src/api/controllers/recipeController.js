@@ -4,7 +4,7 @@ const recipeModel = require('../models/recipeModel');
 const {status, message} = require('../services/statusAndMessages');
 const authService = require('../services/authService');
 const recipeService = require('../services/recipeService');
-const {recipeCheck} = recipeService;
+const {recipeCheck, recipeGetByIdCheck} = recipeService;
 
 router.post('/', authService, recipeCheck, async (req, res) => {
   try {
@@ -15,6 +15,17 @@ router.post('/', authService, recipeCheck, async (req, res) => {
       .addRecipe(userId, name, ingredients, preparation);
     res.status(status.CREATED).json({recipe: result});
     
+  } catch (error) {
+    console.error(error.message);
+    res.status(status.SERVER_ERROR).json(message.serverError);
+  }
+});
+
+router.get('/:id', recipeGetByIdCheck, async(req, res) => {
+  try {
+    result = req.recipe;
+    // console.log(result);
+    res.status(status.OK).json(result);
   } catch (error) {
     console.error(error.message);
     res.status(status.SERVER_ERROR).json(message.serverError);

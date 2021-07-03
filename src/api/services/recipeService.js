@@ -1,4 +1,4 @@
-const userModel = require('../models/userModel');
+const recipeModel = require('../models/recipeModel');
 const {status, message} = require('../services/statusAndMessages');
 
 const recipeCheck = async(req, res, next) => {
@@ -9,4 +9,14 @@ const recipeCheck = async(req, res, next) => {
   return next();
 };
 
-module.exports = {recipeCheck};
+const recipeGetByIdCheck = async(req, res, next) => {
+  const { id } = req.params;
+  const result = await recipeModel.getByIdRecipe(id);
+  if (!result) {
+    return res.status(status.NOT_FOUND).json(message.recipeNotFound);
+  }
+  req.recipe = result;
+  return next();
+};
+
+module.exports = {recipeCheck, recipeGetByIdCheck};

@@ -3,6 +3,7 @@ const status = {
   CREATED: 201,
   BAD_REQUEST: 400,
   UNAUTHENTICATED: 401,
+  NOT_FOUND: 404,
   CONFLICT: 409,
   SERVER_ERROR: 500,
 };
@@ -14,6 +15,7 @@ const message = {
   tokenError: {message:'jwt malformed'},
   invalidEntries: {message: 'Invalid entries. Try again.'},
   emailAlreadyRegistered: {message: 'Email already registered'},
+  recipeNotFound: {message: 'recipe not found'},
 };
 
 module.exports = {status, message};
