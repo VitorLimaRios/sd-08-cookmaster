@@ -12,6 +12,8 @@ const recipeCheck = async(req, res, next) => {
 const recipeGetByIdCheck = async(req, res, next) => {
   const { id } = req.params;
   const result = await recipeModel.getByIdRecipe(id);
+  console.log(result);
+  console.log('teste');
   if (!result) {
     return res.status(status.NOT_FOUND).json(message.recipeNotFound);
   }

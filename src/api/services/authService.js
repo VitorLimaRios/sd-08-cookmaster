@@ -7,7 +7,8 @@ const authService = async (req, res, next) => {
   const token = req.headers['authorization'];
 
   if(!token) {
-    return res.status(status.UNAUTHENTICATED).json(message.tokenError);
+    // return res.status(status.UNAUTHENTICATED).json(message.tokenError);
+    return res.status(status.UNAUTHENTICATED).json(message.tokenMissing);
   }
   try {
     const decodedPayload = jwt.verify(token, env.secret);
