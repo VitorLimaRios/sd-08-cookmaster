@@ -57,6 +57,12 @@ const uploadImage =rescue(async (req, res, _next) => {
   res.status(successResponse.OK()).json(result);
 });
 
+const getImage = rescue(async ( req, res, next)=>{
+  const { id: idExtension } = req.params;
+  const result = await recipesService.getImage(idExtension);
+
+  res.status(successResponse.OK()).json(result);
+});
 
 module.exports = {
   createRecipe,
@@ -65,4 +71,5 @@ module.exports = {
   updateById,
   remove,
   uploadImage,
+  getImage
 };
