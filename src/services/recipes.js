@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const RecipeSchema = require('../schema/recipe');
 const RecipeModel = require('../models/recipes');
 
-const jwtUtil = require('../utils/jwt');
+const { isAllowed, auth } = require('../utils');
 
 
 const secret = 'senhasecretamentedificil';
 
 const create = async (token, name, ingredients, preparation) => {
-  const decoded = jwt.verify(token, secret, jwtUtil);
+  const decoded = jwt.verify(token, secret, auth);
   const { _id: userId } = decoded['data'];
 
   const { error } = RecipeSchema.create.validate({name, ingredients,preparation});
@@ -50,7 +50,7 @@ const updateById = async (token, data) => {
     error.statusCode = 401;
     throw error;
   }
-  const decoded = jwt.verify(token, secret, jwtUtil);
+  const decoded = jwt.verify(token, secret, auth);
   const { _id: userId, role } = decoded.data;
   const recipe = await RecipeModel.getById(data.id);
   if(!recipe) {
@@ -58,7 +58,8 @@ const updateById = async (token, data) => {
     error.statusCode = 404;
     throw error;
   }
-  if(userId === recipe.userId || role === 'admin') {
+  const canUpdate = isAllowed(userId, recipe.userId, role);
+  if(canUpdate) {
     const updatedRecipe = await RecipeModel.updateById(data);
     return updatedRecipe;
   };
