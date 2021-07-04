@@ -3,18 +3,13 @@ const jwt = require('jsonwebtoken');
 const RecipeSchema = require('../schema/recipe');
 const RecipeModel = require('../models/recipes');
 
+const jwtUtil = require('../utils/jwt');
+
 
 const secret = 'senhasecretamentedificil';
 
 const create = async (token, name, ingredients, preparation) => {
-  const decoded = jwt.verify(token, secret, (err, decode) => {
-    if(err) {
-      err.message = 'jwt malformed';
-      err.statusCode = 401;
-      throw err;
-    };
-    return decode;
-  });
+  const decoded = jwt.verify(token, secret, jwtUtil);
   const { _id: userId } = decoded['data'];
 
   const { error } = RecipeSchema.create.validate({name, ingredients,preparation});
@@ -49,8 +44,33 @@ const getById = async (id) => {
   }
 };
 
+const updateById = async (token, data) => {
+  if(!token) {
+    const error = new Error('missing auth token');
+    error.statusCode = 401;
+    throw error;
+  }
+  const decoded = jwt.verify(token, secret, jwtUtil);
+  const { _id: userId, role } = decoded.data;
+  const recipe = await RecipeModel.getById(data.id);
+  if(!recipe) {
+    const error = new Error('Recipe not found');
+    error.statusCode = 404;
+    throw error;
+  }
+  if(userId === recipe.userId || role === 'admin') {
+    const updatedRecipe = await RecipeModel.updateById(data);
+    return updatedRecipe;
+  };
+
+  const error = new Error('You are not allowed to update this recipe');
+  error.statusCode = 401;
+  throw error;
+};
+
 
 module.exports = {
   create,
-  getById
+  getById,
+  updateById
 };

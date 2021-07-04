@@ -25,8 +25,23 @@ const getById = rescue(async (req, res) => {
   res.status(STATUS_200).json(recipe);
 });
 
+const updateById = rescue(async (req, res) => {
+  const token = req.headers['authorization'];
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const data = {
+    id,
+    name,
+    ingredients,
+    preparation
+  };
+  const recipe = await RecipeService.updateById(token, data);
+  res.status(STATUS_200).json(recipe);
+});
+
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  updateById
 };
