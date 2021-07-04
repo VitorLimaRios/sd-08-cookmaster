@@ -5,6 +5,7 @@ const RecipeModel = require('../models/recipes');
 
 const STATUS_201 = 201;
 const STATUS_200 = 200;
+const STATUS_204 = 204;
 
 const create = rescue(async (req, res) => {
   const token = req.headers['authorization'];
@@ -39,9 +40,17 @@ const updateById = rescue(async (req, res) => {
   res.status(STATUS_200).json(recipe);
 });
 
+const deleteById = rescue(async (req, res) => {
+  const token = req.headers['authorization'];
+  const { id } = req.params;
+  await RecipeService.deleteById(token, id);
+  res.status(STATUS_204).json({});
+});
+
 module.exports = {
   create,
   getAll,
   getById,
-  updateById
+  updateById,
+  deleteById
 };

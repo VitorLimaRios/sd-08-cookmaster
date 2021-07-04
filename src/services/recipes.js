@@ -69,9 +69,30 @@ const updateById = async (token, data) => {
   throw error;
 };
 
+const deleteById = async (token, id) => {
+  if(!token) {
+    const error = new Error('missing auth token');
+    error.statusCode = 401;
+    throw error;
+  }
+  const decoded = jwt.verify(token, secret, auth);
+  const { _id: userId, role } = decoded.data;
+  const recipe = await RecipeModel.getById(id);
+  if(!recipe) return;
+  const canDelete = isAllowed(userId, recipe.userId, role);
+  if(canDelete) {
+    await RecipeModel.deleteById(id);
+    return;
+  };
+  const error = new Error('You are not allowed to update this recipe');
+  error.statusCode = 401;
+  throw error;
+};
+
 
 module.exports = {
   create,
   getById,
-  updateById
+  updateById,
+  deleteById
 };
