@@ -41,10 +41,20 @@ const deleteById = async (id) => {
   return;
 };
 
+const addImage = async (id, image) => {
+  const db = await connection();
+  const { value } = await db.collection('recipes')
+    .findOneAndUpdate({_id: ObjectId(id)},
+      { $set: { image }},
+      {returnOriginal: false });
+  return value;
+}; 
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  addImage
 };

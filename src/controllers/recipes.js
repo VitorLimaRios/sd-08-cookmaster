@@ -47,10 +47,19 @@ const deleteById = rescue(async (req, res) => {
   res.status(STATUS_204).json({});
 });
 
+const addImage = rescue(async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers['authorization'];
+  const fileName = req.fileName;
+  const recipe = await RecipeService.addImage(token, id, fileName);
+  res.status(STATUS_200).json(recipe);
+});
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  addImage
 };

@@ -3,13 +3,12 @@ const jwt = require('jsonwebtoken');
 const RecipeSchema = require('../schema/recipe');
 const RecipeModel = require('../models/recipes');
 
-const { isAllowed, auth } = require('../utils');
-
-
+const { isAllowed } = require('../utils');
 const secret = 'senhasecretamentedificil';
 
+
 const create = async (token, name, ingredients, preparation) => {
-  const decoded = jwt.verify(token, secret, auth);
+  const decoded = jwt.verify(token, secret);
   const { _id: userId } = decoded['data'];
 
   const { error } = RecipeSchema.create.validate({name, ingredients,preparation});
@@ -45,12 +44,7 @@ const getById = async (id) => {
 };
 
 const updateById = async (token, data) => {
-  if(!token) {
-    const error = new Error('missing auth token');
-    error.statusCode = 401;
-    throw error;
-  }
-  const decoded = jwt.verify(token, secret, auth);
+  const decoded = jwt.verify(token, secret);
   const { _id: userId, role } = decoded.data;
   const recipe = await RecipeModel.getById(data.id);
   if(!recipe) {
@@ -69,13 +63,9 @@ const updateById = async (token, data) => {
   throw error;
 };
 
+
 const deleteById = async (token, id) => {
-  if(!token) {
-    const error = new Error('missing auth token');
-    error.statusCode = 401;
-    throw error;
-  }
-  const decoded = jwt.verify(token, secret, auth);
+  const decoded = jwt.verify(token, secret);
   const { _id: userId, role } = decoded.data;
   const recipe = await RecipeModel.getById(id);
   if(!recipe) return;
@@ -89,10 +79,30 @@ const deleteById = async (token, id) => {
   throw error;
 };
 
+const addImage = async (token, id, fileName) => {
+  const imagePath = `localhost:3000/src/uploads/${fileName}`;
+  const decoded = jwt.verify(token, secret);
+  const { _id: userId, role } = decoded.data;
+  const recipe = await RecipeModel.getById(id);
+  if(!recipe) {
+    const error = new Error('Recipe not found');
+    error.statusCode = 404;
+    throw error;
+  }
+  const canUpdate = isAllowed(userId, recipe.userId, role);
+  if(canUpdate) {
+    const recipe = await RecipeModel.addImage(id, imagePath);
+    return recipe;
+  }
+  const error = new Error('You are not allowed to update this recipe');
+  error.statusCode = 401;
+  throw error;
+};
 
 module.exports = {
   create,
   getById,
   updateById,
-  deleteById
+  deleteById,
+  addImage
 };
