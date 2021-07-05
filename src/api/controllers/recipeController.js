@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const storage = require('../config/multerConfig');
 const upload = multer({storage});
+const path = require('path');
 
 const recipeModel = require('../models/recipeModel');
 const {status, message} = require('../services/statusAndMessages');
@@ -19,6 +20,13 @@ router.put('/:id/image', authService, upload.single('file'), async(req, res) => 
   const result = await recipeModel.getByIdRecipe(id);
   // console.log(result);
   res.status(status.OK).json(result);
+});
+
+router.get('/images/:imagename', async(req, res) => {
+  const {imagename} = req.params;
+  const uploadsPath = `${__dirname}/../../uploads/${imagename}`;
+  const result = path.resolve(uploadsPath);
+  res.status(status.OK).sendFile(result);
 });
 
 router.post('/', authService, recipeCheck, async (req, res) => {
