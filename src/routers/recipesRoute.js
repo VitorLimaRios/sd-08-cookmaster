@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/recipes', recipesController.getAllRecipes);
 
-router.get('/recipes/:id', 
+router.get('/recipes/:id',
   recipesController.getByRecipes
 );
 
@@ -14,6 +14,11 @@ router.post('/recipes',
   validate.validateAllRecipes,
   validate.validateJWT,
   recipesController.createRecipes,
+);
+
+router.put('/recipes/:id',
+  validate.validateJWTRecipes,
+  recipesController.updateRecipes,
 );
 
 module.exports = router;
