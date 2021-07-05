@@ -1,10 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const storage = require('../config/multerConfig');
+const upload = multer({storage});
+
 const recipeModel = require('../models/recipeModel');
 const {status, message} = require('../services/statusAndMessages');
 const authService = require('../services/authService');
 const recipeService = require('../services/recipeService');
 const {recipeCheck, recipeGetByIdCheck} = recipeService;
+
+router.put('/:id/image', authService, upload.single('file'), async(req, res) => {
+  const {id} = req.params;
+  const {path} = req.file;
+  const url = `localhost:3000/${path}`;
+  // console.log(url);
+  await recipeModel.addImage(id, url);
+  const result = await recipeModel.getByIdRecipe(id);
+  // console.log(result);
+  res.status(status.OK).json(result);
+});
 
 router.post('/', authService, recipeCheck, async (req, res) => {
   try {

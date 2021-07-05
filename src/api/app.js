@@ -10,10 +10,13 @@ const recipeController = require('./controllers/recipeController');
 
 app.use(bodyParser.json());
 
-const uploadsPath = `${__dirname}/../uploads`;
-app.use(express.static(path.join(uploadsPath)));
+// /Teste add imagem usando upload Controller
+// app.use('/testeImg', uploadController);
 
-app.use('/images', uploadController);
+// Req10 visulalizar imagem
+const uploadsPath = `${__dirname}/../uploads`;
+app.use('/images', express.static(path.join(uploadsPath)));
+
 app.use('/users', userController);
 app.use('/login', loginController);
 app.use('/recipes', recipeController);
