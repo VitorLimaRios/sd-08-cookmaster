@@ -13,7 +13,7 @@ const {recipeCheck, recipeGetByIdCheck} = recipeService;
 
 router.put('/:id/image', authService, upload.single('image'), async(req, res) => {
   const {id} = req.params;
-  const {path} = req.file;
+  // const {path} = req.file;
   const url = `localhost:3000/src/uploads/${id}.jpeg`;
   // console.log(url);
   await recipeModel.addImage(id, url);
