@@ -14,6 +14,7 @@ const ERR_INCORRECT = 'Incorrect username or password';
 const MALFORMED = 'jwt malformed';
 const MESSAGE = 'recipe not found';
 const MISSING = 'missing auth token';
+const NO_CONTENT = 204;
 
 
 module.exports={
@@ -31,4 +32,5 @@ module.exports={
   MALFORMED,
   MESSAGE,
   MISSING,
+  NO_CONTENT,
 };
