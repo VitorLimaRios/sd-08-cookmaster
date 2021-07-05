@@ -5,7 +5,8 @@ const secret = 'trybe-t8';
 
 const createRecipes = async (name, ingredients, preparation, userId) => {
   // const { id } = jwt.verify(token, secret);
-  const result = await recipesModels.createRecipes(name, ingredients, preparation, userId);
+  const result = await recipesModels.createRecipes(name,
+    ingredients, preparation, userId);
   return result;
 };
 
@@ -19,7 +20,7 @@ const getByRecipes = async (id,) => {
   return result;
 };
 
-const updateRecipes = async (id,  upRecipe, userId) => {
+const updateRecipes = async (id, upRecipe, userId) => {
   const result = await recipesModels.updateRecipes(id,
     upRecipe, userId);
   return result;
