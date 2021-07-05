@@ -11,10 +11,10 @@ const authService = require('../services/authService');
 const recipeService = require('../services/recipeService');
 const {recipeCheck, recipeGetByIdCheck} = recipeService;
 
-router.put('/:id/image', authService, upload.single('file'), async(req, res) => {
+router.put('/:id/image', authService, upload.single('image'), async(req, res) => {
   const {id} = req.params;
   const {path} = req.file;
-  const url = `localhost:3000/${path}`;
+  const url = `localhost:3000/src/uploads/${id}.jpeg`;
   // console.log(url);
   await recipeModel.addImage(id, url);
   const result = await recipeModel.getByIdRecipe(id);
