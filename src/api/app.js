@@ -13,9 +13,9 @@ app.use(bodyParser.json());
 // /Teste add imagem usando upload Controller
 // app.use('/testeImg', uploadController);
 
-// Req10 visulalizar imagem
-const uploadsPath = `${__dirname}/../uploads`;
-app.use('/images', express.static(path.join(uploadsPath)));
+// Req10 visulalizar imagem torna diretório público
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+// ex: http://localhost:3000/images/60e33777ca2f59f090d30843.jpeg
 
 app.use('/users', userController);
 app.use('/login', loginController);
