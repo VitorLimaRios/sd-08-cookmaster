@@ -5,6 +5,7 @@ const errorMiddleware = require('../middlewares/error');
 const { login } = require('../controllers/login');
 const UserRouter = require('../routes/users');
 const RecipesRouter = require('../routes/recipes');
+const { recipeImages } = require('../controllers/recipes');
 
 const app = express();
 
@@ -17,9 +18,10 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.post('/login', login );
 app.use('/users', UserRouter);
 app.use('/recipes', RecipesRouter);
+app.post('/login', login );
+app.get('/images/:id', recipeImages);
 
 
 app.use(errorMiddleware);
