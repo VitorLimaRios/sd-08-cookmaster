@@ -18,16 +18,16 @@ router.put('/:id/image', authService, upload.single('image'), async(req, res) =>
   // console.log(url);
   await recipeModel.addImage(id, url);
   const result = await recipeModel.getByIdRecipe(id);
-  // console.log(result);
+  console.log(result);
   res.status(status.OK).json(result);
 });
 
-router.get('/images/:imagename', async(req, res) => {
-  const {imagename} = req.params;
-  const uploadsPath = `${__dirname}/../../uploads/${imagename}`;
-  const result = path.resolve(uploadsPath);
-  res.status(status.OK).sendFile(result);
-});
+// router.get('/images/', async(req, res) => {
+//   const {imagename} = req.params;
+//   const uploadsPath = `${__dirname}/../../uploads/${imagename}`;
+//   const result = path.resolve(uploadsPath);
+//   res.status(status.OK).sendFile(result);
+// });
 
 router.post('/', authService, recipeCheck, async (req, res) => {
   try {

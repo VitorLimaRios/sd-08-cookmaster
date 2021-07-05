@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 // Req10 visulalizar imagem
 const uploadsPath = `${__dirname}/../uploads`;
-app.use('/image', express.static(path.join(uploadsPath)));
+app.use('/images', express.static(path.join(uploadsPath)));
 
 app.use('/users', userController);
 app.use('/login', loginController);
