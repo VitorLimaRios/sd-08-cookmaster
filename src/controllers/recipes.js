@@ -55,12 +55,6 @@ const addImage = rescue(async (req, res) => {
   res.status(STATUS_200).json(recipe);
 });
 
-const recipeImages = rescue(async (req, res) => {
-  const { id } = req.params;
-  const recipe = await RecipeService.recipeImage(id);
-  res.status(STATUS_200).json(recipe);
-});
-
 
 
 
@@ -71,5 +65,4 @@ module.exports = {
   updateById,
   deleteById,
   addImage,
-  recipeImages
 };

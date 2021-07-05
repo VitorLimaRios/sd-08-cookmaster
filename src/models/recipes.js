@@ -50,11 +50,7 @@ const addImage = async (id, image) => {
   return value;
 }; 
 
-const recipeImage = async (id, image) => {
-  const db = await connection();
-  const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-  return recipe;
-}; 
+
 
 module.exports = {
   create,
@@ -63,5 +59,4 @@ module.exports = {
   updateById,
   deleteById,
   addImage,
-  recipeImage
 };

@@ -99,21 +99,11 @@ const addImage = async (token, id, fileName) => {
   throw error;
 };
 
-const recipeImage = async (id) => {
-  const recipe = await RecipeModel.recipeImage(id);
-  if(!recipe) {
-    const error = new Error('Not found');
-    error.statusCode = 404;
-    throw error;
-  }
-  return `http://${recipe.image}`;
-};
 
 module.exports = {
   create,
   getById,
   updateById,
   deleteById,
-  addImage,
-  recipeImage
+  addImage
 };
