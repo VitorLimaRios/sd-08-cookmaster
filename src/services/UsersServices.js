@@ -53,6 +53,14 @@ const isValidLogin = (email, password) => {
   return undefined;
 };
 
+// const getAllUsers = () => {
+
+//   const users = UsersModels
+//     .getAllUsers();
+    
+//   return users;
+// };
+
 const getLogin = async (email, password) => {
   
   const isNotValid = isValidLogin(email, password);
@@ -85,6 +93,7 @@ const addAdmin = async (name, email, password, token) => {
 };
 
 module.exports = {
+  // getAllUsers,
   addUser,
   getLogin,
   addAdmin,

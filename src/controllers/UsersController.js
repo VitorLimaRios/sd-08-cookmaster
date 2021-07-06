@@ -35,6 +35,22 @@ const addUser = async (req, res) => {
   }
 };
 
+// const getAllUsers = async (_req, res) => {
+//   try {
+//     const users = await UsersServices
+//       .getAllUsers();
+
+//     res
+//       .status(SUCCESS)
+//       .json(users);
+
+//   } catch (err) {
+//     res
+//       .status(BAD_REQ)
+//       .json({ message: err.message });
+//   }
+// };
+
 const getLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -76,6 +92,7 @@ const addAdmin = async (req, res) => {
 }; 
 
 module.exports = {
+  // getAllUsers,
   addUser,
   getLogin,
   addAdmin,

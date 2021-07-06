@@ -14,6 +14,15 @@ const findEmail = async (email) => {
   return findedEmail;
 };
 
+// const getAllUsers = async () => {
+//   const db = await connection();
+//   const users = await db.collection('users')
+//     .find()
+//     .toArray();
+    
+//   if (users) return users;
+// };
+
 const addAdmin = async (name, email, password) => {
   const db = await connection();
   const addedAdmin = await db.collection('users')
@@ -22,6 +31,7 @@ const addAdmin = async (name, email, password) => {
 };
 
 module.exports = {
+  // getAllUsers,
   addUser,
   findEmail,
   addAdmin,

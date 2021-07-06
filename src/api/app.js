@@ -70,6 +70,8 @@ app.get('/', (request, response) => {
 
 app.post('/users', UsersController.addUser);
 
+// app.get('/users', UsersController.getAllUsers);
+
 app.post('/login', UsersController.getLogin);
 
 app.post('/recipes', isValidJWT, RecipesController.addNewRecipe);
