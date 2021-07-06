@@ -7,20 +7,19 @@ const createUser = rescue(async (req,res, next)=>{
 
   const result = await usersService.createUser({ name, email, password });
   if(result.error) return next(result);
-
-  res.status(successResponse.Created()).json(result);
+  res.status(successResponse.Created()).json(result);  
 });
 
 
-const creatAdmin = rescue(async (req,res, next)=>{
-  const { body, user } = req;
+// const creatAdmin = rescue(async (req,res, next)=>{
+//   const { body, user } = req;
 
-  const result = await usersServices.addAdmin(body, user);
+//   const result = await usersServices.addAdmin(body, user);
 
-  res.status(successResponse.Created()).json({ user: result });
-});
+//   res.status(successResponse.Created()).json({ user: result });
+// });
 
 module.exports ={
   createUser,
-  creatAdmin
+  // creatAdmin
 };

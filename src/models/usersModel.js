@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const createUser = async (objDataForCreate) => {
   const db = await connection();
-  const { ops} = await db.collection('users').insertOne(objDataForCreate);
+  const { ops } = await db.collection('users').insertOne(objDataForCreate);
   const {password:_, ...others} = ops[0];
   return others;
 };

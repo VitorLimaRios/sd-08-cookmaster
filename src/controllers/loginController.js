@@ -5,6 +5,8 @@ const createToken = require('../auth/createToken');
 const validateLogin = require('../schema/loginSchema');
 const errorClient = require('../utils/errorClient');
 
+const status = 200;
+
 const loginUser = rescue(async (req, res, next) =>{
   const { error } = validateLogin.validate(req.body);
 
