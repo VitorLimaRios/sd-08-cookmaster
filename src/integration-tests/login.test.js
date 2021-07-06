@@ -1,12 +1,12 @@
 const { MongoClient } = require("mongodb");
-const server = require("../../api/server");
+const server = require("../api/server");
 const chai = require("chai");
 const { expect } = chai;
 const sinon = require("sinon");
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
 
-const getConnection = require("../connectionMock");
+const getConnection = require("./connectionMock");
 
 const USER_LOGIN = {
   email: "joao@hotmail.com",
@@ -61,7 +61,6 @@ describe("POST /login", () => {
     });
 
     it("Retorna código de erro 401", () => {
-      console.log(response.body.message);
       expect(response).to.have.status(401);
     });
     it("Retorna um objeto como resposta", () => {
