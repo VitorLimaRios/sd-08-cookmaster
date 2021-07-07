@@ -1,0 +1,23 @@
+const { MongoClient } = require('mongodb');
+
+const OPTIONS = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
+const DB_NAME = 'Cookmaster';
+
+let schema = null;
+
+const connection = () => {
+  return schema
+    ? Promise.resolve(schema)
+    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
+      .then((conn) => {
+        schema = conn.db(DB_NAME);
+        return schema;
+      });
+};
+
+module.exports = connection;
