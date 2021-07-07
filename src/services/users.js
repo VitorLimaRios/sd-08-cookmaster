@@ -1,5 +1,8 @@
+const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 const userSchema = require('../schema/users');
+
+const secret = 'secretdetoken';
 
 const addUser = async (userInfo) => {
   const { error } = userSchema.validate(userInfo);
@@ -27,6 +30,42 @@ const addUser = async (userInfo) => {
   return user;
 };
 
+const login = async (userInfo) => {
+  const { email, password } = userInfo;
+
+  if (!email || !password) {
+    return {
+      err: {
+        message: 'All fields must be filled',
+        status: 401,
+      }
+    };
+  }
+
+  const userByEmail = await Users.findByEmail(email);
+
+  if (!userByEmail || password !== userByEmail.password) {
+    return {
+      err: {
+        message: 'Incorrect username or password',
+        status: 401,
+      }
+    };
+  }
+
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256',
+  };
+
+  const { password: passcode, ...user } = userByEmail;
+
+  const token = jwt.sign({ data: user }, secret, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
   addUser,
+  login,
 };
