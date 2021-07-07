@@ -33,19 +33,25 @@ const getRecipeById = async (id) => {
 };
 
 const update = async (recipeId, recipe, user) => {
+  console.log(user);
   const recipeFromDB = await Recipes.getRecipeById(recipeId);
-  if (user.role === 'admin' || recipe.userId === user.id) {
-    const updatedRecipe = {
-      _id: recipeFromDB._id,
-      ...recipe,
-      userId: user.id,
+  if (user.role !== 'admin' && recipeFromDB.userId !== user.id) {
+    console.log('Deu ruim');
+    return {
+      error: {
+        code: 401,
+        message: 'Unauthorized'
+      }
     };
-  
-    await Recipes.update(recipeId, updatedRecipe);
-  
-    return updatedRecipe;
-  }
-  return;
+  };
+  const updatedRecipe = {
+    _id: recipeFromDB._id,
+    ...recipe,
+    userId: user.id,
+  };
+
+  await Recipes.update(recipeId, updatedRecipe);
+  return updatedRecipe;
 };
 
 const remove = async (id, user) => {
@@ -62,10 +68,36 @@ const remove = async (id, user) => {
   }
 };
 
+const image = async (id, image, user) => {
+  const recipe = await Recipes.getRecipeById(id);
+  if (!recipe || !ObjectId.isValid(id)) return {
+    error: {
+      code: 404,
+      message: 'Recipe not found'
+    }
+  };
+  if (user.role === 'admin' || recipe.userId === user.id) {
+    const recipeWithImage = {
+      ...recipe,
+      image: `localhost:3000/${image.path}`
+    };
+    await Recipes.update(id, recipeWithImage);
+    return recipeWithImage;
+  }
+};
+
+const getImage = async (id) => {
+  const recipeId = id.split('.');
+  const recipe = await Recipes.getRecipeById(recipeId[0]);
+  return recipe.image;
+};
+
 module.exports = {
   newRecipe,
   getRecipes,
   getRecipeById,
   update,
-  remove
+  remove,
+  image,
+  getImage
 };

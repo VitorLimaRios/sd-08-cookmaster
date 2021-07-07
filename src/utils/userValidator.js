@@ -36,7 +36,7 @@ const userValidator = async (user) => {
   return {
     name: user.name,
     email: user.email,
-    role: user.role ? 'admin' : 'user',
+    role: 'user',
   };
 };
 

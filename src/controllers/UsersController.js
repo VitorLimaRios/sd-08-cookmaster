@@ -32,7 +32,20 @@ const login = async (req, res) => {
   }
 };
 
+const admin = async (req, res) => {
+  const userFromBody = req.body;
+  try {
+    const user = await Users.admin(userFromBody, req.user);
+    if (user.error) return res.status(user.error.code)
+      .json({ message: user.error.message });
+    return res.status(CREATED).json(user);
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Error', error });
+  }
+};
+
 module.exports = {
   newUser,
-  login
+  login,
+  admin
 };

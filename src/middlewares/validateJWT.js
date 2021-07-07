@@ -3,7 +3,6 @@ const Users = require('../models/Users');
 
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
-const INTERNAL_SERVER_ERROR = 500;
 
 const secret = 'meusegredosupercomlexoqueninguemsabe';
 
@@ -17,8 +16,7 @@ const validateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
     const user = await Users.findUserById(decoded.id);
     if (!user) return res.status(NOT_FOUND).json({ message: 'User not found' });
-
-    req.user = { id: decoded.id, email: decoded.email, role: decoded.role };
+    req.user = { id: decoded.id, name: user.name, email: user.email, role: user.role };
 
     next();
   } catch (error) {

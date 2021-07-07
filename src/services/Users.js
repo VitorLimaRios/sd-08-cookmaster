@@ -17,6 +17,27 @@ const newUser = async (user) => {
   };
 };
 
+const admin = async (newUser, user) => {
+  if (user.role === 'admin') {
+    const { insertedId } = await Users.newUser({ ...newUser, role: 'admin' });
+    return {
+      user: {
+        name: newUser.name,
+        email: newUser.email,
+        role: 'admin',
+        _id: insertedId
+      }
+    };
+  }
+
+  return {
+    error: {
+      code: 403,
+      message: 'Only admins can register new admins'
+    }
+  };
+};
+
 const login = async (loginData) => {
   const loginValidation = await loginValidator(loginData);
   if (loginValidation.error) return loginValidation;
@@ -32,5 +53,6 @@ const login = async (loginData) => {
 
 module.exports = {
   newUser,
-  login
+  login,
+  admin
 };
