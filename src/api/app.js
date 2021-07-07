@@ -3,6 +3,7 @@ const path = require('path');
 
 const user = require('../routes/user');
 const error = require('../middlewares/error');
+const { login } = require('../controllers/login');
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.use('/users', user);
-
+app.post('/login', login );
 app.use(error);
 
 module.exports = app;

@@ -6,7 +6,7 @@ const find = async (email) => {
   return user;
 };
 
-const create = async (name, email, password, role) => {
+const create = async (name, email, password, role ='user') => {
   const db = await connection();
   const user = await db.collection('users').insertOne({name, email, password, role});
   const { _id } = user.ops[0];
