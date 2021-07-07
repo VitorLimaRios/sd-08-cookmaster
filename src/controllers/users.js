@@ -10,7 +10,7 @@ const addUser = async (req, res) => {
   if (newUser.err) {
     return res
       .status(newUser.err.status)
-      .json(newUser.err.message);
+      .json({ message: newUser.err.message });
   }
 
   return res.status(CREATED).json({ user: newUser });

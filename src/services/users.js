@@ -3,9 +3,10 @@ const userSchema = require('../schema/users');
 
 const addUser = async (userInfo) => {
   const { error } = userSchema.validate(userInfo);
+  console.log(error);
   if (error) return {
     err: {
-      message: 'Invalid entries. Try again',
+      message: 'Invalid entries. Try again.',
       status: 400,
     }
   };

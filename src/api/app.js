@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const Users = require('../routes/users');
+
 const app = express();
 app.use(bodyParser.json());
 
-const Users = require('../routes/users');
 
 app.use('/users', Users);
 
