@@ -10,8 +10,6 @@ const create = rescue(async (req, res) => {
   res.status(ok).json(user);
 });
 
-
-
 module.exports = {
   create
 };
