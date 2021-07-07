@@ -8,7 +8,7 @@ const jwtConfig = {
   algorithm: 'HS256'
 };
 
-const create = async (name, email, password, role) => {
+const create = async ({name, email, password, role, token = ''}) => {
   const { error } = UserSchema.create.validate({name, email, password});
   if(error) {
     error.message = 'Invalid entries. Try again.';
@@ -21,6 +21,25 @@ const create = async (name, email, password, role) => {
     error.statusCode = 409;
     throw error;
   };
+  if(token) {
+    const decoded = jwt.verify(token, secret);
+    const { role } = decoded['data'];
+    if(role !== 'admin') {
+      const error = new Error('Only admins can register new admins');
+      error.statusCode = 403;
+      throw error;
+    }
+    const user = await UserModel.create(name, email, password, role);
+    const { _id } = user;
+    return {
+      user: {
+        name,
+        email,
+        role,
+        _id
+      }
+    };
+  }
   const user = await UserModel.create(name, email, password, role);
   const { _id } = user;
 
