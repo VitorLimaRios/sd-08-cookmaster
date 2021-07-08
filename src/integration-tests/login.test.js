@@ -275,6 +275,7 @@ describe('POST /users/admin', () => {
 
   after(async () => {
     MongoClient.connect.restore();
+    await connectionMock.db('Cookmaster').collection('users').deleteMany({});
   })
 
   describe('Quando um usuário que não é admin faz um registro de admin', () => {
@@ -291,7 +292,6 @@ describe('POST /users/admin', () => {
         .set('authorization', token)
         .send(ADMIN)
     });
-
     
     it('Retorna status 403', () => {
       console.log(response);
