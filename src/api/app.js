@@ -30,8 +30,8 @@ app.post('/login', Users.login);
 app.post('/recipes', jwtValid, Recipes.addRecipe);
 app.get('/recipes/:id', Recipes.getRecipeById);
 app.get('/recipes', Recipes.getAllRecipes);
-app.put('/recipes/:id', jwtValid, userValid, Recipes.updateRecipeById);
-app.delete('/recipes/:id', jwtValid, userValid, Recipes.deleteRecipeById);
+app.put('/recipes/:id', jwtValid, Recipes.updateRecipeById);
+app.delete('/recipes/:id', jwtValid, Recipes.deleteRecipeById);
 
 app.put(
   '/recipes/:id/image',

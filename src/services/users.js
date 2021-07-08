@@ -6,7 +6,6 @@ const secret = 'secretdetoken';
 
 const addUser = async (userInfo) => {
   const { error } = userSchema.validate(userInfo);
-  console.log(error);
   if (error) return {
     err: {
       message: 'Invalid entries. Try again.',
@@ -32,7 +31,6 @@ const addUser = async (userInfo) => {
 
 const addAdmin = async (newAdminInfo, userAdmin) => {
   const { error } = userSchema.validate(newAdminInfo);
-  console.log(error);
   if (error) return {
     err: {
       message: 'Invalid entries. Try again.',
@@ -57,7 +55,6 @@ const addAdmin = async (newAdminInfo, userAdmin) => {
 
 const login = async (userInfo) => {
   const { email, password } = userInfo;
-
   if (!email || !password) {
     return {
       err: {

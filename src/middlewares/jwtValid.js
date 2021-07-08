@@ -10,7 +10,7 @@ const jwtValid = async (req, res, next) => {
   if (!token) {
     return res
       .status(BAD_REQUEST)
-      .json({ message: 'Token not found' });
+      .json({ message: 'missing auth token' });
   }
 
   try {

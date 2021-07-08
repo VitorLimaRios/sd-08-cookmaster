@@ -42,6 +42,7 @@ const updateRecipeById = async (req, res) => {
   const { id } = req.params;
   const newRecipeInfo = req.body;
   const { user } = req;
+  console.log(newRecipeInfo, 'updating');
 
   const updatedRecipe = await Recipes.updateRecipeById(id, newRecipeInfo, user);
 
