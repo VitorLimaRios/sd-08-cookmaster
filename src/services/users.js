@@ -30,6 +30,31 @@ const addUser = async (userInfo) => {
   return user;
 };
 
+const addAdmin = async (newAdminInfo, userAdmin) => {
+  const { error } = userSchema.validate(newAdminInfo);
+  console.log(error);
+  if (error) return {
+    err: {
+      message: 'Invalid entries. Try again.',
+      status: 400,
+    }
+  };
+
+  if (userAdmin.role !== 'admin') {
+    return {
+      err: {
+        message: 'Only admins can register new admins',
+        status: 403,
+      }
+    };
+  }
+
+  newAdminInfo = { ...newAdminInfo, role: 'admin' };
+  const newAdmin = await Users.addUser(newAdminInfo);
+  const { password, ...adminInfo } = newAdmin;
+  return adminInfo;
+};
+
 const login = async (userInfo) => {
   const { email, password } = userInfo;
 
@@ -67,5 +92,6 @@ const login = async (userInfo) => {
 
 module.exports = {
   addUser,
+  addAdmin,
   login,
 };

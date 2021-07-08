@@ -17,6 +17,21 @@ const addUser = async (req, res) => {
   return res.status(CREATED).json({ user: newUser });
 };
 
+const addAdmin = async (req, res) => {
+  const newAdminInfo = req.body;
+  const { user } = req;
+
+  const newAdmin = await Users.addAdmin(newAdminInfo, user);
+
+  if (newAdmin.err) {
+    return res
+      .status(newAdmin.err.status)
+      .json({ message: newAdmin.err.message });
+  }
+
+  return res.status(CREATED).json({ user: newAdmin });
+};
+
 const login = async (req, res) => {
   const userInfo = req.body;
 
@@ -33,5 +48,6 @@ const login = async (req, res) => {
 
 module.exports = {
   addUser,
+  addAdmin,
   login,
 };
