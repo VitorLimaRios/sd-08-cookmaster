@@ -19,7 +19,14 @@ const getRecipes = rescue(async (_req, res) => {
   res.status(status).json(recipe);
 });
 
+const getOne = rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await serviceRecipe.getOne(id);
+  res.status(status).json(recipe);
+});
+
 module.exports = {
   create,
-  getRecipes
+  getRecipes,
+  getOne
 };
