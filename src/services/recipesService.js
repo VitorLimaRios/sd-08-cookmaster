@@ -46,7 +46,6 @@ const getImage = async (idExtension) => {
   return image;
 };
 
-
 module.exports = {
   createRecipe,
   getAll,

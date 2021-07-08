@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const server = require("../api/server");
+const server = require("../api/app");
 const chai = require("chai");
 const { expect } = chai;
 const sinon = require("sinon");
@@ -46,17 +46,13 @@ describe("POST /Recipes", () => {
     let response;
 
     before(async () => {
-      const usersCollection = connectionMock
-        .db("Cookmaster")
-        .collection("users");
+      const usersCollection = connectionMock.db("Cookmaster").collection("users");
       await usersCollection.deleteMany();
       await usersCollection.insertOne(CREATE_USER);
 
-      response = await chai.request(server).post("/login").send(USER_LOGIN);
+    //  response = await chai.request(server).post("/login").send(USER_LOGIN);
 
-      const recipesCollection = connectionMock
-        .db("Cookmaster")
-        .collection("recipes");
+      const recipesCollection = connectionMock.db("Cookmaster").collection("recipes");
       await recipesCollection.deleteMany();
 
       const token = await chai
@@ -68,7 +64,7 @@ describe("POST /Recipes", () => {
       response = await chai
         .request(server)
         .post("/recipes")
-        .set("authorization", token)
+        .set("Authorization", token)
         .send(RECIPE);
     });
 
@@ -172,6 +168,7 @@ describe("GET /Recipes", () => {
       expect(response.body).to.be.an("array");
     });
   });
+
   describe("2-) Verifica que é possível pegar todas receitas estando autenticado", () => {
     let response;
     before(async () => {
@@ -197,7 +194,7 @@ describe("GET /Recipes", () => {
         .get("/recipes")
         .set("authorization", token);
     });
-    it("Retorna código de erro 400", () => {
+    it("Retorna código de erro 200", () => {
       expect(response).to.have.status(200);
     });
     it("Retorna um array como resposta", () => {

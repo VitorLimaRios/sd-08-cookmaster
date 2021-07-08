@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const server = require("../api/server");
+const server = require("../api/app");
 const chai = require("chai");
 const { expect } = chai;
 const sinon = require("sinon");
@@ -50,7 +50,7 @@ describe("POST /login", () => {
     });
   });
 
-  describe("2-) Usuário ou senha vazios", () => {
+  describe("2-) Usuário ou senha incorretos", () => {
     let response;
 
     before(async () => {

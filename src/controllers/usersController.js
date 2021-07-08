@@ -11,15 +11,15 @@ const createUser = rescue(async (req,res, next)=>{
 });
 
 
-// const creatAdmin = rescue(async (req,res, next)=>{
-//   const { body, user } = req;
+const creatAdmin = rescue(async (req,res, next)=>{
+  const { body, user } = req;
 
-//   const result = await usersServices.addAdmin(body, user);
+  const result = await usersServices.creatAdmin(body, user);
 
-//   res.status(successResponse.Created()).json({ user: result });
-// });
+  res.status(successResponse.Created()).json({ user: result });
+});
 
 module.exports ={
   createUser,
-  // creatAdmin
+  creatAdmin
 };

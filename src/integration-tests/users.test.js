@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const server = require("../api/server");
+const server = require("../api/app");
 const chai = require("chai");
 const { expect } = chai;
 const sinon = require("sinon");
@@ -14,7 +14,6 @@ const NEW_USER = {
   email: "fulano@fulano.com.br",
   password: '12345678'
 }
-
 describe("POST /User", () => {
   before(async () => {
     connectionMock = await getConnection();
@@ -50,9 +49,7 @@ describe("POST /User", () => {
     let response;
 
       before(async () => {
-      const usersCollection = connectionMock
-        .db("Cookmaster")
-        .collection("users");
+      const usersCollection = connectionMock.db("Cookmaster").collection("users");
       await usersCollection.deleteMany();
       await usersCollection.insertOne(NEW_USER);
 
@@ -87,31 +84,24 @@ describe("POST /User", () => {
     it("Retorna código de sucesso 201", () => {
       expect(response).to.have.status(201);
     });
-
     it("Retorna um objeto como resposta", () => {
       expect(response.body).to.be.an('object');
     });
-
     it("Retorna uma propriedade com nome de 'user'", () => {
       expect(response.body).to.have.property('user');
     });
-
     it("Retorna a propriedade 'name' dentro da propriedade 'user'", () => {
       expect(response.body.user).to.have.property('name');
     });
-
     it("Retorna a propriedade 'email' dentro da propriedade 'user'", () => {
       expect(response.body.user).to.have.property('email');
     });
-
     it("Retorna a propriedade 'role' dentro da propriedade 'user'", () => {
       expect(response.body.user).to.have.property('role');
     });
-
     it("Retorna a propriedade 'user' dentro da propriedade 'role'", () => {
       expect(response.body.user.role).to.be.equal('user');
     });
-
     it("Retorna a propriedade '_id' dentro da propriedade 'user'", () => {
       expect(response.body.user).to.have.property('_id');
     });
