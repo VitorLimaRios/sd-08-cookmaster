@@ -26,6 +26,16 @@ const update = async (id, name, ingredients, preparation) =>
       )
   );
 
+const addImage = async (id, image) =>
+  connection().then((db) =>
+    db
+      .collection('recipes')
+      .updateOne(
+        { _id: ObjectId(id) },
+        { $set: { image } }
+      )
+  );
+
 const del = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   return connection().then((db) =>
@@ -34,4 +44,4 @@ const del = async (id) => {
 };
 
 
-module.exports = { create, getById, getAll, update, del };   
+module.exports = { create, getById, getAll, update, del, addImage };   
