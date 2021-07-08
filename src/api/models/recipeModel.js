@@ -27,4 +27,5 @@ const getAll = async () => {
 module.exports = {
   createRecipe,
   getAll,
+  getById,
 };
