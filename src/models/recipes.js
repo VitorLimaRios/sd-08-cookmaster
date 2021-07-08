@@ -19,7 +19,9 @@ const getRecipeById = async (id) => {
 
 const updateRecipeById = async (id, newRecipeInfo) => {
   const db = await connection();
-  return db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: newRecipeInfo });
+  return db
+    .collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: newRecipeInfo });
 };
 
 const deleteRecipeById = async (id) => {
