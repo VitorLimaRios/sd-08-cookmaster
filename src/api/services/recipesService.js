@@ -28,11 +28,10 @@ const authToken = async (token) => {
   }
 };
 
-const recipeValidation = async (body, name) => {
+const recipeValidation = async (body) => {
   try {
     await schema.validate(body);
-    const userInformations = await usersModel.getByName(name);
-    return userInformations;
+    return 'done';
   } catch (err) {
     console.error(err);
     return err;

@@ -3,12 +3,34 @@ const router = express.Router();
 
 const recipesService = require('../services/recipesService');
 const recipesModel = require('../models/recipeModel');
+const usersModel = require('../models/usersModel');
 
 const invalidEntriesStatus = 400;
 const invalidTokenStatus = 401;
 const failRecipeStatus = 404;
 const sucessStatus = 201;
 const sucessAllRecipesStatus = 200;
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  const body = req.body;
+
+  const authorizatedToken = await recipesService.authToken(token);
+
+  if (!token) {
+    return res.status(invalidTokenStatus).send({ message: 'missing auth token' });
+  }
+
+  if (authorizatedToken === 'err') {
+    return res.status(invalidTokenStatus).send({ message: 'jwt malformed' });
+  }
+
+  const updateRecipe = await recipesModel.updateRecipe(id, body);
+  const updatedRecipe = await recipesModel.getById(id);
+  
+  res.status(sucessAllRecipesStatus).send(updatedRecipe);
+});
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
@@ -54,14 +76,14 @@ router.post('/', async (req, res) => {
     return res.status(invalidTokenStatus).send({ message: 'jwt malformed' });
   }
 
-  const recipeValidated = await recipesService
-    .recipeValidation(body, authorizatedToken.data.name);
+  const recipeValidated = await recipesService.recipeValidation(body);
   if (recipeValidated.isJoi) {
     return res.status(invalidEntriesStatus)
       .send({ message: 'Invalid entries. Try again.' });
   }
 
-  const createdRecipe = await recipesService.createRecipe(body, recipeValidated);
+  const userInformations = await usersModel.getByName(authorizatedToken.data.name);
+  const createdRecipe = await recipesService.createRecipe(body, userInformations);
   res.status(sucessStatus).send(createdRecipe);
 });
 
