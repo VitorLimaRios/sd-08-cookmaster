@@ -53,7 +53,7 @@ describe("POST /User", () => {
       const usersCollection = connectionMock
         .db("Cookmaster")
         .collection("users");
-      await usersCollection.deleteMany({});
+      await usersCollection.deleteMany();
       await usersCollection.insertOne(NEW_USER);
 
       response = await chai.request(server).post("/users").send(NEW_USER);
@@ -80,7 +80,7 @@ describe("POST /User", () => {
 
     before(async () => {
       const usersCollection = connectionMock.db('Cookmaster').collection('users');
-      await usersCollection.deleteMany({});
+      await usersCollection.deleteMany();
       response = await chai.request(server).post('/users').send(NEW_USER);
     });
 

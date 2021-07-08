@@ -17,7 +17,6 @@ const getById = async (id) => {
   const db = await connection();
   try {
     const result = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-    console.log(result);
     return result;
   } catch (err) {
     console.error(`Id ${id} not found \n.`);
