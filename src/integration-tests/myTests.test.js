@@ -2,11 +2,17 @@ const chai = require('chai');
 const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 
-const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
+const {
+  MongoClient
+} = require('mongodb');
+const {
+  MongoMemoryServer
+} = require('mongodb-memory-server');
 
 chai.use(chaiHttp);
-const { expect } = chai;
+const {
+  expect
+} = chai;
 
 const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
 
@@ -16,7 +22,7 @@ describe('POST /users cadastro de usuario', async () => {
   describe('quando é criado com sucesso', () => {
     let response;
     // const DBServer = new MongoMemoryServer();
-  
+
     before(async () => {
       response = await chai.request(server)
         .post('/users')
@@ -56,7 +62,11 @@ describe('POST /login logar usuario', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
+    });
+
+    after(async () => {
+      await connection.close();
     });
 
     it('logado com sucesso', () => {
@@ -78,7 +88,12 @@ describe('POST /users/admin cadastrar admin', async () => {
       });
       db = connection.db('Cookmaster');
       await db.collection('users').deleteMany({});
-      await db.collection('users').insertOne({ name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' });
+      await db.collection('users').insertOne({
+        name: 'admin',
+        email: 'root@email.com',
+        password: 'admin',
+        role: 'admin'
+      });
 
       response = await chai.request(server)
         .post('/users')
@@ -86,12 +101,17 @@ describe('POST /users/admin cadastrar admin', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
+    });
+
+    after(async () => {
+      await connection.close();
     });
 
     it('logado com sucesso', () => {
       expect(response).to.have.status(201);
     });
+
   });
 });
 
@@ -115,7 +135,7 @@ describe('GET /recipes listar receitas', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const loginUser = await chai.request(server)
         .post('/login')
@@ -123,7 +143,7 @@ describe('GET /recipes listar receitas', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       await chai.request(server)
         .post('/recipes')
@@ -132,10 +152,14 @@ describe('GET /recipes listar receitas', async () => {
           name: 'alho',
           ingredients: 'pao, alho, fe',
           preparation: 'coloca tudo na churrasqueira'
-      });
+        });
 
       response = await chai.request(server)
         .get('/recipes');
+    });
+
+    after(async () => {
+      await connection.close();
     });
 
     it('logado com sucesso', () => {
@@ -164,7 +188,7 @@ describe('POST /users/admin cadastrar admin', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const loginUser = await chai.request(server)
         .post('/login')
@@ -172,7 +196,7 @@ describe('POST /users/admin cadastrar admin', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const recipe = await chai.request(server)
         .post('/recipes')
@@ -181,18 +205,22 @@ describe('POST /users/admin cadastrar admin', async () => {
           name: 'alho',
           ingredients: 'pao, alho, fe',
           preparation: 'coloca tudo na churrasqueira'
-      });
+        });
 
       await chai.request(server)
         .get(`/recipes/${recipe.recipe._id}`);
+    });
 
-      it('logado com sucesso', () => {
-        expect(response).to.have.status(200);
-      });
+    after(async () => {
+      await connection.close();
+    });
 
-      it('body é um objeto', () => {
-        expect(response.body).to.be.an('object');
-      });
+    it('logado com sucesso', () => {
+      expect(response).to.have.status(200);
+    });
+
+    it('body é um objeto', () => {
+      expect(response.body).to.be.an('object');
     });
   });
 });
@@ -216,6 +244,9 @@ describe('POST /recipes erro ao cadastrar receita', async () => {
         .send({});
     });
 
+    after(async () => {
+      await connection.close();
+    });
 
     it('falta de token', () => {
       expect(response.body).to.have.property('message');
@@ -243,7 +274,7 @@ describe('POST /recipes erro ao cadastrar receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const loginUser = await chai.request(server)
         .post('/login')
@@ -251,7 +282,7 @@ describe('POST /recipes erro ao cadastrar receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       response = await chai.request(server)
         .post('/recipes')
@@ -260,11 +291,15 @@ describe('POST /recipes erro ao cadastrar receita', async () => {
           ingredients: 'pao, alho, fe',
           preparation: 'coloca tudo na churrasqueira'
         });
-      });
+    });
 
-      it('dados insuficientes', () => {
-        expect(response.body).to.have.property('message');
-      });
+    after(async () => {
+      await connection.close();
+    });
+
+    it('dados insuficientes', () => {
+      expect(response.body).to.have.property('message');
+    });
   });
 });
 
@@ -273,7 +308,7 @@ describe('PUT /recipes atualiza receita', async () => {
     let response;
     let db;
     let connection;
-
+    console.log('cheguei aqui')
     before(async () => {
       connection = await MongoClient.connect(mongoDbUrl, {
         useNewUrlParser: true,
@@ -288,7 +323,7 @@ describe('PUT /recipes atualiza receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const loginUser = await chai.request(server)
         .post('/login')
@@ -296,7 +331,7 @@ describe('PUT /recipes atualiza receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const recipe = await chai.request(server)
         .post('/recipes')
@@ -307,23 +342,29 @@ describe('PUT /recipes atualiza receita', async () => {
           preparation: 'coloca tudo na churrasqueira'
         });
 
-        response = await chai.request(server)
-          .put(`/recipes/${recipe.body.recipe._id}`)
-          .set('authorization', loginUser.body.token)
-          .send({
-            name: 'Receita de frango do Jacquin editado',
-            ingredients: 'Frango editado',
-            preparation: '10 min no forno editado',
-        });
-      });
+      console.log('TESTA EU AQUI', recipe.recipe._id);
 
-      it('receita atualizada com sucesso', () => {
-        expect(response).to.have.status(200);
-      });
+      response = await chai.request(server)
+        .put(`/recipes/${recipe.body.recipe._id}`)
+        .set('authorization', loginUser.body.token)
+        .send({
+          name: 'Receita de frango do Jacquin editado',
+          ingredients: 'Frango editado',
+          preparation: '10 min no forno editado',
+        });
+    });
+
+    after(async () => {
+      await connection.close();
+    });
+
+    it('receita atualizada com sucesso', () => {
+      expect(response).to.have.status(200);
+    });
   });
 });
 
-describe('9 DELE /recipes deleta receita', async () => {
+describe('9 DELETE /recipes deleta receita', async () => {
   describe('deleta receita com sucesso', () => {
     let response;
     let db;
@@ -343,7 +384,7 @@ describe('9 DELE /recipes deleta receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const loginUser = await chai.request(server)
         .post('/login')
@@ -351,7 +392,7 @@ describe('9 DELE /recipes deleta receita', async () => {
           name: "test",
           email: "test@test.com",
           password: "123456"
-      });
+        });
 
       const recipe = await chai.request(server)
         .post('/recipes')
@@ -362,13 +403,19 @@ describe('9 DELE /recipes deleta receita', async () => {
           preparation: 'coloca tudo na churrasqueira'
         });
 
-        response = await chai.request(server)
-          .delete(`/recipes/${recipe.body.recipe._id}`)
-          .set('authorization', loginUser.body.token);
-      });
+      console.log('TESTA EU AQUI', recipe.recipe._id);
 
-      it('receita atualizada com sucesso', () => {
-        expect(response).to.have.status(204);
-      });
-  });
-});
+      response = await chai.request(server)
+        .delete(`/recipes/${recipe.body.recipe._id}`)
+        .set('authorization', loginUser.body.token)
+    });
+
+    after(async () => {
+      await connection.close();
+    });
+
+    it('receita atualizada com sucesso', () => {
+      expect(response).to.have.status(204);
+    });
+  })
+})

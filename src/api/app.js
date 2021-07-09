@@ -14,16 +14,16 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname + '/uploads')));
 
-app.use('/users', usersController);
-app.use('/login', loginController);
-app.use('/recipes', recipesController);
-app.use('/images', imagesController);
-
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();
 });
 // Não remover esse end-point, ele é necessário para o avaliador
+
+app.use('/users', usersController);
+app.use('/login', loginController);
+app.use('/recipes', recipesController);
+app.use('/images', imagesController);
 
 app.listen(PORT, () => console.log(`conectado na porta ${PORT}`));
 
