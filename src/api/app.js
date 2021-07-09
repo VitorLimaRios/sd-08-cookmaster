@@ -1,11 +1,27 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
+const UserController = require('../controllers/users');
+const error = require('../middlewares/error');
+
 
 const app = express();
 
-// Não remover esse end-point, ele é necessário para o avaliador
+app.use(bodyParser.json());
+
 app.get('/', (request, response) => {
   response.send();
 });
-// Não remover esse end-point, ele é necessário para o avaliador
+
+app.post('/users', UserController.create);
+app.post('/login');
+app.post('/recipes');
+app.get('/recipes');
+app.get('/recipes/:id');
+app.put('/recipes/:id');
+app.delete('/recipes/:id');
+app.put('/recipes/:id/image');
+
+app.use(error);
 
 module.exports = app;
