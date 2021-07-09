@@ -196,3 +196,179 @@ describe('POST /users/admin cadastrar admin', async () => {
     });
   });
 });
+
+describe('POST /recipes erro ao cadastrar receita', async () => {
+  describe('falta de token', () => {
+    let response;
+    let db;
+    let connection;
+
+    before(async () => {
+      connection = await MongoClient.connect(mongoDbUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      db = connection.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+
+      response = await chai.request(server)
+        .post('/recipes')
+        .send({});
+    });
+
+
+    it('falta de token', () => {
+      expect(response.body).to.have.property('message');
+    });
+  });
+});
+
+describe('POST /recipes erro ao cadastrar receita', async () => {
+  describe('erro ao cadastrar receita', () => {
+    let response;
+    let db;
+    let connection;
+
+    before(async () => {
+      connection = await MongoClient.connect(mongoDbUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      db = connection.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+
+      await chai.request(server)
+        .post('/users')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      const loginUser = await chai.request(server)
+        .post('/login')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      response = await chai.request(server)
+        .post('/recipes')
+        .set('authorization', loginUser.body.token)
+        .send({
+          ingredients: 'pao, alho, fe',
+          preparation: 'coloca tudo na churrasqueira'
+        });
+      });
+
+      it('dados insuficientes', () => {
+        expect(response.body).to.have.property('message');
+      });
+  });
+});
+
+describe('PUT /recipes atualiza receita', async () => {
+  describe('atualizar receita com sucesso', () => {
+    let response;
+    let db;
+    let connection;
+
+    before(async () => {
+      connection = await MongoClient.connect(mongoDbUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      db = connection.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+
+      await chai.request(server)
+        .post('/users')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      const loginUser = await chai.request(server)
+        .post('/login')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      const recipe = await chai.request(server)
+        .post('/recipes')
+        .set('authorization', loginUser.body.token)
+        .send({
+          name: 'pao de alho',
+          ingredients: 'pao, alho, fe',
+          preparation: 'coloca tudo na churrasqueira'
+        });
+
+        response = await chai.request(server)
+          .put(`/recipes/${recipe.body.recipe._id}`)
+          .set('authorization', loginUser.body.token)
+          .send({
+            name: 'Receita de frango do Jacquin editado',
+            ingredients: 'Frango editado',
+            preparation: '10 min no forno editado',
+        });
+      });
+
+      it('receita atualizada com sucesso', () => {
+        expect(response).to.have.status(200);
+      });
+  });
+});
+
+describe('9 DELE /recipes deleta receita', async () => {
+  describe('deleta receita com sucesso', () => {
+    let response;
+    let db;
+    let connection;
+
+    before(async () => {
+      connection = await MongoClient.connect(mongoDbUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      db = connection.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+
+      await chai.request(server)
+        .post('/users')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      const loginUser = await chai.request(server)
+        .post('/login')
+        .send({
+          name: "test",
+          email: "test@test.com",
+          password: "123456"
+      });
+
+      const recipe = await chai.request(server)
+        .post('/recipes')
+        .set('authorization', loginUser.body.token)
+        .send({
+          name: 'pao de alho',
+          ingredients: 'pao, alho, fe',
+          preparation: 'coloca tudo na churrasqueira'
+        });
+
+        response = await chai.request(server)
+          .delete(`/recipes/${recipe.body.recipe._id}`)
+          .set('authorization', loginUser.body.token);
+      });
+
+      it('receita atualizada com sucesso', () => {
+        expect(response).to.have.status(204);
+      });
+  });
+});
