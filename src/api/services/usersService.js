@@ -40,6 +40,31 @@ const validateUser = async (body) => {
   }
 };
 
+const createAdmin = async (body) => {
+  const { name, email, password } = body;
+
+  const newUser = {
+    name,
+    email,
+    password,
+    role: 'admin',
+  };
+  
+  const created = await usersModel.createUser(newUser);
+  console.log(created);
+
+  return {
+    user: {
+      _id: created._id,
+      name: created.name,
+      email: created.email,
+      password: created.password,
+      role: created.role,
+    }
+  };
+};
+
 module.exports = {
   validateUser,
+  createAdmin,
 };
