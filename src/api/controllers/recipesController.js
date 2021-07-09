@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const multer = require('multer');
+const path = require('path');
 const recipesService = require('../services/recipesService');
 const recipesModel = require('../models/recipeModel');
 const usersModel = require('../models/usersModel');
@@ -13,6 +14,37 @@ const sucessStatus = 201;
 const sucessDeleteStatus = 204;
 
 const malformedJWT = 'jwt malformed';
+
+const uploadsPath = path.resolve(__dirname.replace('/api/controllers', '/uploads'));
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, uploadsPath);
+  },
+  filename: (req, file, callback) => {
+    console.log(req.params.id);
+    callback(null, req.params.id + '.jpeg');
+  },
+});
+
+const upload = multer({ storage });
+
+router.put('/:id/image', (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(invalidTokenStatus).send({ message: 'missing auth token' });
+  }
+  
+  next();
+}, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const imageName = `localhost:3000/src/uploads/${id}.jpeg`;
+
+  await recipesModel.updateImageRecipe(id, imageName);
+  const recipe = await recipesModel.getById(id);
+  console.log('edit recipe', recipe);
+  res.status(sucessAllRecipesStatus).send(recipe);
+});
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
