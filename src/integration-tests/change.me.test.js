@@ -308,7 +308,7 @@ describe('PUT /recipes atualiza receita', async () => {
     let response;
     let db;
     let connection;
-    console.log('cheguei aqui')
+
     before(async () => {
       connection = await MongoClient.connect(mongoDbUrl, {
         useNewUrlParser: true,
@@ -342,9 +342,8 @@ describe('PUT /recipes atualiza receita', async () => {
           preparation: 'coloca tudo na churrasqueira'
         });
 
-      console.log('TESTA EU AQUI', recipe.recipe._id);
-
-      response = await chai.request(server)
+        
+        response = await chai.request(server)
         .put(`/recipes/${recipe.body.recipe._id}`)
         .set('authorization', loginUser.body.token)
         .send({
@@ -352,7 +351,7 @@ describe('PUT /recipes atualiza receita', async () => {
           ingredients: 'Frango editado',
           preparation: '10 min no forno editado',
         });
-    });
+      });
 
     after(async () => {
       await connection.close();
@@ -403,15 +402,9 @@ describe('9 DELETE /recipes deleta receita', async () => {
           preparation: 'coloca tudo na churrasqueira'
         });
 
-      console.log('TESTA EU AQUI', recipe.recipe._id);
-
       response = await chai.request(server)
         .delete(`/recipes/${recipe.body.recipe._id}`)
         .set('authorization', loginUser.body.token)
-    });
-
-    after(async () => {
-      await connection.close();
     });
 
     it('receita atualizada com sucesso', () => {
