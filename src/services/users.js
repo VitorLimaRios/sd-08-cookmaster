@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 
 const Users = require('../models/users');
 
-const valid = Joi.object({
+const validCreate = Joi.object({
   username: Joi.string().required(),
   // https://stackoverflow.com/questions/57972358/joi-email-validation
   useremail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
@@ -10,19 +10,25 @@ const valid = Joi.object({
   userpassword: Joi.string().required()
 });
 
+const validLogin = Joi.object({
+  // https://stackoverflow.com/questions/57972358/joi-email-validation
+  useremail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .required(),
+  userpassword: Joi.string().required()
+});
+
 const create = async ({ name, email, password, role = 'user' }) => {
-  const validation =  valid.validate({ 
+  const { error } =  validCreate.validate({ 
     username: name,
     useremail: email,
     userpassword: password
   });
-  
+
   const allUsers = await getAll();
 
-  // validar se email ja existe
   const exists = allUsers.some(user => user.email === email);
-
-  if (validation.error) {
+  // validar schema name, email e senha
+  if (error) {
     return {
       status: 400,
       error: {
@@ -31,6 +37,7 @@ const create = async ({ name, email, password, role = 'user' }) => {
     };
   };
 
+  // validar se email ja existe
   if (exists) {
     return {
       status: 409,
@@ -39,16 +46,6 @@ const create = async ({ name, email, password, role = 'user' }) => {
       }
     };
   }
-
-  // validar schema name, email e senha
-  
-
-  // if(validation.error) {
-  //   throw new Error(JSON.stringify({
-  //     message: 'Invalid entries. Try again.',
-  //     status: 400
-  //   }));
-  // }
 
   const newUser = Users.create(name, email, password, role);
 
@@ -61,6 +58,41 @@ const getAll = async () => {
   return users;
 };
 
+const login = async ({email, password}) => {
+  const { error } = validLogin.validate({
+    useremail: email,
+    userpassword: password
+  });
+
+  if (error) {
+    return {
+      status: 401,
+      error: {
+        message: 'All fields must be filled'
+      }
+    };
+  };
+
+  const allUsers = await getAll();
+  const exist = allUsers
+    .find((user) => user.email === email && user.password === password );
+  
+  if (!exist) {
+    return {
+      status: 401,
+      error: {
+        message: 'Incorrect username or password' 
+      }
+    };
+  }
+
+  return {
+    status: 200,
+    user: exist
+  };
+};
+
 module.exports = {
   create,
+  login
 };
