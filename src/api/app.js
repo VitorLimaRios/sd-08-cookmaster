@@ -22,10 +22,10 @@ app.use('/login', loginController);
 app.use('/recipes', recipeController);
 
 
-// Não remover esse end-point, ele é necessário para o avaliador
+// Não remover esse end-point, ele é necessário para o avaliador.
 app.get('/', (request, response) => {
   response.send();
 });
-// Não remover esse end-point, ele é necessário para o avaliador
+// Não remover esse end-point, ele é necessário para o avaliador.
 
 module.exports = app;
