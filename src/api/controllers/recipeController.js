@@ -22,13 +22,6 @@ router.put('/:id/image', authService, upload.single('image'), async(req, res) =>
   res.status(status.OK).json(result);
 });
 
-// router.get('/images/', async(req, res) => {
-//   const {imagename} = req.params;
-//   const uploadsPath = `${__dirname}/../../uploads/${imagename}`;
-//   const result = path.resolve(uploadsPath);
-//   res.status(status.OK).sendFile(result);
-// });
-
 router.post('/', authService, recipeCheck, async (req, res) => {
   try {
     const {name, ingredients, preparation} = req.body;
