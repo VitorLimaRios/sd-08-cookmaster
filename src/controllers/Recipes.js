@@ -1,17 +1,20 @@
+const { Router } = require('express');
+const multer = require('multer');
 const modelsRecipes = require('../models/Recipes');
 const { validateToken } = require('../services/tokenValidate');
 const { checkRecipesData } = require('../middlewares');
 const userSchemas = require('../schemas');
-const multer = require('multer');
+
+
 const Created = '201';
 const Unauthorized = '401';
 const OK = '200';
-const Not_Found = '404';
-const No_Content = '204';
+const NotFound = '404';
+const NoContent = '204';
 const msgMissingToken = 'missing auth token';
 const msgJWTMalformed = 'jwt malformed';
 
-const { Router } = require('express');
+
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'src/uploads');
@@ -45,7 +48,7 @@ recipesController.get('/', async (_req, res) => {
 recipesController.get('/:id', async (req, res) => {
   const { id } = req.params;
   const recipe = await modelsRecipes.getById(id);
-  if (!recipe) return res.status(Not_Found).json({ message: 'recipe not found' });
+  if (!recipe) return res.status(NotFound).json({ message: 'recipe not found' });
   res.status(OK).json(recipe);
 });
 
@@ -77,7 +80,7 @@ recipesController.delete('/:id', async (req, res) => {
   if (valid._id === recipe.userId || valid.role === 'admin') {
     const response = await modelsRecipes.del(id);
     response.result.ok
-      ? res.status(No_Content).end()
+      ? res.status(NoContent).end()
       : res.status(Unauthorized).json({ message: msgMissingToken });
   } else return res.status(Unauthorized).json({ message: msgMissingToken });
 });
